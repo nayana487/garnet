@@ -4,7 +4,7 @@ class Assignment < ActiveRecord::Base
   has_many :users, through: :submissions
 
   after_create :create_submissions
-  after_initialize :set_due_date
+  after_initialize :set_defaults
 
   def create_submissions
     self.group.nonadmins.each do |user|
@@ -13,7 +13,7 @@ class Assignment < ActiveRecord::Base
 
   end
 
-  def set_due_date
+  def set_defaults
     self.due_date ||= Time.now
   end
 
