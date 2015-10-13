@@ -1,5 +1,5 @@
 <div class="intro">
-  <%= avatar(@user) %>
+  <%= avatar(@user) if @user.image_url && !@user.image_url.strip.blank? %>
   <h2 title="user#<%= @user.id %>"><%= @user.username %></h2>
 </div>
 

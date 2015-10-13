@@ -61,13 +61,13 @@ module ApplicationHelper
     end
     case input * 100
     when 0...50
-      return "#fbb"
+      return "s0"
     when 50...100
-      return "#fdb"
+      return "s1"
     when 100...150
-      return "#dfb"
+      return "s2"
     when 150..200
-      return "#bfb"
+      return "s3"
     end
   end
 

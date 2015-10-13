@@ -59,15 +59,20 @@ class UsersController < ApplicationController
 
   def sign_up!
     @user = User.new(user_params)
-    if params[:password_confirmation] != params[:password]
-      flash[:alert] = "Your passwords don't match!"
-      render "sign_up"
-    elsif @user.save!
-      flash[:notice] = "You've signed up!"
-      set_current_user @user
-      redirect_to action: :profile
-    else
-      flash[:alert] = "Your account couldn't be created. Did you enter a unique username and password?"
+    begin
+      if params[:password_confirmation] != params[:password]
+        flash[:alert] = "Your passwords don't match!"
+        redirect_to action: :sign_up
+      elsif @user.save!
+        flash[:notice] = "You've signed up!"
+        set_current_user @user
+        redirect_to action: :profile
+      else
+        flash[:alert] = "Your account couldn't be created. Did you enter a unique username and password?"
+        redirect_to action: :sign_up
+      end
+    rescue Exception => e
+      flash[:alert] = e.message
       redirect_to action: :sign_up
     end
   end
@@ -134,6 +139,10 @@ class UsersController < ApplicationController
       set_current_user @user
       redirect_to action: :profile
     end
+  end
+
+  def gh_refresh_all
+
   end
 
   private

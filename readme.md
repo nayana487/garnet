@@ -46,23 +46,15 @@ request = Github.new(ENV, session[:access_token]).api.repos
 
 It's built on the Octokit gem. For more information [see the Octokit docs](https://github.com/octokit/octokit.rb).
 
+## Tree model
+
+The "Group" model inherits from a "Tree" model, which allows nesting -- that is, for a Group to have child Groups and a parent Group.
+
 ## Methods of note
 
 - `User.named`: short for `User.find_by(username: )`
 - `@user.role`: returns a specific membership
 - `@user.minions`: returns all users of all groups of which the user is a member, who are not admins
-
-- `Membership.in_role`: returns a specific membership
-- `Membership.bulk_create`
-- `@membership.observe(name, body)`: creates an observation for a non-admin with a particular name in that membership's group
-- `@membership.minions`: returns all other members of the group that are not admin
-
-- `Group.bulk_create`: creates a tree of groups (nested groups)
-- `Group.named`: short for `Group.find_by(title: )`
-- `@group.subgroup_array`: returns a single-level array of all subgroups nested under this group
-- `@group.subgroup_tree`: returns a nested hash of all subgroups nested under this group
-- `@group.get_subgroups(key)`: for example, `@group.get_subgroups("attendances")`. Imagine there's an apostrophe at the end of `subgroups`.
-- `@group.members`: returns a hash of all group members' and submembers' submissions, observations, and attendances
 
 ## Helpers of note
 
@@ -73,6 +65,8 @@ It's built on the Octokit gem. For more information [see the Octokit docs](https
 - Group
   - `breadcrumbs(group, user = nil)`: navigation breadcrumbs for a group (optionally with a user on the end)
   - `subgroup_tree_html`: nested `<ul>` of the current group and its subgroups
+
+![The ERD](http://i.imgur.com/jW4WQQK.png)
 
 ## User stories
 
@@ -141,4 +135,3 @@ If all tests pass, travis pushes to the production repo: `git@garnet.wdidc.org:g
 
 This triggers a `post-update` hook, which pulls from GitHub's master branch and restarts
 unicorn, the application server.
-

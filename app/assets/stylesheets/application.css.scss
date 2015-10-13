@@ -105,9 +105,12 @@
    padding-right:0;
  }
  h3{
-   font-size:18px;
-   line-height:24px;
-   border-top:1px dotted #eee;
+   font-size:24px;
+   line-height:36px;
+   border-top:1px dashed #ddd;
+ }
+ h4{
+   text-decoration:underline;
  }
  small{
    font-size:12px;
@@ -176,6 +179,7 @@
    color:#ccc;
  }
  footer>*{
+   display:inline-block;
    line-height:50px;
  }
 
@@ -332,6 +336,7 @@
    width:100%;
    table-layout:fixed;
    margin-bottom:10px;
+   text-align:left;
  }
  th, td{
    padding:10px;
@@ -352,9 +357,19 @@
  tr:nth-child(odd){
    background-color:#f0f0f0;
  }
- .student_data{
+ tr>.number{
    text-align:right;
  }
- .student_data tr>:nth-child(1){
-   text-align:left;
- }
+
+.s0{
+  background-color: #d0d0ff;
+}
+.s1{
+  background-color: #e0e0ff;
+}
+.s2{
+  background-color: #e0ffe0;
+}
+.s3{
+  background-color: #d0ffd0;
+}
