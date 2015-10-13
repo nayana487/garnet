@@ -3,7 +3,7 @@ class Assignment < ActiveRecord::Base
   belongs_to :group
 
   after_create :create_submissions
-  after_initialize :set_due_date
+  after_initialize :set_defaults
 
   def create_submissions
     group = Group.find(self.group_id)
@@ -14,7 +14,7 @@ class Assignment < ActiveRecord::Base
 
   end
 
-  def set_due_date
+  def set_defaults
     self.due_date ||= Time.now
   end
 
