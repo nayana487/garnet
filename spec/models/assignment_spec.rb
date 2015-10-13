@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Assignment do
-  describe "defaults (without assignments):" do
+  describe "defaults (without assigned attributes):" do
     let(:current_time) { Time.now }
     before(:each) do
       # ensure Time.now is the same when verifying as when setting defaults
@@ -13,7 +13,7 @@ RSpec.describe Assignment do
     end
   end
 
-  describe "defaults (with assignment)" do
+  describe "defaults (with assigned attributes)" do
     let(:future_date) { 3.days.from_now }
     subject(:assignment) { Assignment.new(due_date: future_date) }
 
