@@ -33,7 +33,7 @@ Rails.application.routes.draw do
   get "/groups/su_create", to: "groups#su_new", as: :groups_su_new
   post "/groups/su_create", to: "groups#su_create"
 
-  post "/groups/:path", to: "groups#create"
+  post "/groups/:path", to: "groups#create", as: :group_subgroup
   resources :groups, param: :path, except: :create do
     resources :events
     resources :assignments
