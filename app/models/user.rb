@@ -33,10 +33,12 @@ class User < ActiveRecord::Base
   end
 
   def first_name
+    return "" unless name.present?
     name.split.first.capitalize
   end
 
   def last_name
+    return "" unless name.present?
     name.split.last.capitalize
   end
 
