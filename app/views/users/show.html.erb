@@ -15,9 +15,9 @@
 
 <section>
   <h3>Groups</h3>
-  <% if @groups.count == 0 %>
+  <% if @memberships.count == 0 %>
   <p>None yet!</p>
   <% else %>
-  <ul class="tree"><%= group_list(@groups) %></ul>
+  <ul class="tree"><%= membership_list(@memberships) %></ul>
   <% end %>
 </section>

@@ -1,5 +1,9 @@
 <h2>All Users</h2>
 
+<% if @groups.count > 0 %>
+<%= collection_select(:foo, :bar, @groups, :id, :path) %>
+<% end %>
+
 <% if @hide_pics %>
   <a class="button" href="?show_pics=true">Load all photos</a>
 <% else %>
