@@ -1,4 +1,4 @@
-<% if @user_role == :owner %>
+<% if @user_role == :admin %>
 <section>
   <h3><%= link_to "Attendance", group_events_path(@group) %></h3>
   <table class="student_data">
@@ -40,9 +40,9 @@
   </section>
 
   <section>
-  <h4>Owners</h4>
+  <h4>Admins</h4>
     <table>
-      <% @owners.each do |user| %>
+      <% @admins.each do |user| %>
       <tr>
         <%= render partial: "users/user_row", locals: {user: user} %>
       </tr>
@@ -50,7 +50,7 @@
     </table>
   </section>
 
-  <% if @user_role == :owner %>
+  <% if @user_role == :admin %>
   <section>
     <h4>Add Members</h4>
     <%= form_tag group_memberships_path(@group), method: :post do %>
@@ -65,7 +65,7 @@
 </section>
 
 <section>
-  <% if @user_role == :owner %>
+  <% if @user_role == :admin %>
   <h3>Group</h3>
   <section>
     <h4>Edit Group</h4>
@@ -81,7 +81,7 @@
     <ul class="tree"><%= group_descendant_list(@group) %></ul>
   </section>
 
-  <% if @user_role == :owner %>
+  <% if @user_role == :admin %>
   <section>
     <h4>Create subgroup</h4>
     <%= render partial: "form", locals: {group: @newgroup, action: group_path(@group), method: :post} %>

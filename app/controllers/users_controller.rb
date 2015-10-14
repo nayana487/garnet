@@ -4,6 +4,8 @@ class UsersController < ApplicationController
 
   def index
     @hide_pics = (params[:show_pics] ? false : true)
+    @memberships = Membership.where(is_admin: true, user_id: current_user_lean["id"])
+    @groups = @memberships.collect{|m| m.group}.uniq
     @users = User.all.order(:name)
   end
 
@@ -14,8 +16,10 @@ class UsersController < ApplicationController
       else
         raise "User #{params[:user]} not found!"
       end
-    else
+    elsif signed_in?
       @user = current_user
+    else
+      redirect_to action: :sign_out
     end
     @is_current_user = (@user.id == current_user_lean["id"])
     @memberships = @user.memberships

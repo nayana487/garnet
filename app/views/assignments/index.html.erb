@@ -20,7 +20,7 @@
   <% end %>
 </table>
 
-<% if @group.owners.include?(current_user) %>
+<% if @group.admins.include?(current_user) %>
 <%= form_for [@group, @assignment] do |f| %>
   <%= f.text_field :title, placeholder: "Title" %>
   <%= f.select :category, [["homework","homework"],["outcomes","outcomes"],["project","project"]] %>

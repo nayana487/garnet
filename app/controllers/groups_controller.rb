@@ -7,13 +7,12 @@ class GroupsController < ApplicationController
       @group = Group.first
     end
     @newgroup = Group.new(parent_id: @group.id)
-    @owners = @group.owners
     @admins = @group.admins
     @nonadmins = @group.nonadmins
     @subnonadmins = @group.subnonadmins
     @event = @group.events.new
-    if is_su? || @group.owners.include?(current_user)
-      @user_role = :owner
+    if is_su? || @group.admins.include?(current_user)
+      @user_role = :admin
     elsif @nonadmins.collect{|u| u.username}.include?(current_user_lean["username"])
       @user_role = :member
     end
