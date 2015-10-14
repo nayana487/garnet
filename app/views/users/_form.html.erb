@@ -1,21 +1,19 @@
-<%= form_for user, url: action, method: method do %>
-  <% if profile_editable? user %>
-  <a class="button" href="/github/authorize">Link your Github account</a>
-  <% end %>
+<% if profile_editable? user %>
+<a class="button" href="/github/authorize">Link your Github account</a>
+<% end %>
 
-  <%= profile_fields_conditionally_editable_for user, {
-    username: "Username",
-    name: "Full Name",
-    email: "E-mail",
-    image_url: "Image URL"} %>
+<%= profile_fields_conditionally_editable_for user, {
+  username: "Username",
+  name: "Full Name",
+  email: "E-mail",
+  image_url: "Image URL"} %>
 
-  <% if profile_editable? user %>
-  <input type="password" name="password" placeholder="Password" />
-  <input type="password" name="password_confirmation" placeholder="Confirm password" />
-  <input type="submit" value="Submit" />
-  <% end %>
+<% if profile_editable? user %>
+<input type="password" name="password" placeholder="Password" />
+<input type="password" name="password_confirmation" placeholder="Confirm password" />
+<input type="submit" value="Submit" />
+<% end %>
 
-  <% if signed_in? && user.id == current_user_lean["id"] %>
-  <%= link_to "Delete your account", "/profile", class: "button", data: {confirm: "You sure? This is probably a really, really bad idea, since it's going to delete all of the grades, attendances, and everything else associated with this account."}, method: :delete %>
-  <% end %>
+<% if signed_in? && user.id == current_user_lean["id"] %>
+<%= link_to "Delete your account", user_path(user), class: "button", data: {confirm: "You sure? This is probably a really, really bad idea, since it's going to delete all of the grades, attendances, and everything else associated with this account."}, method: :delete %>
 <% end %>

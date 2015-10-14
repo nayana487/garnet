@@ -47,8 +47,4 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    def profile_path user
-      "/profile/#{user.username}"
-    end
-
 end

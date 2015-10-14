@@ -1,0 +1,4 @@
+<h3>Sign up:</h3>
+<%= form_tag users_path, method: :post do %>
+<%= render partial: "form", locals: {user: User.new} %>
+<% end %>

@@ -8,10 +8,8 @@ class Github
     @token = token
   end
 
-  def user_info user_code
-    @user_code = user_code
-    get_access_token
-    api_response = api.user
+  def user_info username = nil
+    api_response = api.user(username)
     return {
       github_id: api_response["id"],
       username: api_response["login"],
@@ -27,7 +25,6 @@ class Github
     else
       return Octokit::Client.new(client_id: @env["gh_client_id"], client_secret: @env["gh_client_secret"])
     end
-    return self
   end
 
   def oauth_link
@@ -38,14 +35,14 @@ class Github
     return "https://github.com/login/oauth/authorize?#{params.to_query}"
   end
 
-  def get_access_token
+  def get_access_token user_code
     @token = HTTParty.post(
       "https://github.com/login/oauth/access_token",
       {
         body: {
           client_id: @env["gh_client_id"],
           client_secret: @env["gh_client_secret"],
-          code: @user_code
+          code: user_code
         }
       }
     ).split("&")[0].split("=")[1]
