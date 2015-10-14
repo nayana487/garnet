@@ -8,49 +8,39 @@ class UsersController < ApplicationController
   end
 
   def show
-    begin
-      if params[:user]
-        if User.exists?(username: params[:user])
-          @user = User.find_by(username: params[:user])
-        else
-          raise "User #{params[:user]} not found!"
-        end
+    if params[:user]
+      if User.exists?(username: params[:user])
+        @user = User.find_by(username: params[:user])
       else
-        @user = current_user
+        raise "User #{params[:user]} not found!"
       end
-      @is_current_user = (@user.id == current_user_lean["id"])
-      @memberships = @user.memberships
-      @groups = @memberships.map{|membership| membership.group}
-    rescue Exception => e
-      flash[:alert] = e.message
-      redirect_to :root
+    else
+      @user = current_user
     end
+    @is_current_user = (@user.id == current_user_lean["id"])
+    @memberships = @user.memberships
+    @groups = @memberships.map{|membership| membership.group}
   end
 
   def update
-    begin
-      if params[:password_confirmation] != params[:password]
-        flash[:alert] = "Your passwords don't match!"
+    if params[:password_confirmation] != params[:password]
+      raise "Your passwords don't match!"
+    else
+      @user = current_user
+      if @user && @user.update!(user_params)
+        set_current_user(@user)
+        flash[:notice] = "Account updated!"
       else
-        @user = current_user
-        if @user && @user.update!(user_params)
-          set_current_user(@user)
-          flash[:notice] = "Account updated!"
-        else
-          flash[:notice] = "Since you're using Github, you'll need to make all your changes there."
-        end
+        flash[:notice] = "Since you're using Github, you'll need to make all your changes there."
       end
-      redirect_to action: :show
-    rescue Exception => e
-      flash[:alert] = e.message
-      redirect_to action: :show
     end
+    redirect_to action: :show
   end
 
   def destroy
     current_user.destroy
     reset_session
-    redirect_to :root
+    redirect_to root_path
   end
 
   def new
@@ -61,19 +51,14 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    begin
-      if params[:password_confirmation] != params[:password]
-        raise "Your passwords don't match!"
-      elsif @user.save!
-        flash[:notice] = "You've signed up!"
-        set_current_user @user
-        redirect_to action: :show
-      else
-        raise "Your account couldn't be created. Did you enter a unique username and password?"
-      end
-    rescue Exception => e
-      flash[:alert] = e.message
-      redirect_to action: :new
+    if params[:password_confirmation] != params[:password]
+      raise "Your passwords don't match!"
+    elsif @user.save!
+      flash[:notice] = "You've signed up!"
+      set_current_user @user
+      redirect_to action: :show
+    else
+      raise "Your account couldn't be created. Did you enter a unique username and password?"
     end
   end
 
@@ -88,7 +73,6 @@ class UsersController < ApplicationController
   end
 
   def sign_in!
-    begin
     if signed_in?
       @user = current_user
     elsif params[:username]
@@ -106,17 +90,13 @@ class UsersController < ApplicationController
     set_current_user @user
     flash[:notice] = "You're signed in, #{@user.username}!"
     redirect_to action: :show
-    rescue Exception => e
-      flash[:alert] = e.message
-      redirect_to action: :sign_in
-    end
   end
 
   def sign_out
     reset_session
     message = "You're signed out!"
     flash[:notice] = message
-    redirect_to :root
+    redirect_to root_path
   end
 
   def gh_authorize
@@ -124,40 +104,30 @@ class UsersController < ApplicationController
   end
 
   def gh_authenticate
-    begin
-      if(!params[:code]) then redirect_to action: :gh_authorize end
-      github = Github.new(ENV)
-      github.get_access_token(params[:code])
-      gh_user_info = github.user_info
-      @gh_user = User.find_by(github_id: gh_user_info[:github_id])
-      if @gh_user
-        if signed_in? && @gh_user.id != current_user_lean["id"]
-          raise "The username #{gh_user_info[:username]} is taken!"
-        end
-      else
-        @gh_user = User.new
+    if(!params[:code]) then redirect_to action: :gh_authorize end
+    github = Github.new(ENV)
+    github.get_access_token(params[:code])
+    gh_user_info = github.user_info
+    @gh_user = User.find_by(github_id: gh_user_info[:github_id])
+    if @gh_user
+      if signed_in? && @gh_user.id != current_user_lean["id"]
+        raise "The username #{gh_user_info[:username]} is taken!"
       end
-      if @gh_user.update!(gh_user_info)
-        set_current_user @gh_user
-        redirect_to action: :sign_in
-      end
-    rescue Exception => e
-      flash[:alert] = e.message
-      redirect_to :root
+    else
+      @gh_user = User.new
+    end
+    if @gh_user.update!(gh_user_info)
+      set_current_user @gh_user
+      redirect_to action: :sign_in
     end
   end
 
   def gh_refresh
-    begin
-      gh_user_info = Github.new(ENV).get_user_by_id(params[:github_id])
-      @user = User.find_by(github_id: gh_user_info[:github_id])
-      @user.update!(gh_user_info)
-      flash[:notice] = "Github info updated!"
-      redirect_to user_path(@user)
-    rescue Exception => e
-      flash[:alert] = e.message
-      redirect_to :root
-    end
+    gh_user_info = Github.new(ENV).get_user_by_id(params[:github_id])
+    @user = User.find_by(github_id: gh_user_info[:github_id])
+    @user.update!(gh_user_info)
+    flash[:notice] = "Github info updated!"
+    redirect_to user_path(@user)
   end
 
   private

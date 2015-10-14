@@ -53,7 +53,7 @@ class Group < Tree
   end
 
   def owners
-    self.ancestors_attr("memberships").select{|m| m.is_admin}.collect{|m| m.user}.uniq
+    self.ancestors_attr("memberships").select{|m| m.is_admin && m.user.username != "garoot"}.collect{|m| m.user}.uniq
   end
 
   def admins

@@ -4,15 +4,11 @@ class MembershipsController < ApplicationController
     @group = Group.at_path(params[:group_path])
     @is_admin = params[:is_admin]
     @usernames = params[:usernames].downcase.split(/[ ,]+/)
-    begin
       @usernames.each do |username|
         user = User.named(username)
         if !user then raise "I couldn't find a user named #{username}!" end
         @group.memberships.create!(user_id: user.id, is_admin: @is_admin)
       end
-    rescue Exception => e
-      flash[:alert] = e.message
-    end
     redirect_to :back
   end
 

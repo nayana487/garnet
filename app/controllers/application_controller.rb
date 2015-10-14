@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   # protect_from_forgery with: :exception
   before_action :authenticate
   helper_method :current_user, :current_user_lean, :signed_in?
+  rescue_from StandardError, with: :global_rescuer
 
   private
     def authenticate
@@ -45,6 +46,13 @@ class ApplicationController < ActionController::Base
       else
         return false
       end
+    end
+
+    def global_rescuer(exception)
+      flash[:alert] = exception.message
+      redirect_to :back
+    rescue ActionController::RedirectBackError
+      redirect_to root_path
     end
 
 end

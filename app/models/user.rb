@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   validates :username, presence: true, uniqueness: true, format: {with: /[a-zA-Z0-9\-_]+/, message: "Only letters, numbers, hyphens, and underscores are allowed."}
   validates :github_id, allow_blank: true, uniqueness: true
 
-  has_many :memberships
+  has_many :memberships, dependent: :destroy
   has_many :groups, through: :memberships
 
   has_many :observations
