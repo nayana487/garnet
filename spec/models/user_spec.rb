@@ -38,6 +38,18 @@ RSpec.describe User do
       end
     end
 
+    context "with no name" do
+      let(:bob) { User.new(name: nil)}
+
+      it "#first_name returns an empty string" do
+        expect(bob.first_name).to eq("")
+      end
+
+      it "#last_name returns an empty string" do
+        expect(bob.last_name).to eq("")
+      end
+    end
+
 
   end
 end
