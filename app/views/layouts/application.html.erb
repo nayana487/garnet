@@ -10,14 +10,14 @@
 </head>
 <body>
   <header>
-    <h1><a href="/profile"><span>GA</span>RNET</a></h1>
+    <h1><%= link_to root_path do %><span>GA</span>RNET</a><% end %></h1>
     <nav>
       <% if signed_in? %>
-      <a href="/profile/<%= current_user_lean['username'] %>"><%= current_user_lean['username'] %></a>
-      <a href="/sign_out">Sign Out</a>
+      <%= link_to current_user_lean["username"], user_path(current_user) %>
+      <%= link_to "sign out", sign_out_path %>
       <% else %>
-      <a href="/sign_up">Sign up</a>
-      <a href="/sign_in">Sign in</a>
+      <%= link_to "sign up", new_user_path %>
+      <%= link_to "sign in", sign_in_path %>
       <% end %>
     </nav>
   </header>

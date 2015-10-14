@@ -5,7 +5,12 @@
 
 <section>
   <h3>Profile</h3>
-  <%= render partial: "form", locals: {action: "/profile", method: "patch", user: @user} %>
+  <%= form_tag user_path(@user), method: :patch do %>
+  <%= render partial: "form", locals: {user: @user} %>
+  <% end %>
+  <% if @user.github_id %>
+    <%= link_to "Refresh Github info", gh_refresh_path(user: @user), class: "button" %>
+  <% end %>
 </section>
 
 <section>

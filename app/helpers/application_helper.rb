@@ -10,7 +10,7 @@ module ApplicationHelper
     end
     output.push(link_to group.title, group_path(group))
     if user
-      output.push((link_to user.username, profile_path(user)))
+      output.push((link_to user.username, user_path(user)))
     end
     return output.join("_").html_safe
   end

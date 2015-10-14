@@ -1,7 +1,13 @@
 <h2>All Users</h2>
 
+<% if @hide_pics %>
+  <a class="button" href="?show_pics=true">Load all photos</a>
+<% else %>
+  <a class="button" href="?">Hide photos</a>
+<% end %>
+
 <table>
   <% @users.each do |user| %>
-  <tr><%= render partial: "profile_row", locals: {user: user} %></tr>
+  <tr><%= render partial: "user_row", locals: {user: user} %></tr>
   <% end %>
 </table>

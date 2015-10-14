@@ -29,7 +29,7 @@
     <table>
       <% @nonadmins.each do |user| %>
       <tr>
-        <%= render partial: "users/profile_row", locals: {user: user} %>
+        <%= render partial: "users/user_row", locals: {user: user} %>
         <td><%= link_to "Remove", group_membership_path(@group, user), method: :delete, data: {confirm: "Are you sure you want to delete this?"} %></td>
       </tr>
       <% end %>
@@ -44,7 +44,7 @@
     <table>
       <% @owners.each do |user| %>
       <tr>
-        <%= render partial: "users/profile_row", locals: {user: user} %>
+        <%= render partial: "users/user_row", locals: {user: user} %>
       </tr>
       <% end %>
     </table>

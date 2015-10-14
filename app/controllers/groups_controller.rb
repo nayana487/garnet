@@ -26,11 +26,10 @@ class GroupsController < ApplicationController
   end
 
   def su_new
-    redirect_to :root if !is_su?
+    redirect_to :root if (!is_su? || Group.all.count > 1)
   end
 
   def su_create
-    redirect_to :root if !is_su?
     @group = Group.create!(title: params[:title])
     @group.memberships.create(user_id: current_user.id, is_admin: true)
     redirect_to group_path(@group)
@@ -49,7 +48,7 @@ class GroupsController < ApplicationController
     if @parent
       redirect_to group_path(@parent)
     else
-      redirect_to profile_path(current_use)
+      redirect_to user_path(current_use)
     end
   end
 
