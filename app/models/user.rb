@@ -32,6 +32,14 @@ class User < ActiveRecord::Base
     User.find_by(username: username)
   end
 
+  def first_name
+    name.split.first.capitalize
+  end
+
+  def last_name
+    name.split.last.capitalize
+  end
+
   def self.new_password password
     BCrypt::Password.create(password)
   end
