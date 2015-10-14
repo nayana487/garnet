@@ -8,6 +8,23 @@ class Github
     @token = token
   end
 
+  def get_user_by_id id
+    # This is an undocumented endpoint for some reason
+    # Documentation exists only for using "username", not id
+    query = {
+      client_id: @env["gh_client_id"],
+      client_secret: @env["gh_clent_secret"]
+    }.to_query
+    api_response = HTTParty.get("https://api.github.com/user/#{id}?#{query}")
+    return {
+      github_id: api_response["id"],
+      username: api_response["login"],
+      image_url: api_response["avatar_url"],
+      name: api_response["name"],
+      email: api_response["email"]
+    }
+  end
+
   def user_info username = nil
     api_response = api.user(username)
     return {

@@ -9,7 +9,7 @@
   <%= render partial: "form", locals: {user: @user} %>
   <% end %>
   <% if @user.github_id %>
-    <%= link_to "Refresh Github info", gh_refresh_path(user: @user), class: "button" %>
+    <%= link_to "Refresh Github info", gh_refresh_path(github_id: @user.github_id), class: "button" %>
   <% end %>
 </section>
 

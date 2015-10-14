@@ -149,9 +149,10 @@ class UsersController < ApplicationController
 
   def gh_refresh
     begin
-      gh_user_info = Github.new(ENV).user_info(params[:user])
+      gh_user_info = Github.new(ENV).get_user_by_id(params[:github_id])
       @user = User.find_by(github_id: gh_user_info[:github_id])
       @user.update!(gh_user_info)
+      flash[:notice] = "Github info updated!"
       redirect_to user_path(@user)
     rescue Exception => e
       flash[:alert] = e.message
