@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   def index
     @hide_pics = (params[:show_pics] ? false : true)
-    @users = User.all.sort(&:last_name)
+    @users = User.all.sort_by(&:last_name)
   end
 
   def show
