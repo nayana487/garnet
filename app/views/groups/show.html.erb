@@ -1,4 +1,4 @@
-<% if @user_role == :owner %>
+<% if @user_role == :admin %>
 <section>
   <h3><%= link_to "Attendance", group_events_path(@group) %></h3>
   <table class="student_data">
@@ -40,9 +40,9 @@
   </section>
 
   <section>
-  <h4>Owners</h4>
+  <h4>Admins</h4>
     <table>
-      <% @owners.each do |user| %>
+      <% @admins.each do |user| %>
       <tr>
         <%= render partial: "users/user_row", locals: {user: user} %>
       </tr>
@@ -50,22 +50,23 @@
     </table>
   </section>
 
-  <% if @user_role == :owner %>
+  <% if @user_role == :admin %>
   <section>
-    <h4>Add Members</h4>
+    <h4>Manage Members</h4>
     <%= form_tag group_memberships_path(@group), method: :post do %>
     <input name="usernames" placeholder="One or more usernames, separated by spaces and/or commas" />
     <input type="checkbox" name="is_admin" id="is_admin" />
     <label for="is_admin">Is admin</label>
     <input type="submit" value="Add members" />
     <% end %>
+    <%= link_to "Refresh all Github info", group_refresh_path(@group), class: "button" %>
   </section>
   <% end %>
 
 </section>
 
 <section>
-  <% if @user_role == :owner %>
+  <% if @user_role == :admin %>
   <h3>Group</h3>
   <section>
     <h4>Edit Group</h4>
@@ -81,7 +82,7 @@
     <ul class="tree"><%= group_descendant_list(@group) %></ul>
   </section>
 
-  <% if @user_role == :owner %>
+  <% if @user_role == :admin %>
   <section>
     <h4>Create subgroup</h4>
     <%= render partial: "form", locals: {group: @newgroup, action: group_path(@group), method: :post} %>

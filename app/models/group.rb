@@ -13,25 +13,27 @@ class Group < Tree
   belongs_to :parent, class_name: "Group"
   has_many :children, class_name: "Group", foreign_key: "parent_id"
 
-  validates :title, presence: true, format: {with: /[a-zA-Z0-9\-]+/, message: "Only letters, numbers, and hyphens are allowed."}
-  validate :has_parent_and_unique_name_among_siblings
-  before_save :update_path
-  after_save :update_child_paths
+  validates :title, presence: true, format: {with: /\A[a-zA-Z0-9\-]+\z/, message: "Only letters, numbers, and hyphens are allowed."}
+
+  validate :validates_presence_of_parent
+  before_create :update_path
+  before_save :validate_uniqueness_of_title_among_siblings
+  after_save :update_child_paths, :update_child_members
 
   def to_param
     self.path
   end
 
-  def has_parent_and_unique_name_among_siblings
-    if !self.parent
-      if self.class.all.count > 0
-        errors[:base].push("Each Group has to have a parent group.")
-      end
-    else
-      sibling = self.parent.children.find_by(title: self.title)
-      if sibling && sibling.id != self.id
-        errors.add(:title, "must be unique among this group's siblings.")
-      end
+  def validates_presence_of_parent
+    if self.class.all.count > 0 && !self.parent
+      errors[:base].push("Each group has to have a parent group.")
+    end
+  end
+
+  def validate_uniqueness_of_title_among_siblings
+    return if !self.parent
+    if self.parent.children.exists?(title: self.title)
+      errors.add(:title, "must be unique among this group's siblings.")
     end
   end
 
@@ -40,7 +42,11 @@ class Group < Tree
   end
 
   def update_path
-    titles = self.ancestors([]).collect{|g| g.title}
+    if self.parent
+      titles = self.ancestors([]).collect{|g| g.title}
+    else
+      titles = []
+    end
     titles.push(self.title)
     self.path = titles.join("_")
   end
@@ -48,12 +54,14 @@ class Group < Tree
   def update_child_paths
     self.children.each do |group|
       group.update_path
-      group.save!
     end
   end
 
-  def owners
-    self.ancestors_attr("memberships").select{|m| m.is_admin && m.user.username != "garoot"}.collect{|m| m.user}.uniq
+  def update_child_members
+    return if !self.parent
+    self.parent.memberships.where(is_admin: true).each do |membership|
+      self.memberships.create(user_id: membership.user.id, is_admin: true)
+    end
   end
 
   def admins
@@ -61,7 +69,7 @@ class Group < Tree
   end
 
   def nonadmins
-    self.memberships.where(is_admin: false).collect{|m| m.user}
+    self.memberships.where(is_admin: [false, nil]).collect{|m| m.user}
   end
 
   def subnonadmins

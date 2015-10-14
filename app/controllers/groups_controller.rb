@@ -7,13 +7,12 @@ class GroupsController < ApplicationController
       @group = Group.first
     end
     @newgroup = Group.new(parent_id: @group.id)
-    @owners = @group.owners
     @admins = @group.admins
     @nonadmins = @group.nonadmins
     @subnonadmins = @group.subnonadmins
     @event = @group.events.new
-    if is_su? || @group.owners.include?(current_user)
-      @user_role = :owner
+    if is_su? || @group.admins.include?(current_user)
+      @user_role = :admin
     elsif @nonadmins.collect{|u| u.username}.include?(current_user_lean["username"])
       @user_role = :member
     end
@@ -50,6 +49,19 @@ class GroupsController < ApplicationController
     else
       redirect_to user_path(current_use)
     end
+  end
+
+  def gh_refresh_all
+    @group = Group.at_path(params[:path])
+    @group.memberships.each do |membership|
+      user = membership.user
+      next if !user.github_id
+      gh_user_info = Github.new(ENV).get_user_by_id(user.github_id)
+      @user = User.find_by(github_id: gh_user_info[:github_id])
+      @user.update!(gh_user_info) if @user
+    end
+    flash[:notice] = "Github info updated!"
+    redirect_to group_path(@group)
   end
 
   private

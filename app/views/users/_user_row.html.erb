@@ -1,4 +1,4 @@
 <td><%= link_to user.name || user.username, user_path(user) %></td>
-<td><%= avatar(user) if !user.image_url.strip.blank? && !@hide_pics %></td>
+<td><%= avatar(user) if user.image_url && !user.image_url.strip.blank? && !@hide_pics %></td>
 <td><%= user.username %></td>
 <td><%= user.email || "No email" %></td>

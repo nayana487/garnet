@@ -1,5 +1,9 @@
 <h2>All Users</h2>
 
+<% if @groups.count > 0 %>
+<%= collection_select(:foo, :bar, @groups, :id, :path) %>
+<% end %>
+
 <% if @hide_pics %>
   <a class="button" href="?show_pics=true">Load all photos</a>
 <% else %>
@@ -11,3 +15,7 @@
   <tr><%= render partial: "user_row", locals: {user: user} %></tr>
   <% end %>
 </table>
+
+<% if is_su? %>
+<%= link_to "Refresh all Github info", user_refresh_all_path, class: "button", data: {confirm: "This might take a while. That OK?"} %>
+<% end %>
