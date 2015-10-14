@@ -14,8 +14,14 @@ class Group < Tree
   has_many :children, class_name: "Group", foreign_key: "parent_id"
 
   validates :title, presence: true, format: {with: /\A[a-zA-Z0-9\-]+\z/, message: "Only letters, numbers, and hyphens are allowed."}
+<<<<<<< HEAD
   before_create :has_parent
   before_save :has_unique_title_among_siblings, :update_path
+=======
+  validate :has_parent
+  before_create :update_path
+  before_save :has_unique_title_among_siblings
+>>>>>>> autocreation of memberships
   after_save :update_child_paths, :update_child_members
 
   def to_param
@@ -23,8 +29,13 @@ class Group < Tree
   end
 
   def has_parent
+<<<<<<< HEAD
     if self.class.all.count > 1 && !self.parent
       raise "Each group has to have a parent group."
+=======
+    if self.class.all.count > 0 && !self.parent
+      errors[:base].push("Each group has to have a parent group.")
+>>>>>>> autocreation of memberships
     end
   end
 
@@ -51,7 +62,11 @@ class Group < Tree
 
   def update_child_paths
     self.children.each do |group|
+<<<<<<< HEAD
       group.save!
+=======
+      group.update_path
+>>>>>>> autocreation of memberships
     end
   end
 

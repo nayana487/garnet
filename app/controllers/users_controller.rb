@@ -3,11 +3,10 @@ class UsersController < ApplicationController
   skip_before_action :authenticate, except: [:show]
 
   def index
-    @is_su = is_su?
     @hide_pics = (params[:show_pics] ? false : true)
     @memberships = Membership.where(is_admin: true, user_id: current_user_lean["id"])
     @groups = @memberships.collect{|m| m.group}.uniq
-    @users = User.all.sort_by(&:last_name)
+    @users = User.all.order(:name)
   end
 
   def show
@@ -133,20 +132,6 @@ class UsersController < ApplicationController
     @user.update!(gh_user_info)
     flash[:notice] = "Github info updated!"
     redirect_to user_path(@user)
-  end
-
-  def gh_refresh_all
-    User.all.each do |user|
-      puts "Refreshing #{user.id}, #{user.username}..."
-      if !user.github_id
-        puts "Skipping..."
-        next
-      end
-      gh_user_info = Github.new(ENV).get_user_by_id(user.github_id)
-      @user = User.find_by(github_id: gh_user_info[:github_id])
-      @user.update!(gh_user_info) if @user
-    end
-    redirect_to action: :index
   end
 
   private

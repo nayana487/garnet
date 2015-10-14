@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   validates :username, presence: true, uniqueness: true, format: {with: /\A[a-zA-Z0-9\-_]+\z/, message: "Only letters, numbers, hyphens, and underscores are allowed."}
-  # validates :github_id, allow_blank: true, uniqueness: true
+  validates :github_id, allow_blank: true, uniqueness: true
 
   has_many :memberships, dependent: :destroy
   has_many :groups, through: :memberships
