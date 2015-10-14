@@ -15,3 +15,7 @@
   <tr><%= render partial: "user_row", locals: {user: user} %></tr>
   <% end %>
 </table>
+
+<% if @is_su %>
+<%= link_to "Refresh all Github info", user_refresh_all_path, class: "button", data: {confirm: "This might take a while. That OK?"} %>
+<% end %>

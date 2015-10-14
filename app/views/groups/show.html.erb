@@ -52,13 +52,14 @@
 
   <% if @user_role == :admin %>
   <section>
-    <h4>Add Members</h4>
+    <h4>Manage Members</h4>
     <%= form_tag group_memberships_path(@group), method: :post do %>
     <input name="usernames" placeholder="One or more usernames, separated by spaces and/or commas" />
     <input type="checkbox" name="is_admin" id="is_admin" />
     <label for="is_admin">Is admin</label>
     <input type="submit" value="Add members" />
     <% end %>
+    <%= link_to "Refresh all Github info", group_refresh_path(@group), class: "button" %>
   </section>
   <% end %>
 

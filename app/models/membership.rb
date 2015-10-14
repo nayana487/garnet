@@ -2,12 +2,12 @@ class Membership < ActiveRecord::Base
   belongs_to :group
   belongs_to :user
 
-  before_create :is_unique_in_group
+  validate :is_unique_in_group
   after_create :create_parent_membership, :create_child_memberships
   after_destroy :destroy_child_memberships
 
   def is_unique_in_group
-    if self.group.memberships.where(user_id: self.user_id).count > 1
+    if self.group.memberships.where(user_id: self.user_id).count > 0
       errors[:base].push("A user may have only one membership in a given group.")
     end
   end

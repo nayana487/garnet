@@ -51,6 +51,19 @@ class GroupsController < ApplicationController
     end
   end
 
+  def gh_refresh_all
+    @group = Group.at_path(params[:path])
+    @group.memberships.each do |membership|
+      user = membership.user
+      next if !user.github_id
+      gh_user_info = Github.new(ENV).get_user_by_id(user.github_id)
+      @user = User.find_by(github_id: gh_user_info[:github_id])
+      @user.update!(gh_user_info) if @user
+    end
+    flash[:notice] = "Github info updated!"
+    redirect_to group_path(@group)
+  end
+
   private
     def group_params
       params.permit(:title, :category)

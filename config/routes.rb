@@ -23,7 +23,9 @@ Rails.application.routes.draw do
   get "/groups/su_create", to: "groups#su_new", as: :groups_su_new
   post "/groups/su_create", to: "groups#su_create"
 
-  post "/groups/:path", to: "groups#create", as: :group_subgroup
+  get "users/refresh_all", to: "users#gh_refresh_all", as: :user_refresh_all
+  get "group/:path/refresh_all", to: "groups#gh_refresh_all", as: :group_refresh
+  post "group/:path", to: "groups#create", as: :group_subgroup
   resources :groups, param: :path, except: :create do
     resources :events
     resources :assignments
