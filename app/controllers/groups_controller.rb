@@ -47,7 +47,7 @@ class GroupsController < ApplicationController
     if @parent
       redirect_to group_path(@parent)
     else
-      redirect_to user_path(current_use)
+      redirect_to user_path(current_user)
     end
   end
 

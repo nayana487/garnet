@@ -2,9 +2,8 @@ class AssignmentsController < ApplicationController
 
   def index
     @group = Group.at_path(params[:group_path])
-    @user = current_user
     @assignment = Assignment.new
-    @assignments = @group.descendants_attr("assignments")
+    @assignments = @group.descendants_attr("assignments").uniq
   end
 
   def show
