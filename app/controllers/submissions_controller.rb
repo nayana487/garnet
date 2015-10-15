@@ -1,8 +1,14 @@
 class SubmissionsController < ApplicationController
+
+  def index
+    @group = Group.at_path(params[:group_path])
+    @subnonadmins = @group.subnonadmins
+  end
+
   def show
     @submission = Submission.find(params[:id])
   end
-  
+
   def edit
     @submission = Submission.find(params[:id])
   end

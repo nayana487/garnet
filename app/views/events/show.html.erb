@@ -1,11 +1,11 @@
 <h2><%= @event.date.strftime("%A, %B %e, %Y") %></h2>
 <%= form_tag event_update_all_path(@event), method: :patch do %>
+  <input class="important" type="submit" value="Submit Attendance" />
   <table>
     <% @attendances.each do |attendance| %>
     <tr>
-      <%= render partial: "attendances/row", locals: {attendance: attendance} %>
+      <%= render partial: "attendances/row", locals: {attendance: attendance, user: attendance.user} %>
     </tr>
     <% end %>
   </table>
-  <input type="submit" value="Submit" />
 <% end %>

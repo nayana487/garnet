@@ -9,7 +9,6 @@ class GroupsController < ApplicationController
     @newgroup = Group.new(parent_id: @group.id)
     @admins = @group.admins
     @nonadmins = @group.nonadmins
-    @subnonadmins = @group.subnonadmins
     @event = @group.events.new
     if is_su? || @group.admins.include?(current_user)
       @user_role = :admin
@@ -19,7 +18,7 @@ class GroupsController < ApplicationController
   end
 
   def create
-    @parent = Group.at_path(params[:path])
+    @parent = Group.at_path(params[:group_path])
     @group = @parent.children.create!(group_params)
     redirect_to group_path(@group)
   end
