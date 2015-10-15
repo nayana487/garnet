@@ -17,7 +17,7 @@
     </tr>
   <% @events.each do |event| %>
     <tr>
-      <td><%= link_to event.date.strftime("%a, %m/%d, %H:%M"), group_event_path(event.group, event) %></td>
+      <td><%= link_to event.date.strftime("%a, %m/%d, %H:%M"), event_path(event) %></td>
       <td><%= link_to event.group.path, group_path(event.group) %></td>
       <td><%= event.attendances.where(status: 1).count %></td>
       <td><%= event.attendances.where(status: 2).count %></td>

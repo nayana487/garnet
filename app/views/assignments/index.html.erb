@@ -10,7 +10,7 @@
   </tr>
   <% @assignments.each do |assignment| %>
   <tr>
-    <td><%= link_to "#{assignment.title}", assignment_path(assignment) %></td>
+    <td><%= link_to assignment.title, assignment_path(assignment) %></td>
     <td><%= link_to assignment.group.path, group_path(assignment.group) %></td>
     <td><%= percent_of(assignment.submissions, 2) %></td>
     <td><%= assignment.category %></td>
@@ -21,6 +21,8 @@
 </table>
 
 <% if @group.admins.include?(current_user) %>
+<section>
+  <h3>Create an Assignment</h3>
 <%= form_for [@group, @assignment] do |f| %>
   <%= f.text_field :title, placeholder: "Title" %>
   <%= f.select :category, [["homework","homework"],["outcomes","outcomes"],["project","project"]] %>
@@ -28,4 +30,5 @@
   <%= f.date_field :due_date %>
   <%= f.submit %>
 <% end %>
+</section>
 <% end %>

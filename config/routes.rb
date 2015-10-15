@@ -27,13 +27,13 @@ Rails.application.routes.draw do
   get "group/:path/refresh_all", to: "groups#gh_refresh_all", as: :group_refresh
   post "group/:path", to: "groups#create", as: :group_subgroup
   resources :groups, param: :path, except: :create do
-    resources :events
-    resources :assignments
+    resources :events, only: [:index, :create]
+    resources :assignments, only: [:index, :create]
     resources :observations, only: [:index]
     resources :memberships, param: :user do
-      resources :observations
-      resources :submissions
-      resources :attendances
+      resources :observations, only: [:index, :create]
+      resources :submissions, only: [:index, :show]
+      resources :attendances, only: [:index, :show]
     end
   end
 
@@ -41,6 +41,10 @@ Rails.application.routes.draw do
 
   resources :events do
     patch "/attendances", to: "attendances#update_all", as: :update_all
+  end
+
+  resources :assignments do
+    resources :submissions
   end
 
 end

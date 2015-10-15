@@ -1,7 +1,9 @@
-<div class="observation" style="background-color:<%= color_of(observation.status) %>">
+<div class="observation <%= color_of(observation.status) %>">
   <p><strong><%= observation.status %>: <%= observation.body %></p>
-  <p><small><%= link_to observation.user.username, group_membership_path(observation.group, observation.user) %>, by <%= link_to observation.admin.username, user_path(observation.admin) %>,
-    <%= observation.group.path %>,
+  <p><small>
+    <%= link_to observation.user.username, group_membership_path(observation.group, observation.user) %>, by
+    <%= link_to observation.admin.username, user_path(observation.admin) %>,
+    <%= link_to observation.group.path, group_path(observation.group) %>,
     <span title="<%= observation.created_at.strftime("%a %m/%d/%y %r") %>">
       <%= time_ago_in_words(observation.created_at) %> ago</span></small></p>
 </div>

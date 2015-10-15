@@ -14,7 +14,11 @@
 </section>
 
 <section>
+  <% if @group.observations.count > 0 %>
   <h3><%= link_to "Observations", group_observations_path(@group) %></h3>
+  <% else %>
+  <h3>Observations</h3>
+  <% end %>
   <table class="student_data">
     <%= render partial: "memberships/data_table", locals: {group: @group, users: @subnonadmins, datum: :observations} %>
   </table>

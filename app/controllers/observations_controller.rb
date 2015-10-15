@@ -1,14 +1,21 @@
 class ObservationsController < ApplicationController
+
+  def index
+    @group = Group.at_path(params[:group_path])
+    @observations = @group.descendants_attr("observations").uniq.sort{|a, b| a.created_at <=> b.created_at}
+  end
+
   def create
     @group = Group.at_path(params[:group_path])
-    @student = Membership.find(params[:membership_id])
-    @author = @group.memberships.find_by(user_id: current_user.id)
-    @observation = @author.authored_observations.new observation_params
-    @observation.observee = @student
-    if @observation.save
-      redirect_to group_student_path(@group, @student)
+    @user = User.find_by(username: params[:membership_user])
+    @observation = current_user.admin_observations.new(observation_params)
+    @observation.user_id = @user.id
+    @observation.group_id = @group.id
+    if @observation.save!
+      redirect_to group_membership_path(@group, @user)
     end
   end
+
   private
   def observation_params
     params.require(:observation).permit(:body, :status)

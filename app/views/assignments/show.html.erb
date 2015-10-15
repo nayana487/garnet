@@ -1,6 +1,6 @@
 <h2><%= @assignment.title %></h2>
 <p><%= link_to_if @assignment.repo_url.present?, @assignment.repo_url, @assignment.repo_url %>
-<p>(<%= "#{@assignment.summary_info.join(", ")})" %></p>
+<p>(<%= @assignment.summary_info.join(", ") %></p>
 
 <section>
 <h3>Submissions</h3>

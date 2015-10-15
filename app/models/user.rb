@@ -6,14 +6,14 @@ class User < ActiveRecord::Base
   has_many :groups, through: :memberships
 
   has_many :observations
-  has_many :admin_observations, class_name: "Observation"
+  has_many :admin_observations, class_name: "Observation", foreign_key: "admin_id"
 
   has_many :submissions
-  has_many :admin_submissions, class_name: "Submission"
+  has_many :admin_submissions, class_name: "Submission", foreign_key: "admin_id"
   has_many :assignments, through: :submissions
 
   has_many :attendances
-  has_many :admin_attendances, class_name: "Attendance"
+  has_many :admin_attendances, class_name: "Attendance", foreign_key: "admin_id"
   has_many :events, through: :attendances
 
   before_save :before_save

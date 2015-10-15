@@ -10,7 +10,6 @@ class Assignment < ActiveRecord::Base
     self.group.nonadmins.each do |user|
       user.submissions.create(assignment_id: self.id)
     end
-
   end
 
   def set_defaults
