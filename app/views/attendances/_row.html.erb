@@ -1,5 +1,5 @@
 <% name = "attendance[#{attendance.id}]" %>
-<td><%= link_to attendance.user.username, group_membership_path(attendance.event.group, attendance.user) %></td>
+<td><%= link_to attendance.user.name, group_membership_path(attendance.event.group, attendance.user) %></td>
 <% ["Absent", "Tardy", "Present"].each_with_index do |status, i| %>
 <td>
   <input type="radio" name="<%= name %>" id="<%= "#{name}_#{i}" %>" value="<%= i %>" <%= "checked" if (i == attendance.status)  %> />

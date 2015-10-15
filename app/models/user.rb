@@ -32,6 +32,10 @@ class User < ActiveRecord::Base
     User.find_by(username: username)
   end
 
+  def name
+    read_attribute(:name) || username
+  end
+
   def first_name
     return "" unless name.present?
     name.split.first.capitalize
