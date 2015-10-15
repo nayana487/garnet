@@ -2,6 +2,16 @@ require 'rails_helper'
 
 RSpec.describe User do
   describe "names" do
+    it "#name returns name when set" do
+      bob = User.new(name: "Bob", username: "bdylan" )
+      expect(bob.name).to eq("Bob")
+    end
+
+    it "#name returns username when no name is set" do
+      bob = User.new(name: nil, username: "bdylan" )
+      expect(bob.name).to eq("bdylan")
+    end
+    
     context "with two words in the name" do
       let(:bob) { User.new(name: "Bob Smith")}
 
