@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   resources :groups, param: :path, except: :create do
     post "", action: :create, as: :subgroup
     get "refresh_all", action: :gh_refresh_all, as: :refresh
-    
+
     resources :events, only: [:index, :create]
     resources :attendances, only: [:index]
 
@@ -43,7 +43,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users, param: :user
+  resources :users, param: :user do
+    put 'refresh_memberships', on: :member
+  end
 
   resources :events do
     patch "/attendances", to: "attendances#update_all", as: :update_all
