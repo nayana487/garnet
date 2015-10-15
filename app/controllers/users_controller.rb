@@ -149,6 +149,12 @@ class UsersController < ApplicationController
     redirect_to action: :index
   end
 
+  def refresh_memberships
+    @user = User.find_by(username: params[:user])
+    @user.memberships.map(&:create_child_memberships)
+    redirect_to @user
+  end
+
   private
   def user_params
     params.permit(:password, :username, :name, :email, :image_url)
