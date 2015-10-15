@@ -65,16 +65,16 @@ class Group < Tree
   end
 
   def admins
-    output = self.memberships.where(is_admin: true).collect{|m| m.user}.sort{|a,b| a.name <=> b.name}
+    output = self.memberships.where(is_admin: true).collect{|m| m.user}.sort{|a,b| a.last_name <=> b.last_name}
     output.push(User.named("garoot"))
   end
 
   def nonadmins
-    self.memberships.where(is_admin: [false, nil]).collect{|m| m.user}.sort{|a,b| a.name <=> b.name}
+    self.memberships.where(is_admin: [false, nil]).collect{|m| m.user}.sort{|a,b| a.last_name <=> b.last_name}
   end
 
   def subnonadmins
-    self.descendants_attr("memberships").select{|m| !m.is_admin}.collect{|m| m.user}.uniq.sort{|a,b| a.name <=> b.name}
+    self.descendants_attr("memberships").select{|m| !m.is_admin}.collect{|m| m.user}.uniq.sort{|a,b| a.last_name <=> b.last_name}
   end
 
   def bulk_create_memberships array, is_admin

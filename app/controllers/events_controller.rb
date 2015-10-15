@@ -23,7 +23,7 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     @group = @event.group
     @attendances =  @event.attendances.sort_by do |attendance|
-      attendance.user.username
+      attendance.user.last_name
     end
   end
 
