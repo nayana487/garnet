@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     @hide_pics = (params[:show_pics] ? false : true)
     @memberships = Membership.where(is_admin: true, user_id: current_user_lean["id"])
     @groups = @memberships.collect{|m| m.group}.uniq
-    @users = User.all.order(:name)
+    @users = User.all.sort_by(&:last_name)
   end
 
   def show

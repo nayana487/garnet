@@ -1,0 +1,6 @@
+<section>
+  <h3><%= link_to "Assignments", group_assignments_path(@group) %></h3>
+  <table class="student_data">
+    <%= render partial: "memberships/data_table", locals: {group: @group, users: @subnonadmins, datum: :submissions} %>
+  </table>
+</section>

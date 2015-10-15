@@ -24,13 +24,19 @@ Rails.application.routes.draw do
   post "/groups/su_create", to: "groups#su_create"
 
   get "users/refresh_all", to: "users#gh_refresh_all", as: :user_refresh_all
-  get "group/:path/refresh_all", to: "groups#gh_refresh_all", as: :group_refresh
-  post "group/:path", to: "groups#create", as: :group_subgroup
   resources :groups, param: :path, except: :create do
+    post "", action: :create, as: :subgroup
+    get "refresh_all", action: :gh_refresh_all, as: :refresh
+    
     resources :events, only: [:index, :create]
+    resources :attendances, only: [:index]
+
     resources :assignments, only: [:index, :create]
+    resources :submissions, only: [:index]
+
     resources :observations, only: [:index]
-    resources :memberships, param: :user do
+
+    resources :memberships, path: "users", param: :user do
       resources :observations, only: [:index, :create]
       resources :submissions, only: [:index, :show]
       resources :attendances, only: [:index, :show]

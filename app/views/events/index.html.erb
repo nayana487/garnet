@@ -1,12 +1,10 @@
-<h2>Attendance</h2>
+<h2>Events</h2>
 
 <section>
-  <h3>Create</h3>
-  <%= render partial: "events/form", locals: {action: group_events_path(@group), method: :post} %>
-</section>
-
-<section>
-  <h3>Events</h3>
+  <section>
+    <h3>Create</h3>
+    <%= render partial: "events/form", locals: {action: group_events_path(@group), method: :post} %>
+  </section>
   <table>
     <tr>
       <th>Date</th>

@@ -53,7 +53,7 @@ module ApplicationHelper
 
   def avatar user
     if user.image_url
-      "<img class='avatar' src='#{user.image_url}' alt='#{user.username}' title='#{user.username}' />".html_safe
+      return link_to image_tag(user.image_url), user_path(user), class: :avatar
     end
   end
 

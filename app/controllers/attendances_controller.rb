@@ -1,5 +1,10 @@
 class AttendancesController < ApplicationController
 
+  def index
+    @group = Group.at_path(params[:group_path])
+    @subnonadmins = @group.subnonadmins
+  end
+
   def update
     @attendance = Attendance.find(params[:id])
     @attendance.update(status: params[:status])
