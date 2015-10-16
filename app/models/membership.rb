@@ -2,7 +2,7 @@ class Membership < ActiveRecord::Base
   belongs_to :group
   belongs_to :user
 
-  validate :is_unique_in_group
+  validate :is_unique_in_group, on: :create
   after_save :create_parent_membership
   after_destroy :destroy_child_memberships
 
@@ -16,13 +16,6 @@ class Membership < ActiveRecord::Base
     end
   end
 
-  def default_values
-    if !self.is_admin
-      self.is_admin = "false"
-      self.save!
-    end
-  end
-
   def create_parent_membership
     return if !self.group.parent
     return if self.group.parent.memberships.exists?(user_id: self.user_id)
@@ -31,8 +24,17 @@ class Membership < ActiveRecord::Base
     membership.is_admin = false
     membership.save! if membership.valid?
   end
-  
+
+  def make_admin_nonadmin
+    if self.is_admin
+      self.update(is_admin: false)
+      self.save
+      return false
+    end
+  end
+
   def destroy_child_memberships
+    return if self.is_admin
     self.group.children.collect{|c| c.memberships}.flatten.each do |child|
       child.destroy! if child.user_id == self.user_id
     end

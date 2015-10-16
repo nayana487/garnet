@@ -14,9 +14,15 @@ class MembershipsController < ApplicationController
   end
 
   def destroy
+    raise "You don't have access to do that!" if !@is_garoot
     @group = Group.at_path(params[:group_path])
     @user = User.named(params[:user])
-    @group.memberships.find_by(user_id: @user.id).destroy!
+    @membership = @group.memberships.find_by(user_id: @user.id)
+    if @membership.is_admin
+      @membership.update!(is_admin: false)
+    else
+      @membership.destroy!
+    end
     redirect_to :back
   end
 
