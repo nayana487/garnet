@@ -11,7 +11,7 @@ RSpec.describe User do
       bob = User.new(name: nil, username: "bdylan" )
       expect(bob.name).to eq("bdylan")
     end
-    
+
     context "with two words in the name" do
       let(:bob) { User.new(name: "Bob Smith")}
 
@@ -49,14 +49,14 @@ RSpec.describe User do
     end
 
     context "with no name" do
-      let(:bob) { User.new(name: nil)}
+      let(:bob) { User.new(name: nil, username: "bob")}
 
-      it "#first_name returns an empty string" do
-        expect(bob.first_name).to eq("")
+      it "#first_name returns username" do
+        expect(bob.first_name.downcase).to eq(bob.username.downcase)
       end
 
-      it "#last_name returns an empty string" do
-        expect(bob.last_name).to eq("")
+      it "#last_name returns username" do
+        expect(bob.last_name.downcase).to eq(bob.username.downcase)
       end
     end
 
