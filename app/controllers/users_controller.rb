@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   def index
     @is_su = is_su?
     @hide_pics = (params[:show_pics] ? false : true)
-    @memberships = Membership.where(is_admin: true, user_id: current_user_lean["id"])
+    @memberships = Membership.where(is_admin: true, user_id: current_user.id)
     @groups = @memberships.collect{|m| m.group}.uniq
     @users = User.all.sort_by(&:last_name)
   end
@@ -22,7 +22,8 @@ class UsersController < ApplicationController
     else
       redirect_to action: :sign_out
     end
-    @is_current_user = (@user.id == current_user_lean["id"])
+    @is_current_user = (@user.id == current_user.id)
+    @is_editable = (current_user || (user.id == current_user.id && !user.github_id ))
     @memberships = @user.memberships
     @groups = @memberships.map{|membership| membership.group}
   end
@@ -52,6 +53,8 @@ class UsersController < ApplicationController
     if current_user
       redirect_to action: :show
     end
+    @user = User.new
+    @is_editable = true
   end
 
   def create
