@@ -6,13 +6,12 @@ class GroupsController < ApplicationController
     else
       @group = Group.first
     end
-    @newgroup = Group.new(parent_id: @group.id)
     @admins = @group.admins
     @nonadmins = @group.nonadmins
     @event = @group.events.new
     if is_su? || @group.admins.include?(current_user)
       @user_role = :admin
-    elsif @nonadmins.collect{|u| u.username}.include?(current_user_lean["username"])
+    elsif @nonadmins.collect{|u| u.username}.include?(current_user.username)
       @user_role = :member
     end
   end
@@ -51,7 +50,7 @@ class GroupsController < ApplicationController
   end
 
   def gh_refresh_all
-    @group = Group.at_path(params[:path])
+    @group = Group.at_path(params[:group_path])
     @group.memberships.each do |membership|
       user = membership.user
       next if !user.github_id

@@ -10,10 +10,10 @@
   </p>
   <section>
     <h4>Edit Group</h4>
-    <div>
-    <%= render partial: "form", locals: {group: @group, action: group_path(@group), method: :patch} %>
+    <%= form_tag group_path(@group), method: :patch do %>
+    <%= render partial: "form", locals: {group: @group} %>
     <%= link_to "Delete group", group_path(@group), method: :delete, class: "button", data: {confirm: "You sure? This will orphan all of the grades, attendances, and everything else."} %>
-    </div>
+    <% end %>
   </section>
   <% end %>
 
@@ -25,7 +25,9 @@
   <% if @user_role == :admin %>
   <section>
     <h4>Create subgroup</h4>
-    <%= render partial: "form", locals: {group: @newgroup, action: group_path(@group), method: :post} %>
+    <%= form_tag group_subgroup_path(@group), method: :post do %>
+    <%= render partial: "form", locals: {group: @group.children.new} %>
+    <% end %>
   </section>
   <% end %>
 
