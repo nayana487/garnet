@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   validates :username, presence: true, uniqueness: true, format: {with: /\A[a-zA-Z0-9\-_]+\z/, message: "Only letters, numbers, hyphens, and underscores are allowed."}
   validates :github_id, allow_blank: true, uniqueness: true
+  validate :validates_name_if_no_github_id
 
   has_many :memberships, dependent: :destroy
   has_many :groups, through: :memberships
@@ -19,9 +20,17 @@ class User < ActiveRecord::Base
   before_save :before_save
   attr_accessor :password
 
+  def validates_name_if_no_github_id
+    if !self.github_id && self.name.strip.blank?
+      errors[:base].push("Please include your full name!")
+    end
+  end
+
   def before_save
     self.username.downcase!
-    self.password_digest = User.new_password(self.password)
+    if self.password && !self.password.strip.blank?
+      self.password_digest = User.new_password(self.password)
+    end
   end
 
   def to_param

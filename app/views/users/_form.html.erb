@@ -1,19 +1,18 @@
-<% if profile_editable? user %>
+<% if @is_editable %>
 <a class="button" href="/github/authorize">Link your Github account</a>
 <% end %>
 
-<%= profile_fields_conditionally_editable_for user, {
-  username: "Username",
-  name: "Full Name",
-  email: "E-mail",
-  image_url: "Image URL"} %>
+<%= text_field_tag :username, @user.username, placeholder: "Username", disabled: !@is_editable %>
+<%= text_field_tag :name, @user.name, placeholder: "Full name", disabled: !@is_editable %>
+<%= text_field_tag :email, @user.email, placeholder: "E-mail", disabled: !@is_editable %>
+<%= text_field_tag :image_url, @user.image_url, placeholder: "Image URL", disabled: !@is_editable %>
 
-<% if profile_editable? user %>
+<% if @is_editable %>
 <input type="password" name="password" placeholder="Password" />
 <input type="password" name="password_confirmation" placeholder="Confirm password" />
 <input type="submit" value="Submit" />
 <% end %>
 
-<% if signed_in? && user.id == current_user_lean["id"] %>
-<%= link_to "Delete your account", user_path(user), class: "button", data: {confirm: "You sure? This is probably a really, really bad idea, since it's going to delete all of the grades, attendances, and everything else associated with this account."}, method: :delete %>
+<% if signed_in? && @user.id == current_user_lean["id"] %>
+<%= link_to "Delete your account", user_path(@user), class: "button", data: {confirm: "You sure? This is probably a really, really bad idea, since it's going to delete all of the grades, attendances, and everything else associated with this account."}, method: :delete %>
 <% end %>
