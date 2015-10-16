@@ -11,6 +11,12 @@ class UsersController < ApplicationController
   end
 
   def show
+    puts "." * 100
+    star_ar = Time.now
+    100.times do
+      current_user.id
+    end
+    puts "star_ar " + (Time.now - star_ar).to_s
     if params[:user]
       if User.exists?(username: params[:user])
         @user = User.find_by(username: params[:user])
@@ -118,7 +124,7 @@ class UsersController < ApplicationController
     gh_user_info = github.user_info
     @gh_user = User.find_by(github_id: gh_user_info[:github_id])
     if @gh_user
-      if signed_in? && @gh_user.id != current_user_lean["id"]
+      if signed_in? && @gh_user.id != current_user.id
         raise "The username #{gh_user_info[:username]} is taken!"
       end
     else

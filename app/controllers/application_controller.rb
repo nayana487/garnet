@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   # protect_from_forgery with: :exception
   before_action :authenticate
-  helper_method :current_user, :current_user_lean, :signed_in?, :is_su?
+  helper_method :current_user, :signed_in?, :is_su?
   # rescue_from StandardError, ActionController::RedirectBackError, with: :global_rescuer
 
   private
@@ -18,8 +18,12 @@ class ApplicationController < ActionController::Base
       session[:user] = model
     end
 
+    def current_user
+      @current_user ||= User.find(session[:user]["id"]) if session[:user]
+    end
+
     def signed_in?
-      if session[:user]
+      if current_user
         return true
       else
         return false
@@ -28,22 +32,6 @@ class ApplicationController < ActionController::Base
 
     def is_su?
       return (session[:user]["username"] == "garoot")
-    end
-
-    def current_user
-      if signed_in? && User.exists?(id: session[:user]["id"])
-        return User.find(session[:user]["id"])
-      else
-        return false
-      end
-    end
-
-    def current_user_lean
-      if signed_in?
-        return session[:user]
-      else
-        return false
-      end
     end
 
     def global_rescuer(exception)

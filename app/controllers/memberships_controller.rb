@@ -23,7 +23,7 @@ class MembershipsController < ApplicationController
     @group = Group.at_path(params[:group_path])
     @current_user_is_admin = @group.admins.include?(current_user)
     @user = User.named(params[:user])
-    if !@current_user_is_admin && @user.id != current_user_lean["id"]
+    if !@current_user_is_admin && @user.id != current_user.id
       flash[:alert] = "It's not cool to try to see someone else's grades."
       redirect_to group_path(@group)
     end

@@ -13,6 +13,6 @@
 <input type="submit" value="Submit" />
 <% end %>
 
-<% if signed_in? && @user.id == current_user_lean["id"] %>
+<% if signed_in? && @user.id == current_user["id"] %>
 <%= link_to "Delete your account", user_path(@user), class: "button", data: {confirm: "You sure? This is probably a really, really bad idea, since it's going to delete all of the grades, attendances, and everything else associated with this account."}, method: :delete %>
 <% end %>
