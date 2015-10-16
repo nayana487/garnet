@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     @is_current_user = (@user.id == current_user.id)
     @is_editable = (current_user || (user.id == current_user.id && !user.github_id ))
     @memberships = @user.memberships
-    @attendances = @user.attendances
+    @attendances = @user.attendances.sort_by{|a| a.event.date}
     @submissions = @user.submissions
   end
 

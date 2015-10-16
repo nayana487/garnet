@@ -30,9 +30,9 @@ class MembershipsController < ApplicationController
     end
     @membership = @user.memberships.find_by(group_id: @group.id)
     @observation = Observation.new(user_id: @user.id, group_id: @group.id, admin_id: current_user.id)
-    @attendances = @group.attendances.select{|i| i.user.id == @user.id}
-    @submissions = @group.submissions.select{|i| i.user.id == @user.id}
-    @observations = @group.observations.select{|i| i.user.id == @user.id}
+    @attendances = @group.descendants_attr("attendances").select{|i| i.user.id == @user.id}
+    @submissions = @group.descendants_attr("submissions").select{|i| i.user.id == @user.id}
+    @observations = @group.descendants_attr("observations").select{|i| i.user.id == @user.id}
   end
 
   private

@@ -4,11 +4,9 @@ module ApplicationHelper
   end
 
   def breadcrumbs(group, user = nil)
-    output = []
-    group.ancestors([]).sort{|a,b| a.path <=> b.path}.each do |group|
-      output.push((link_to group.title, group_path(group)))
-    end
-    output.push(link_to group.title, group_path(group))
+    output = group.ancestors([]).sort{|a,b| a.path <=> b.path}.to_a
+    output.push(group)
+    output.map!{|g| (link_to g.title, user ? group_membership_path(g, user) : group_path(g))}
     if user
       output.push((link_to user.username, user_path(user)))
     end

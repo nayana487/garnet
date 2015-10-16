@@ -30,19 +30,23 @@
   <table>
     <tr>
       <th>Group</th>
+      <th>Event name</th>
       <th>Date</th>
       <th>Status</th>
     </tr>
     <% @attendances.each do |attendance| %>
     <tr>
-      <%= render partial: "attendance/row", locals: {submission: submission}%>
+      <td><%= link_to attendance.group.path, group_membership_path(attendance.group, @user) %></td>
+      <td><%= link_to attendance.event.date.strftime("%m/%d/%y %H:%M"), event_path(attendance.event) %></td>
+      <td><%= link_to attendance.created_at.strftime("%m/%d/%y %H:%M"), event_path(attendance.event) %></td>
+      <td><%= attendance.status_english %></td>
     </tr>
     <% end %>
   </table>
 </section>
 
 <section>
-  <h3>Assignments</h3>
+  <h3>Submissions</h3>
   <table>
     <tr>
       <th>Assigned to</th>
@@ -52,7 +56,7 @@
     </tr>
     <% @submissions.each do |submission| %>
     <tr>
-      <%= render partial: "submission/row", locals: {submission: submission}%>
+      <%= render partial: "submissions/row", locals: {submission: submission}%>
     </tr>
     <% end %>
   </table>

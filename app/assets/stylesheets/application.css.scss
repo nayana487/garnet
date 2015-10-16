@@ -336,14 +336,17 @@
  }
  .breadcrumbs a{
    display:inline-block;
-   background-color:#eee;
+   background-color:#ee9;
+   color:#f00;
    border-radius:5px;
    padding:5px 10px;
    margin:5px;
    vertical-align:baseline;
+   border:0;
  }
  .breadcrumbs a:hover{
-   background-color:#eef;
+   background-color:#faa;
+   color:#f00;
  }
  .breadcrumbs a:nth-child(1){
    margin-left:0;
