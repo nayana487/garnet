@@ -33,10 +33,10 @@ Rails.application.routes.draw do
     put 'refresh_memberships', on: :member
   end
 
-  resources :events, only: [:show, :create]
+  resources :events, only: [:show, :create, :destroy]
   patch "attendance", to: "attendances#update", as: :attendance_update
 
-  resources :assignments do
+  resources :assignments, only: [:show, :destroy] do
     resources :submissions, only: [:index, :create, :show]
   end
 

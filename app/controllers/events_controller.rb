@@ -9,7 +9,6 @@ class EventsController < ApplicationController
   end
 
   def create
-    puts "* " * 100
     @group = Group.at_path(params[:group_path])
     @event = @group.events.new(event_params)
     date = params[:date]
@@ -36,7 +35,7 @@ class EventsController < ApplicationController
   def destroy
     @event = Event.find(params[:id])
     @event.destroy!
-    redirect_to :back
+    redirect_to group_path(@event.group)
   end
 
   private
