@@ -1,11 +1,23 @@
 <h2><%= @event.date.strftime("%A, %B %e, %Y") %></h2>
-<%= form_tag event_update_all_path(@event), method: :patch do %>
-  <input class="important" type="submit" value="Submit Attendance" />
-  <table>
-    <% @attendances.each do |attendance| %>
-    <tr>
-      <%= render partial: "attendances/row", locals: {attendance: attendance, user: attendance.user} %>
-    </tr>
-    <% end %>
-  </table>
-<% end %>
+<table class="attendance">
+  <% @attendances.each do |attendance| %>
+  <tr>
+    <%= render partial: "attendances/row", locals: {attendance: attendance} %>
+  </tr>
+  <% end %>
+</table>
+
+<script>
+function updateAttendance(el, attendance){
+  var url = "<%= attendance_update_path %>";
+  el = $(el);
+  $.ajax({
+    url: url,
+    dataType: "json",
+    method: "PATCH",
+    data: attendance
+  }).then(function(data){
+    console.log(data);
+  });
+}
+</script>

@@ -1,9 +1,8 @@
-<% name = "attendance[#{attendance.id}]" %>
-<td><%= avatar(user) %></td>
+<td><%= avatar(attendance.user) %></td>
 <td><%= link_to attendance.user.name, group_membership_path(attendance.event.group, attendance.user) %></td>
 <% ["Absent", "Tardy", "Present"].each_with_index do |status, i| %>
 <td>
-  <input type="radio" name="<%= name %>" id="<%= "#{name}_#{i}" %>" value="<%= i %>" <%= "checked" if (i == attendance.status)  %> />
-  <label for="<%= "#{name}_#{i}" %>"><%= status %></label>
+  <%= radio_button_tag attendance.user.username, i, i === attendance.status, onclick: "updateAttendance(this, {id: #{attendance.id}, status: #{i}})" %>
+  <%= label_tag "#{attendance.user.username}_#{i}", status %>
 </td>
 <% end %>
