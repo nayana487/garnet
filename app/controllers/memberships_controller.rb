@@ -9,6 +9,7 @@ class MembershipsController < ApplicationController
       if !user then raise "I couldn't find a user named #{username}!" end
       @membership = @group.memberships.create!(user_id: user.id, is_admin: @is_admin)
     end
+    flash[:notice] = "Added #{@membership.user.username} to #{@group.title}!"
     redirect_to :back
   end
 
@@ -21,23 +22,17 @@ class MembershipsController < ApplicationController
 
   def show
     @group = Group.at_path(params[:group_path])
-    @current_user_is_admin = @group.admins.include?(current_user)
+    @is_admin = @group.admins.include?(current_user)
     @user = User.named(params[:user])
-    if !@current_user_is_admin && @user.id != current_user.id
+    if !@is_admin && @user.id != current_user.id
       flash[:alert] = "It's not cool to try to see someone else's grades."
       redirect_to group_path(@group)
     end
-    subgroup_ids = @group.descendants.collect{|i| i.id}
     @membership = @user.memberships.find_by(group_id: @group.id)
-    @attendances = @user.attendances.select{|i|
-      subgroup_ids.include?(i.event.group.id)
-    }
-    @submissions = @user.submissions.select{|i|
-      subgroup_ids.include?(i.assignment.group.id)
-    }
-    @observations = @user.observations.select{|i|
-      subgroup_ids.include?(i.group.id)
-    }
+    @observation = Observation.new(user_id: @user.id, group_id: @group.id, admin_id: current_user.id)
+    @attendances = @group.descendants_attr("attendances").select{|i| i.user.id == @user.id}
+    @submissions = @group.descendants_attr("submissions").select{|i| i.user.id == @user.id}
+    @observations = @group.descendants_attr("observations").select{|i| i.user.id == @user.id}
   end
 
   private

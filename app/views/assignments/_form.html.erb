@@ -1,0 +1,4 @@
+<%= text_field_tag :title, assignment.title, placeholder: "Title" %>
+<%= select_tag :category, options_from_collection_for_select(assignment.categories, "downcase", "capitalize", assignment.category && assignment.category.downcase) %>
+<%= text_field_tag :repo_url, assignment.repo_url, placeholder: "Repo Url"%>
+<%= submit_tag "Save Assignment" %>

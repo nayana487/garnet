@@ -1,14 +1,13 @@
-<% if @current_user_is_admin %>
+<% if @is_admin %>
 <section>
   <h3>Observations</h3>
   <% @observations.each do |observation| %>
     <%= render partial: "observations/show", locals: {observation: observation} %>
   <% end %>
-  <table class="student_data">
-    <%= render partial: "memberships/data_table", locals: {group: @group, users: [@user], datum: :observations} %>
-  </table>
   <h4>New observation</h4>
+  <%= form_tag group_membership_observations_path(@group, @user) do %>
   <%= render partial: "observations/form", locals: {group: @group, membership: @membership} %>
+  <% end %>
 </section>
 <% end %>
 
@@ -29,9 +28,6 @@
     </tr>
     <% end %>
   </table>
-  <table class="student_data">
-    <%= render partial: "memberships/data_table", locals: {group: @group, users: [@user], datum: :attendances} %>
-  </table>
 </section>
 
 <section>
@@ -51,9 +47,6 @@
       <td style="background-color:<%= submission.status == 2 ? "#bfb" : "#faa" %>;"><%=  submission.status_english %></td>
     </tr>
     <% end %>
-  </table>
-  <table class="student_data">
-    <%= render partial: "memberships/data_table", locals: {group: @group, users: [@user], datum: :submissions} %>
   </table>
 </section>
 

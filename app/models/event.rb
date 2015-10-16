@@ -1,7 +1,8 @@
 class Event < ActiveRecord::Base
   belongs_to :group
-  has_many :attendances
+  has_many :attendances, dependent: :destroy
   has_many :users, through: :attendances
+  validates :date, presence: true
 
   after_create :create_attendances
 

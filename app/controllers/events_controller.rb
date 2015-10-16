@@ -2,21 +2,27 @@ class EventsController < ApplicationController
 
   def index
     @group = Group.at_path(params[:group_path])
-    @events = @group.descendants_attr("events").uniq.sort{|a,b| a.date <=> b.date}
+    @users = @group.nonadmins
+    @events = @group.descendants_attr("events").uniq.sort{|a,b| b.date <=> a.date}
+    @attendances = @group.descendants_attr("attendances").uniq
+    @event = Event.new(group_id: @group.id)
   end
 
   def create
+    puts "* " * 100
     @group = Group.at_path(params[:group_path])
-    @event = @group.events.create(event_params)
-    event = params[:event]
+    @event = @group.events.new(event_params)
+    date = params[:date]
     date = DateTime.new(
-      event["date(1i)"].to_i,
-      event["date(2i)"].to_i,
-      event["date(3i)"].to_i,
-      event["date(4i)"].to_i,
-      event["date(5i)"].to_i
+      date[:year].to_i,
+      date[:month].to_i,
+      date[:day].to_i,
+      date[:hour].to_i,
+      date[:minute].to_i
     )
-    redirect_to event_path(@event)
+    @event.date = date
+    @event.save!
+    redirect_to :back
   end
 
   def show
@@ -27,9 +33,15 @@ class EventsController < ApplicationController
     end
   end
 
+  def destroy
+    @event = Event.find(params[:id])
+    @event.destroy!
+    redirect_to :back
+  end
+
   private
   def event_params
-    params.require(:event).permit(:date, :title, :required)
+    params.permit(:date, :title, :required)
   end
 
 end

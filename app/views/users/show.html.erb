@@ -23,3 +23,45 @@
   <ul class="tree"><%= membership_list(@memberships) %></ul>
   <% end %>
 </section>
+
+<section>
+  <h3>Attendance</h3>
+  <p>Tardy: <%= @attendances.select{|a| a.status === 1}.count %>, Absent: <%= @attendances.select{|a| a.status === 0}.count %></p>
+  <table>
+    <tr>
+      <th>Group</th>
+      <th>Event name</th>
+      <th>Date</th>
+      <th>Status</th>
+    </tr>
+    <% @attendances.each do |attendance| %>
+    <tr>
+      <td><%= link_to attendance.group.path, group_membership_path(attendance.group, @user) %></td>
+      <td><%= link_to attendance.event.date.strftime("%m/%d/%y %H:%M"), event_path(attendance.event) %></td>
+      <td><%= link_to attendance.created_at.strftime("%m/%d/%y %H:%M"), event_path(attendance.event) %></td>
+      <td><%= attendance.status_english %></td>
+    </tr>
+    <% end %>
+  </table>
+</section>
+
+<section>
+  <h3>Submissions</h3>
+  <table>
+    <tr>
+      <th>Assigned to</th>
+      <th>Title</th>
+      <th>Due</th>
+      <th>Status</th>
+    </tr>
+    <% @submissions.each do |submission| %>
+    <tr>
+      <%= render partial: "submissions/row", locals: {submission: submission}%>
+    </tr>
+    <% end %>
+  </table>
+</section>
+
+<section>
+  <h3>Project Feedback</h3>
+</section>

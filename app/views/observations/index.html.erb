@@ -1,5 +1,18 @@
-<h2>Observations</h2>
-
-<% @observations.each do |observation| %>
-  <%= render partial: "show", locals: {observation: observation} %>
-<% end %>
+<section>
+  <h3 id="observations">Observations Summary</h3>
+  <table>
+    <tr>
+      <th></th>
+      <th>Average status</th>
+      <th>Total observations</th>
+      <th>&percnt; green</th>
+    </tr>
+    <% @users.each do |user| %>
+    <% observations = @observations.select{|o| o.user_id == user.id} %>
+    <tr>
+      <td><%= link_to user.name, group_membership_path(@group, user) %></td>
+      <%= render partial: "memberships/row", locals: {collection: observations} %>
+    </tr>
+    <% end %>
+  </table>
+</section>

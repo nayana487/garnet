@@ -6,29 +6,47 @@
     <th>Percent Complete</th>
     <th>Type</th>
     <th>Repo Url</th>
-    <th>Due Date</th>
+    <th></th>
   </tr>
   <% @assignments.each do |assignment| %>
   <tr>
-    <td><%= link_to assignment.title, assignment_path(assignment) %></td>
-    <td><%= link_to assignment.group.path, group_path(assignment.group) %></td>
-    <td><%= percent_of(assignment.submissions, 2) %></td>
-    <td><%= assignment.category %></td>
-    <td><%= if assignment.repo_url then link_to repo_name(assignment.repo_url), assignment.repo_url end %></td>
-    <td><%= assignment.due_date.strftime("%a, %m/%d/%y, %H:%M") %></td>
+    <%= render partial: "row", locals: {assignment: assignment} %>
+    <% if @is_admin %>
+    <td><%= link_to "Delete", assignment_path(assignment), method: :delete %></td>
+    <% end %>
   </tr>
   <% end %>
 </table>
 
-<% if @group.admins.include?(current_user) %>
+<% if @is_admin %>
 <section>
   <h3>Create an Assignment</h3>
-<%= form_for [@group, @assignment] do |f| %>
-  <%= f.text_field :title, placeholder: "Title" %>
-  <%= f.select :category, [["homework","homework"],["outcomes","outcomes"],["project","project"]] %>
-  <%= f.text_field :repo_url, placeholder: "Repo Url"%>
-  <%= f.date_field :due_date %>
-  <%= f.submit %>
-<% end %>
+  <%= form_tag group_assignments_path(@group, @assignment), method: :post do %>
+  <%= render partial: "form", locals: {assignment: @assignment} %>
+  <% end %>
+</section>
+
+<section>
+  <h3>Member Submission Summary</h3>
+  <p>
+    <span>Incomplete: <%= @submissions.select{|a| a.status === 1}.count %>,</span>
+    <span>Missing: <%= @submissions.select{|a| a.status === 0}.count %>,</span>
+    <span>Complete: <%= @submissions.select{|a| a.status === 2}.count %></span>
+  </p>
+  <table>
+    <tr>
+      <th></th>
+      <th>Average status</th>
+      <th>Total submissions</th>
+      <th>&percnt; complete</th>
+    </tr>
+    <% @users.each do |user| %>
+    <% submissions = @submissions.select{|s| s.user_id == user.id} %>
+    <tr>
+      <td><%= link_to user.name, group_membership_path(@group, user) %></td>
+      <%= render partial: "memberships/row", locals: {collection: submissions} %>
+    </tr>
+    <% end %>
+  </table>
 </section>
 <% end %>

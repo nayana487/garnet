@@ -17,7 +17,8 @@ class User < ActiveRecord::Base
   has_many :admin_attendances, class_name: "Attendance", foreign_key: "admin_id"
   has_many :events, through: :attendances
 
-  before_save :before_save
+  before_save :downcase_username, :dont_update_blank_password
+  after_create :add_to_ga
   attr_accessor :password
 
   def validates_name_if_no_github_id
@@ -26,11 +27,23 @@ class User < ActiveRecord::Base
     end
   end
 
-  def before_save
+  def downcase_username
     self.username.downcase!
+  end
+
+  def dont_update_blank_password
     if self.password && !self.password.strip.blank?
       self.password_digest = User.new_password(self.password)
     end
+  end
+
+  def add_to_ga
+    @ga = Group.at_path("ga")
+    # I know, I know.
+    if !@ga
+      @ga = Group.create(title: "ga")
+    end
+    Membership.create(user_id: self.id, group_id: @ga.id)
   end
 
   def to_param
@@ -42,16 +55,20 @@ class User < ActiveRecord::Base
   end
 
   def name
-    read_attribute(:name) || username
+    read_attribute(:name) || self.username
+  end
+
+  def gh_url
+    "https://www.github.com/#{self.username}" if self.github_id
   end
 
   def first_name
-    return "" unless name.present?
+    return self.username.capitalize unless name.present?
     name.split.first.capitalize
   end
 
   def last_name
-    return "" unless name.present?
+    return self.username.capitalize unless name.present?
     name.split.last.capitalize
   end
 

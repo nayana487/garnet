@@ -1,5 +1,3 @@
-<%= form_tag group_membership_observations_path(group, membership), method: :post do %>
- <%= collection_select :observation, :status, Observation.statuses, :last, :first %>
- <%= text_area :observation, :body, placeholder: "Write your observation." %>
- <%= submit_tag "Submit new observation" %>
-<% end %>
+<%= collection_select :observation, :status, Observation.statuses, :last, :first %>
+<%= text_area :observation, :body, placeholder: "Write your observation." %>
+<%= submit_tag "Submit new observation" %>

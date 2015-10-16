@@ -1,6 +1,6 @@
 class Assignment < ActiveRecord::Base
   belongs_to :group
-  has_many :submissions
+  has_many :submissions, dependent: :destroy
   has_many :users, through: :submissions
 
   after_create :create_submissions
@@ -20,6 +20,14 @@ class Assignment < ActiveRecord::Base
    summary_items = [category]
    summary_items << "due: #{due_date.strftime("%A, %B %e, %Y at %r")}" if due_date?
    summary_items
- end
+  end
+
+  def categories
+    [
+      "outcomes",
+      "homework",
+      "project"
+    ]
+  end
 
 end

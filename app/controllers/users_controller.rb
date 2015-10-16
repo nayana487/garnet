@@ -2,21 +2,7 @@ class UsersController < ApplicationController
 
   skip_before_action :authenticate, except: [:show]
 
-  def index
-    @is_su = is_su?
-    @hide_pics = (params[:show_pics] ? false : true)
-    @memberships = Membership.where(is_admin: true, user_id: current_user.id)
-    @groups = @memberships.collect{|m| m.group}.uniq
-    @users = User.all.sort_by(&:last_name)
-  end
-
   def show
-    puts "." * 100
-    star_ar = Time.now
-    100.times do
-      current_user.id
-    end
-    puts "star_ar " + (Time.now - star_ar).to_s
     if params[:user]
       if User.exists?(username: params[:user])
         @user = User.find_by(username: params[:user])
@@ -31,7 +17,8 @@ class UsersController < ApplicationController
     @is_current_user = (@user.id == current_user.id)
     @is_editable = (current_user || (user.id == current_user.id && !user.github_id ))
     @memberships = @user.memberships
-    @groups = @memberships.map{|membership| membership.group}
+    @attendances = @user.attendances.sort_by{|a| a.event.date}
+    @submissions = @user.submissions
   end
 
   def update

@@ -1,6 +1,7 @@
 class Attendance < ActiveRecord::Base
   belongs_to :event
   belongs_to :user
+  has_one :group, through: :event
 
   before_save :set_default_value
 

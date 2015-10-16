@@ -5,6 +5,8 @@
   <%= link_to user.name || user.username, user_path(user) %>
   <% end %>
 </td>
-<td><%= avatar(user) if user.image_url && !user.image_url.strip.blank? && !@hide_pics %></td>
+<% if !@hide_pics %>
+<td><%= avatar(user) if user.image_url && !user.image_url.strip.blank? %></td>
+<% end %>
 <td><%= link_to user.username, "http://github.com/#{user.username}" %></td>
 <td><%= user.email || "No email" %></td>
