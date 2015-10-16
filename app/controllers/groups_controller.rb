@@ -50,7 +50,7 @@ class GroupsController < ApplicationController
   end
 
   def gh_refresh_all
-    @group = Group.at_path(params[:path])
+    @group = Group.at_path(params[:group_path])
     @group.memberships.each do |membership|
       user = membership.user
       next if !user.github_id
