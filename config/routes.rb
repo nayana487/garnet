@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root to: "users#show"
 
+  get "/errareHumanumEst", to: "errors#show", as: :error
+
   get "/users/is_authorized", to: "users#is_authorized?"
 
   get '/sign_in', to: 'users#sign_in', as: :sign_in

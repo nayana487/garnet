@@ -36,11 +36,11 @@ class ApplicationController < ActionController::Base
 
     def global_rescuer(exception)
       flash[:alert] = exception.message
+      flash.keep
       redirect_to :back
     rescue ActionController::RedirectBackError
-      flash[:alert] = "Redirect loop!"
-      reset_session
-      redirect_to root_path
+      flash.keep
+      redirect_to error_path
     end
 
 end
