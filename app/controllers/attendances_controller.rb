@@ -1,4 +1,5 @@
 class AttendancesController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: [:update]
 
   def index
     @group = Group.at_path(params[:group_path])
@@ -7,8 +8,8 @@ class AttendancesController < ApplicationController
 
   def update
     @attendance = Attendance.find(params[:id])
-    @attendance.update(status: params[:status])
-    redirect_to event_path(@attendance.group, @attendance.event)
+    @attendance.update!(status: params[:status])
+    render json: @attendance
   end
 
   def update_all

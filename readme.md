@@ -80,53 +80,35 @@ If they sign up *with* Github, they cannot update their username, password, e-ma
 
 If they sign up *without* Github, they can update their username, password, e-mail, etc. Should they wish to later link Github to their account, they can click the "Link Github account" link, which will poll the database, rewrite their information in the Users table to use their Github username, email, etc. From there their account will behave as if they had originally signed up with Github.
 
-### Users with an admin membership to a group
-- Assignments and submissions
-  - Create an assignment for the group
-    - Automatically create incomplete submissions for all non-admin members of the group
-  - Grade (update) a submission for the group
-  - Read (but not create or update) all assignments for sub-groups
-  - Read (but not create or update) all submissions for sub-groups
-- Groups and memberships
-  - Create a sub-group within the group
-  - Add admin memberships to the group
-  - Add non-admin memberships to the group
-  - Edit memberships of the group
-- Observations
-  - Create an observation for a non-admin member of the group
-  - Read (but not create or update) all observations for sub-groups
+### Garoot
+- Can remove admins from a group
 
-### All users
-- User info
-  - Change their password, username, and name
-  - Authorize their account for Github API access
-- Groups
-  - View all groups owners
-- Submissions
-  - Complete a submission for an assignment (via update)
-  - See submissions that they have completed
-  - See submissions that have been assigned to (created for) them
-- Attendance
-  - Mark that they have attended an event
-  - See events they have attended
-  - See events at which they are expected to attend
+### Admins
+- Can create assignments
+- Can create submissions linking an assignment to a submission, which links a user to a group
 
-### Student
+- Can see submissions they have to grade
+- Can change a submission status
+- Can change a submission to required / not required
 
-```rb
-=begin
-if signed_in && gh_db && current_user.id == gh_db.id
-  current_user
-if signed_in && gh_db && current_user.id != gh_db.id
-  "error: gh account already linked"
-if signed_in && !gh_db
-  current_user
-if !signed_in && gh_db
-  gh_db_user
-if !signed_in && !gh_db
-  User.new
-=end
-```
+- Can see attendances they have to take
+- Can change an attendance status
+
+- Can create subgroups, and becomes an admin of that subgroup
+- Can add members with or without admin status to a group
+  - Adding members to a group causes the user to be made a member of all ancestor groups
+
+### Nonadmins
+- Can mark their attendance "present" within 1 hour before the start of an event, and their IP address is logged
+
+- Can see submissions they have to complete
+- Can see submission history and summary
+
+- Can see attendances they have to mark
+- Can see attendance history and summary
+
+### Student data
+- Attendances, submissions, and observations all "bubble up" -- they are factored into the data summaries of parent groups
 
 ## Deployment
 
