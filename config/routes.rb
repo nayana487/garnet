@@ -3,8 +3,6 @@ Rails.application.routes.draw do
 
   get "/errareHumanumEst", to: "errors#show", as: :error
 
-  get "/users/is_authorized", to: "users#is_authorized?"
-
   get '/sign_in', to: 'users#sign_in', as: :sign_in
   post '/sign_in', to: 'users#sign_in!'
   get '/sign_out', to: 'users#sign_out', as: :sign_out
@@ -29,8 +27,10 @@ Rails.application.routes.draw do
     end
   end
 
+  get "orphans", to: "users#orphans", as: :orphans
   resources :users, param: :user do
     put 'refresh_memberships', on: :member
+    get "is_authorized", action: :is_authorized?
   end
 
   resources :events, only: [:show, :create, :destroy]
