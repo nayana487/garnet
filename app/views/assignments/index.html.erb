@@ -6,16 +6,14 @@
     <th>Percent Complete</th>
     <th>Type</th>
     <th>Repo Url</th>
-    <th>Due Date</th>
+    <th></th>
   </tr>
   <% @assignments.each do |assignment| %>
   <tr>
-    <td><%= link_to assignment.title, assignment_path(assignment) %></td>
-    <td><%= link_to assignment.group.path, group_path(assignment.group) %></td>
-    <td><%= percent_of(assignment.submissions, 2) %></td>
-    <td><%= assignment.category %></td>
-    <td><%= if assignment.repo_url then link_to repo_name(assignment.repo_url), assignment.repo_url end %></td>
-    <td><%= assignment.due_date.strftime("%a, %m/%d/%y, %H:%M") %></td>
+    <%= render partial: "row", locals: {assignment: assignment} %>
+    <% if @is_admin %>
+    <td><%= link_to "Delete", assignment_path(assignment), method: :delete %></td>
+    <% end %>
   </tr>
   <% end %>
 </table>
@@ -23,7 +21,9 @@
 <% if @is_admin %>
 <section>
   <h3>Create an Assignment</h3>
-  <%= render partial: "form", locals: {action: group_assignments_path(@group, @assignment)} %>
+  <%= form_tag group_assignments_path(@group, @assignment), method: :post do %>
+  <%= render partial: "form", locals: {assignment: @assignment} %>
+  <% end %>
 </section>
 
 <section>
@@ -43,8 +43,8 @@
     <% @users.each do |user| %>
     <% submissions = @submissions.select{|s| s.user_id == user.id} %>
     <tr>
-      <td><%= link_to user.name, user_path(user) %></td>
-      <%= render partial: "users/data_row", locals: {collection: submissions} %>
+      <td><%= link_to user.name, group_membership_path(@group, user) %></td>
+      <%= render partial: "memberships/row", locals: {collection: submissions} %>
     </tr>
     <% end %>
   </table>

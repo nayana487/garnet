@@ -1,6 +1,6 @@
 <td>
   <% if @group && !@group.admins.include?(user) %>
-  <%= link_to user.name || user.username, user_path(user) %>
+  <%= link_to user.name || user.username, group_membership_path(@group, user) %>
   <% else %>
   <%= link_to user.name || user.username, user_path(user) %>
   <% end %>

@@ -1,4 +1,3 @@
-<%= form_tag action, method: method do |f| %>
-<div class="date"><%= datetime_select "event", "date", {default: (1.day.from_now.beginning_of_day + 9.hours), ampm: true}  %></div>
+<%= text_field_tag :title, event.title, placeholder: "Title" %>
+<div class="date"><%= select_datetime DateTime.tomorrow.beginning_of_day.advance(hours: 9), prefix: :date %></div>
 <%= submit_tag "Create event" %>
-<% end %>

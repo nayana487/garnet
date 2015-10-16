@@ -1,6 +1,7 @@
 class GroupsController < ApplicationController
 
   def show
+    @hide_pics = (params[:show_pics] ? false : true)
     if params[:path]
       @group = Group.at_path(params[:path])
     else
@@ -16,10 +17,6 @@ class GroupsController < ApplicationController
     @parent = Group.at_path(params[:group_path])
     @group = @parent.children.create!(group_params)
     redirect_to group_path(@group)
-  end
-
-  def su_new
-    redirect_to :root if (!is_su? || Group.all.count > 1)
   end
 
   def su_create

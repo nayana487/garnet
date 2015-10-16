@@ -32,10 +32,9 @@
     <% if @group %>
     <h2 class="breadcrumbs"><%= breadcrumbs(@group, @user || nil) %></h2>
     <p><small>
-      <%= link_to "Manage/View Members (#{@group.nonadmins.count})", group_users_path(@group) %>,
       <%= link_to "Assignments", group_assignments_path(@group) %>,
       <%= link_to "Attendance", group_events_path(@group) %>,
-      <%= link_to "Observations", group_path(@group) + "#observations" %>
+      <%= link_to "Observations", group_observations_path(@group) %>
     </small></p>
     <% end %>
     <%= yield %>

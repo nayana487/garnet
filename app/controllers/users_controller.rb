@@ -2,14 +2,6 @@ class UsersController < ApplicationController
 
   skip_before_action :authenticate, except: [:show]
 
-  def index
-    @group = Group.at_path(params[:group_path])
-    @admins = @group.admins
-    @is_admin = @admins.include?(current_user)
-    @hide_pics = (params[:show_pics] ? false : true)
-    @users = @group.nonadmins.sort_by(&:last_name)
-  end
-
   def show
     if params[:user]
       if User.exists?(username: params[:user])
@@ -25,7 +17,8 @@ class UsersController < ApplicationController
     @is_current_user = (@user.id == current_user.id)
     @is_editable = (current_user || (user.id == current_user.id && !user.github_id ))
     @memberships = @user.memberships
-    @observations = @user.observations.select{|o| o.group.admins.include?(current_user)}
+    @attendances = @user.attendances
+    @submissions = @user.submissions
   end
 
   def update

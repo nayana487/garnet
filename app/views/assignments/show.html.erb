@@ -1,5 +1,7 @@
 <h2>Assignment Details</h2>
-<%= render partial: "form", locals: {action: @assignment} %>
+<%= form_tag assignment_path(@assignment), method: :patch do %>
+<%= render partial: "form", locals: {assignment: @assignment} %>
+<% end %>
 
 <section>
 <h3>Submissions</h3>

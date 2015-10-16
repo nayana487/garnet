@@ -1,7 +1,4 @@
-<%= form_for action do |f| %>
-  <%= f.text_field :title, placeholder: "Title" %>
-  <%= f.select :category, [["homework","homework"],["outcomes","outcomes"],["project","project"]] %>
-  <%= f.text_field :repo_url, placeholder: "Repo Url"%>
-  <%= f.date_field :due_date %>
-  <%= f.submit "Save Assignment" %>
-<% end %>
+<%= text_field_tag :title, assignment.title, placeholder: "Title" %>
+<%= select_tag :category, options_from_collection_for_select(assignment.categories, "downcase", "capitalize", assignment.category && assignment.category.downcase) %>
+<%= text_field_tag :repo_url, assignment.repo_url, placeholder: "Repo Url"%>
+<%= submit_tag "Save Assignment" %>

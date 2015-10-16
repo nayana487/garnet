@@ -22,16 +22,16 @@ Rails.application.routes.draw do
 
     resources :observations, only: [:index]
 
-    resources :users, only: [:index]
-    resources :memberships, only: [:create, :destroy]
+    resources :memberships, path: "users", param: :user, only: [:show, :create, :destroy] do
+      resources :observations, only: [:create]
+    end
   end
 
   resources :users, param: :user do
     put 'refresh_memberships', on: :member
-    resources :observations, only: [:create]
   end
 
-  resources :events
+  resources :events, only: [:show, :create]
   patch "attendance", to: "attendances#update", as: :attendance_update
 
   resources :assignments do

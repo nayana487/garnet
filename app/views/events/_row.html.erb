@@ -1,0 +1,7 @@
+<td><%= link_to event.title, event_path(event) %></td>
+<td><%= (link_to event.date.strftime("%a, %m/%d, %H:%M"), event_path(event)) if event.date %></td>
+<td><%= link_to event.group.path, group_path(event.group) %></td>
+<td><%= event.attendances.where(status: 1).count %></td>
+<td><%= event.attendances.where(status: 2).count %></td>
+<td><%= event.attendances.count %></td>
+<td><%= link_to "Delete", event_path(event), method: :delete, data:{confirm: "You sure?"} %></td>

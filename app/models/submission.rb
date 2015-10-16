@@ -1,4 +1,5 @@
 class Submission < ActiveRecord::Base
+  has_one :group, through: :assignment
   belongs_to :assignment
   belongs_to :user
   belongs_to :admin, class_name: "User"

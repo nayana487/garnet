@@ -25,8 +25,39 @@
 </section>
 
 <section>
-  <h3>Observations</h3>
-  <% @observations.each do |observation| %>
-    <%= render partial: "observations/show", locals: {observation: observation} %>
-  <% end %>
+  <h3>Attendance</h3>
+  <p>Tardy: <%= @attendances.select{|a| a.status === 1}.count %>, Absent: <%= @attendances.select{|a| a.status === 0}.count %></p>
+  <table>
+    <tr>
+      <th>Group</th>
+      <th>Date</th>
+      <th>Status</th>
+    </tr>
+    <% @attendances.each do |attendance| %>
+    <tr>
+      <%= render partial: "attendance/row", locals: {submission: submission}%>
+    </tr>
+    <% end %>
+  </table>
+</section>
+
+<section>
+  <h3>Assignments</h3>
+  <table>
+    <tr>
+      <th>Assigned to</th>
+      <th>Title</th>
+      <th>Due</th>
+      <th>Status</th>
+    </tr>
+    <% @submissions.each do |submission| %>
+    <tr>
+      <%= render partial: "submission/row", locals: {submission: submission}%>
+    </tr>
+    <% end %>
+  </table>
+</section>
+
+<section>
+  <h3>Project Feedback</h3>
 </section>

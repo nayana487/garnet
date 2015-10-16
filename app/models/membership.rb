@@ -3,9 +3,9 @@ class Membership < ActiveRecord::Base
   belongs_to :user
 
   validate :is_unique_in_group
-  after_save :create_parent_membership, :create_child_memberships
+  after_save :create_parent_membership
   after_destroy :destroy_child_memberships
-  
+
   def to_param
     self.user.username
   end
@@ -31,15 +31,7 @@ class Membership < ActiveRecord::Base
     membership.is_admin = false
     membership.save! if membership.valid?
   end
-
-  def create_child_memberships
-    return if !self.is_admin
-    self.group.children.each do |subgroup|
-      @m = subgroup.memberships.find_or_create_by(user_id: self.user_id)
-      @m.update_attribute(:is_admin, true)
-    end
-  end
-
+  
   def destroy_child_memberships
     self.group.children.collect{|c| c.memberships}.flatten.each do |child|
       child.destroy! if child.user_id == self.user_id
