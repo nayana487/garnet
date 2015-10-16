@@ -9,6 +9,7 @@ class MembershipsController < ApplicationController
       if !user then raise "I couldn't find a user named #{username}!" end
       @membership = @group.memberships.create!(user_id: user.id, is_admin: @is_admin)
     end
+    flash[:notice] = "Added #{@membership.user.username} to #{@group.title}!"
     redirect_to :back
   end
 

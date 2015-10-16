@@ -1,23 +1,2 @@
 <h2><%= @event.date.strftime("%A, %B %e, %Y") %></h2>
-<table class="attendance">
-  <% @attendances.each do |attendance| %>
-  <tr>
-    <%= render partial: "attendances/row", locals: {attendance: attendance} %>
-  </tr>
-  <% end %>
-</table>
-
-<script>
-function updateAttendance(el, attendance){
-  var url = "<%= attendance_update_path %>";
-  el = $(el);
-  $.ajax({
-    url: url,
-    dataType: "json",
-    method: "PATCH",
-    data: attendance
-  }).then(function(data){
-    console.log(data);
-  });
-}
-</script>
+<%= render partial: "attendances/index" %>

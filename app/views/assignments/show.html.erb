@@ -1,11 +1,10 @@
-<h2><%= @assignment.title %></h2>
-<p><%= link_to_if @assignment.repo_url.present?, @assignment.repo_url, @assignment.repo_url %>
-<p>(<%= @assignment.summary_info.join(", ") %></p>
+<h2>Assignment Details</h2>
+<%= render partial: "form", locals: {action: @assignment} %>
 
 <section>
 <h3>Submissions</h3>
 <table>
-  <% @assignment.submissions.each do |submission| %>
+  <% @submissions.each do |submission| %>
   <tr>
   <%= render partial: "submissions/row", locals: {submission: submission} %>
   </tr>

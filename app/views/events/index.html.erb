@@ -1,26 +1,52 @@
-<h2>Events</h2>
+<h2>Attendance</h2>
+
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Group</th>
+    <th>Tardy</th>
+    <th>Present</th>
+    <th>Invited</th>
+    <th></th>
+  </tr>
+<% @events.each do |event| %>
+  <tr>
+    <td><%= link_to event.date.strftime("%a, %m/%d, %H:%M"), event_path(event) %></td>
+    <td><%= link_to event.group.path, group_path(event.group) %></td>
+    <td><%= event.attendances.where(status: 1).count %></td>
+    <td><%= event.attendances.where(status: 2).count %></td>
+    <td><%= event.attendances.count %></td>
+    <td><%= link_to "Delete", event_path(event), method: :delete, data:{confirm: "You sure?"} %></td>
+  </tr>
+<% end %>
+</table>
 
 <section>
-  <section>
-    <h3>Create</h3>
-    <%= render partial: "events/form", locals: {action: group_events_path(@group), method: :post} %>
-  </section>
+  <h4>Create an event</h4>
+  <%= render partial: "events/form", locals: {action: group_events_path(@group), method: :post} %>
+  </h3>
+</section>
+
+<section>
+  <h3>Member Attendance Summary</h3>
+  <p>
+    <span>Tardy: <%= @attendances.select{|a| a.status === 1}.count %>,</span>
+    <span>Absent: <%= @attendances.select{|a| a.status === 0}.count %>,</span>
+    <span>Present: <%= @attendances.select{|a| a.status === 2}.count %></span>
+  </p>
   <table>
     <tr>
-      <th>Date</th>
-      <th>Group</th>
-      <th>Tardy</th>
-      <th>Present</th>
-      <th>Invited</th>
+      <th></th>
+      <th>Average status</th>
+      <th>Total events</th>
+      <th>&percnt; present</th>
     </tr>
-  <% @events.each do |event| %>
+    <% @users.each do |user| %>
+    <% attendances = @attendances.select{|a| a.user_id == user.id} %>
     <tr>
-      <td><%= link_to event.date.strftime("%a, %m/%d, %H:%M"), event_path(event) %></td>
-      <td><%= link_to event.group.path, group_path(event.group) %></td>
-      <td><%= event.attendances.where(status: 1).count %></td>
-      <td><%= event.attendances.where(status: 2).count %></td>
-      <td><%= event.attendances.count %></td>
+      <td><%= link_to user.name, user_path(user) %></td>
+      <%= render partial: "users/data_row", locals: {collection: attendances} %>
     </tr>
-  <% end %>
+    <% end %>
   </table>
 </section>

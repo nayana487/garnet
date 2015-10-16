@@ -20,15 +20,33 @@
   <% end %>
 </table>
 
-<% if @group.admins.include?(current_user) %>
+<% if @is_admin %>
 <section>
   <h3>Create an Assignment</h3>
-<%= form_for [@group, @assignment] do |f| %>
-  <%= f.text_field :title, placeholder: "Title" %>
-  <%= f.select :category, [["homework","homework"],["outcomes","outcomes"],["project","project"]] %>
-  <%= f.text_field :repo_url, placeholder: "Repo Url"%>
-  <%= f.date_field :due_date %>
-  <%= f.submit %>
-<% end %>
+  <%= render partial: "form", locals: {action: group_assignments_path(@group, @assignment)} %>
+</section>
+
+<section>
+  <h3>Member Submission Summary</h3>
+  <p>
+    <span>Incomplete: <%= @submissions.select{|a| a.status === 1}.count %>,</span>
+    <span>Missing: <%= @submissions.select{|a| a.status === 0}.count %>,</span>
+    <span>Complete: <%= @submissions.select{|a| a.status === 2}.count %></span>
+  </p>
+  <table>
+    <tr>
+      <th></th>
+      <th>Average status</th>
+      <th>Total submissions</th>
+      <th>&percnt; complete</th>
+    </tr>
+    <% @users.each do |user| %>
+    <% submissions = @submissions.select{|s| s.user_id == user.id} %>
+    <tr>
+      <td><%= link_to user.name, user_path(user) %></td>
+      <%= render partial: "users/data_row", locals: {collection: submissions} %>
+    </tr>
+    <% end %>
+  </table>
 </section>
 <% end %>

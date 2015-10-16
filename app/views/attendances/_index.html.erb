@@ -1,0 +1,23 @@
+<table class="attendance">
+  <% @attendances.each do |attendance| %>
+  <tr>
+    <%= render partial: "attendances/show", locals: {attendance: attendance} %>
+  </tr>
+  <% end %>
+</table>
+
+
+<script>
+function updateAttendance(el, attendance){
+  var url = "<%= attendance_update_path %>";
+  el = $(el);
+  $.ajax({
+    url: url,
+    dataType: "json",
+    method: "PATCH",
+    data: attendance
+  }).then(function(data){
+    console.log(data);
+  });
+}
+</script>

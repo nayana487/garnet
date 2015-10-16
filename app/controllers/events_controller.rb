@@ -2,7 +2,10 @@ class EventsController < ApplicationController
 
   def index
     @group = Group.at_path(params[:group_path])
-    @events = @group.descendants_attr("events").uniq.sort{|a,b| a.date <=> b.date}
+    @users = @group.nonadmins
+    @events = @group.descendants_attr("events").uniq.sort{|a,b| b.date <=> a.date}
+    @attendances = @group.descendants_attr("attendances").uniq
+    @event = @events.last
   end
 
   def create
@@ -25,6 +28,12 @@ class EventsController < ApplicationController
     @attendances =  @event.attendances.sort_by do |attendance|
       attendance.user.last_name
     end
+  end
+
+  def destroy
+    @event = Event.find(params[:id])
+    @event.destroy!
+    redirect_to :back
   end
 
   private

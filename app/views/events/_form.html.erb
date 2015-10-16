@@ -1,4 +1,4 @@
 <%= form_tag action, method: method do |f| %>
-<div class="date"><%= datetime_select("event", "date") %></div>
+<div class="date"><%= datetime_select "event", "date", {default: (1.day.from_now.beginning_of_day + 9.hours), ampm: true}  %></div>
 <%= submit_tag "Create event" %>
 <% end %>

@@ -1,0 +1,7 @@
+<%= form_for action do |f| %>
+  <%= f.text_field :title, placeholder: "Title" %>
+  <%= f.select :category, [["homework","homework"],["outcomes","outcomes"],["project","project"]] %>
+  <%= f.text_field :repo_url, placeholder: "Repo Url"%>
+  <%= f.date_field :due_date %>
+  <%= f.submit "Save Assignment" %>
+<% end %>

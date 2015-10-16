@@ -23,3 +23,10 @@
   <ul class="tree"><%= membership_list(@memberships) %></ul>
   <% end %>
 </section>
+
+<section>
+  <h3>Observations</h3>
+  <% @observations.each do |observation| %>
+    <%= render partial: "observations/show", locals: {observation: observation} %>
+  <% end %>
+</section>

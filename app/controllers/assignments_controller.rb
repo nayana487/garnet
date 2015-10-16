@@ -2,12 +2,17 @@ class AssignmentsController < ApplicationController
 
   def index
     @group = Group.at_path(params[:group_path])
-    @assignment = Assignment.new
+    @users = @group.nonadmins
+    @is_admin = @group.admins.include?(current_user)
+    @assignment = Assignment.new(group_id: @group)
     @assignments = @group.descendants_attr("assignments").uniq
+    @submissions = @group.descendants_attr("submissions").uniq
   end
 
   def show
     @assignment = Assignment.find(params[:id])
+    @group = @assignment.group
+    @submissions = @assignment.submissions.sort_by{|s| s.user.last_name}
   end
 
   def create

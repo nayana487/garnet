@@ -7,13 +7,9 @@ class GroupsController < ApplicationController
       @group = Group.first
     end
     @admins = @group.admins
-    @nonadmins = @group.nonadmins
-    @event = @group.events.new
-    if is_su? || @group.admins.include?(current_user)
-      @user_role = :admin
-    elsif @nonadmins.collect{|u| u.username}.include?(current_user.username)
-      @user_role = :member
-    end
+    @users = @group.nonadmins
+    @is_admin = @admins.include?(current_user)
+    @observations = @group.descendants_attr("observations").uniq.sort{|a, b| a.created_at <=> b.created_at}
   end
 
   def create

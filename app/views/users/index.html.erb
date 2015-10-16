@@ -1,21 +1,50 @@
-<h2>All Users</h2>
+<h2>Members</h2>
 
-<% if @groups.count > 0 %>
-<%# collection_select(:foo, :bar, @groups, :id, :path) %>
-<% end %>
-
-<% if @hide_pics %>
-  <a class="button" href="?show_pics=true">Load all photos</a>
-<% else %>
-  <a class="button" href="?">Hide photos</a>
-<% end %>
-
-<table>
-  <% @users.each do |user| %>
-  <tr><%= render partial: "user_row", locals: {user: user} %></tr>
+<% if @is_admin %>
+<section>
+  <h3>Create Member(s)</h3>
+  <%= form_tag group_memberships_path(@group), method: :post do %>
+  <input name="usernames" placeholder="One or more usernames, separated by spaces and/or commas" />
+  <input type="checkbox" name="is_admin" id="is_admin" />
+  <label for="is_admin">Is admin</label>
+  <input type="submit" value="Add member(s)" />
   <% end %>
-</table>
-
-<% if is_su? %>
-<%= link_to "Refresh all Github info", user_refresh_all_path, class: "button", data: {confirm: "This might take a while. That OK?"} %>
+</section>
 <% end %>
+
+<section>
+  <h3>Member Roster</h3>
+  <p><%= @group.memberships.count %> total</p>
+  <% if @hide_pics %>
+    <a class="button" href="?show_pics=true">Load all photos</a>
+  <% else %>
+    <a class="button" href="?">Hide photos</a>
+  <% end %>
+  <table>
+    <% @users.each do |user| %>
+    <tr>
+      <%= render partial: "user_row", locals: {user: user} %>
+      <td>
+        <% if @is_admin %>
+        <%= link_to "Remove", group_membership_path(@group, user), method: :delete, data: {confirm: "Are you sure?"} %>
+        <% end %>
+      </td>
+    </tr>
+    <% end %>
+  </table>
+
+  <% if @is_admin %>
+  <%= link_to "Refresh all Github info", group_refresh_path(@group), class: "button", data: {confirm: "This might take a while. That OK?"} %>
+  <% end %>
+</section>
+
+<section>
+  <h3>Admins</h3>
+  <table>
+    <% @admins.each do |user| %>
+    <tr>
+      <%= render partial: "user_row", locals: {user: user} %>
+    </tr>
+    <% end %>
+  </table>
+</section>

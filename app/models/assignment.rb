@@ -20,6 +20,14 @@ class Assignment < ActiveRecord::Base
    summary_items = [category]
    summary_items << "due: #{due_date.strftime("%A, %B %e, %Y at %r")}" if due_date?
    summary_items
- end
+  end
+
+  def categories
+    [
+      "outcomes",
+      "homework",
+      "project"
+    ]
+  end
 
 end

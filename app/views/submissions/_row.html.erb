@@ -1,3 +1,4 @@
-<td><%= link_to submission.user.username, group_membership_path(submission.assignment.group, submission.user) %></td>
 <td><%= link_to "View", assignment_submission_path(submission.assignment, submission) %></td>
+<td><%= link_to submission.user.name, user_path(submission.user) %></td>
+<td><%= link_to submission.user.username, submission.user.gh_url %></td>
 <td><%= submission.status_english %></td>

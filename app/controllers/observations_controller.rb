@@ -1,10 +1,5 @@
 class ObservationsController < ApplicationController
 
-  def index
-    @group = Group.at_path(params[:group_path])
-    @observations = @group.descendants_attr("observations").uniq.sort{|a, b| a.created_at <=> b.created_at}
-  end
-
   def create
     @group = Group.at_path(params[:group_path])
     @user = User.find_by(username: params[:membership_user])
