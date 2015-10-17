@@ -20,6 +20,12 @@ class Submission < ActiveRecord::Base
     self.created_at
   end
 
+  def github_pr_submitted
+    iss = self.assignment.issues.select do |issue|
+      issue["user"]["id"] == self.user.github_id.to_i
+    end
+  end
+
   def status_english
     case self.status
     when 0
