@@ -28,7 +28,11 @@ class UsersController < ApplicationController
       sub.assignment.get_issues session[:access_token]
       sub
     end
-    @submissions_percent_complete = (100*(@submissions.count {|s| s.github_pr_submitted != nil }.to_f / @submissions.length.to_f)).round
+    begin
+      @submissions_percent_complete = (100*(@submissions.count {|s| s.github_pr_submitted != nil }.to_f / @submissions.length.to_f)).round
+    rescue
+      @submissions_percent_complete = 0
+    end
 
   end
 
