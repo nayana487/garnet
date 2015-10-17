@@ -1,5 +1,4 @@
 <td><%= link_to assignment.title, assignment_path(assignment) %></td>
 <td><%= link_to assignment.group.path, group_path(assignment.group) %></td>
-<td><%= percent_of(assignment.submissions, 2) %></td>
 <td><%= assignment.category %></td>
 <td><%= if assignment.repo_url then link_to repo_name(assignment.repo_url), assignment.repo_url end %></td>
