@@ -75,7 +75,7 @@ class Github
   end
 
   def issues org_slash_repo, url = nil, all_issues = []
-    url ||= "https://api.github.com/repos/#{org_slash_repo}/issues?access_token=#{@token}"
+    url ||= "https://api.github.com/repos/#{org_slash_repo}/issues?state=all&access_token=#{@token}"
     github_issues = HTTParty.get(url)
     JSON.parse(github_issues.body).each do |issue|
       all_issues << issue

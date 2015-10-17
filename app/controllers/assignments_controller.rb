@@ -14,6 +14,11 @@ class AssignmentsController < ApplicationController
     @group = @assignment.group
     @submissions = @assignment.submissions.sort_by{|s| s.user.last_name}
     @assignment.get_issues session[:access_token]
+    begin
+      @submissions_percent_complete = (100*(@submissions.count {|s| s.github_pr_submitted != nil }.to_f / @submissions.length.to_f)).round
+    rescue
+      @submissions_percent_complete = 0
+    end
   end
 
   def create
