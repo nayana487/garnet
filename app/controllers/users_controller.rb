@@ -24,6 +24,16 @@ class UsersController < ApplicationController
     @memberships = @user.memberships
     @attendances = @user.attendances.sort_by{|a| a.event.date}
     @submissions = @user.submissions
+    @submissions = @submissions.map do |sub|
+      sub.assignment.get_issues session[:access_token]
+      sub
+    end
+    begin
+      @submissions_percent_complete = (100*(@submissions.count {|s| s.github_pr_submitted != nil }.to_f / @submissions.length.to_f)).round
+    rescue
+      @submissions_percent_complete = 0
+    end
+
   end
 
   def update
@@ -112,7 +122,7 @@ class UsersController < ApplicationController
   def gh_authenticate
     if(!params[:code]) then redirect_to action: :gh_authorize end
     github = Github.new(ENV)
-    github.get_access_token(params[:code])
+    session[:access_token] = github.get_access_token(params[:code])
     gh_user_info = github.user_info
     @gh_user = User.find_by(github_id: gh_user_info[:github_id])
     if @gh_user

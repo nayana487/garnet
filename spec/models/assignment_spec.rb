@@ -21,4 +21,9 @@ RSpec.describe Assignment do
       expect(subject.due_date).to eq(future_date)
     end
   end
+
+  it "has submissions status english" do
+    ass = Assignment.first
+  end
+
 end
