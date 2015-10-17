@@ -24,7 +24,6 @@ RSpec.describe Assignment do
 
   it "has submissions status english" do
     ass = Assignment.first
-    binding.pry
   end
 
 end
