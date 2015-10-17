@@ -40,12 +40,9 @@
       <th>Status</th>
     </tr>
     <% @submissions.each do |submission| %>
-    <tr>
-      <td><%= link_to submission.assignment.group.path, group_path(submission.assignment.group) %></td>
-      <td><%= submission.assignment.title %></td>
-      <td><%= submission.due_date %></td>
-      <td style="background-color:<%= submission.status == 2 ? "#bfb" : "#faa" %>;"><%=  submission.status_english %></td>
-    </tr>
+      <tr>
+	<%= render partial: "submissions/row", locals: {submission: submission} %>
+      </tr>
     <% end %>
   </table>
 </section>
