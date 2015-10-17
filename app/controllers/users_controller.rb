@@ -24,6 +24,10 @@ class UsersController < ApplicationController
     @memberships = @user.memberships
     @attendances = @user.attendances.sort_by{|a| a.event.date}
     @submissions = @user.submissions
+    @submissions = @submissions.map do |sub|
+      sub.assignment.get_issues session[:access_token]
+      sub
+    end
   end
 
   def update
