@@ -1,7 +1,7 @@
 class Github
 
   Octokit.auto_paginate = true
-  attr_accessor :user_code
+  attr_accessor :user_code, :token
 
   def initialize env = nil, token = nil
     @env = env
@@ -68,6 +68,24 @@ class Github
       }
     ).split("&")[0].split("=")[1]
     return @token
+  end
+
+  def repo org_slash_repo
+    JSON.parse(HTTParty.get("https://api.github.com/repos/#{org_slash_repo}").body)
+  end
+
+  def issues org_slash_repo, url = nil, all_issues = []
+    url ||= "https://api.github.com/repos/#{org_slash_repo}/issues"
+    github_issues = HTTParty.get(url)
+    JSON.parse(github_issues.body).each do |issue|
+      all_issues << issue
+    end
+    next_url = github_issues.headers["link"].match /<(.*)>; rel="next"/
+    if next_url
+      url = next_url[1]
+      issues org_slash_repo, url, all_issues
+    end
+    all_issues
   end
 
 end
