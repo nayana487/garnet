@@ -4,6 +4,9 @@
 <td>
   <% if submission.github_pr_submitted %>
     <%= link_to "View Pull request", submission.github_pr_submitted["html_url"] %>
+    <% if submission.github_pr_submitted["state"] == "open" %>
+      <small>(open)</small>
+    <% end %>
   <% else %>
     Missing.
   <% end %>
