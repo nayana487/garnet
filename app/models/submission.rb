@@ -24,6 +24,7 @@ class Submission < ActiveRecord::Base
     iss = self.assignment.issues.select do |issue|
       issue["user"]["id"] == self.user.github_id.to_i
     end
+    iss.empty? ? nil: iss[0]
   end
 
   def status_english

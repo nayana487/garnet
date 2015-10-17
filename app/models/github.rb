@@ -80,7 +80,11 @@ class Github
     JSON.parse(github_issues.body).each do |issue|
       all_issues << issue
     end
-    next_url = github_issues.headers["link"].match /<(.*)>; rel="next"/
+    begin
+      next_url = github_issues.headers["link"].match /<(.*)>; rel="next"/
+    rescue
+      next_url = nil
+    end
     if next_url
       url = next_url[1]
       issues org_slash_repo, url, all_issues

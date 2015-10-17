@@ -1,5 +1,11 @@
 <td><%= link_to submission.assignment.title, assignment_submission_path(submission.assignment, submission) %></td>
 <td><%= link_to submission.user.name, user_path(submission.user) %></td>
 <td><%= link_to submission.user.username, submission.user.gh_url %></td>
-<td><%= submission.github_pr_submitted %></td>
+<td>
+  <% if submission.github_pr_submitted %>
+    <%= link_to "View Pull request", submission.github_pr_submitted["html_url"] %>
+  <% else %>
+    Missing.
+  <% end %>
+</td>
 

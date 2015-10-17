@@ -112,7 +112,7 @@ class UsersController < ApplicationController
   def gh_authenticate
     if(!params[:code]) then redirect_to action: :gh_authorize end
     github = Github.new(ENV)
-    github.get_access_token(params[:code])
+    session[:access_token] = github.get_access_token(params[:code])
     gh_user_info = github.user_info
     @gh_user = User.find_by(github_id: gh_user_info[:github_id])
     if @gh_user
