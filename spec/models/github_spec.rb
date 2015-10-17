@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe 'Github' do
+  before {skip}
   it "has an access token" do
     g = Github.new(nil, ENV['token'])
     expect(g.token).to be
