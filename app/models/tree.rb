@@ -5,6 +5,7 @@ class Tree < ActiveRecord::Base
   def ancestors(collection = nil)
     collection = collection || [self]
     if self.parent
+      self.parent.reload
       collection.unshift(self.parent)
       self.parent.ancestors(collection)
     end
@@ -32,7 +33,6 @@ class Tree < ActiveRecord::Base
 
   def ancestors_attr key
     collection = []
-    collection.concat(self.send(key))
     self.ancestors.each do |ancestor|
       collection.concat(ancestor.send(key))
     end
