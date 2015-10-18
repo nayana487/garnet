@@ -16,9 +16,8 @@ class Group < Tree
   validates :title, presence: true, format: {with: /\A[a-zA-Z0-9\-]+\z/, message: "Only letters, numbers, and hyphens are allowed."}
 
   validate :validates_presence_of_parent
-  before_create :update_path
   before_save :validate_uniqueness_of_title_among_siblings
-  after_save :update_child_paths, :update_child_members
+  after_save :update_child_members
 
   def to_param
     self.path
@@ -38,23 +37,13 @@ class Group < Tree
   end
 
   def self.at_path path
-    Group.find_by(path: path)
-  end
-
-  def update_path
-    if self.parent
-      titles = self.ancestors([]).collect{|g| g.title}
-    else
-      titles = []
+    path = path.split("_")
+    group = Group.find_by(title: path[0])
+    path.each_with_index do |title, i|
+      next if i == 0
+      group = group.children.find_by(title: path[i])
     end
-    titles.push(self.title)
-    self.path = titles.join("_")
-  end
-
-  def update_child_paths
-    self.children.each do |group|
-      group.update_path
-    end
+    return group
   end
 
   def update_child_members
@@ -62,6 +51,10 @@ class Group < Tree
     self.parent.memberships.where(is_admin: true).each do |membership|
       self.memberships.create(user_id: membership.user.id, is_admin: true)
     end
+  end
+
+  def path
+    self.ancestors.collect{|g| g.title}.join("_")
   end
 
   def admins
