@@ -4,18 +4,6 @@
 </div>
 
 <section>
-  <h3>Profile</h3>
-  <%= form_tag user_path(@user), method: :patch do %>
-  <%= render partial: "form" %>
-  <% end %>
-  <% if @user.github_id %>
-    <%= link_to "Refresh Github info", gh_refresh_path(github_id: @user.github_id), class: "button" %>
-  <% end %>
-  <%= link_to "Refresh Memberships", refresh_memberships_user_path(@user), method: :put, class: "button" %>
-
-</section>
-
-<section>
   <h3>Groups</h3>
   <% if @memberships.count == 0 %>
   <p>None yet!</p>
@@ -77,5 +65,12 @@
 </section>
 
 <section>
-  <h3>Project Feedback</h3>
+  <h3>Profile</h3>
+  <%= form_tag user_path(@user), method: :patch do %>
+  <%= render partial: "form" %>
+  <% end %>
+  <% if @user.github_id %>
+    <%= link_to "Refresh Github info", gh_refresh_path(github_id: @user.github_id), class: "button" %>
+  <% end %>
+  <%= link_to "Refresh Memberships", refresh_memberships_user_path(@user), method: :put, class: "button" %>
 </section>

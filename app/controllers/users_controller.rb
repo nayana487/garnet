@@ -152,7 +152,9 @@ class UsersController < ApplicationController
 
   def refresh_memberships
     @user = User.find_by(username: params[:user])
-    @user.memberships.map(&:create_child_memberships)
+    @user.memberships.select{|m| m.group.is_childless?}.each do |membership|
+      membership.update_ancestor_memberships
+    end
     redirect_to @user
   end
 

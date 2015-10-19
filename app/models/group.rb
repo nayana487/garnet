@@ -24,7 +24,7 @@ class Group < Tree
   end
 
   def validates_presence_of_parent
-    if self.class.all.count > 0 && !self.parent
+    if self.class.all.count > 0 && !self.parent && Group.first.id != self.id
       errors[:base].push("Each group has to have a parent group.")
     end
   end
@@ -78,6 +78,14 @@ class Group < Tree
       end
       self.memberships.create(user_id: user.id, is_admin: is_admin)
     end
+  end
+
+  def has_member? user
+    return self.memberships.where(user_id: user.id).count > 0
+  end
+
+  def is_childless?
+    return self.children.count < 1
   end
 
 end
