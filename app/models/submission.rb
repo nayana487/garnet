@@ -27,6 +27,10 @@ class Submission < ActiveRecord::Base
     iss.empty? ? nil: iss[0]
   end
 
+  def as_json(options={})
+    super.as_json(options).merge({github_pr_submitted: github_pr_submitted})
+  end
+
   def status_english
     case self.status
     when 0
