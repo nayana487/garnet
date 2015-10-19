@@ -31,7 +31,7 @@ class MembershipsController < ApplicationController
     @is_admin = @group.admins.include?(current_user)
     @user = User.named(params[:user])
     if !@is_admin && @user.id != current_user.id
-      flash[:alert] = "You don't have access to see that."
+      flash[:alert] = "It's not cool to try to see someone else's grades."
       redirect_to group_path(@group)
     end
     @membership = @user.memberships.find_by(group_id: @group.id)

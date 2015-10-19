@@ -19,7 +19,7 @@ module ApplicationHelper
       group = m.group
       isadmin = m.is_admin ? " (admin)" : ""
       linktext = group.path + isadmin
-      output += "<li>" + (link_to linktext, group_membership_path(group, m)) + "</li>"
+      output += "<li>" + (link_to linktext, group_path(group)) + "</li>"
     end
     return output.html_safe
   end
