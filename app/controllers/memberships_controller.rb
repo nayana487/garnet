@@ -14,7 +14,7 @@ class MembershipsController < ApplicationController
   end
 
   def destroy
-    raise "You don't have access to do that!" if !@is_garoot
+    raise "You don't have access to do that." if !@is_garoot?
     @group = Group.at_path(params[:group_path])
     @user = User.named(params[:user])
     @membership = @group.memberships.find_by(user_id: @user.id)
@@ -31,7 +31,7 @@ class MembershipsController < ApplicationController
     @is_admin = @group.admins.include?(current_user)
     @user = User.named(params[:user])
     if !@is_admin && @user.id != current_user.id
-      flash[:alert] = "It's not cool to try to see someone else's grades."
+      flash[:alert] = "You don't have access to see that."
       redirect_to group_path(@group)
     end
     @membership = @user.memberships.find_by(group_id: @group.id)

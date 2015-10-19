@@ -14,26 +14,8 @@
 
 <section>
   <h3>Attendance</h3>
-  <p>Tardy: <%= @attendances.select{|a| a.status === 1}.count %>, Absent: <%= @attendances.select{|a| a.status === 0}.count %></p>
-  <table>
-    <tr>
-      <th>Title</th>
-      <th>Group</th>
-      <th>Event Date</th>
-      <th>Submission Date</th>
-      <th>Status</th>
-    </tr>
-    <% @attendances.each do |attendance| %>
-    <% event = attendance.event %>
-    <tr>
-      <td><%= link_to event.title, event_path(event) %></td>
-      <td><%= link_to event.group.path, group_path(event.group) %></td>
-      <td><%= (link_to event.date.strftime("%a, %m/%d, %H:%M"), event_path(event)) if event.date %></td>
-      <td><%= link_to attendance.created_at.strftime("%m/%d/%y %H:%M"), event_path(event) %></td>
-      <td><%= attendance.status_english %></td>
-    </tr>
-    <% end %>
-  </table>
+  <p><%= render partial: "attendances/counts", locals: {attendances: @attendances} %></p>
+  <%= render partial: "attendances/show_table", locals: {attendances: @attendances} %>
 </section>
 
 <section>
