@@ -3,14 +3,20 @@ class Attendance < ActiveRecord::Base
   belongs_to :user
   has_one :group, through: :event
 
+  before_save :set_default_value
+
+  def set_default_value
+    if !self.status
+      self.status = 0
+    end
+  end
+
   def date
     self.event.date.strftime("%a, %m/%d/%y")
   end
 
-  def self.status_english num
-    case num
-    when nil
-      "Not recorded"
+  def status_english
+    case self.status
     when 0
       "Absent"
     when 1
@@ -18,9 +24,5 @@ class Attendance < ActiveRecord::Base
     when 2
       "Present"
     end
-  end
-
-  def status_english
-    self.class.status_english(self.status)
   end
 end
