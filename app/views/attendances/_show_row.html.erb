@@ -1,0 +1,7 @@
+<tr>
+  <td><%= link_to event.title, event_path(event) %></td>
+  <td><%= link_to event.group.path, group_path(event.group) %></td>
+  <td><%= (link_to event.date.strftime("%m/%d/%y %H:%M"), event_path(event)) if event.date %></td>
+  <td><%= link_to attendance.created_at.strftime("%m/%d/%y %H:%M"), event_path(event) %></td>
+  <td><%= attendance.status_english %></td>
+</tr>

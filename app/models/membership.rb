@@ -63,14 +63,6 @@ class Membership < ActiveRecord::Base
     self.user.username
   end
 
-  def create_child_memberships
-    return if !self.is_admin
-    self.group.children.each do |subgroup|
-      @m = subgroup.memberships.find_or_create_by(user_id: self.user_id)
-      @m.update_attribute(:is_admin, true)
-    end
-  end
-
   def observed_by name, body, color
     author = User.find_by(username: name.downcase)
     self.observations.create!(author_id: author.id, body: body, status: color )
@@ -84,6 +76,17 @@ class Membership < ActiveRecord::Base
     children = self.group.children
     descendants = children.select{|c| c.memberships.where(user_id: self.user_id).count > 0}
     return (descendants.count > 0)
+  end
+
+  def update_ancestor_memberships
+    user = self.user
+    checked_so_far = []
+    self.group.ancestors.each do |group|
+      next if checked_so_far.include?(group.id)
+      checked_so_far.push(group.id)
+      next if group.has_member?(user)
+      group.memberships.create!(user_id: user.id)
+    end
   end
 
 end

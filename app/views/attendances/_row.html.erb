@@ -1,8 +1,8 @@
 <td><%= avatar(attendance.user) %></td>
 <td><%= link_to attendance.user.name, group_membership_path(attendance.event.group, attendance.user) %></td>
-<% ["Absent", "Tardy", "Present"].each_with_index do |status, i| %>
+<% [nil, 0, 1, 2].each_with_index do |status| %>
 <td>
-  <%= radio_button_tag attendance.user.username, i, i === attendance.status, onclick: "updateAttendance(this, {id: #{attendance.id}, status: #{i}})" %>
-  <%= label_tag "#{attendance.user.username}_#{i}", status %>
+  <%= radio_button_tag attendance.user.username, status || "null", attendance.status === status, onclick: "updateAttendance(this, {id: #{attendance.id}, status: #{status}})" %>
+  <%= label_tag "#{attendance.user.username}_#{status}", attendance.status_english(status) %>
 </td>
 <% end %>
