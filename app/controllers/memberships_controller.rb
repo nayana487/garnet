@@ -14,7 +14,7 @@ class MembershipsController < ApplicationController
   end
 
   def destroy
-    raise "You don't have access to do that." if !@is_garoot?
+    raise "You don't have access to do that." if !@is_garoot
     @group = Group.at_path(params[:group_path])
     @user = User.named(params[:user])
     @membership = @group.memberships.find_by(user_id: @user.id)
