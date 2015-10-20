@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     resources :events, only: [:index, :create, :destroy]
     resources :attendances, only: [:index]
 
-    resources :assignments, only: [:index, :create]
+    resources :assignments, only: [:index, :create, :show]
 
     resources :observations, only: [:index]
 
