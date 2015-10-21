@@ -16,9 +16,9 @@
         </span>
         <%= "<a>admin</a>".html_safe if membership.group.has_admin?(@user) %>
         <% if @user == current_user %>
-          <%= link_to "priority", group_membership_path(membership.group, membership), class: membership.is_priority ? "yes" : "no", method: :put %>
+          <%= link_to "squad", group_membership_path(membership.group, membership), class: membership.is_priority ? "yes" : "no", method: :put %>
         <% elsif membership.is_priority? %>
-          <%= "<a>priority</a>".html_safe if membership.is_priority? %>
+          <%= "<a>squad</a>".html_safe if membership.is_priority? %>
         <% end %>
       </li>
     <% end %>
