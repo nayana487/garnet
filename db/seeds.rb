@@ -12,25 +12,20 @@ User.destroy_all
 ga_groups = {
   "wdi": {
     "dc": {
-      "5": {
-        "rm1": {
-        },
-        "rm2": {
-        }
-      },
       "6": {
-        "rm1": {
-        },
-        "rm2": {
-        }
+        "rm1": {},
+        "rm2": {}
       },
       "7": {
-        "rm4": {
-        },
-        "rm5": {
-        },
-        "rm6": {
-        }
+        "adam":{},
+        "adrian":{},
+        "andy":{},
+        "jesse":{},
+        "matt":{},
+        "robin":{},
+        "erica":{},
+        "john":{},
+        "nick":{}
       }
     }
   }
@@ -38,9 +33,3 @@ ga_groups = {
 
 ga = Group.create(title: "ga")
 ga.create_descendants(ga_groups, :title)
-
-garoot = User.create(username: "garoot", password: "foo")
-jane = User.create(username: "jane", password: "foo")
-john = User.create(username: "john", password: "foo")
-
-Group.at_path("ga").memberships.create(user_id: garoot.id, is_admin: true)
