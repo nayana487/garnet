@@ -19,6 +19,7 @@
   <% end %>
 </section>
 
+<% if @user == current_user %>
 <section>
   <h3>Attendance</h3>
   <p>Tardy: <%= @attendances.select{|a| a.status === 1}.count %>, Absent: <%= @attendances.select{|a| a.status === 0}.count %></p>
@@ -70,6 +71,7 @@
     <% end %>
   </table>
 </section>
+<% end %>
 
 <section>
   <h3>Profile</h3>
