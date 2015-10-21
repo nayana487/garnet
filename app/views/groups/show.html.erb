@@ -1,22 +1,27 @@
 <section>
   <h3>Members</h3>
-
   <section>
-    <h4>Roster: <%= @group.memberships.count %> total</h4>
+    <h4>Roster: <%= @nonadmin_memberships.count %> total</h4>
     <% if @hide_pics %>
       <a class="button" href="?show_pics=true">Load all photos</a>
     <% else %>
       <a class="button" href="?">Hide photos</a>
     <% end %>
-    <% if @is_admin %>
+    <% if @current_user_is_admin %>
     <%= link_to "Refresh all Github info", group_refresh_path(@group), class: "button", data: {confirm: "This might take a while. That OK?"} %>
     <% end %>
     <table>
-      <% @users.each do |user| %>
+      <% @nonadmin_memberships.each do |membership| %>
       <tr>
-        <%= render partial: "users/row", locals: {user: user} %>
-        <% if @is_admin %>
-        <td><%= link_to "Remove", group_membership_path(@group, user), method: :delete, data: {confirm: "Are you sure?"} %></td>
+        <%= render partial: "users/row", locals: {user: membership.user} %>
+        <% if @current_user_is_admin %>
+          <td>
+            <% if membership.group == @group %>
+              <%= link_to "Remove", group_membership_path(@group, membership.user), method: :delete, data: {confirm: "Are you sure?"} %>
+            <% else %>
+              <%= link_to membership.group.path, membership.group %>
+            <% end %>
+          </td>
         <% end %>
       </tr>
       <% end %>
@@ -29,15 +34,13 @@
       <% @admins.each do |user| %>
       <tr>
         <%= render partial: "users/row", locals: {user: user} %>
-        <% if is_garoot? && user.username != "garoot" %>
         <td><%= link_to "Remove", group_membership_path(@group, user), method: :delete %></td>
-        <% end %>
       </tr>
       <% end %>
     </table>
   </section>
 
-  <% if @is_admin %>
+  <% if @current_user_is_admin %>
   <section>
     <h4>Add Member(s)</h4>
     <%= form_tag group_memberships_path(@group), method: :post do %>
@@ -50,7 +53,7 @@
 <section>
   <h3><%= @group.path %></h3>
 
-  <% if @is_admin %>
+  <% if @current_user_is_admin %>
   <section>
     <h4>Edit Group Name</h4>
     <%= form_tag group_path(@group), method: :patch do %>

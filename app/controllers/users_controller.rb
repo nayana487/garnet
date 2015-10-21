@@ -21,9 +21,12 @@ class UsersController < ApplicationController
     end
     @is_current_user = (@user.id == current_user.id)
     @is_editable = @is_current_user && !@user.github_id
-    @memberships = @user.memberships
-    @attendances = @user.attendances.sort_by{|a| a.event.date}
+    @memberships = @user.memberships.includes(:group).order("groups.title desc")
+    @attendances = @user.attendances.includes(:event).order("events.date desc")
     @submissions = @user.submissions
+    if @user.memberships.exists?(is_priority: true, is_admin: true)
+      @grades_due = @user.grades_due
+    end
   end
 
   def update

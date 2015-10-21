@@ -13,17 +13,6 @@ module ApplicationHelper
     return output.join("_").html_safe
   end
 
-  def membership_list(memberships)
-    output = ""
-    memberships.sort{|a, b| a.group.path <=> b.group.path}.each do |m|
-      group = m.group
-      isadmin = m.is_admin ? " (admin)" : ""
-      linktext = group.path + isadmin
-      output += "<li>" + (link_to linktext, group_path(group)) + "</li>"
-    end
-    return output.html_safe
-  end
-
   def group_list(groups)
     output = ""
     groups.sort{|a, b| a.path <=> b.path}.each do |group|

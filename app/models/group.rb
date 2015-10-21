@@ -17,7 +17,6 @@ class Group < Tree
 
   validate :validates_presence_of_parent
   before_save :validate_uniqueness_of_title_among_siblings
-  after_save :update_child_members
 
   def to_param
     self.path
@@ -46,42 +45,67 @@ class Group < Tree
     return group
   end
 
-  def update_child_members
-    return if !self.parent
-    self.parent.memberships.where(is_admin: true).each do |membership|
-      self.memberships.create(user_id: membership.user.id, is_admin: true)
-    end
-  end
-
   def path
     self.ancestors.collect{|g| g.title}.join("_")
   end
 
-  def admins
-    output = self.memberships.where(is_admin: true).collect{|m| m.user}.sort{|a,b| a.last_name <=> b.last_name}
-    output.push(User.named("garoot"))
+  def admins include_users = true
+    output = self.memberships.where(is_admin: true)
+    output.order(:last_name)
+    if include_users
+      output.collect!{|m| m.user}
+    end
+    return output
   end
 
-  def nonadmins
-    self.memberships.where(is_admin: [false, nil]).collect{|m| m.user}.sort{|a,b| a.last_name <=> b.last_name}
+  def nonadmins include_users = true
+    output = self.descendants_attr("memberships").uniq
+    output.select!{|m| !m.is_admin}
+    output.sort!{|a, b| a.user.last_name <=> b.user.last_name}
+    if include_users
+      output.collect!{|m| m.user}
+    end
+    return output
   end
 
   def subnonadmins
     self.descendants_attr("memberships").select{|m| !m.is_admin}.collect{|m| m.user}.uniq.sort{|a,b| a.last_name <=> b.last_name}
   end
 
-  def bulk_create_memberships array, is_admin
-    array.each do |child|
-      user = User.find_by(username: child[0].downcase)
-      if !user
-        user = User.create!(username: child[0], name: child.join(" "), password: child[1].downcase)
-      end
-      self.memberships.create(user_id: user.id, is_admin: is_admin)
+  def member user
+    memberships = self.memberships
+    if user.class <= String
+      user = User.named(user)
+    end
+    return memberships.find_by(user: user)
+  end
+
+  def has_member? user, is_admin = false
+    memberships = self.memberships
+    if user.class <= String
+      user = User.named(user)
+    end
+    if is_admin
+      return memberships.exists?(user: user, is_admin: true)
+    else
+      return memberships.exists?(user: user)
     end
   end
 
-  def has_member? user
-    return self.memberships.where(user_id: user.id).count > 0
+  def add_member user, is_admin = false
+    memberships = self.memberships
+    if user.class <= String
+      user = User.named(user)
+    end
+    return self.memberships.create!(user: user, is_admin: is_admin)
+  end
+
+  def has_admin? user
+    self.has_member?(user, true)
+  end
+
+  def add_admin user
+    self.add_member(user, true)
   end
 
   def is_childless?

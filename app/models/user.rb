@@ -18,7 +18,6 @@ class User < ActiveRecord::Base
   has_many :events, through: :attendances
 
   before_save :downcase_username, :dont_update_blank_password
-  after_create :add_to_ga
   attr_accessor :password
 
   def validates_name_if_no_github_id
@@ -37,17 +36,8 @@ class User < ActiveRecord::Base
     end
   end
 
-  def add_to_ga
-    @ga = Group.at_path("ga")
-    # I know, I know.
-    if !@ga
-      @ga = Group.create(title: "ga")
-    end
-    Membership.create(user_id: self.id, group_id: @ga.id)
-  end
-
   def to_param
-    "#{self.username}"
+    self.username
   end
 
   def self.named username
@@ -80,13 +70,16 @@ class User < ActiveRecord::Base
     BCrypt::Password.new(self.password_digest).is_password?(password)
   end
 
-  def was_observed group_path, admin_username, body, status
-    self.observations.create!({
-      group_id: Group.at_path(group_path).id,
-      admin_id: User.named(admin_username).id,
-      body: body,
-      status: status
-    })
+  def grades_due
+    begin
+      groups = self.memberships.where(is_priority: true).collect{|m| m.group}
+      assignments = groups.collect{|g| g.descendants_attr("assignments")}
+      assignments.flatten!.uniq!.each{|a| a.get_issues}
+      submissions = assignments.collect{|a| a.submissions}.flatten
+      submissions.select!{|s| s.github_pr_submitted && s.github_pr_submitted["state"] == "open"}
+    rescue
+      return []
+    end
   end
 
 end
