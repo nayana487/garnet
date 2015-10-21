@@ -17,7 +17,6 @@
 <% end %>
 </table>
 
-<% if @current_user_is_admin %>
 <section>
   <h4>Create an event</h4>
   <%= form_tag group_events_path(@group), method: :post do %>
@@ -49,4 +48,3 @@
     <% end %>
   </table>
 </section>
-<% end %>

@@ -1,7 +1,5 @@
 class ObservationsController < ApplicationController
 
-  before_action { find_group; authorize @group.observations.new }
-
   def index
     @group = Group.at_path(params[:group_path])
     @users = @group.users

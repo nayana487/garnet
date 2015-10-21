@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   # protect_from_forgery with: :exception
   before_action :authenticate
-  helper_method :current_user, :signed_in?
+  helper_method :current_user, :signed_in?, :is_garoot?
   if Rails.env.production?
     rescue_from StandardError, ActionController::RedirectBackError, with: :global_rescuer
   end
@@ -32,6 +32,10 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def is_garoot?
+      return (session[:user]["username"] == "garoot")
+    end
+
     def global_rescuer(exception)
       buffer = "*" * 50
       Rails.logger.error(buffer)
@@ -46,19 +50,6 @@ class ApplicationController < ActionController::Base
     rescue ActionController::RedirectBackError
       flash.keep
       redirect_to error_path
-    end
-
-    def find_group
-      @group = Group.at_path(params[:path] || params[:group_path])
-      if !@group
-        @group = Group.first
-      end
-    end
-
-    def authorize instance
-      if !can? params[:action].to_sym, instance
-        raise "You're not authorized to #{params[:action]} this #{instance.class}."
-      end
     end
 
 end

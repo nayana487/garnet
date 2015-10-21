@@ -11,7 +11,7 @@
   <tr>
     <%= render partial: "row", locals: {assignment: assignment} %>
     <% if @is_admin %>
-    <td><%= link_to "Delete", assignment_path(assignment), method: :delete, data: {confirm: "You sure?"} %></td>
+    <td><%= link_to "Delete", assignment_path(assignment), method: :delete %></td>
     <% end %>
   </tr>
   <% end %>
