@@ -74,4 +74,22 @@ class Github
     JSON.parse(HTTParty.get("https://api.github.com/repos/#{org_slash_repo}").body)
   end
 
+  def issues org_slash_repo, url = nil, all_issues = []
+    url ||= "https://api.github.com/repos/#{org_slash_repo}/issues?state=all&access_token=#{@token}"
+    github_issues = HTTParty.get(url)
+    JSON.parse(github_issues.body).each do |issue|
+      all_issues << issue
+    end
+    begin
+      next_url = github_issues.headers["link"].match /<(.*)>; rel="next"/
+    rescue
+      next_url = nil
+    end
+    if next_url
+      url = next_url[1]
+      issues org_slash_repo, url, all_issues
+    end
+    all_issues
+  end
+
 end

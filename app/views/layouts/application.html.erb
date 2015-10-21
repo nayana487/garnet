@@ -30,7 +30,7 @@
     </section>
     <% end %>
     <% if @group %>
-    <h2 class="breadcrumbs links"><%= breadcrumbs(@group, @user || nil) %></h2>
+    <h2 class="breadcrumbs"><%= breadcrumbs(@group, @user || nil) %></h2>
     <p><small>
       <%= link_to "Assignments", group_assignments_path(@group) %>,
       <%= link_to "Attendance", group_events_path(@group) %>,
