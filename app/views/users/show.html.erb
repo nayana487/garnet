@@ -6,9 +6,16 @@
 <section>
   <h3>Groups</h3>
   <% if @memberships.count == 0 %>
-  <p>None yet!</p>
+    <p>None yet!</p>
   <% else %>
-  <ul class="tree"><%= membership_list(@memberships) %></ul>
+    <ul>
+    <% @memberships.each do |membership| %>
+      <li class="breadcrumbs">
+        <%= breadcrumbs(membership.group) %>
+        <%= "(admin)" if membership.group.has_admin?(@user) %>
+      </li>
+    <% end %>
+    </ul>
   <% end %>
 </section>
 

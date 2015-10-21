@@ -11,7 +11,7 @@ jesse = User.create(username: "jesse", password: "foo")
 
 Group.at_path("ga_wdi_dc_7").add_admin(adam)
 Group.at_path("ga_wdi_dc_7").add_admin(jesse)
-Group.at_path("ga_wdi_dc_7_adam").add_admin(adam).update!(is_notified: true)
+Group.at_path("ga_wdi_dc_7_adam").add_admin(adam)
 
 Group.at_path("ga_wdi_dc_7_adam").add_member(jane)
 Group.at_path("ga_wdi_dc_7_adam").add_member(john)

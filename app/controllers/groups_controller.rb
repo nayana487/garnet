@@ -8,22 +8,17 @@ class GroupsController < ApplicationController
       @group = Group.first
     end
     @admins = @group.admins
-    @users = @group.nonadmins
-    @is_admin = @admins.include?(current_user)
-    @observations = @group.descendants_attr("observations").uniq.sort{|a, b| a.created_at <=> b.created_at}
+    @nonadmins = @group.nonadmins
+    @current_user_is_admin = @group.has_admin?(current_user)
   end
 
   def create
     @parent = Group.at_path(params[:group_path])
+    if !@parent.has_admin?(current_user)
+      raise "You're not an admin of this group!"
+    end
     @group = @parent.children.create!(group_params)
-    raise "You're not an admin of this group!" if !@group.admins.include?(current_user)
-    @group.memberships.create!(user_id: current_user.id, is_admin: true)
-    redirect_to group_path(@group)
-  end
-
-  def su_create
-    @group = Group.create!(title: params[:title])
-    @group.memberships.create(user_id: current_user.id, is_admin: true)
+    @group.make_admin(current_user)
     redirect_to group_path(@group)
   end
 
