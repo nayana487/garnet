@@ -53,8 +53,14 @@ class Group < Tree
     self.memberships.where(is_admin: true).collect{|m| m.user}.sort{|a,b| a.last_name <=> b.last_name}
   end
 
-  def nonadmins
-    self.memberships.where(is_admin: [false, nil]).collect{|m| m.user}.sort{|a,b| a.last_name <=> b.last_name}
+  def nonadmins include_users = true
+    output = self.descendants_attr("memberships").uniq
+    output.select!{|m| !m.is_admin}
+    output.sort!{|a, b| a.user.last_name <=> b.user.last_name}
+    if include_users
+      output.collect!{|m| m.user}
+    end
+    return output
   end
 
   def subnonadmins
