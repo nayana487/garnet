@@ -4,12 +4,24 @@ class MembershipsController < ApplicationController
 
   def create
     usernames = params[:usernames].downcase.split(/[ ,]+/)
+    failed = []
+    succeeded = []
     usernames.each do |username|
       user = User.named(username)
-      if !user then raise "I couldn't find a user named #{username}!" end
-      membership = @group.memberships.create!(user: user, is_admin: params[:is_admin])
+      if !user
+        failed.push(username)
+        next
+      else
+        succeeded.push(username)
+      end
+      @group.memberships.create!(user: user, is_admin: params[:is_admin])
     end
-    flash[:notice] = "Added #{membership.user.username} to #{@group.path}!"
+    if failed.size > 0
+      flash[:alert] = "Couldn't add #{failed.join(", ")}."
+    end
+    if succeeded.size > 0
+      flash[:notice] = "Added #{succeeded.join(", ")}."
+    end
     redirect_to :back
   end
 
