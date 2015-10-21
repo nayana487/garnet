@@ -33,8 +33,14 @@ class Ability
     can :manage, Membership do |membership|
       membership.group.has_admin?(user)
     end
-    cannot :update, Membership do |membership|
-      membership.group.has_admin?(user)
+    can :read, Membership
+
+    can :create, Group do |group|
+      group.parent.has_admin?(user)
     end
+    can :manage, Group do |group|
+      group.has_admin?(user)
+    end
+    can :read, Group
   end
 end

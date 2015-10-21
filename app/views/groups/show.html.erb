@@ -7,7 +7,7 @@
     <% else %>
       <a class="button" href="?">Hide photos</a>
     <% end %>
-    <% if @is_admin %>
+    <% if @current_user_is_admin %>
     <%= link_to "Refresh all Github info", group_refresh_path(@group), class: "button", data: {confirm: "This might take a while. That OK?"} %>
     <% end %>
     <table>
@@ -47,7 +47,7 @@
 <section>
   <h3><%= @group.path %></h3>
 
-  <% if @is_admin %>
+  <% if @current_user_is_admin %>
   <section>
     <h4>Edit Group Name</h4>
     <%= form_tag group_path(@group), method: :patch do %>

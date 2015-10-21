@@ -1,35 +1,26 @@
 class GroupsController < ApplicationController
 
+  before_action { find_group; authorize @group }
+
   def show
     @hide_pics = (params[:show_pics] ? false : true)
-    if params[:path]
-      @group = Group.at_path(params[:path])
-    else
-      @group = Group.first
-    end
     @admins = @group.admins
     @nonadmins = @group.nonadmins
-    @current_user_is_admin = @group.has_admin?(current_user)
+    @current_user_is_admin = can? :manage, Membership.new(group: @group)
   end
 
   def create
-    @parent = Group.at_path(params[:group_path])
-    if !@parent.has_admin?(current_user)
-      raise "You're not an admin of this group!"
-    end
-    @group = @parent.children.create!(group_params)
-    @group.make_admin(current_user)
-    redirect_to group_path(@group)
+    @subgroup = @group.children.create!(group_params)
+    @subgroup.add_admin(current_user)
+    redirect_to group_path(@subgroup)
   end
 
   def update
-    @group = Group.at_path(params[:path])
     @group.update!(group_params)
     redirect_to group_path(@group)
   end
 
   def destroy
-    @group = Group.at_path(params[:path])
     @parent = @group.parent
     @group.destroy!
     if @parent
@@ -40,7 +31,6 @@ class GroupsController < ApplicationController
   end
 
   def gh_refresh_all
-    @group = Group.at_path(params[:group_path])
     @group.memberships.each do |membership|
       user = membership.user
       next if !user.github_id

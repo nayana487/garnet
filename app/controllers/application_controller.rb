@@ -32,10 +32,6 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    def is_garoot?
-      return (session[:user]["username"] == "garoot")
-    end
-
     def global_rescuer(exception)
       flash[:alert] = exception.message
       flash.keep
@@ -43,6 +39,19 @@ class ApplicationController < ActionController::Base
     rescue ActionController::RedirectBackError
       flash.keep
       redirect_to error_path
+    end
+
+    def find_group
+      @group = Group.at_path(params[:path] || params[:group_path])
+      if !@group
+        @group = Group.first
+      end
+    end
+
+    def authorize instance
+      if !can? params[:action].to_sym, instance
+        raise "You're not authorized to #{params[:action]} this #{instance.class}."
+      end
     end
 
 end

@@ -29,14 +29,13 @@ Rails.application.routes.draw do
 
   get "orphans", to: "users#orphans", as: :orphans
   resources :users, param: :user do
-    put 'refresh_memberships', on: :member
     get "is_authorized", action: :is_authorized?
   end
 
   resources :events, only: [:show, :create, :destroy]
   patch "attendance", to: "attendances#update", as: :attendance_update
 
-  resources :assignments, only: [:show, :destroy] do
+  resources :assignments, only: [:show, :destroy, :update] do
     resources :submissions, only: [:index, :create, :show]
   end
 

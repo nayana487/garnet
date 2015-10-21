@@ -49,6 +49,16 @@ RSpec.shared_examples "nonadmin" do
       expect(ability).to_not be_able_to(:update, other)
     end
   end
+  describe "group" do
+    it "cannot update" do
+      expect(ability).to_not be_able_to(:update, group)
+    end
+  end
+  describe "subgroups" do
+    it "cannot create any" do
+      expect(ability).to_not be_able_to(:create, Group.new(parent: group))
+    end
+  end
 end
 
 RSpec.shared_examples "admin" do
@@ -73,6 +83,9 @@ RSpec.shared_examples "admin" do
   end
   it "can CRUD observations" do
     expect(ability).to be_able_to(:manage, Observation.new(group: group))
+  end
+  it "can create subgroups" do
+    expect(ability).to be_able_to(:create, Group.new(parent: group))
   end
 end
 

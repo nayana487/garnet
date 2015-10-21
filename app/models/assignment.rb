@@ -25,9 +25,8 @@ class Assignment < ActiveRecord::Base
   end
 
   def get_issues token
-    g = Github.new(nil, token)
-    org_slash_repo = self.repo_url.gsub(/https:\/\/github\.com\//, "")
-    @issues = g.issues( org_slash_repo )
+    g = Github.new(ENV)
+    @issues = g.api.issues(self.repo_url.gsub(/https:\/\/github\.com\//, ""))
   end
 
   def categories
