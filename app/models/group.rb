@@ -49,8 +49,13 @@ class Group < Tree
     self.ancestors.collect{|g| g.title}.join("_")
   end
 
-  def admins
-    self.memberships.where(is_admin: true).collect{|m| m.user}.sort{|a,b| a.last_name <=> b.last_name}
+  def admins include_users = true
+    output = self.memberships.where(is_admin: true)
+    output.order(:last_name)
+    if include_users
+      output.collect!{|m| m.user}
+    end
+    return output
   end
 
   def nonadmins include_users = true

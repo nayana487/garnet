@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
     resources :observations, only: [:index]
 
-    resources :memberships, path: "users", param: :user, only: [:show, :create, :destroy] do
+    resources :memberships, path: "users", param: :user, only: [:create, :update, :destroy] do
       resources :observations, only: [:create]
     end
   end

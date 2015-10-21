@@ -4,7 +4,7 @@ class GroupsController < ApplicationController
 
   def show
     @hide_pics = (params[:show_pics] ? false : true)
-    @admins = @group.admins
+    @admins = @group.admins(include_users = true)
     @nonadmin_memberships = @group.nonadmins(include_users = false)
     @current_user_is_admin = can? :manage, Membership.new(group: @group)
   end

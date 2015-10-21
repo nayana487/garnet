@@ -16,54 +16,31 @@ class MembershipsController < ApplicationController
       end
       @group.memberships.create!(user: user, is_admin: params[:is_admin])
     end
-    if failed.size > 0
-      flash[:alert] = "Couldn't add #{failed.join(", ")}."
-    end
-    if succeeded.size > 0
-      flash[:notice] = "Added #{succeeded.join(", ")}."
-    end
+    flash[:alert] = "Couldn't add #{failed.join(", ")}." if failed.size > 0
+    flash[:notice] = "Added #{succeeded.join(", ")}." if succeeded.size > 0
+    redirect_to :back
+  end
+
+  def update
+    membership = @group.member(params[:user])
+    membership.update!(is_priority: !membership.is_priority?)
     redirect_to :back
   end
 
   def destroy
-    user = User.named(params[:user])
-    membership = @group.memberships.find_by(user: user)
+    membership = @group.member(params[:user])
     if membership.is_admin
       membership.update!(is_admin: false)
     else
       membership.destroy!
-      flash[:notice] = "Removed #{user.username} from #{@group.path}."
+      flash[:notice] = "Removed #{params[:user]} from #{@group.path}."
     end
     redirect_to :back
   end
 
-  def show
-    @group = Group.at_path(params[:group_path])
-    @is_admin = @group.admins.include?(current_user)
-    @user = User.named(params[:user])
-    if !@is_admin && @user.id != current_user.id
-      flash[:alert] = "It's not cool to try to see someone else's grades."
-      redirect_to group_path(@group)
-    end
-    @membership = @user.memberships.find_by(group: @group)
-    @observation = Observation.new(user: @user, group: @group, admin: current_user)
-    @attendances = @group.descendants_attr("attendances").select{|i| i.user.id == @user.id}
-    @submissions = @group.descendants_attr("submissions").select{|i| i.user.id == @user.id}
-    @observations = @group.descendants_attr("observations").select{|i| i.user.id == @user.id}
-    @submissions = @submissions.map do |sub|
-      sub.assignment.get_issues session[:access_token]
-      return sub
-    end
-    begin
-      @submissions_percent_complete = (100*(@submissions.count {|s| s.github_pr_submitted != nil }.to_f / @submissions.length.to_f)).round
-    rescue
-      @submissions_percent_complete = 0
-    end
-  end
-
   private
     def membership_params
-      params.require(:membership).permit(:user_id, :is_admin)
+      params.require(:membership).permit(:user_id, :is_admin, :is_priority)
     end
 
 end

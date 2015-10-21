@@ -10,9 +10,16 @@
   <% else %>
     <ul>
     <% @memberships.each do |membership| %>
-      <li class="breadcrumbs">
-        <%= breadcrumbs(membership.group) %>
-        <%= "(admin)" if membership.group.has_admin?(@user) %>
+      <li class="links">
+        <span class="breadcrumbs">
+          <%= breadcrumbs(membership.group) %>
+        </span>
+        <%= "<a>admin</a>".html_safe if membership.group.has_admin?(@user) %>
+        <% if @user == current_user %>
+          <%= link_to "priority", group_membership_path(membership.group, membership), class: membership.is_priority ? "yes" : "no", method: :put %>
+        <% elsif membership.is_priority? %>
+          <%= "<a>priority</a>".html_safe if membership.is_priority? %>
+        <% end %>
       </li>
     <% end %>
     </ul>
