@@ -124,7 +124,7 @@ RSpec.describe Ability do
     end
     context "in descendant group" do
       include_examples "nonadmin" do
-        let(:group) { Group.at_path("ga_wdi_dc_7_adam") }
+        let(:group) { Group.at_path("ga_wdi_dc_7_squad-adam") }
         let(:user) { User.named("jesse") }
         let(:other) { User.named("john") }
       end
