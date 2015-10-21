@@ -37,6 +37,13 @@ class ApplicationController < ActionController::Base
     end
 
     def global_rescuer(exception)
+      buffer = "*" * 50
+      Rails.logger.error(buffer)
+      Rails.logger.error(exception.message)
+      Rails.logger.error(buffer)
+      Rails.logger.error(exception.backtrace.join("\n"))
+      Rails.logger.error(buffer)
+
       flash[:alert] = exception.message
       flash.keep
       redirect_to :back
