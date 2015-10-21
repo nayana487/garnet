@@ -24,6 +24,9 @@ class UsersController < ApplicationController
     @memberships = @user.memberships.includes(:group).order("groups.title desc")
     @attendances = @user.attendances.includes(:event).order("events.date desc")
     @submissions = @user.submissions
+    if @user.memberships.exists?(is_priority: true, is_admin: true)
+      @grades_due = @user.grades_due
+    end
   end
 
   def update

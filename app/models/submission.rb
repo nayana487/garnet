@@ -21,6 +21,8 @@ class Submission < ActiveRecord::Base
   end
 
   def github_pr_submitted
+    repo = self.assignment.repo_url
+    return false if !repo || repo.strip.blank?
     iss = self.assignment.issues.select do |issue|
       issue["user"]["id"] == self.user.github_id.to_i
     end

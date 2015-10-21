@@ -17,15 +17,15 @@ ga_groups = {
         "rm2": {}
       },
       "7": {
-        "adam":{},
-        "adrian":{},
-        "andy":{},
-        "jesse":{},
-        "matt":{},
-        "robin":{},
-        "erica":{},
-        "john":{},
-        "nick":{}
+        "squad-adam":{},
+        "squad-adrian":{},
+        "squad-andy":{},
+        "squad-jesse":{},
+        "squad-matt":{},
+        "squad-robin":{},
+        "squad-erica":{},
+        "squad-john":{},
+        "squad-nick":{}
       }
     }
   }

@@ -11,10 +11,10 @@ jesse = User.create(username: "jesse", password: "foo")
 
 Group.at_path("ga_wdi_dc_7").add_admin(adam)
 Group.at_path("ga_wdi_dc_7").add_admin(jesse)
-Group.at_path("ga_wdi_dc_7_adam").add_admin(adam)
+Group.at_path("ga_wdi_dc_7_squad-adam").add_admin(adam).update!(is_priority: true)
 
-Group.at_path("ga_wdi_dc_7_adam").add_member(jane)
-Group.at_path("ga_wdi_dc_7_adam").add_member(john)
+Group.at_path("ga_wdi_dc_7_squad-adam").add_member(jane).update!(is_priority: true)
+Group.at_path("ga_wdi_dc_7_squad-adam").add_member(john)
 Group.at_path("ga_wdi_dc_7").add_member(alice)
 Group.at_path("ga_wdi_dc_7").add_member(bob)
 Group.at_path("ga_wdi_dc_7").add_member(carol)

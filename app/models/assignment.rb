@@ -24,9 +24,10 @@ class Assignment < ActiveRecord::Base
    summary_items
   end
 
-  def get_issues token
+  def get_issues
     g = Github.new(ENV)
-    @issues = g.api.issues(self.repo_url.gsub(/https:\/\/github\.com\//, ""))
+    repo = self.repo_url.gsub(/(https?:\/\/)?(www\.)?github\.com\//, "")
+    @issues = g.api.issues(repo)
   end
 
   def categories

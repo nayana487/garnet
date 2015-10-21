@@ -70,4 +70,16 @@ class User < ActiveRecord::Base
     BCrypt::Password.new(self.password_digest).is_password?(password)
   end
 
+  def grades_due
+    begin
+      groups = self.memberships.where(is_priority: true).collect{|m| m.group}
+      assignments = groups.collect{|g| g.descendants_attr("assignments")}
+      assignments.flatten!.uniq!.each{|a| a.get_issues}
+      submissions = assignments.collect{|a| a.submissions}.flatten
+      submissions.select!{|s| s.github_pr_submitted && s.github_pr_submitted["state"] == "open"}
+    rescue
+      return []
+    end
+  end
+
 end
