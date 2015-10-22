@@ -39,11 +39,12 @@ class Tree < ActiveRecord::Base
     return collection.reverse
   end
 
-  def descendants_attr key
-    collection = []
-    collection.concat(self.send(key))
+  # gathers unique list of items from current group and descendants
+  # collection_method_name: can be any collection method; observations, assignments, submissions, etc.
+  def descendants_attr collection_method_name
+    collection = Set.new(self.send(collection_method_name)) # Set implements a collection of unordered values with no duplicates.
     self.descendants.each do |descendant|
-      collection.concat(descendant.send(key))
+      collection.merge(descendant.send(collection_method_name))
     end
     return collection
   end
