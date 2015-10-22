@@ -21,10 +21,22 @@ class Submission < ActiveRecord::Base
   end
 
   def github_pr_submitted
-    iss = self.assignment.issues.select do |issue|
-      issue["user"]["id"] == self.user.github_id.to_i
+    repo_url = self.assignment.repo_url
+    return false if !repo_url || repo_url.strip.blank?
+    issue = self.assignment.issues.select do |ish|
+      ish[:user][:id] == self.user.github_id.to_i
     end
-    iss.empty? ? nil: iss[0]
+    if issue.empty?
+      return nil
+    else
+      issue = issue[0]
+      if issue[:state].downcase == "open"
+        self.update!(status: 1)
+      elsif issue[:state].downcase == "closed"
+        self.update!(status: 2)
+      end
+      return issue
+    end
   end
 
   def as_json(options={})

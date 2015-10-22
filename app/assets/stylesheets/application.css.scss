@@ -284,11 +284,16 @@
    margin:0;
    padding:0;
  }
+
+
  input[type=submit].important{
    background-color:#d55;
  }
  input[type=submit].important:hover{
    background-color:#c44;
+ }
+ a.important{
+   background-color:#ff0;
  }
 
  .date{

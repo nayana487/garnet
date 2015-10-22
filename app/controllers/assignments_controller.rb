@@ -13,7 +13,7 @@ class AssignmentsController < ApplicationController
     @assignment = Assignment.find(params[:id])
     @group = @assignment.group
     @submissions = @assignment.submissions.sort_by{|s| s.user.last_name}
-    @assignment.get_issues session[:access_token]
+    @assignment.get_issues
     begin
       @submissions_percent_complete = (100*(@submissions.count {|s| s.github_pr_submitted != nil }.to_f / @submissions.length.to_f)).round
     rescue
