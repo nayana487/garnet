@@ -70,14 +70,16 @@ class Group < Tree
     self.descendants_attr("memberships").select{|m| !m.is_admin}.collect{|m| m.user}.uniq.sort{|a,b| a.last_name <=> b.last_name}
   end
 
-  def bulk_create_memberships array, is_admin
-    array.each do |child|
-      user = User.find_by(username: child[0].downcase)
-      if !user
-        user = User.create!(username: child[0], name: child.join(" "), password: child[1].downcase)
-      end
-      self.memberships.create(user_id: user.id, is_admin: is_admin)
+  def add_member user, is_admin = false
+    memberships = self.memberships
+    if user.class <= String
+      user = User.named(user)
     end
+    return self.memberships.create!(user: user, is_admin: is_admin)
+  end
+
+  def add_admin user
+    self.add_member(user, true)
   end
 
   def has_member? user
