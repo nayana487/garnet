@@ -44,7 +44,7 @@
  div{
    position:relative;
  }
- a, button, label{
+ a[href], button, label{
    cursor:pointer;
  }
  *[title]{
@@ -284,16 +284,11 @@
    margin:0;
    padding:0;
  }
-
-
  input[type=submit].important{
    background-color:#d55;
  }
  input[type=submit].important:hover{
    background-color:#c44;
- }
- a.important{
-   background-color:#ff0;
  }
 
  .date{
@@ -315,7 +310,7 @@
    color:#369;
    border-bottom:1px dashed #9cf;
  }
- main a:hover{
+ main a[href]:hover{
    color:blue;
  }
  section{
@@ -336,30 +331,33 @@
    border-radius:5px;
  }
 
- .breadcrumbs{
+ .links{
    padding-bottom:0;
    margin-bottom:0;
  }
- .breadcrumbs a{
+ .links a{
    display:inline-block;
-   background-color:#ee9;
-   color:#f00;
    border-radius:5px;
    padding:5px 10px;
    margin:5px;
    vertical-align:baseline;
+   background-color:#eee;
    border:0;
  }
- .breadcrumbs a:hover{
-   background-color:#faa;
-   color:#f00;
- }
- .breadcrumbs a:nth-child(1){
+ .links a:nth-child(1){
    margin-left:0;
  }
- .breadcrumbs+p{
+ .links+p{
    padding-top:0;
    margin-top:0;
+ }
+ .breadcrumbs a[href]{
+   background-color:#ee9;
+   color:#f00;
+ }
+ .breadcrumbs a[href]:hover{
+   background-color:#faa;
+   color:#f00;
  }
 
  .tree{
@@ -414,4 +412,17 @@
 }
 .s3{
   background-color: #dfd;
+}
+
+.yes{
+  opacity:1;
+}
+.yes:after{
+  content:"!";
+}
+.no{
+  opacity:0.5;
+}
+.no:after{
+  content:"?";
 }
