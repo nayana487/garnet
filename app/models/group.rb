@@ -54,7 +54,7 @@ class Group < Tree
   end
 
   def path
-    self.ancestors.collect{|g| g.title}.join("_")
+    @path ||= self.ancestors.collect{|g| g.title}.join("_")
   end
 
   def admins
