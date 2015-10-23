@@ -17,7 +17,6 @@ class Group < Tree
 
   validate :validates_presence_of_parent
   before_save :validate_uniqueness_of_title_among_siblings
-  after_save :update_child_members
 
   def to_param
     self.path
@@ -44,13 +43,6 @@ class Group < Tree
       group = group.children.find_by(title: path[i])
     end
     return group
-  end
-
-  def update_child_members
-    return if !self.parent
-    self.parent.memberships.where(is_admin: true).each do |membership|
-      self.memberships.create(user_id: membership.user.id, is_admin: true)
-    end
   end
 
   def path
