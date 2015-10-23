@@ -26,4 +26,8 @@ RSpec.describe Assignment do
     ass = Assignment.first
   end
 
+  context "when created" do
+    it "creates submissions for all members of the assignment's group"
+  end
+
 end
