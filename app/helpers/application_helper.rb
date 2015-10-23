@@ -97,4 +97,17 @@ module ApplicationHelper
     return text
   end
 
+  def gh_submission submission
+    gh_info = submission.github_pr_submitted
+    if gh_info
+      if gh_info[:state] == "closed"
+        return link_to "Reviewed", gh_info[:html_url]
+      else
+        return link_to "Open", gh_info[:html_url], class: "important"
+      end
+    else
+      return "Missing"
+    end
+  end
+
 end
