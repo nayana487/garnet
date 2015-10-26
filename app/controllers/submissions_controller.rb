@@ -7,7 +7,7 @@ class SubmissionsController < ApplicationController
 
   def show
     @submission = Submission.find(params[:id])
-    @submission.assignment.get_issues session[:access_token]
+    @submission.assignment.get_issues
     render json: @submission
   end
 
