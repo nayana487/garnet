@@ -40,7 +40,8 @@ class Assignment < ActiveRecord::Base
     [
       "outcomes",
       "homework",
-      "project"
+      "project",
+      "quiz"
     ]
   end
 
