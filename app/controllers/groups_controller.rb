@@ -10,7 +10,7 @@ class GroupsController < ApplicationController
     @admins = @group.admins
     @users = @group.nonadmins
     @is_admin = @admins.include?(current_user)
-    @observations = @group.descendants_attr("observations").uniq.sort{|a, b| a.created_at <=> b.created_at}
+    @observations = @group.descendants_attr("observations").sort{|a, b| a.created_at <=> b.created_at}
   end
 
   def create
