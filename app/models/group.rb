@@ -70,6 +70,14 @@ class Group < Tree
     self.descendants_attr("memberships").select{|m| !m.is_admin}.collect{|m| m.user}.sort{|a,b| a.last_name <=> b.last_name}
   end
 
+  def member user
+    memberships = self.memberships
+    if user.class <= String
+      user = User.named(user)
+    end
+    return memberships.find_by(user: user)
+  end
+
   def add_member user, is_admin = false
     memberships = self.memberships
     if user.class <= String
