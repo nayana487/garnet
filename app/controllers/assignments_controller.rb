@@ -5,8 +5,8 @@ class AssignmentsController < ApplicationController
     @users = @group.nonadmins
     @is_admin = @group.admins.include?(current_user)
     @assignment = Assignment.new(group_id: @group)
-    @assignments = @group.descendants_attr("assignments").uniq
-    @submissions = @group.descendants_attr("submissions").uniq
+    @assignments = @group.descendants_attr("assignments")
+    @submissions = @group.descendants_attr("submissions")
   end
 
   def show

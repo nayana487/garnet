@@ -67,7 +67,7 @@ class Group < Tree
   end
 
   def subnonadmins
-    self.descendants_attr("memberships").select{|m| !m.is_admin}.collect{|m| m.user}.uniq.sort{|a,b| a.last_name <=> b.last_name}
+    self.descendants_attr("memberships").select{|m| !m.is_admin}.collect{|m| m.user}.sort{|a,b| a.last_name <=> b.last_name}
   end
 
   def add_member user, is_admin = false
