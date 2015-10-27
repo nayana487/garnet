@@ -1,9 +1,5 @@
 <td>
-  <% if @group && !@group.admins.include?(user) %>
-  <%= link_to user.name || user.username, user_path(user) %>
-  <% else %>
-  <%= link_to user.name || user.username, user_path(user) %>
-  <% end %>
+  <%= link_to user.name || user.username, group_membership_path(@group, user) %>
 </td>
 <% if !@hide_pics %>
 <td><%= avatar(user) if user.image_url && !user.image_url.strip.blank? %></td>
