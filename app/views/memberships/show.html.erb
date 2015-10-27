@@ -16,16 +16,16 @@
   <p>Tardy: <%= @attendances.select{|a| a.status === 1}.count %>, Absent: <%= @attendances.select{|a| a.status === 0}.count %></p>
   <table>
     <tr>
-      <th>Group</th>
       <th>Date</th>
       <th>Status</th>
     </tr>
     <% @attendances.each do |attendance| %>
-    <tr>
-      <td><%= link_to attendance.event.group.path, group_path(attendance.event.group) %></td>
-      <td><%= link_to attendance.date, group_events_path(attendance.event) %></td>
-      <td><%= attendance.status_english %></td>
-    </tr>
+      <% if attendance.status != 2 %>
+        <tr>
+          <td><%= link_to attendance.date, group_events_path(attendance.event) %></td>
+          <td><%= attendance.status_english %></td>
+        </tr>
+      <% end %>
     <% end %>
   </table>
 </section>

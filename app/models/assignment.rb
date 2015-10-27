@@ -45,4 +45,9 @@ class Assignment < ActiveRecord::Base
     ]
   end
 
+  def api_repo_issues_url
+    url = self.repo_url.gsub("https://github.com/","https://api.github.com/repos/")
+    url += "/issues?state=all"
+  end
+
 end

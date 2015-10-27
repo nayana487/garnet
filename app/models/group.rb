@@ -52,6 +52,7 @@ class Group < Tree
   def admins
     output = self.memberships.where(is_admin: true).collect{|m| m.user}.sort{|a,b| a.last_name <=> b.last_name}
     output.push(User.named("garoot"))
+    output.compact
   end
 
   def nonadmins
