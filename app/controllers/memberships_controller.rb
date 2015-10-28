@@ -44,11 +44,6 @@ class MembershipsController < ApplicationController
       sub.assignment.get_issues
       sub
     end
-    begin
-      @submissions_percent_complete = (100*(@submissions.count {|s| s.github_pr_submitted != nil }.to_f / @submissions.length.to_f)).round
-    rescue
-      @submissions_percent_complete = 0
-    end
   end
 
   def update

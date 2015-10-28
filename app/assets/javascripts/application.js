@@ -13,3 +13,15 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+
+
+function update(url, object){
+  $.ajax({
+    url: url,
+    dataType: "json",
+    method: "PATCH",
+    data: object
+  }).then(function(data){
+    console.log(data);
+  });
+}

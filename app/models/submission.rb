@@ -39,18 +39,19 @@ class Submission < ActiveRecord::Base
     end
   end
 
-  def as_json(options={})
-    super.as_json(options).merge({github_pr_submitted: github_pr_submitted})
+  def issues_url
+    return "#{self.assignment.repo_url}/issues?q=involves:#{self.user.username}"
+  end
+
+  def self.statuses
+    {
+      0 => "Missing",
+      1 => "Incomplete",
+      2 => "Complete"
+    }
   end
 
   def status_english
-    case self.status
-    when 0
-      "Missing"
-    when 1
-      "Incomplete"
-    when 2
-      "Complete"
-    end
+    return Submission.statuses[self.status]
   end
 end

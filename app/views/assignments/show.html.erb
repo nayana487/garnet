@@ -5,13 +5,12 @@
 
 <section>
 <h3>Submissions</h3>
-<p>
-  <%= @submissions_percent_complete %>% complete.
-</p>
+<p><%= percent_of(@submissions, 2) %>% complete</p>
+<button onclick="loadIssues('<%= assignment_issues_path(@assignment) %>')">Count issues</button>
 <table>
   <% @submissions.each do |submission| %>
   <tr>
-  <%= render partial: "submissions/row", locals: {submission: submission} %>
+  <%= render partial: "submissions/row", locals: {submission: submission, enable: true} %>
   </tr>
   <% end %>
 </table>

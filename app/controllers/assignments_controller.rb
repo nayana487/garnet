@@ -14,11 +14,6 @@ class AssignmentsController < ApplicationController
     @group = @assignment.group
     @submissions = @assignment.submissions.sort_by{|s| s.user.last_name}
     @assignment.get_issues
-    begin
-      @submissions_percent_complete = (100*(@submissions.count {|s| s.github_pr_submitted != nil }.to_f / @submissions.length.to_f)).round
-    rescue
-      @submissions_percent_complete = 0
-    end
   end
 
   def create
@@ -39,6 +34,11 @@ class AssignmentsController < ApplicationController
     @assignment = Assignment.find(params[:id])
     @assignment.destroy!
     redirect_to :back
+  end
+
+  def issues
+    @assignment = Assignment.find(params[:assignment_id])
+    render json: @assignment.issues
   end
 
   private
