@@ -6,7 +6,7 @@
 <section>
 <h3>Submissions</h3>
 <p><%= percent_of(@submissions, 2) %>% complete</p>
-<button onclick="loadIssues('<%= assignment_issues_path(@assignment) %>')">Count issues</button>
+<button class="js-count-assignment-issues" data-issues-url="<%= assignment_issues_path(@assignment) %>">Count issues</button>
 <table>
   <% @submissions.each do |submission| %>
   <tr>

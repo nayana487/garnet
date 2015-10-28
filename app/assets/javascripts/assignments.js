@@ -1,3 +1,9 @@
+$(".js-count-assignment-issues").on("click", function(e){
+  var button = $(this)
+  var url = button.attr("data-issues-url")
+  loadIssues(url)
+})
+
 function loadIssues(url){
   var els = $("[data-gh-issues]");
   var summaries = {};
