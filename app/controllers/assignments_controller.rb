@@ -13,7 +13,6 @@ class AssignmentsController < ApplicationController
     @assignment = Assignment.find(params[:id])
     @group = @assignment.group
     @submissions = @assignment.submissions.sort_by{|s| s.user.last_name}
-    @assignment.get_issues
   end
 
   def create

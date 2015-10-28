@@ -15,13 +15,11 @@
 //= require_tree .
 
 
-function update(url, object){
+function update(url, object, callback){
   $.ajax({
     url: url,
     dataType: "json",
     method: "PATCH",
     data: object
-  }).then(function(data){
-    console.log(data);
-  });
+  }).done(callback);
 }

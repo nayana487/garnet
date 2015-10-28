@@ -7,7 +7,6 @@ class SubmissionsController < ApplicationController
 
   def show
     @submission = Submission.find(params[:id])
-    @submission.assignment.get_issues
     render json: @submission
   end
 

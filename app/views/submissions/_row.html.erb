@@ -4,7 +4,7 @@
 <td><a href="<%= submission.issues_url %>" target="_blank" data-gh-issues="<%= submission.user.github_id %>">View Issues</a></td>
 <td>
   <% if enable %>
-    <select onchange="update('<%= submission_path(submission) %>', {id: <%= submission.id %>, status: this.value})">
+    <select onchange="update('<%= submission_path(submission) %>', {id: <%= submission.id %>, status: this.value}, submissionCallback)">
       <% Submission.statuses.each do |i, status| %>
         <option value="<%= i %>" <%= "selected" if submission.status == i %>>
           <%= status %>
@@ -15,3 +15,9 @@
     <%= submission.status_english %>
   <% end %>
 </td>
+
+<script>
+function submissionCallback(data){
+  console.log(data)
+}
+</script>

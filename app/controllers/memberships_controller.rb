@@ -40,10 +40,6 @@ class MembershipsController < ApplicationController
     @attendances = @group.descendants_attr("attendances").select{|i| i.user.id == @user.id}
     @submissions = @group.descendants_attr("submissions").select{|i| i.user.id == @user.id}
     @observations = @group.descendants_attr("observations").select{|i| i.user.id == @user.id}
-    @submissions = @submissions.map do |sub|
-      sub.assignment.get_issues
-      sub
-    end
   end
 
   def update

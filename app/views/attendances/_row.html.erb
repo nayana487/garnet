@@ -2,7 +2,13 @@
 <td><%= link_to attendance.user.name, group_membership_path(attendance.event.group, attendance.user) %></td>
 <% ["Absent", "Tardy", "Present"].each_with_index do |status, i| %>
 <td>
-  <%= radio_button_tag attendance.user.username, i, i === attendance.status, onclick: "update('<%= attendance_update_path %>', {id: #{attendance.id}, status: #{i}})" %>
+  <%= radio_button_tag attendance.user.username, i, i === attendance.status, onclick: "update('#{attendance_update_path}', {id: #{attendance.id}, status: #{i}}, attendanceCallback)" %>
   <%= label_tag "#{attendance.user.username}_#{i}", status %>
 </td>
 <% end %>
+
+<script>
+function attendanceCallback(data){
+  console.log(data);
+}
+</script>
