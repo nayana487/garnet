@@ -27,7 +27,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    if params[:password_confirmation] != params[:password]
+    if params[:form_user][:password_confirmation] != params[:form_user][:password]
       raise "Your passwords don't match!"
     else
       @user = current_user
@@ -160,7 +160,7 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.permit(:password, :username, :name, :email, :image_url)
+    params.require(:form_user).permit(:password, :username, :name, :email, :image_url)
   end
 
 end

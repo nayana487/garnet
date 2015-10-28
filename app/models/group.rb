@@ -84,7 +84,7 @@ class Group < Tree
   end
 
   def has_member? user
-    return self.memberships.where(user_id: user.id).count > 0
+    self.member(user)
   end
 
   def is_childless?
