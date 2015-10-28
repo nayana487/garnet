@@ -2,12 +2,9 @@ $(".js-count-assignment-issues").on("click", function(e){
   var button = $(this)
   var buttonHTML = button.html()
   var url = button.attr("data-issues-url")
-  var dotsTimer = setInterval(function(){
-    button.html( button.html() + "." ) 
-  },500)
+  button.addClass("waiting");
   loadIssues(url, function(){
-    clearInterval(dotsTimer) 
-    button.html(buttonHTML)
+    button.removeClass("waiting");
   })
 })
 
