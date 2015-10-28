@@ -425,3 +425,17 @@
 .no:after{
   content:"?";
 }
+
+.waiting:after{
+  display:inline-block;
+  content:"...";
+  animation: waiting 0.5s linear alternate infinite;
+}
+@keyframes waiting{
+  from {
+    opacity:0;
+  }
+  to {
+    opacity:1;
+  }
+}
