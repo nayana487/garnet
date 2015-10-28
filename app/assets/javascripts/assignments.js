@@ -1,10 +1,17 @@
 $(".js-count-assignment-issues").on("click", function(e){
   var button = $(this)
+  var buttonHTML = button.html()
   var url = button.attr("data-issues-url")
-  loadIssues(url)
+  var dotsTimer = setInterval(function(){
+    button.html( button.html() + "." ) 
+  },500)
+  loadIssues(url, function(){
+    clearInterval(dotsTimer) 
+    button.html(buttonHTML)
+  })
 })
 
-function loadIssues(url){
+function loadIssues(url, callback){
   var els = $("[data-gh-issues]");
   var summaries = {};
   $.ajax({
@@ -17,6 +24,9 @@ function loadIssues(url){
       var userID = el.getAttribute("data-gh-issues");
       el.textContent = issueSummaryToString(userID)
     });
+    if(typeof callback == "function"){ 
+      callback()
+    }
   });
 
   function parseIssue(issue){
