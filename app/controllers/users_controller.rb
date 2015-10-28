@@ -19,11 +19,11 @@ class UsersController < ApplicationController
     else
       redirect_to action: :sign_out
     end
-    @is_current_user = (@user.id == current_user.id)
-    @is_editable = @is_current_user && !@user.github_id
     @memberships = @user.memberships.sort{|a,b| a.group.path <=> b.group.path}
     @attendances = @user.attendances.sort_by{|a| a.event.date}
     @submissions = @user.submissions
+    @is_current_user = (@user.id == current_user.id)
+    @is_editable = @is_current_user && !@user.github_id
   end
 
   def update

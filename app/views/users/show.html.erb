@@ -3,64 +3,58 @@
   <h2 title="user#<%= @user.id %>"><%= @user.username %></h2>
 </div>
 
-<section>
-  <h3>Groups</h3>
-  <% if @memberships.count == 0 %>
-    <p>None yet!</p>
-  <% else %>
-    <ul>
-    <% @memberships.each do |membership| %>
-      <li class="links">
-        <span class="breadcrumbs">
-          <%= breadcrumbs(membership.group) %>
-        </span>
-        <%= "<a>admin</a>".html_safe if membership.group.admins.include?(@user) %>
-        <% if @user == current_user %>
-          <%= link_to "squad", group_membership_path(membership.group, membership), class: membership.is_priority ? "yes" : "no", method: :put %>
-        <% elsif membership.is_priority? %>
-          <%= "<a>squad</a>".html_safe if membership.is_priority? %>
+<% if is_admin_of_anything?(@user) %>
+  <section>
+    <h3>Groups</h3>
+    <% if @memberships.count == 0 %>
+      <p>None yet!</p>
+    <% else %>
+      <ul>
+      <% @memberships.each do |membership| %>
+        <li class="links">
+          <span class="breadcrumbs">
+            <%= breadcrumbs(membership.group) %>
+          </span>
+          <%= "<a>admin</a>".html_safe if membership.group.admins.include?(@user) %>
+          <% if @user == current_user %>
+            <%= link_to "squad", group_membership_path(membership.group, membership), class: membership.is_priority ? "yes" : "no", method: :put %>
+          <% elsif membership.is_priority? %>
+            <%= "<a>squad</a>".html_safe if membership.is_priority? %>
+          <% end %>
+        </li>
+      <% end %>
+      </ul>
+    <% end %>
+  </section>
+<% else %>
+  <section>
+    <h3>Attendance</h3>
+    <p>Tardy: <%= @attendances.select{|a| a.status === 1}.count %>, Absent: <%= @attendances.select{|a| a.status === 0}.count %></p>
+    <table>
+      <% @attendances.each do |attendance| %>
+        <% if attendance.status != 2 %>
+          <tr>
+            <td><%= attendance.date %></td>
+            <td><%= attendance.status_english %></td>
+          </tr>
         <% end %>
-      </li>
-    <% end %>
-    </ul>
-  <% end %>
-</section>
+      <% end %>
+    </table>
+  </section>
 
-<section>
-  <h3>Attendance</h3>
-  <p>Tardy: <%= @attendances.select{|a| a.status === 1}.count %>, Absent: <%= @attendances.select{|a| a.status === 0}.count %></p>
-  <table>
-    <tr>
-      <th>Title</th>
-      <th>Group</th>
-      <th>Event Date</th>
-      <th>Submission Date</th>
-      <th>Status</th>
-    </tr>
-    <% @attendances.each do |attendance| %>
-    <% event = attendance.event %>
-    <tr>
-      <td><%= link_to event.title, event_path(event) %></td>
-      <td><%= link_to event.group.path, group_path(event.group) %></td>
-      <td><%= (link_to event.date.strftime("%a, %m/%d, %H:%M"), event_path(event)) if event.date %></td>
-      <td><%= link_to attendance.created_at.strftime("%m/%d/%y %H:%M"), event_path(event) %></td>
-      <td><%= attendance.status_english %></td>
-    </tr>
-    <% end %>
-  </table>
-</section>
-
-<section>
-  <h3>Submissions</h3>
-  <p>Percent Complete: <%= percent_of(@submissions, 2) %>%</p>
-  <table>
-    <% @submissions.each do |submission| %>
-    <tr>
-      <%= render partial: "submissions/row", locals: {submission: submission, enable: false} %>
-    </tr>
-    <% end %>
-  </table>
-</section>
+  <section>
+    <h3>Homework Submissions</h3>
+    <p>Percent Complete: <%= percent_of(@submissions, 2) %>%</p>
+    <table>
+      <% @submissions.each do |submission| %>
+      <tr>
+        <td><%= link_to submission.assignment.title, submission.assignment.repo_url %></td>
+        <td><%= submission.status_english %></td>
+      </tr>
+      <% end %>
+    </table>
+  </section>
+<% end %>
 
 <section>
   <h3>Profile</h3>

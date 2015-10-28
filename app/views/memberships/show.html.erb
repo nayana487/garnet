@@ -12,25 +12,6 @@
 <% end %>
 
 <section>
-  <h3>Attendance</h3>
-  <p>Tardy: <%= @attendances.select{|a| a.status === 1}.count %>, Absent: <%= @attendances.select{|a| a.status === 0}.count %></p>
-  <table>
-    <tr>
-      <th>Date</th>
-      <th>Status</th>
-    </tr>
-    <% @attendances.each do |attendance| %>
-      <% if attendance.status != 2 %>
-        <tr>
-          <td><%= link_to attendance.date, group_events_path(attendance.event) %></td>
-          <td><%= attendance.status_english %></td>
-        </tr>
-      <% end %>
-    <% end %>
-  </table>
-</section>
-
-<section>
   <h3>Assignments</h3>
   <table>
     <tr>
