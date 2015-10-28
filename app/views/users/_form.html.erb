@@ -13,8 +13,4 @@
     <%= f.password_field :password_confirmation, placeholder: "Confirm password" %>
     <%= f.submit "Submit" %>
   <% end %>
-
-  <% if @is_current_user %>
-    <%= link_to "Delete your account", user_path(@user), class: "button", method: :delete, data: {confirm: "You sure? This is probably a really, really bad idea, since it's going to delete all of the grades, attendances, and everything else associated with this account."} %>
-  <% end %>
 <% end %>
