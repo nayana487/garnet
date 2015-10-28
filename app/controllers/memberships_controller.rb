@@ -40,15 +40,6 @@ class MembershipsController < ApplicationController
     @attendances = @group.descendants_attr("attendances").select{|i| i.user.id == @user.id}
     @submissions = @group.descendants_attr("submissions").select{|i| i.user.id == @user.id}
     @observations = @group.descendants_attr("observations").select{|i| i.user.id == @user.id}
-    @submissions = @submissions.map do |sub|
-      sub.assignment.get_issues
-      sub
-    end
-    begin
-      @submissions_percent_complete = (100*(@submissions.count {|s| s.github_pr_submitted != nil }.to_f / @submissions.length.to_f)).round
-    rescue
-      @submissions_percent_complete = 0
-    end
   end
 
   def update

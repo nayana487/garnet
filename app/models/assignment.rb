@@ -32,7 +32,7 @@ class Assignment < ActiveRecord::Base
   def get_issues
     g = Github.new(ENV)
     repo = self.repo_url.gsub(/(https?:\/\/)?(www\.)?github\.com\//, "")
-    issues = g.api.issues(repo, {state: "all", since: self.group.created_at})
+    issues = g.api.issues(repo, {state: "all"})
     @issues = issues
   end
 
@@ -48,6 +48,14 @@ class Assignment < ActiveRecord::Base
   def api_repo_issues_url
     url = self.repo_url.gsub("https://github.com/","https://api.github.com/repos/")
     url += "/issues?state=all"
+  end
+
+  def issues_url users = nil
+    url = "#{self.repo_url}/issues"
+    if users
+      url += "?q=" + users.collect{|u| "involves:#{u.username}"}.join("+")
+    end
+    return url
   end
 
 end

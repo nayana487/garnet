@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   patch "attendance", to: "attendances#update", as: :attendance_update
 
   resources :assignments, only: [:show, :destroy] do
+    get "issues", to: "assignments#issues", as: :issues
     resources :submissions, only: [:index, :create, :show]
   end
 

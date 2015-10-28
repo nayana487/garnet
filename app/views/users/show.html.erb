@@ -52,27 +52,11 @@
 
 <section>
   <h3>Submissions</h3>
-  <p>
-    Percent Complete: <span data-percent-complete=""></span> |
-    Percent incomplete: <span data-percent-incomplete=""></span>
-  </p>
+  <p>Percent Complete: <%= percent_of(@submissions, 2) %>%</p>
   <table>
-    <tr>
-      <th>Title</th>
-      <th></th>
-      <th></th>
-      <th>Status</th>
-    </tr>
     <% @submissions.each do |submission| %>
     <tr>
-      <td><%= link_to submission.assignment.title, assignment_submission_path(submission.assignment, submission) %></td>
-      <td><%= link_to submission.user.name, user_path(submission.user) %></td>
-      <td><%= link_to submission.user.username, submission.user.gh_url %></td>
-      <td>
-      	<span data-github-pr-submitted="<%= assignment_submission_path(submission.assignment, submission) %>">
-          <%= render file: "public/spinner.html" %>
-      	</span>
-      </td>
+      <%= render partial: "submissions/row", locals: {submission: submission, enable: false} %>
     </tr>
     <% end %>
   </table>

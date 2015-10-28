@@ -7,7 +7,6 @@ class SubmissionsController < ApplicationController
 
   def show
     @submission = Submission.find(params[:id])
-    @submission.assignment.get_issues
     render json: @submission
   end
 
@@ -17,14 +16,8 @@ class SubmissionsController < ApplicationController
 
   def update
     @submission = Submission.find(params[:id])
-    if @submission.update submission_params
-      redirect_to group_assignment_submission_path(params[:group_id], params[:assignment_id], @submission)
-    end
-  end
-
-  private
-  def submission_params
-    params.require(:submission).permit(:status, :grader_notes)
+    @submission.update!(status: params[:status])
+    render json: @submission
   end
 
 end

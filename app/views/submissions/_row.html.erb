@@ -1,8 +1,23 @@
 <td><%= link_to submission.assignment.title, assignment_submission_path(submission.assignment, submission) %></td>
 <td><%= link_to submission.user.name, user_path(submission.user) %></td>
 <td><%= link_to submission.user.username, submission.user.gh_url %></td>
+<td><a href="<%= submission.issues_url %>" target="_blank" data-gh-issues="<%= submission.user.github_id %>">View Issues</a></td>
 <td>
-  <span data-github-user-id="<%= submission.user.github_id%>" data-github-pr-submitted="<%= submission.assignment.api_repo_issues_url %>&access_token=<%=session[:access_token] %>">
-    <%= render file: "public/spinner.html" %>
-  </span>
+  <% if enable %>
+    <select onchange="update('<%= submission_path(submission) %>', {id: <%= submission.id %>, status: this.value}, submissionCallback)">
+      <% Submission.statuses.each do |i, status| %>
+        <option value="<%= i %>" <%= "selected" if submission.status == i %>>
+          <%= status %>
+        </option>
+      <% end %>
+    </select>
+  <% else %>
+    <%= submission.status_english %>
+  <% end %>
 </td>
+
+<script>
+function submissionCallback(data){
+  console.log(data)
+}
+</script>
