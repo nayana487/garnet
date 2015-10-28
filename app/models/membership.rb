@@ -67,7 +67,7 @@ class Membership < ActiveRecord::Base
       next if checked_so_far.include?(group.id)
       checked_so_far.push(group.id)
       next if group.has_member?(user)
-      group.memberships.create!(user_id: user.id)
+      group.memberships.create!(user: user)
     end
   end
 
