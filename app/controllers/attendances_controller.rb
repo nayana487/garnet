@@ -12,15 +12,4 @@ class AttendancesController < ApplicationController
     render json: @attendance
   end
 
-  def update_all
-    params[:attendance].each do |attendance|
-      @attendance = Attendance.find(attendance[0])
-      @attendance.update(status: attendance[1])
-      if !@event
-        @event = @attendance.event
-      end
-    end
-    redirect_to event_path(@event)
-  end
-
 end

@@ -15,14 +15,15 @@ class Attendance < ActiveRecord::Base
     self.event.date.strftime("%a, %m/%d/%y")
   end
 
+  def self.statuses
+    {
+      0 => "Absent",
+      1 => "Tardy",
+      2 => "Present"
+    }
+  end
+
   def status_english
-    case self.status
-    when 0
-      "Absent"
-    when 1
-      "Tardy"
-    when 2
-      "Present"
-    end
+    return Submission.statuses[self.status]
   end
 end

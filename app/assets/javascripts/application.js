@@ -14,12 +14,16 @@
 //= require jquery_ujs
 //= require_tree .
 
-
-function update(url, object, callback){
+$("[data-record-url]").on("click", function(){
+  var el = $(this);
+  el.addClass("waiting");
   $.ajax({
-    url: url,
+    url: el.attr("data-record-url"),
     dataType: "json",
     method: "PATCH",
-    data: object
-  }).done(callback);
-}
+    data: {status: el.val()}
+  }).success(function(data){
+    el.removeClass("waiting");
+    console.log(data);
+  });
+});

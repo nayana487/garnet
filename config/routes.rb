@@ -34,7 +34,6 @@ Rails.application.routes.draw do
   end
 
   resources :events, only: [:show, :create, :destroy]
-  patch "attendance", to: "attendances#update", as: :attendance_update
 
   resources :assignments, only: [:show, :destroy] do
     get "issues", to: "assignments#issues", as: :issues
@@ -42,5 +41,7 @@ Rails.application.routes.draw do
   end
 
   resources :submissions
+
+  resources :attendances
 
 end
