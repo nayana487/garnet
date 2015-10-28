@@ -24,7 +24,6 @@ class UsersController < ApplicationController
     @submissions = @user.submissions
     @is_current_user = (@user.id == current_user.id)
     @is_editable = @is_current_user && !@user.github_id
-    @is_admin_of_anything = (@memberships.select{|m| m.is_admin?}.count > 0)
   end
 
   def update
