@@ -426,9 +426,10 @@
   content:"?";
 }
 
-.waiting:after{
+.waiting:after,
+.waiting+label:after{
   display:inline-block;
-  content:"...";
+  content:"..." !important;
   animation: waiting 0.5s linear alternate infinite;
 }
 @keyframes waiting{

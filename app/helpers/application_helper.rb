@@ -101,4 +101,15 @@ module ApplicationHelper
     return (user.memberships.select{|m| m.is_admin?}.count > 0)
   end
 
+  def status_buttons record
+    output = ""
+    record.class.statuses.each do |i, status|
+      id = "a#{record.id}_#{i}"
+      checked = "checked" if record.status == i
+      output += "<td><input type='radio' name='a#{record.id}' id='#{id}' value='#{i}' #{checked} data-record-url='#{url_for record}' />"
+      output += "<label for='#{id}'>#{status}</label></td>"
+    end
+    return output.html_safe
+  end
+
 end
