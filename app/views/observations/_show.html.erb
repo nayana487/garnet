@@ -1,5 +1,8 @@
 <div class="observation <%= color_of(observation.status) %>">
-  <p><strong><%= observation.status %>: <%= observation.body %></p>
+
+
+    <%= markdown(observation.body) %>
+
   <p><small>
     <%= link_to observation.user.username, group_membership_path(observation.group, observation.user) %>, by
     <%= link_to observation.admin.username, user_path(observation.admin) %>,
