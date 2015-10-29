@@ -19,7 +19,7 @@ class AssignmentsController < ApplicationController
     @group = Group.at_path(params[:group_path])
     @assignment = @group.assignments.new(assignment_params)
     if @assignment.save
-      redirect_to group_assignments_path(@group)
+      redirect_to assignment_path(@assignment)
     end
   end
 
@@ -42,7 +42,7 @@ class AssignmentsController < ApplicationController
 
   private
     def assignment_params
-      params.permit(:title, :category, :repo_url, :due_date)
+      params.require(:assignment).permit(:title, :category, :repo_url, :due_date)
     end
 
 end
