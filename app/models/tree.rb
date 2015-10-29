@@ -31,20 +31,20 @@ class Tree < ActiveRecord::Base
     return tree
   end
 
-  def ancestors_attr key
+  def ancestors_attr attribute_name
     collection = []
     self.ancestors.each do |ancestor|
-      collection.concat(ancestor.send(key))
+      collection.concat(ancestor.send(attribute_name))
     end
     return collection.reverse
   end
 
   # gathers unique list of items from current group and descendants
   # collection_method_name: can be any collection method; observations, assignments, submissions, etc.
-  def descendants_attr collection_method_name
-    collection = Set.new(self.send(collection_method_name)) # Set implements a collection of unordered values with no duplicates.
+  def descendants_attr attribute_name
+    collection = Set.new(self.send(attribute_name)) # Set implements a collection of unordered values with no duplicates.
     self.descendants.each do |descendant|
-      collection.merge(descendant.send(collection_method_name))
+      collection.merge(descendant.send(attribute_name))
     end
     return collection
   end

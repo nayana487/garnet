@@ -23,7 +23,7 @@ class Membership < ActiveRecord::Base
   end
 
   def self.extract_users array
-    array.collect{|m| m.user}.uniq.sort{|a,b| a.name <=> b.name}
+    array.collect{|m| m.user}.uniq.sort_by(&:name)
   end
 
   def self.by_user memberships, skip_condition = nil

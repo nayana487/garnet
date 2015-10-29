@@ -89,4 +89,34 @@ class User < ActiveRecord::Base
     })
   end
 
+  def owned_groups
+    @owned_groups ||= self.memberships.where(is_admin: true).collect(&:group)
+  end
+
+  def adminned_groups
+    return @adminned_groups if defined? @adminned_groups
+    @adminned_groups = []
+    owned_groups.each do |group|
+      @adminned_groups.push(group.descendants)
+    end
+    @adminned_groups = @adminned_groups.flatten.uniq
+  end
+
+  def records_accessible_by user, attribute_name
+    records = self.send(attribute_name)
+    my_groups = records.collect(&:group).uniq
+    common_groups = my_groups & user.adminned_groups
+    return records.select{|r| common_groups.include?(r.group)}
+  end
+
+  def is_admin_of_anything?
+    self.memberships.select(&:is_admin).count > 0
+  end
+
+  def get_due model_name
+    memberships = self.memberships.where(is_admin: true, is_priority: true)
+    records = memberships.collect(&:group).collect{|g| g.send(model_name)}
+    return records.flatten.select{|s| !s.status}
+  end
+
 end
