@@ -17,7 +17,9 @@
 
  @import url(https://fonts.googleapis.com/css?family=Inconsolata:400,700);
 
- *{
+*{
+   margin:0;
+   padding:0;
    border:0;
    border-collapse:collapse;
    border-spacing:0;
@@ -28,6 +30,7 @@
    text-decoration:none;
    color:inherit;
    background-color:transparent;
+   list-style-type:none;
  }
  *:focus{
    outline:0
@@ -328,8 +331,13 @@
  }
 
  .pills{
+   padding-left:0;
+   margin-left:0;
    padding-bottom:0;
    margin-bottom:0;
+ }
+ .pills li{
+   list-style-type: none;
  }
  .pills a{
    display:inline-block;
@@ -460,4 +468,29 @@
 .fold:target+div{
   opacity:1;
   max-height:5000px;
+}
+
+.markdown{
+  padding:10px 0;
+}
+.markdown p,
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6{
+  padding-top:0;
+  padding-bottom:0;
+  border:0;
+}
+.markdown hr{
+  margin:0 10px;
+  border-bottom:1px dashed #ccc;
+}
+.markdown li{
+  list-style-type: disc;
+  list-style-position: inside;
+  padding-left:10px;
+  line-height:1.6em;
 }

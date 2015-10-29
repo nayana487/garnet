@@ -146,7 +146,7 @@ module ApplicationHelper
     else
       renderer = Redcarpet::Render::HTML.new(options)
       markdown = Redcarpet::Markdown.new(renderer, extensions)
-      markdown.render(text).html_safe
+      "<div class='markdown'>#{markdown.render(text)}</div>".html_safe
     end
   end
 
