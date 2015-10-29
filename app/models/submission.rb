@@ -4,14 +4,6 @@ class Submission < ActiveRecord::Base
   belongs_to :user
   belongs_to :admin, class_name: "User"
 
-  before_save :set_default_value
-
-  def set_default_value
-    if !self.status
-      self.status = 0
-    end
-  end
-
   def due_date
     self.assignment.due_date.strftime("%a, %m/%d/%y")
   end
@@ -45,6 +37,7 @@ class Submission < ActiveRecord::Base
 
   def self.statuses
     {
+      nil => "n/a",
       0 => "Missing",
       1 => "Incomplete",
       2 => "Complete"
