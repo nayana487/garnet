@@ -33,6 +33,8 @@ group :production do
 end
 
 group :development, :test do
+  gem 'newrelic_rpm' # http://newrelic.com/ruby
+
   # Call 'binding.pry', 'debugger', or 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'
   gem 'rspec-rails', '~> 3.0'
