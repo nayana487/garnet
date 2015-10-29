@@ -11,13 +11,12 @@ class EventsController < ApplicationController
   def create
     @group = Group.at_path(params[:group_path])
     @event = @group.events.new(event_params)
-    date = params[:date]
     date = DateTime.new(
-      date[:year].to_i,
-      date[:month].to_i,
-      date[:day].to_i,
-      date[:hour].to_i,
-      date[:minute].to_i
+      event_params["date(1i)"].to_i,
+      event_params["date(2i)"].to_i,
+      event_params["date(3i)"].to_i,
+      event_params["date(4i)"].to_i,
+      event_params["date(5i)"].to_i
     )
     @event.date = date
     @event.save!
@@ -32,6 +31,12 @@ class EventsController < ApplicationController
     end
   end
 
+  def update
+    @event = Event.find(params[:id])
+    @event.update(event_params)
+    redirect_to event_path(@event)
+  end
+
   def destroy
     @event = Event.find(params[:id])
     @event.destroy!
@@ -40,7 +45,7 @@ class EventsController < ApplicationController
 
   private
   def event_params
-    params.permit(:date, :title, :required)
+    params.require(:event).permit(:date, :title, :required)
   end
 
 end
