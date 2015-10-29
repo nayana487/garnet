@@ -6,11 +6,20 @@ module ApplicationHelper
   def breadcrumbs(group, user = nil)
     output = group.ancestors([]).sort{|a,b| a.path <=> b.path}.to_a
     output.push(group)
-    output.map!{|g| (link_to g.title, user ? group_membership_path(g, user) : group_path(g))}
+    output.map!{|g| (link_to g.title, group_path(g), class: "breadcrumb")}
     if user
-      output.push((link_to user.username, user_path(user)))
+      output.push((link_to user.username, user_path(user), class: "breadcrumb"))
     end
-    return output.join("_").html_safe
+    output = output.join("_")
+    if user
+      output += ("<a>admin</a>") if group.has_admin?(user)
+      if user == current_user
+        output += (link_to "squad", group_membership_path(group, user), class: (group.has_priority?(user) ? "yes" : "no"), method: :put)
+      else
+        output += ("<a>squad</a>")
+      end
+    end
+    return output.html_safe
   end
 
   def membership_list(memberships)
@@ -68,6 +77,32 @@ module ApplicationHelper
     if !(input.class < Numeric)
       input = average_status(input)
     end
+    case input * 100
+    when 0...50
+      return "s0"
+    when 50...100
+      return "s1"
+    when 100...150
+      return "s2"
+    when 150..200
+      return "s3"
+    end
+  end
+
+  def color_of_percent input
+    case input
+    when 0...25
+      return "s0"
+    when 25...50
+      return "s1"
+    when 50...75
+      return "s2"
+    when 75..100
+      return "s3"
+    end
+  end
+
+  def color_of_status input
     case input * 100
     when 0...50
       return "s0"

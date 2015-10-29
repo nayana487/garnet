@@ -9,19 +9,9 @@
     <% if @memberships.count == 0 %>
       <p>None yet!</p>
     <% else %>
-      <ul>
+      <ul class="pills">
       <% @memberships.each do |membership| %>
-        <li class="links">
-          <span class="breadcrumbs">
-            <%= breadcrumbs(membership.group) %>
-          </span>
-          <%= "<a>admin</a>".html_safe if membership.group.admins.include?(@user) %>
-          <% if @user == current_user %>
-            <%= link_to "squad", group_membership_path(membership.group, membership), class: membership.is_priority ? "yes" : "no", method: :put %>
-          <% elsif membership.is_priority? %>
-            <%= "<a>squad</a>".html_safe if membership.is_priority? %>
-          <% end %>
-        </li>
+        <li><%= breadcrumbs(membership.group, @user) %></li>
       <% end %>
       </ul>
     <% end %>
