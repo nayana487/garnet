@@ -119,3 +119,11 @@ If all tests pass, travis pushes to the production repo: `git@garnet.wdidc.org:g
 
 This triggers a `post-update` hook, which pulls from GitHub's master branch and restarts
 unicorn, the application server.
+
+## Troubleshooting
+
+### NewRelic
+
+New Relic monitors the app and provides metrics.  They are available in development mode (/newrelic) and production (rpm.newrelic.com).  It is recommended that you [install newrelic-sysmond on the servers](https://rpm.newrelic.com/accounts/1130222/servers/get_started).
+
+"config/newrelic.yml" was downloaded from rpm.newrelic.com and updated to use `<%= app_name %>`
