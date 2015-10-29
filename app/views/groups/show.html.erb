@@ -1,74 +1,137 @@
 <section>
-  <h3>Members</h3>
-
-  <section>
-    <h4>Roster: <%= @group.memberships.count %> total</h4>
+  <h3 class="fold" id="members"><a href="#members">Members</a></h3>
+  <div>
+    <h4>Roster: <%= @nonadmins.count %> total</h4>
     <% if @hide_pics %>
       <a class="button" href="?show_pics=true">Load all photos</a>
     <% else %>
       <a class="button" href="?">Hide photos</a>
     <% end %>
-    <% if @is_admin %>
     <%= link_to "Refresh all Github info", group_refresh_path(@group), class: "button", data: {confirm: "This might take a while. That OK?"} %>
-    <% end %>
     <table>
-      <% @users.each do |user| %>
       <tr>
-        <%= render partial: "users/row", locals: {user: user} %>
+        <th></th>
+        <%= "<th></th>" if !@hide_pics %>
         <% if @is_admin %>
-        <td><%= link_to "Remove", group_membership_path(@group, user), method: :delete, data: {confirm: "Are you sure?"} %></td>
+          <th>% Present</th>
+          <th>% Complete</th>
+          <th>Average Obz</th>
+          <th></th>
         <% end %>
-      </tr>
+      <% @nonadmins.each do |user| %>
+        <tr>
+          <td><%= link_to user.name || user.username, user_path(user) %></td>
+          <% if !@hide_pics %>
+            <td><%= avatar(user) if user.image_url && !user.image_url.strip.blank? %></td>
+          <% end %>
+          <% if @is_admin %>
+            <%= td_averages(user) %>
+            <td><%= link_to("Remove", group_membership_path(@group, user), method: :delete, data: {confirm: "Are you sure?"}) %></td>
+          <% end %>
+        </tr>
       <% end %>
     </table>
-  </section>
 
-  <section>
-    <h4>Admins</h4>
-    <table>
+    <p>Admins:
       <% @admins.each do |user| %>
-      <tr>
-        <%= render partial: "users/row", locals: {user: user} %>
-        <% if is_garoot? && user.username != "garoot" %>
-        <td><%= link_to "Remove", group_membership_path(@group, user), method: :delete %></td>
-        <% end %>
-      </tr>
+        <%= link_to user.name || user.username, user_path(user) %>
+        <%= link_to("(x)", group_membership_path(@group, user), method: :delete, data: {confirm: "Are you sure you want to remove this admin?"}) if @is_admin %>,
       <% end %>
-    </table>
-  </section>
+    </p>
 
-  <% if @is_admin %>
-  <section>
-    <h4>Add Member(s)</h4>
-    <%= form_tag group_memberships_path(@group), method: :post do %>
-    <%= render partial: "memberships/form" %>
+    <% if @is_admin %>
+      <section>
+        <h4>Add Member(s)</h4>
+        <%= form_for [@group, @group.memberships.new] do %>
+          <input name="usernames" placeholder="One or more usernames, separated by spaces and/or commas" />
+          <input type="checkbox" name="is_admin" id="is_admin" />
+          <label for="is_admin">Is admin</label>
+          <input type="submit" value="Add member(s)" />
+        <% end %>
+      </section>
     <% end %>
-  </section>
-  <% end %>
+  </div>
 </section>
 
 <section>
-  <h3><%= @group.path %></h3>
+  <h3 class="fold" id="attendance"><a href="#attendance">Attendance</a></h3>
+  <div>
+    <table>
+      <tr>
+        <th>Date</th>
+        <th>Title</th>
+        <th>Group</th>
+        <th>Present</th>
+        <th>Total</th>
+      </tr>
+      <% @events.each do |event| %>
+        <tr>
+          <td><%= link_to_if @is_admin, event.date_s, event_path(event) %></td>
+          <td><%= event.title %></td>
+          <td><%= event.group.path %></td>
+          <td><%= percent_of(event.attendances, 2) %>%</td>
+          <td><%= event.attendances.count %></td>
+        </tr>
+      <% end %>
+    </table>
 
-  <% if @is_admin %>
-  <section>
-    <h4>Edit Group Name</h4>
-    <%= form_tag group_path(@group), method: :patch do %>
-    <%= render partial: "form", locals: {group: @group} %>
-    <%= link_to "Delete group", group_path(@group), method: :delete, class: "button", data: {confirm: "You sure? This will orphan all of the grades, attendances, and everything else."} %>
+    <% if @is_admin %>
+      <section>
+        <h4>New Event</h4>
+        <%= render partial: "events/form", locals: {group: @group, event: Event.new} %>
+      </section>
     <% end %>
-  </section>
+  </div>
+</section>
 
-  <section>
-    <h4>Create subgroup</h4>
-    <%= form_tag group_subgroup_path(@group), method: :post do %>
-    <%= render partial: "form", locals: {group: Group.new(parent_id: @group.id)} %>
+<section>
+  <h3 class="fold" id="assignments"><a href="#assignments">Assignments</a></h3>
+  <div>
+    <table>
+      <tr>
+        <th>Title</th>
+        <th>Due</th>
+        <th>Group</th>
+        <th>Complete</th>
+        <th>Total</th>
+      </tr>
+      <% @assignments.each do |assignment| %>
+        <tr>
+          <td><%= link_to_if @is_admin, assignment.title, assignment_path(assignment) %></td>
+          <td><%= assignment.due_date_s %></td>
+          <td><%= assignment.group.path %></td>
+          <td><%= percent_of(assignment.submissions, 2) %>%</td>
+          <td><%= assignment.submissions.count %></td>
+        </tr>
+      <% end %>
+    </table>
+
+    <% if @is_admin %>
+      <section>
+        <h4>New Assignment</h4>
+        <%= render partial: "assignments/form", locals: {group: @group, assignment: Assignment.new} %>
+      </section>
     <% end %>
-  </section>
-  <% end %>
+  </div>
+</section>
 
-  <section>
-    <h4>Subgroups</h4>
-    <ul class="tree"><%= group_descendant_list(@group) %></ul>
-  </section>
+<section>
+  <h3 class="fold" id="settings"><a href="#settings">Group Details</a></h3>
+  <div>
+    <% if @is_admin %>
+      <section>
+        <h4>Edit Group Name</h4>
+        <%= render partial: "form", locals: {group: @group} %>
+      </section>
+    <% end %>
+
+    <section>
+      <h4>Subgroups</h4>
+      <ul class="tree"><%= group_descendant_list(@group) %></ul>
+      <% if @is_admin %>
+        <h4>Create subgroup</h4>
+        <%= render partial: "form", locals: {group: Group.new(parent: @group), parent: @group} %>
+      <% end %>
+    </section>
+  </div>
 </section>

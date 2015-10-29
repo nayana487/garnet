@@ -9,16 +9,15 @@ class MembershipsController < ApplicationController
       if !user then raise "I couldn't find a user named #{username}!" end
       @membership = @group.memberships.create!(user_id: user.id, is_admin: @is_admin)
     end
-    flash[:notice] = "Added #{@membership.user.username} to #{@group.title}!"
+    flash[:notice] = "Added #{@membership.user.username} to #{@group.path}!"
     redirect_to :back
   end
 
   def destroy
-    raise "You don't have access to do that." if !@is_garoot
     @group = Group.at_path(params[:group_path])
     @user = User.named(params[:user])
     @membership = @group.memberships.find_by(user_id: @user.id)
-    if @membership.is_admin
+    if @group.memberships.exists?(user: @user, is_admin: true)
       @membership.update!(is_admin: false)
     else
       @membership.destroy!
