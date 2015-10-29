@@ -20,20 +20,15 @@
     </nav>
   </header>
   <main>
+    <% if @group %>
+      <h2 class="pills"><%= breadcrumbs(@group, current_user) %></h2>
+    <% end %>
     <% if flash.count > 0 %>
     <section class="errareHumanumEst">
     <% flash.each do |key, value| %>
       <p><%= value %></p>
     <% end %>
     </section>
-    <% end %>
-    <% if @group %>
-    <h2 class="breadcrumbs links"><%= breadcrumbs(@group, @user || nil) %></h2>
-    <p><small>
-      <%= link_to "Assignments", group_assignments_path(@group) %>,
-      <%= link_to "Attendance", group_events_path(@group) %>,
-      <%= link_to "Observations", group_observations_path(@group) %>
-    </small></p>
     <% end %>
     <%= yield %>
   </main>

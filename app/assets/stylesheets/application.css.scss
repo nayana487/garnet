@@ -310,7 +310,7 @@
    border-bottom:1px dashed #9cf;
  }
  main a[href]:hover{
-   color:blue;
+   color:black;
  }
  section{
    margin-top:10px;
@@ -330,11 +330,11 @@
    border-radius:5px;
  }
 
- .links{
+ .pills{
    padding-bottom:0;
    margin-bottom:0;
  }
- .links a{
+ .pills a{
    display:inline-block;
    border-radius:5px;
    padding:5px 10px;
@@ -343,19 +343,23 @@
    background-color:#eee;
    border:0;
  }
- .links a:nth-child(1){
+ .pills a[href]:hover{
+   background-color:#ccc;
+ }
+ .pills a:nth-child(1){
    margin-left:0;
  }
- .links+p{
+ .pills+p{
    padding-top:0;
    margin-top:0;
  }
- .breadcrumbs a[href]{
+
+ a.breadcrumb{
    background-color:#ee9;
    color:#f00;
  }
- .breadcrumbs a[href]:hover{
-   background-color:#faa;
+ a.breadcrumb:hover{
+   background-color:#dd9;
    color:#f00;
  }
 
@@ -439,4 +443,24 @@
   to {
     opacity:1;
   }
+}
+
+.fold:after{
+  display:inline-block;
+  transition:transform 0.2s;
+  transform:rotateZ(0deg);
+  content:"\025B8";
+}
+.fold+div{
+  max-height:0px;
+  opacity:0;
+  overflow:hidden;
+  transition:max-height 0.5s, opacity 0.5s;
+}
+.fold:target:after{
+  transform:rotateZ(90deg);
+}
+.fold:target+div{
+  opacity:1;
+  max-height:5000px;
 }

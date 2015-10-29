@@ -50,17 +50,15 @@ class Group < Tree
   end
 
   def admins
-    output = self.memberships.where(is_admin: true).collect{|m| m.user}.sort{|a,b| a.last_name <=> b.last_name}
-    output.push(User.named("garoot"))
-    output.compact
+    output = self.memberships.where(is_admin: true).collect(&:user).sort_by(&:last_name)
   end
 
   def nonadmins
-    self.memberships.where(is_admin: [false, nil]).collect{|m| m.user}.sort{|a,b| a.last_name <=> b.last_name}
+    self.memberships.where(is_admin: [false, nil]).collect(&:user).sort_by(&:last_name)
   end
 
   def subnonadmins
-    self.descendants_attr("memberships").select{|m| !m.is_admin}.collect{|m| m.user}.sort{|a,b| a.last_name <=> b.last_name}
+    self.descendants_attr("memberships").select(&!:is_admin).collect(&:user).sort_by(&:last_name)
   end
 
   def member user
@@ -85,6 +83,14 @@ class Group < Tree
 
   def has_member? user
     self.member(user)
+  end
+
+  def has_admin? user
+    self.ancestors.collect(&:memberships).flatten.select(&:is_admin).collect(&:user).include?(user)
+  end
+
+  def has_priority? user
+    self.memberships.exists?(user: user, is_priority: true)
   end
 
   def is_childless?
