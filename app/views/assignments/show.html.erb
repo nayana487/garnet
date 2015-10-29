@@ -1,17 +1,26 @@
-<h2>Assignment Details</h2>
-<%= form_tag assignment_path(@assignment), method: :patch do %>
-<%= render partial: "form", locals: {assignment: @assignment} %>
-<% end %>
+<h2><%= "#{@assignment.title || "Assignment"}, #{@assignment.due_date_s}" %></h2>
 
-<section>
-<h3>Submissions</h3>
 <p><%= percent_of(@submissions, 2) %>% complete</p>
-<button class="js-count-assignment-issues" data-issues-url="<%= assignment_issues_path(@assignment) %>">Count issues</button>
+<% if @assignment.repo_url && !@assignment.repo_url.strip.blank? %>
+  <button class="js-count-assignment-issues" data-issues-url="<%= assignment_issues_path(@assignment) %>">Count issues</button>
+<% end %>
 <table>
   <% @submissions.each do |submission| %>
   <tr>
-  <%= render partial: "submissions/row", locals: {submission: submission, enable: true} %>
+    <td><%= link_to submission.user.name, user_path(submission.user) %></td>
+    <td><%= link_to submission.user.username, submission.user.gh_url %></td>
+    <td>
+      <% if @assignment.repo_url && !@assignment.repo_url.strip.blank? %>
+        <a href="<%= submission.issues_url %>" target="_blank" data-gh-issues="<%= submission.user.github_id %>">View Issues</a>
+      <% end %>
+    </td>
+    <%= status_buttons(submission) %>
   </tr>
   <% end %>
 </table>
+
+<section>
+  <h3>Edit Assignment</h3>
+  <%= render partial: "form", locals: {assignment: @assignment} %>
+  <%= link_to "Delete Assignment", assignment_path(@assignment), method: :delete, class: "button", data: {confirm: "You sure?"} %>
 </section>

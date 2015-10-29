@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     resources :attendances, only: [:index]
 
     resources :assignments, only: [:index, :create, :show]
+    resources :events, only: [:create]
 
     resources :observations, only: [:index]
 
@@ -43,5 +44,7 @@ Rails.application.routes.draw do
   resources :submissions
 
   resources :attendances
+
+  resources :assignments
 
 end
