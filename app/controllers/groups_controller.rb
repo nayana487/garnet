@@ -8,22 +8,18 @@ class GroupsController < ApplicationController
       @group = Group.first
     end
     @admins = @group.admins
-    @users = @group.nonadmins
-    @is_admin = @admins.include?(current_user)
-    @observations = @group.descendants_attr("observations").sort{|a, b| a.created_at <=> b.created_at}
+    @nonadmins = @group.nonadmins
+    @is_admin = @group.has_admin?(current_user)
+    @assignments = @group.descendants_attr("assignments").sort_by(&:due_date)
+    @events = @group.descendants_attr("events").sort_by(&:date)
+    @observations = @group.descendants_attr("observations").sort_by(&:created_at)
   end
 
   def create
     @parent = Group.at_path(params[:group_path])
     @group = @parent.children.create!(group_params)
-    raise "You're not an admin of this group!" if !@group.admins.include?(current_user)
+    raise "You're not an admin of this group!" if !@parent.has_admin?(current_user)
     @group.memberships.create!(user_id: current_user.id, is_admin: true)
-    redirect_to group_path(@group)
-  end
-
-  def su_create
-    @group = Group.create!(title: params[:title])
-    @group.memberships.create(user_id: current_user.id, is_admin: true)
     redirect_to group_path(@group)
   end
 
@@ -59,7 +55,7 @@ class GroupsController < ApplicationController
 
   private
     def group_params
-      params.permit(:title, :category)
+      params.require(:group).permit(:title, :category)
     end
 
 end
