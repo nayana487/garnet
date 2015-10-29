@@ -3,6 +3,7 @@ class Event < ActiveRecord::Base
   has_many :attendances, dependent: :destroy
   has_many :users, through: :attendances
   validates :date, presence: true
+  validates :title, presence: true
 
   after_create :create_attendances
 
@@ -12,4 +13,13 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def date_s
+    date = read_attribute(:date)
+    if date
+      return date.strftime("%a, %m/%d/%y")
+    else
+      return nil
+    end
+  end
+  
 end

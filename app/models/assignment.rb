@@ -24,6 +24,15 @@ class Assignment < ActiveRecord::Base
    summary_items
   end
 
+  def due_date_s
+    date = read_attribute(:due_date)
+    if date
+      return date.strftime("%a, %m/%d/%y")
+    else
+      return nil
+    end
+  end
+
   def issues
     get_issues if !defined? @issues
     return @issues
