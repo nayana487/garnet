@@ -1,3 +1,5 @@
-<%= text_field_tag :title, event.title, placeholder: "Title" %>
-<div class="date"><%= select_datetime DateTime.tomorrow.beginning_of_day.advance(hours: 9), prefix: :date %></div>
-<%= submit_tag "Create event" %>
+<%= form_for ((defined? group) ? [group, event] : event) do |f| %>
+  <%= f.text_field :title, placeholder: "Title" %>
+  <div class="date"><%= f.datetime_select :date %></div>
+  <%= f.submit "Save event" %>
+<% end %>
