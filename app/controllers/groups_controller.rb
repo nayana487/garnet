@@ -10,9 +10,11 @@ class GroupsController < ApplicationController
     @admins = @group.admins
     @nonadmins = @group.nonadmins
     @is_admin = @group.has_admin?(current_user)
-    @assignments = @group.descendants_attr("assignments").sort_by(&:due_date)
-    @events = @group.descendants_attr("events").sort_by(&:date)
-    @observations = @group.descendants_attr("observations").sort_by(&:created_at)
+    @submissions = @group.members_submissions.uniq
+    @assignments = @submissions.collect(&:assignment).uniq.sort_by(&:due_date)
+    @attendances = @group.members_attendances.uniq
+    @events = @attendances.collect(&:event).uniq.sort_by(&:date)
+    @observations = @group.members_observations.sort_by(&:created_at)
   end
 
   def create
