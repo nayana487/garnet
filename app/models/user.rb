@@ -93,6 +93,14 @@ class User < ActiveRecord::Base
     @adminned_groups = @adminned_groups.flatten.uniq
   end
 
+  def priority_groups
+    @priority_groups ||= self.memberships.where(is_admin: true, is_priority: true).collect(&:group)
+  end
+
+  def squaddies
+    @squaddies ||= priority_groups.collect(&:users).flatten.uniq
+  end
+
   def groups_adminned_by user
     self.groups & user.adminned_groups
   end
@@ -109,9 +117,9 @@ class User < ActiveRecord::Base
   end
 
   def get_due model_name
-    memberships = self.memberships.where(is_admin: true, is_priority: true)
-    records = memberships.collect(&:group).collect{|g| g.send(model_name)}
-    return records.flatten.select{|s| !s.status}
+    records = squaddies.collect{|g| g.send(model_name).where(status: nil)}.flatten.uniq
+    records.select!{|r| adminned_groups.include?(r.group)}
+    return records
   end
 
 end
