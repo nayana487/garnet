@@ -25,6 +25,14 @@ class MembershipsController < ApplicationController
     redirect_to :back
   end
 
+  def update
+    @group = Group.at_path(params[:group_path])
+    @user = User.find_by(username: params[:user])
+    membership = @group.memberships.find_by(user: @user)
+    membership.update!(is_priority: !membership.is_priority)
+    redirect_to :back
+  end
+
   private
     def membership_params
       params.require(:membership).permit(:user_id, :is_admin)
