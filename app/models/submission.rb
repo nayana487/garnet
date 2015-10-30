@@ -12,25 +12,6 @@ class Submission < ActiveRecord::Base
     self.created_at
   end
 
-  def github_pr_submitted
-    repo_url = self.assignment.repo_url
-    return false if !repo_url || repo_url.strip.blank?
-    issue = self.assignment.issues.select do |ish|
-      ish[:user][:id] == self.user.github_id.to_i
-    end
-    if issue.empty?
-      return nil
-    else
-      issue = issue[0]
-      if issue[:state].downcase == "open"
-        self.update!(status: 1)
-      elsif issue[:state].downcase == "closed"
-        self.update!(status: 2)
-      end
-      return issue
-    end
-  end
-
   def issues_url
     return "#{self.assignment.repo_url}/issues?q=involves:#{self.user.username}"
   end

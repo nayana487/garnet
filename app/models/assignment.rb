@@ -18,12 +18,6 @@ class Assignment < ActiveRecord::Base
     self.due_date ||= Time.now
   end
 
-  def summary_info
-   summary_items = [category]
-   summary_items << "due: #{due_date.strftime("%A, %B %e, %Y at %r")}" if due_date?
-   summary_items
-  end
-
   def due_date_s
     date = read_attribute(:due_date)
     if date
@@ -52,11 +46,6 @@ class Assignment < ActiveRecord::Base
       "project",
       "quiz"
     ]
-  end
-
-  def api_repo_issues_url
-    url = self.repo_url.gsub("https://github.com/","https://api.github.com/repos/")
-    url += "/issues?state=all"
   end
 
   def issues_url users = nil

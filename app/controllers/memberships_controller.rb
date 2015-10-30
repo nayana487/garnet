@@ -25,30 +25,6 @@ class MembershipsController < ApplicationController
     redirect_to :back
   end
 
-  def show
-    @group = Group.at_path(params[:group_path])
-    cur_user = User.find(session[:user]["id"]) # !! current_user returning nil # fix me
-    @is_admin = @group.admins.include?(cur_user)
-    @user = User.named(params[:user])
-    if !@is_admin && @user.id != cur_user.id
-      flash[:alert] = "It's not cool to try to see someone else's grades."
-      redirect_to group_path(@group)
-    end
-    @membership = @user.memberships.find_by(group_id: @group.id)
-    @observation = Observation.new(user_id: @user.id, group_id: @group.id, admin_id: current_user.id)
-    @attendances = @group.descendants_attr("attendances").select{|i| i.user.id == @user.id}
-    @submissions = @group.descendants_attr("submissions").select{|i| i.user.id == @user.id}
-    @observations = @group.descendants_attr("observations").select{|i| i.user.id == @user.id}
-  end
-
-  def update
-    @group = Group.at_path(params[:group_path])
-    @user = User.find_by(username: params[:user])
-    membership = @group.memberships.find_by(user: @user)
-    membership.update!(is_priority: !membership.is_priority)
-    redirect_to :back
-  end
-
   private
     def membership_params
       params.require(:membership).permit(:user_id, :is_admin)

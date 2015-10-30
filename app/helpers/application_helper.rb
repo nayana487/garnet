@@ -1,7 +1,4 @@
 module ApplicationHelper
-  def repo_name url
-    return url[(url.rindex("/") + 1)..-1] if url.include? "/"
-  end
 
   def breadcrumbs(group, user = nil)
     output = group.ancestors([]).sort{|a,b| a.path <=> b.path}.to_a
@@ -11,29 +8,10 @@ module ApplicationHelper
     if user
       output += ("<a>admin</a>") if group.has_admin?(user)
       if user == current_user
-        output += (link_to "squad", group_membership_path(group, user), class: (group.has_priority?(user) ? "yes" : "no"), method: :put)
+        output += (link_to "squad", group_membership_path(group, user), method: :put, class: (group.has_priority?(user) ? "yes" : "no"))
       else
         output += ("<a>squad</a>")
       end
-    end
-    return output.html_safe
-  end
-
-  def membership_list(memberships)
-    output = ""
-    memberships.sort{|a, b| a.group.path <=> b.group.path}.each do |m|
-      group = m.group
-      isadmin = m.is_admin ? " (admin)" : ""
-      linktext = group.path + isadmin
-      output += "<li>" + (link_to linktext, group_path(group)) + "</li>"
-    end
-    return output.html_safe
-  end
-
-  def group_list(groups)
-    output = ""
-    groups.sort{|a, b| a.path <=> b.path}.each do |group|
-      output += "<li>#{link_to group.path, group_path(group)}</li>"
     end
     return output.html_safe
   end
@@ -43,15 +21,6 @@ module ApplicationHelper
     group.descendants.each do |subgroup|
       output += "<li>" + link_to(subgroup.path, group_path(subgroup)) + "</li>"
     end
-    return output.html_safe
-  end
-
-  def group_descendant_tree(group)
-    output = "<li><a href='/groups/#{group.id}'>#{group.title}</a><ul>"
-    group.children.each do |child|
-      output += group_descendant_tree(child)
-    end
-    output += "</ul></li>"
     return output.html_safe
   end
 
@@ -67,23 +36,6 @@ module ApplicationHelper
    else
      return 0
    end
-  end
-
-  def color_of input
-    return if !input
-    if !(input.class < Numeric)
-      input = average_status(input)
-    end
-    case input * 100
-    when 0...50
-      return "s0"
-    when 50...100
-      return "s1"
-    when 100...150
-      return "s2"
-    when 150..200
-      return "s3"
-    end
   end
 
   def color_of_percent input
@@ -160,13 +112,6 @@ module ApplicationHelper
       output += "<label for='#{id}'>#{status}</label></td>"
     end
     return output.html_safe
-  end
-
-  def records_accessible_by admin, nonadmin, model_name
-    records = nonadmin.send(model_name)
-    their_groups = records.collect(&:group).uniq
-    common_groups = their_groups & admin.adminned_groups
-    return records.select{|r| common_groups.include?(r.group)}
   end
 
   def td_averages user

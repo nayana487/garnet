@@ -2,11 +2,6 @@ class UsersController < ApplicationController
 
   skip_before_action :authenticate, except: [:show]
 
-  def orphans
-    @users = User.all.select{|u| u.memberships.count < 1}
-    render "orphans"
-  end
-
   def show
     if params[:user]
       if User.exists?(username: params[:user])

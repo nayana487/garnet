@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
   root to: "users#show"
 
-  get "/errareHumanumEst", to: "errors#show", as: :error
-
   get '/sign_in', to: 'users#sign_in', as: :sign_in
   post '/sign_in', to: 'users#sign_in!'
   get '/sign_out', to: 'users#sign_out', as: :sign_out
@@ -14,38 +12,26 @@ Rails.application.routes.draw do
   end
 
   resources :groups, param: :path, except: :create do
-    post "", action: :create, as: :subgroup
     get "refresh_all", action: :gh_refresh_all, as: :refresh
-
-    resources :events, only: [:index, :create, :destroy]
-    resources :attendances, only: [:index]
-    resources :groups, only: [:create]
-
-    resources :assignments, only: [:index, :create, :show]
-    resources :events, only: [:create]
-
-    resources :observations, only: [:index]
-
-    resources :memberships, path: "users", param: :user, only: [:create, :update, :destroy]
+    resources :groups,      only: [:create]
+    resources :events,      only: [:create]
+    resources :assignments, only: [:create]
+    resources :memberships, only: [:create, :update, :destroy], path: "users", param: :user
   end
 
-  get "orphans", to: "users#orphans", as: :orphans
   resources :users, param: :user do
+    resources :observations, only: [:create]
     put 'refresh_memberships', on: :member
     get "is_authorized", action: :is_authorized?
   end
 
-  resources :events, only: [:show, :create, :destroy]
-
-  resources :assignments, only: [:show, :destroy] do
+  resources :assignments, only: [:show, :update, :destroy] do
     get "issues", to: "assignments#issues", as: :issues
-    resources :submissions, only: [:index, :create, :show]
   end
 
-  resources :submissions
-
-  resources :attendances
-
-  resources :assignments
+  resources :events,        only: [:show, :update, :destroy]
+  resources :submissions,   only: [:update]
+  resources :attendances,   only: [:update]
+  resources :observations,  only: [:destroy]
 
 end

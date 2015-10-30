@@ -57,10 +57,6 @@ class Group < Tree
     self.memberships.where(is_admin: [false, nil]).collect(&:user).sort_by(&:last_name)
   end
 
-  def subnonadmins
-    self.descendants_attr("memberships").select(&!:is_admin).collect(&:user).sort_by(&:last_name)
-  end
-
   def member user
     memberships = self.memberships
     if user.class <= String
