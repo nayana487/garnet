@@ -9,8 +9,6 @@ module ApplicationHelper
       output += ("<a>admin</a>") if group.has_admin?(user)
       if user == current_user
         output += (link_to "squad", group_membership_path(group, user), method: :put, class: (group.has_priority?(user) ? "yes" : "no"))
-      else
-        output += ("<a>squad</a>")
       end
     end
     return output.html_safe

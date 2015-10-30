@@ -1,20 +1,7 @@
 <div class="intro">
   <%= avatar(@user) if @user.image_url && !@user.image_url.strip.blank? %>
-  <h2 title="user#<%= @user.id %>"><%= @user.username %></h2>
+  <h2 title="user#<%= @user.id %>"><%= "Welcome, " if @is_current_user %><%= @user.username %></h2>
 </div>
-
-<section>
-  <h3>Groups</h3>
-  <% if @memberships.count == 0 %>
-    <p>None yet!</p>
-  <% else %>
-    <ul class="pills">
-    <% @memberships.each do |membership| %>
-      <li><%= breadcrumbs(membership.group, @user) %></li>
-    <% end %>
-    </ul>
-  <% end %>
-</section>
 
 <% if !@is_current_user && @current_user_is_admin %>
   <section>
@@ -43,7 +30,8 @@
 
 <% if @is_current_user && @is_admin_of_anything %>
   <section>
-    <h3>Things Due</h3>
+    <h3>To-Do</h3>
+    <p>All records with the status of "n/a" in groups you've marked "squad":</p>
     <section>
       <h4>Grades</h4>
       <table>
@@ -121,6 +109,19 @@
     </table>
   </section>
 <% end %>
+
+<section>
+  <h3>Groups</h3>
+  <% if @memberships.count == 0 %>
+    <p>None yet!</p>
+  <% else %>
+    <ul class="pills">
+    <% @memberships.each do |membership| %>
+      <li><%= breadcrumbs(membership.group, @user) %></li>
+    <% end %>
+    </ul>
+  <% end %>
+</section>
 
 <section>
   <h3>Profile</h3>
