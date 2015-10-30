@@ -7,11 +7,12 @@ module ApplicationHelper
     output = output.join("_")
     if user
       output += ("<a>admin</a>") if group.has_admin?(user)
-      if user == current_user
-        output += (link_to "squad", group_membership_path(group, user), method: :put, class: (group.has_priority?(user) ? "yes" : "no"))
-      end
     end
     return output.html_safe
+  end
+
+  def squadcrumb group, user
+    link_to "squad", group_membership_path(group, user), method: :put, class: (group.has_priority?(user) ? "yes" : "no")
   end
 
   def group_descendant_list(group)

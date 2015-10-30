@@ -121,7 +121,10 @@
   <% else %>
     <ul class="pills">
     <% @memberships.each do |membership| %>
-      <li><%= breadcrumbs(membership.group, @user) %></li>
+      <li>
+        <%= breadcrumbs(membership.group, @user) %>
+        <%= squadcrumb(membership.group, membership.user) if @current_user_is_admin %>
+      </li>
     <% end %>
     </ul>
   <% end %>
