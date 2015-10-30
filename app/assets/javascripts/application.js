@@ -27,3 +27,10 @@ $("[data-record-url]").on("click", function(){
     console.log(data);
   });
 });
+
+$(document).ready(function(){
+  (function openFirstFoldingSection(){
+    var folderID = $(".fold").eq(0).attr("id");
+    if(folderID && !window.location.hash) window.location = "#" + folderID;
+  }())
+})
