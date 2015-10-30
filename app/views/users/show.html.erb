@@ -86,7 +86,7 @@
       <% @attendances.each do |attendance| %>
         <% if attendance.status != 2 %>
           <tr>
-            <td><%= attendance.date %></td>
+            <td><%= link_to_if @current_user_is_admin, attendance.date, attendance.event %></td>
             <td><%= attendance.status_english %></td>
           </tr>
         <% end %>
@@ -102,7 +102,11 @@
     <table>
       <% @submissions.each do |submission| %>
       <tr>
-        <td><%= link_to submission.assignment.title, submission.assignment.repo_url %></td>
+        <% if @current_user_is_admin %>
+          <td><%= link_to submission.assignment.title, submission.assignment %></td>
+        <% else %>
+          <td><%= link_to_if !submission.assignment.repo_url.blank?, submission.assignment.title, submission.assignment.repo_url %></td>
+        <% end %>
         <td><%= submission.status_english %></td>
       </tr>
       <% end %>
