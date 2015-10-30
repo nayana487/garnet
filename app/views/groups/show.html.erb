@@ -11,7 +11,9 @@
     <table>
       <tr>
         <th></th>
-        <%= "<th></th>" if !@hide_pics %>
+        <% if !@hide_pics %>
+          <th></th>
+        <% end %>
         <% if @is_admin %>
           <th>% Present</th>
           <th>% Complete</th>
