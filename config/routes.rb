@@ -7,9 +7,11 @@ Rails.application.routes.draw do
   post '/sign_in', to: 'users#sign_in!'
   get '/sign_out', to: 'users#sign_out', as: :sign_out
 
-  get "github/authorize", to: "users#gh_authorize", as: :gh_authorize
-  get "github/authenticate", to: "users#gh_authenticate", as: :gh_authenticate
-  get "github/refresh", to: "users#gh_refresh", as: :gh_refresh
+  scope :github do
+    get "/authorize", to: "users#gh_authorize", as: :gh_authorize
+    get "/authenticate", to: "users#gh_authenticate", as: :gh_authenticate
+    get "/refresh", to: "users#gh_refresh", as: :gh_refresh
+  end
 
   resources :groups, param: :path, except: :create do
     post "", action: :create, as: :subgroup
@@ -24,9 +26,7 @@ Rails.application.routes.draw do
 
     resources :observations, only: [:index]
 
-    resources :memberships, path: "users", param: :user do
-      resources :observations, only: [:create]
-    end
+    resources :memberships, path: "users", param: :user, only: [:create, :update, :destroy]
   end
 
   get "orphans", to: "users#orphans", as: :orphans

@@ -3,20 +3,94 @@
   <h2 title="user#<%= @user.id %>"><%= @user.username %></h2>
 </div>
 
-<% if is_admin_of_anything?(@user) %>
-  <section>
-    <h3>Groups</h3>
-    <% if @memberships.count == 0 %>
-      <p>None yet!</p>
-    <% else %>
-      <ul class="pills">
-      <% @memberships.each do |membership| %>
-        <li><%= breadcrumbs(membership.group, @user) %></li>
-      <% end %>
-      </ul>
+<section>
+  <h3>Groups</h3>
+  <% if @memberships.count == 0 %>
+    <p>None yet!</p>
+  <% else %>
+    <ul class="pills">
+    <% @memberships.each do |membership| %>
+      <li><%= breadcrumbs(membership.group, @user) %></li>
     <% end %>
+    </ul>
+  <% end %>
+</section>
+
+<% if !@is_current_user && @current_user_is_admin %>
+  <section>
+    <h3>Observations</h3>
+    <% @observations.each do |observation| %>
+      <div class="observation <%= color_of_status(observation.status) %>">
+        <%= markdown(observation.body) %>
+        <p><small>By
+          <%= link_to observation.admin.username, user_path(observation.admin) %> for
+          <%= link_to observation.group.path, group_path(observation.group) %>,
+          <span title="<%= observation.created_at.strftime("%a %m/%d/%y %r") %>">
+          <%= time_ago_in_words(observation.created_at) %> ago</span> <%= link_to "(x)", observation, method: :delete, data: {confirm: "Are you sure?"} %></small></p>
+      </div>
+    <% end %>
+    <section>
+      <h4>New Observation</h4>
+      <%= form_for [@user, Observation.new] do |f| %>
+        <%= f.select :group_id, @common_groups %>
+        <%= f.select :status, Observation.statuses %>
+        <%= f.text_area :body, placeholder: "Write your observation." %>
+        <%= f.submit "Submit new observation" %>
+      <% end %>
+    </section>
   </section>
-<% else %>
+<% end %>
+
+<% if @is_current_user && @is_admin_of_anything %>
+  <section>
+    <h3>Things Due</h3>
+    <section>
+      <h4>Grades</h4>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Assignment Title</th>
+          <th>Repo URL</th>
+          <th colspan="4"></th>
+        </tr>
+        <% @due_submissions.each do |submission| %>
+        <tr>
+          <td><%= link_to submission.user.name, submission.user %></td>
+          <td><%= link_to submission.assignment.title, submission.assignment %></td>
+          <td>
+            <% if submission.assignment.repo_url && !submission.assignment.repo_url.strip.blank? %>
+              <a href="<%= submission.issues_url %>" target="_blank" data-gh-issues="<%= submission.user.github_id %>">View Issues</a>
+            <% end %>
+          </td>
+          <%= status_buttons(submission) %>
+        </tr>
+        <% end %>
+      </table>
+    </section>
+
+    <section>
+      <h4>Attendance</h4>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Event Title</th>
+          <th>Event Date</th>
+          <th colspan="4"></th>
+        </tr>
+        <% @due_attendances.each do |attendance| %>
+        <tr>
+          <td><%= link_to attendance.user.name, attendance.user %></td>
+          <td><%= attendance.event.title %></td>
+          <td><%= link_to attendance.event.date_s, attendance.event %></td>
+          <%= status_buttons(attendance) %>
+        </tr>
+        <% end %>
+      </table>
+    </section>
+  </section>
+<% end %>
+
+<% if (@is_current_user || @current_user_is_admin) && @attendances.count > 0 %>
   <section>
     <h3>Attendance</h3>
     <p>Tardy: <%= @attendances.select{|a| a.status === 1}.count %>, Absent: <%= @attendances.select{|a| a.status === 0}.count %></p>
@@ -31,7 +105,9 @@
       <% end %>
     </table>
   </section>
+<% end %>
 
+<% if (@is_current_user || @current_user_is_admin) && @submissions.count > 0 %>
   <section>
     <h3>Homework Submissions</h3>
     <p>Percent Complete: <%= percent_of(@submissions, 2) %>%</p>

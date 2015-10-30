@@ -19,11 +19,18 @@ class UsersController < ApplicationController
     else
       redirect_to action: :sign_out
     end
-    @memberships = @user.memberships.sort{|a,b| a.group.path <=> b.group.path}
+    @memberships = @user.memberships.sort_by{|a| a.group.path}
     @attendances = @user.attendances.sort_by{|a| a.event.date}
-    @submissions = @user.submissions
+    @submissions = @user.submissions.sort_by{|a| a.assignment.due_date}
+    @observations = @user.records_accessible_by(current_user, "observations").sort_by(&:created_at)
+    @common_groups = {}
+    (@user.groups & current_user.adminned_groups).each{|g| @common_groups[g.path] = g.id}
     @is_current_user = (@user.id == current_user.id)
+    @is_admin_of_anything = @user.is_admin_of_anything?
+    @current_user_is_admin = (@user.groups_adminned_by(current_user).count > 0)
     @is_editable = @is_current_user && !@user.github_id
+    @due_submissions = @user.get_due("submissions")
+    @due_attendances = @user.get_due("attendances")
   end
 
   def update

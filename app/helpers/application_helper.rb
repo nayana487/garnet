@@ -7,9 +7,6 @@ module ApplicationHelper
     output = group.ancestors([]).sort{|a,b| a.path <=> b.path}.to_a
     output.push(group)
     output.map!{|g| (link_to g.title, group_path(g), class: "breadcrumb")}
-    if user
-      output.push((link_to user.username, user_path(user), class: "breadcrumb"))
-    end
     output = output.join("_")
     if user
       output += ("<a>admin</a>") if group.has_admin?(user)
@@ -162,6 +159,24 @@ module ApplicationHelper
       output += "<td><input type='radio' name='a#{record.id}' id='#{id}' value='#{i}' #{checked} data-record-url='#{url_for record}' />"
       output += "<label for='#{id}'>#{status}</label></td>"
     end
+    return output.html_safe
+  end
+
+  def records_accessible_by admin, nonadmin, model_name
+    records = nonadmin.send(model_name)
+    their_groups = records.collect(&:group).uniq
+    common_groups = their_groups & admin.adminned_groups
+    return records.select{|r| common_groups.include?(r.group)}
+  end
+
+  def td_averages user
+    output = ""
+    attendances_present = percent_of(user.attendances, 2)
+    submissions_complete = percent_of(user.submissions, 2)
+    observation_average = average_status(user.observations)
+    output += "<td class='#{color_of_percent(attendances_present)}'>#{attendances_present}%</td>"
+    output += "<td class='#{color_of_percent(submissions_complete)}'>#{submissions_complete}%</td>"
+    output += "<td class='#{color_of_status(observation_average)}'>#{observation_average}</td>"
     return output.html_safe
   end
 

@@ -102,6 +102,10 @@ class User < ActiveRecord::Base
     @adminned_groups = @adminned_groups.flatten.uniq
   end
 
+  def groups_adminned_by user
+    self.groups & user.adminned_groups
+  end
+
   def records_accessible_by user, attribute_name
     records = self.send(attribute_name)
     my_groups = records.collect(&:group).uniq
