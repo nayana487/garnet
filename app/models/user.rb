@@ -27,10 +27,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def downcase_username
-    self.username.downcase!
-  end
-
   def dont_update_blank_password
     if self.password && !self.password.strip.blank?
       self.password_digest = User.new_password(self.password)
@@ -78,15 +74,6 @@ class User < ActiveRecord::Base
 
   def password_ok? password
     BCrypt::Password.new(self.password_digest).is_password?(password)
-  end
-
-  def was_observed group_path, admin_username, body, status
-    self.observations.create!({
-      group_id: Group.at_path(group_path).id,
-      admin_id: User.named(admin_username).id,
-      body: body,
-      status: status
-    })
   end
 
   def owned_groups

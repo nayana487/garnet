@@ -60,16 +60,6 @@ class Tree < ActiveRecord::Base
     end
   end
 
-  # submissions group.submissions
-  def extract_descendants_from collection, belongs_to
-    output = []
-    descendants = self.descendants
-    collection.each do |record|
-      output.push(record) if descendants.include?(record.send(belongs_to))
-    end
-    return output
-  end
-
   def create_descendants hash, name
     hash.each do |key, subtree|
       child = self.children.new

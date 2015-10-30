@@ -1,11 +1,5 @@
 class ObservationsController < ApplicationController
 
-  def index
-    @group = Group.at_path(params[:group_path])
-    @users = @group.users
-    @observations = @group.observations
-  end
-
   def create
     @user = User.named(params[:user_user])
     @observation = current_user.admin_observations.new(observation_params)

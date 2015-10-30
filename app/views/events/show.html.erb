@@ -3,7 +3,7 @@
   <% @attendances.each do |attendance| %>
   <tr>
     <td><%= avatar(attendance.user) %></td>
-    <td><%= link_to attendance.user.name, group_membership_path(attendance.event.group, attendance.user) %></td>
+    <td><%= link_to attendance.user.name, attendance.user %></td>
     <%= status_buttons(attendance) %>
   </tr>
   <% end %>

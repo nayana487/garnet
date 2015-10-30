@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   # protect_from_forgery with: :exception
   before_action :authenticate
-  helper_method :current_user, :signed_in?, :is_garoot?
+  helper_method :current_user, :signed_in?
   if Rails.env.production?
     rescue_from StandardError, ActionController::RedirectBackError, with: :global_rescuer
   end
@@ -30,10 +30,6 @@ class ApplicationController < ActionController::Base
       else
         return false
       end
-    end
-
-    def is_garoot?
-      return (session[:user]["username"] == "garoot")
     end
 
     def global_rescuer(exception)

@@ -1,13 +1,5 @@
 class EventsController < ApplicationController
 
-  def index
-    @group = Group.at_path(params[:group_path])
-    @users = @group.nonadmins
-    @events = @group.descendants_attr("events").sort{|a,b| b.date <=> a.date}
-    @attendances = @group.descendants_attr("attendances")
-    @event = Event.new(group_id: @group.id)
-  end
-
   def create
     @group = Group.at_path(params[:group_path])
     @event = @group.events.new(event_params)

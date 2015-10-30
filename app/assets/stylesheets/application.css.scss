@@ -15,8 +15,6 @@
  *= require font-awesome
  */
 
- @import url(https://fonts.googleapis.com/css?family=Inconsolata:400,700);
-
 *{
    margin:0;
    padding:0;
@@ -25,7 +23,7 @@
    border-spacing:0;
    font-size:inherit;
    font-style:inherit;
-   font-family:inherit;
+   font-family: "Helvetica Neue", Helvetica, sans-serif;
    font-weight:inherit;
    text-decoration:none;
    color:inherit;
@@ -55,7 +53,6 @@
    background: #fff;
  }
  body{
-   font-family: "Inconsolata", "Consolas", "Monaco", monospace;
    color:#444;
    margin:0 auto;
    padding:0 10px;
@@ -69,12 +66,6 @@
    box-sizing:border-box;
  }
 
- h1,h2,h3,h4,h5,h6,
- input[type=submit],
- button,
- .button{
-   font-family:"Helvetica", sans-serif;
- }
  h2,h3,h4,h5,h6,
  p,.intro,
  textarea,
