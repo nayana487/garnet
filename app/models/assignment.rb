@@ -27,10 +27,6 @@ class Assignment < ActiveRecord::Base
     end
   end
 
-  def repo_url
-    read_attribute(:repo_url).strip
-  end
-
   def issues
     get_issues if !defined? @issues
     return @issues
