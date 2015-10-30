@@ -112,16 +112,5 @@ module ApplicationHelper
     end
     return output.html_safe
   end
-
-  def td_averages user
-    output = ""
-    attendances_present = percent_of(user.attendances, 2)
-    submissions_complete = percent_of(user.submissions, 2)
-    observation_average = average_status(user.observations)
-    output += "<td class='#{color_of_percent(attendances_present)}'>#{attendances_present}%</td>"
-    output += "<td class='#{color_of_percent(submissions_complete)}'>#{submissions_complete}%</td>"
-    output += "<td class='#{color_of_status(observation_average)}'>#{observation_average}</td>"
-    return output.html_safe
-  end
-
+  
 end

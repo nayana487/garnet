@@ -122,4 +122,8 @@ class User < ActiveRecord::Base
     return records
   end
 
+  def is_member_of group
+    group.memberships.exists?(user: self)
+  end
+
 end

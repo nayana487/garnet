@@ -17,10 +17,14 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id])
-    @group = @event.group
-    @attendances =  @event.attendances.sort_by do |attendance|
-      attendance.user.last_name
+    @attendances = @event.attendances
+    if params[:group]
+      @group = Group.at_path(params[:group])
+      @attendances = @attendances.select{|a| a.user.is_member_of(@group)}
+    else
+      @group = @event.group
     end
+    @attendances = @attendances.sort_by{|a| a.user.last_name}
   end
 
   def update

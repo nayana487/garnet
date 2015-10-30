@@ -1,11 +1,14 @@
 class Group < Tree
   has_many :events
   has_many :attendances, through: :events
+  has_many :members_attendances, through: :users, source: :attendances
 
   has_many :assignments
   has_many :submissions, through: :assignments
+  has_many :members_submissions, through: :users, source: :submissions
 
   has_many :observations
+  has_many :members_observations, through: :users, source: :observations
 
   has_many :memberships, dependent: :destroy
   has_many :users, through: :memberships

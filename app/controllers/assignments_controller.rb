@@ -11,8 +11,14 @@ class AssignmentsController < ApplicationController
 
   def show
     @assignment = Assignment.find(params[:id])
-    @group = @assignment.group
-    @submissions = @assignment.submissions.sort_by{|s| s.user.last_name}
+    @submissions = @assignment.submissions
+    if params[:group]
+      @group = Group.at_path(params[:group])
+      @submissions = @submissions.select{|s| s.user.is_member_of(@group)}
+    else
+      @group = @assignment.group
+    end
+    @submissions = @submissions.sort_by{|s| s.user.last_name}
   end
 
   def create
