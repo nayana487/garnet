@@ -17,6 +17,6 @@ class Attendance < ActiveRecord::Base
   end
 
   def status_english
-    return Attendances.statuses[self.status]
+    return Attendance.statuses[self.status]
   end
 end

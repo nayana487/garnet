@@ -21,6 +21,10 @@ class User < ActiveRecord::Base
   after_create :add_to_ga
   attr_accessor :password
 
+  def downcase_username
+    self.username.downcase!
+  end
+
   def validates_name_if_no_github_id
     if !self.github_id && self.name.strip.blank?
       errors[:base].push("Please include your full name!")
