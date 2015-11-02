@@ -22,6 +22,7 @@ class UsersController < ApplicationController
     if (@is_current_user || @is_adminned_by_current_user)
       @attendances = @user.attendances.sort_by{|a| a.event.date}
       @submissions = @user.submissions.sort_by{|a| a.assignment.due_date}
+      @submission_notes = @submissions.select(&:grader_notes)
     end
     if !@is_current_user && @is_adminned_by_current_user
       @observations = @user.records_accessible_by(current_user, "observations").sort_by(&:created_at)
