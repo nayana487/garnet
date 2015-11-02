@@ -27,9 +27,13 @@ Rails.application.routes.draw do
 
   resources :assignments, only: [:show, :update, :destroy] do
     get "issues", to: "assignments#issues", as: :issues
+    resources :submissions, only: [:create]
   end
 
-  resources :events,        only: [:show, :update, :destroy]
+  resources :events,        only: [:show, :update, :destroy] do
+    resources :attendances, only: [:create]
+  end
+
   resources :submissions,   only: [:update, :destroy]
   resources :attendances,   only: [:update, :destroy]
   resources :observations,  only: [:destroy]

@@ -1,5 +1,12 @@
 class SubmissionsController < ApplicationController
 
+  def create
+    @assignment = Assignment.find(params[:assignment_id])
+    @user = User.find(params[:submission][:user_id])
+    @assignment.submissions.create!(user: @user)
+    redirect_to @assignment, flash: {notice: "Assignment for #{@user.name} created."}
+  end
+
   def update
     @submission = Submission.find(params[:id])
     @submission.update!(status: params[:status])
