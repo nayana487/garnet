@@ -30,8 +30,8 @@ Rails.application.routes.draw do
   end
 
   resources :events,        only: [:show, :update, :destroy]
-  resources :submissions,   only: [:update]
-  resources :attendances,   only: [:update]
+  resources :submissions,   only: [:update, :destroy]
+  resources :attendances,   only: [:update, :destroy]
   resources :observations,  only: [:destroy]
 
 end
