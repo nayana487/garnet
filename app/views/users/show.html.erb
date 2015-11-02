@@ -50,7 +50,9 @@
               <a href="<%= submission.issues_url %>" target="_blank" data-gh-issues="<%= submission.user.github_id %>">View Issues</a>
             <% end %>
           </td>
-          <%= status_buttons(submission) %>
+          <% Submission.statuses.keys.each do |status| %>
+            <td><%= status_button(submission, status) %></td>
+          <% end %>
         </tr>
         <% end %>
       </table>
@@ -70,7 +72,9 @@
           <td><%= link_to attendance.user.name, attendance.user %></td>
           <td><%= attendance.event.title %></td>
           <td><%= link_to attendance.event.date_s, attendance.event %></td>
-          <%= status_buttons(attendance) %>
+          <% Attendance.statuses.keys.each do |status| %>
+            <td><%= status_button(attendance, status) %></td>
+          <% end %>
         </tr>
         <% end %>
       </table>

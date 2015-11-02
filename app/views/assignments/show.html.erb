@@ -14,7 +14,9 @@
         <a href="<%= submission.issues_url %>" target="_blank" data-gh-issues="<%= submission.user.github_id %>">View Issues</a>
       <% end %>
     </td>
-    <%= status_buttons(submission) %>
+    <% Submission.statuses.keys.each do |status| %>
+      <td><%= status_button(submission, status) %></td>
+    <% end %>
   </tr>
   <% end %>
 </table>

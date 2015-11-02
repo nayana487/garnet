@@ -4,7 +4,9 @@
   <tr>
     <td><%= avatar(attendance.user) %></td>
     <td><%= link_to attendance.user.name, attendance.user %></td>
-    <%= status_buttons(attendance) %>
+    <% Attendance.statuses.keys.each do |status| %>
+      <td><%= status_button(attendance, status) %></td>
+    <% end %>
   </tr>
   <% end %>
 </table>
