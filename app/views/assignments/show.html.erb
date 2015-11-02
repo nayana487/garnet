@@ -17,7 +17,7 @@
       <% Submission.statuses.keys.each do |status| %>
         <td><%= status_button(submission, status) %></td>
       <% end %>
-      <td><%= link_to "Delete", submission, method: :delete, data: {confirm: "Delete the submission for #{submission.user.name}?"} %></td>
+      <td><%= link_to "x", submission, method: :delete, data: {confirm: "Delete the submission for #{submission.user.name}?"} %></td>
     </tr>
     <tr>
       <td colspan="8" class="form">
