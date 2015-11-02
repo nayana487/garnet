@@ -52,31 +52,40 @@ class Group < Tree
     @path ||= self.ancestors.collect{|g| g.title}.join("_")
   end
 
+  def owners compact = true
+    memberships = self.memberships.where(is_owner: true)
+    return compact ? compact_users(memberships) : memberships
+  end
+
+  def nonowners compact = true
+    memberships = self.memberships.where(is_owner: [false, nil])
+    return compact ? compact_users(memberships) : memberships
+  end
+
   def admins
-    output = self.memberships.where(is_admin: true).collect(&:user).sort_by(&:last_name)
+    return compact_users(self.ancestors.collect{|g| g.owners(false)})
   end
 
   def nonadmins
-    self.memberships.where(is_admin: [false, nil]).collect(&:user).sort_by(&:last_name)
+    memberships = compact_users(self.descendants.collect(&:memberships))
+    return memberships - self.owners
   end
 
   def member user
-    memberships = self.memberships
     if user.class <= String
       user = User.named(user)
     end
-    return memberships.find_by(user: user)
+    self.memberships.find_by(user: user)
   end
 
-  def add_member user, is_admin = false
-    memberships = self.memberships
+  def add_member user, is_owner = false
     if user.class <= String
       user = User.named(user)
     end
-    return self.memberships.create!(user: user, is_admin: is_admin)
+    self.memberships.create!(user: user, is_owner: is_owner)
   end
 
-  def add_admin user
+  def add_owner user
     self.add_member(user, true)
   end
 
@@ -85,7 +94,7 @@ class Group < Tree
   end
 
   def has_admin? user
-    self.ancestors.collect(&:memberships).flatten.select(&:is_admin).collect(&:user).include?(user)
+    self.admins.include?(user)
   end
 
   def has_priority? user
@@ -94,6 +103,11 @@ class Group < Tree
 
   def is_childless?
     return self.children.count < 1
+  end
+
+  private
+  def compact_users memberships
+    memberships.flatten.reject(&:blank?).collect(&:user).uniq.sort_by(&:last_name)
   end
 
 end

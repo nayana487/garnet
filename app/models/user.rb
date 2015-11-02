@@ -81,20 +81,20 @@ class User < ActiveRecord::Base
   end
 
   def owned_groups
-    @owned_groups ||= self.memberships.where(is_admin: true).collect(&:group)
+    @owned_groups ||= self.memberships.where(is_owner: true).collect(&:group)
   end
 
   def adminned_groups
     return @adminned_groups if defined? @adminned_groups
     @adminned_groups = []
-    owned_groups.each do |group|
+    self.owned_groups.each do |group|
       @adminned_groups.push(group.descendants)
     end
     @adminned_groups = @adminned_groups.flatten.uniq
   end
 
   def priority_groups
-    @priority_groups ||= self.memberships.where(is_admin: true, is_priority: true).collect(&:group)
+    @priority_groups ||= self.memberships.where(is_owner: true, is_priority: true).collect(&:group)
   end
 
   def squaddies
@@ -113,7 +113,7 @@ class User < ActiveRecord::Base
   end
 
   def is_admin_of_anything?
-    self.memberships.select(&:is_admin).count > 0
+    self.memberships.exists?(is_owner: true)
   end
 
   def get_due model_name
