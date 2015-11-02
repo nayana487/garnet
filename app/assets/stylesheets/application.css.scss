@@ -141,16 +141,6 @@
    line-height:48px;
    vertical-align:middle;
  }
- @media (max-width:600px){
-   h1, nav{
-     display:block;
-     text-align:center;
-     width:100%;
-   }
-   nav a{
-     border:0;
-   }
- }
  .errareHumanumEst{
    border:1px dashed #8be;
    border-radius:5px;
@@ -387,7 +377,6 @@
 
  table{
    width:100%;
-   table-layout:fixed;
    margin-bottom:10px;
    text-align:left;
  }
@@ -412,9 +401,6 @@
  table label{
    background-color:transparent;
    text-align:center;
- }
- table label{
-   background-color:transparent;
  }
  tr:nth-child(odd){
    background-color:#eee;
@@ -536,4 +522,31 @@ textarea.waiting,
 
 .fade{
   color:#f00;
+}
+
+
+@media (max-width:600px){
+  body{
+    padding:0;
+  }
+  h1, h2, nav{
+    display:block;
+    text-align:center;
+    width:100%;
+  }
+  nav a{
+    border:0;
+  }
+  th, td{
+    padding:5px;
+  }
+  .status{
+    font-size: 0;
+  }
+  .status:first-letter{
+    font-size: 1rem;
+  }
+  .waiting+label{
+    animation: waiting 0.5s linear alternate infinite;
+  }
 }
