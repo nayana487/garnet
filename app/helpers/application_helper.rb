@@ -106,7 +106,7 @@ module ApplicationHelper
     output = ""
     id = "a#{record.id}_#{status}"
     checked = "checked" if record.status == status
-    output += "<input type='radio' name='a#{record.id}' id='#{id}' value='#{status}' #{checked} data-record-url='#{url_for record}' />"
+    output += "<input type='radio' name='a#{record.id}' id='#{id}' value='#{status}' #{checked} data-record-url='#{url_for record}' data-record-attribute='status' />"
     output += "<label for='#{id}'>#{record.class.statuses[status]}</label>"
     return output.html_safe
   end

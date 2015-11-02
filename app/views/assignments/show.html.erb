@@ -6,19 +6,28 @@
 <% end %>
 <table>
   <% @submissions.each do |submission| %>
-  <tr>
-    <td><%= link_to submission.user.name, user_path(submission.user) %></td>
-    <td><%= link_to submission.user.username, submission.fork_url %></td>
-    <td>
-      <% if @assignment.repo_url && !@assignment.repo_url.strip.blank? %>
-        <a href="<%= submission.issues_url %>" target="_blank" data-gh-issues="<%= submission.user.github_id %>">View Issues</a>
+    <tr id="<%= submission.id %>">
+      <td><%= link_to submission.user.name, user_path(submission.user) %></td>
+      <td><%= link_to submission.user.username, submission.fork_url %></td>
+      <td>
+        <% if @assignment.repo_url && !@assignment.repo_url.strip.blank? %>
+          <a href="<%= submission.issues_url %>" target="_blank" data-gh-issues="<%= submission.user.github_id %>">Issues</a>
+        <% end %>
+      </td>
+      <% Submission.statuses.keys.each do |status| %>
+        <td><%= status_button(submission, status) %></td>
       <% end %>
-    </td>
-    <% Submission.statuses.keys.each do |status| %>
-      <td><%= status_button(submission, status) %></td>
-    <% end %>
-    <td><%= link_to "Delete", submission, method: :delete, data: {confirm: "Delete the submission for #{submission.user.name}?"} %></td>
-  </tr>
+      <td><%= link_to "Delete", submission, method: :delete, data: {confirm: "Delete the submission for #{submission.user.name}?"} %></td>
+    </tr>
+    <tr>
+      <td colspan="8" class="form">
+        <%= form_for submission do |f| %>
+          <%= f.text_area :grader_notes, spellcheck: false, placeholder: "Notes" %>
+          <%= f.submit "Save notes", class: "secondary" %>
+          <div><%= markdown(submission.grader_notes) %></div>
+        <% end %>
+      </td>
+    </tr>
   <% end %>
 </table>
 

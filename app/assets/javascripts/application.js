@@ -14,14 +14,21 @@
 //= require jquery_ujs
 //= require_tree .
 
-$("[data-record-url]").on("click", function(){
+$("[data-record-url]").on("change", function(){
   var el = $(this);
+  var key = el.attr("data-record-attribute");
+  var value = el.val();
+  var url = el.attr("data-record-url");
+  var params = {};
+
+  if(!key) key = "status";
+  params[key] = value;
   el.addClass("waiting");
   $.ajax({
-    url: el.attr("data-record-url"),
+    url: url,
     dataType: "json",
     method: "PATCH",
-    data: {status: el.val()}
+    data: params
   }).success(function(data){
     el.removeClass("waiting");
     console.log(data);

@@ -37,14 +37,14 @@
       <table>
         <tr>
           <th>Name</th>
-          <th>Assignment Title</th>
+          <th>Details</th>
           <th></th>
           <th colspan="4"></th>
         </tr>
         <% @due_submissions.each do |submission| %>
         <tr>
           <td><%= link_to submission.user.name, submission.user %></td>
-          <td><%= link_to submission.assignment.title, submission.assignment %></td>
+          <td><%= link_to submission.assignment.title, assignment_path(submission.assignment, anchor: submission.id) %></td>
           <td>
             <% if submission.assignment.repo_url && !submission.assignment.repo_url.strip.blank? %>
               <a href="<%= submission.issues_url %>" target="_blank" data-gh-issues="<%= submission.user.github_id %>">Issues</a>,
@@ -83,9 +83,9 @@
   </section>
 <% end %>
 
-<% if @attendances %>
+<% if @attendances.count > 0 %>
   <section>
-    <h3>Attendance</h3>
+    <h3><%= @user.first_name %>'s Attendance</h3>
     <p>Tardy: <%= @attendances.select{|a| a.status === 1}.count %>, Absent: <%= @attendances.select{|a| a.status === 0}.count %></p>
     <table>
       <% @attendances.each do |attendance| %>
@@ -100,22 +100,32 @@
   </section>
 <% end %>
 
-<% if @submissions %>
+<% if @submissions.count > 0 %>
   <section>
-    <h3>Homework Submissions</h3>
+    <h3><%= @user.first_name %>'s Homework Submissions</h3>
     <p>Percent Complete: <%= percent_of(@submissions, 2) %>%</p>
     <table>
       <% @submissions.each do |submission| %>
-      <tr>
-        <% if @is_adminned_by_current_user %>
-          <td><%= link_to submission.assignment.title, submission.assignment %></td>
-        <% else %>
-          <td><%= link_to_if !submission.assignment.repo_url.blank?, submission.assignment.title, submission.assignment.repo_url %></td>
-        <% end %>
-        <td><%= submission.status_english %></td>
-      </tr>
+        <tr>
+          <% if @is_adminned_by_current_user %>
+            <td><%= link_to submission.assignment.title, assignment_path(submission.assignment, anchor: submission.id) %></td>
+          <% else %>
+            <td><%= link_to_if !submission.assignment.repo_url.blank?, submission.assignment.title, submission.assignment.repo_url %></td>
+          <% end %>
+          <td><%= submission.status_english %></td>
+        </tr>
       <% end %>
     </table>
+
+    <section>
+      <h4>Instructor Notes on Submissions</h4>
+      <% @submission_notes.each do |submission| %>
+        <section>
+          <h5><%= submission.assignment.title %></h5>
+          <%= markdown(submission.grader_notes) %>
+        </section>
+      <% end %>
+    </section>
   </section>
 <% end %>
 
