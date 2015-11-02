@@ -16,6 +16,10 @@ class Submission < ActiveRecord::Base
     return "#{self.assignment.repo_url}/issues?q=involves:#{self.user.username}"
   end
 
+  def fork_url
+    return self.assignment.repo_url.sub(/ga-dc/, self.user.username)
+  end
+
   def self.statuses
     {
       nil => "n/a",
