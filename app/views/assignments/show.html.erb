@@ -17,6 +17,7 @@
     <% Submission.statuses.keys.each do |status| %>
       <td><%= status_button(submission, status) %></td>
     <% end %>
+    <td><%= link_to "Delete", submission, method: :delete, data: {confirm: "Delete the submission for #{submission.user.name}?"} %></td>
   </tr>
   <% end %>
 </table>
@@ -25,4 +26,13 @@
   <h3>Edit Assignment</h3>
   <%= render partial: "form", locals: {assignment: @assignment} %>
   <%= link_to "Delete Assignment", assignment_path(@assignment), method: :delete, class: "button", data: {confirm: "You sure?"} %>
+</section>
+
+<section>
+  <h3>Manually Create Submission</h3>
+  <p>When an assignment is created, a submission is created automatically for each user of the group to which the assignment belongs.</p>
+  <%= form_for [@assignment, Submission.new] do |f| %>
+    <%= f.select :user_id, @assignment.group.nonadmins.collect{|u| [u.name, u.id]} %>
+    <%= f.submit "Create" %>
+  <% end %>
 </section>

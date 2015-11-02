@@ -11,6 +11,8 @@ class AssignmentsController < ApplicationController
 
   def show
     @assignment = Assignment.find(params[:id])
+    @current_user_is_admin = @assignment.group.has_admin?(current_user)
+    redirect_to(current_user, flash:{alert: "You're not authorized."}) if !@current_user_is_admin
     @submissions = @assignment.submissions
     if params[:group]
       @group = Group.at_path(params[:group])
