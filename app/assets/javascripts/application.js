@@ -35,9 +35,10 @@ $("[data-record-url]").on("change", function(){
   });
 });
 
-$(document).ready(function(){
-  (function openFirstFoldingSection(){
-    var folderID = $(".fold").eq(0).attr("id");
-    if(folderID && !window.location.hash) window.location = "#" + folderID;
-  }())
+$(".fold").on("click", function(e){
+  var hash = window.location.hash
+  if(hash == e.target.getAttribute('href')){
+    e.preventDefault()
+    window.location.hash = '#'
+  }
 })
