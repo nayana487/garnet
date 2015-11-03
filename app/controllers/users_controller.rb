@@ -2,6 +2,11 @@ class UsersController < ApplicationController
 
   skip_before_action :authenticate, except: [:show]
 
+  def orphans
+    @users = User.all.select{|u| u.groups.count < 1}
+    render :index
+  end
+
   def show
     if params[:user]
       if User.exists?(username: params[:user])
