@@ -42,8 +42,8 @@
       <% end %>
     </table>
 
-    <p>Admins:
-      <% @admins.each do |user| %>
+    <p>Owners:
+      <% @owners.each do |user| %>
         <%= link_to user.name || user.username, user_path(user) %>
         <%= link_to("(x)", group_membership_path(@group, user), method: :delete, data: {confirm: "Are you sure you want to remove this admin?"}) if @is_admin %>,
       <% end %>
@@ -54,8 +54,8 @@
         <h4>Add Member(s)</h4>
         <%= form_for [@group, @group.memberships.new] do %>
           <input name="usernames" placeholder="One or more usernames, separated by spaces and/or commas" />
-          <input type="checkbox" name="is_admin" id="is_admin" />
-          <label for="is_admin">Is admin</label>
+          <input type="checkbox" name="is_owner" id="is_owner" />
+          <label for="is_owner">Is admin</label>
           <input type="submit" value="Add member(s)" />
         <% end %>
       </section>

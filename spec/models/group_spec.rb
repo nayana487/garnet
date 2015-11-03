@@ -2,69 +2,81 @@ require 'rails_helper'
 
 RSpec.describe Group do
   before(:all) do
-    Group.destroy_all
-    Assignment.destroy_all
-    groups = {
-      "a1": {
-        "a2": {
-          "a3": {
-          },
-          "b3": {
-          }
-        },
-        "b2": {
-        }
-      },
-      "b1": {
-        "c2": {
-        },
-        "d2": {
-        }
-      }
-    }
-    @base = Group.create!(title: "ga")
-    @base.create_descendants(groups, :title)
+    load "#{Rails.root}/db/seeds/test_seed.rb"
   end
+
   describe "path" do
     it "is joining of ancestor group titles with underscore" do
-      b2 = Group.find_by(title: "b2")
-      expect(b2.path).to eq("ga_a1_b2")
+      expect(Group.find_by(title: "squad-adam").path).to eq("ga_wdi_dc_7_squad-adam")
     end
     context "on updating of ancestor's title" do
       it "is also updated" do
         newtitle = "foo"
-        Group.find_by(title: "a1").update(title: newtitle)
-        b2 = Group.find_by(title: "b2")
-        expect(b2.path).to eq("ga_foo_b2")
+        Group.find_by(title: "wdi").update(title: newtitle)
+        expect(Group.find_by(title: "squad-adam").path).to eq("ga_foo_dc_7_squad-adam")
       end
     end
   end
-  describe "family attribute getter" do
-    before(:all) do
-      @b1 = Group.find_by(title: "b1")
-      @a2 = Group.find_by(title: "a2")
-      @a3 = Group.find_by(title: "a3")
-      @d2 = Group.find_by(title: "d2")
-      @b1_1 = @b1.assignments.create(title: "B1_1")
-      @a2_1 = @a2.assignments.create(title: "A2_1")
-      @a2_2 = @a2.assignments.create(title: "A2_2")
-      @a3_3 = @a3.assignments.create(title: "A3_1")
-      @d2_1 = @d2.assignments.create(title: "D2_1")
-    end
-    describe "#descendants_attr" do
-      it "retrieves a collection of attribute values for self and subgroups" do
-        expect(@base.descendants_attr("assignments")).to match_array([@a2_1, @a2_2, @a3_3, @d2_1, @b1_1])
+
+  describe "membership methods" do
+    describe "#owners" do
+      it "includes users with physical memberships in the group where #is_owner is true" do
+        owners = Group.at_path("ga_wdi_dc_7_squad-adam").owners
+        expect(owners).to match_array([User.named("adam"), User.named("matt")])
       end
     end
-    describe "#ancestors_attr" do
-      it "retrieves a collection of attribute values for self and ancestors" do
-        expect(@d2.ancestors_attr("assignments")).to match_array([@d2_1, @b1_1])
+
+    describe "#nonowners" do
+      it "includes users with physical memberships in the group where #is_owner is not true" do
+        nonowners = Group.at_path("ga_wdi_dc_7_squad-adam").nonowners
+        expect(nonowners).to match_array([User.named("jane"), User.named("john"), User.named("testwdidcstudent")])
+      end
+    end
+
+    describe "#admins" do
+      before(:all) do
+        @admins = Group.at_path("ga_wdi_dc_7_squad-adam").admins
+      end
+      it "includes users who are owners of the group" do
+        expect(@admins).to include(User.named("adam"))
+      end
+      it "trickle down: includes owners of any ancestor groups" do
+        expect(@admins).to include(User.named("jesse"))
+      end
+      it "does not include users who are nonowners of the group" do
+        expect(@admins).to_not include(User.named("john"))
+      end
+      describe "membership abilities" do
+        it "can change an owner's membership status to nonowner"
+        it "can remove an nonowner's membership from group"
+      end
+    end
+
+    describe "#nonadmins" do
+      before(:all) do
+        @nonadmins = Group.at_path("ga_wdi_dc_7").nonadmins
+      end
+      it "includes users who are nonowners of the group" do
+        expect(@nonadmins).to include(User.named("alice"))
+      end
+      describe "bubble up" do
+        it "includes nonowners of any descendant groups" do
+          expect(@nonadmins).to include(User.named("john"))
+        end
+        it "includes owners of any descendant groups" do
+          expect(@nonadmins).to include(User.named("matt"))
+        end
+      end
+      it "does not include users who are owners of the group" do
+        expect(@nonadmins).to_not include(User.named("jesse"))
+        expect(@nonadmins).to_not include(User.named("adam"))
       end
     end
   end
+
   context "on destroy" do
     before(:all) do
-      @base.destroy!
+      Group.at_path("ga").destroy!
     end
     it "also destroys all descendants" do
       expect(Group.all.count).to eq(0)

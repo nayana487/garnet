@@ -7,7 +7,7 @@ class GroupsController < ApplicationController
     else
       @group = Group.first
     end
-    @admins = @group.admins
+    @owners = @group.owners
     @nonadmins = @group.nonadmins
     @is_admin = @group.has_admin?(current_user)
     @submissions = @group.members_submissions.uniq
