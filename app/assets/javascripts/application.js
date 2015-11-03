@@ -34,3 +34,11 @@ $("[data-record-url]").on("change", function(){
     console.log(data);
   });
 });
+
+$(".fold").on("click", function(e){
+  var hash = window.location.hash
+  if(hash == e.target.getAttribute('href')){
+    e.preventDefault()
+    window.location.hash = '#'
+  }
+})
