@@ -15,8 +15,8 @@ class Membership < ActiveRecord::Base
   end
 
   def make_admin_nonadmin
-    if self.is_admin
-      self.update(is_admin: false)
+    if self.is_owner
+      self.update(is_owner: false)
       self.save
       return false
     end

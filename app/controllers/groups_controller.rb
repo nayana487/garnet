@@ -21,7 +21,7 @@ class GroupsController < ApplicationController
     @parent = Group.at_path(params[:group_path])
     @group = @parent.children.create!(group_params)
     raise "You're not an admin of this group!" if !@parent.has_admin?(current_user)
-    @group.memberships.create!(user_id: current_user.id, is_admin: true)
+    @group.memberships.create!(user_id: current_user.id, is_owner: true)
     redirect_to group_path(@group)
   end
 
