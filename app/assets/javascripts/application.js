@@ -54,5 +54,5 @@ new KonamiListener(window, function(){
   img.style.bottom = "0px";
   img.style.cursor = "help";
   document.body.appendChild(img);
-  document.querySelector("h1 a").innerHTML = "<span style='color:green;'>GA</span>rnett"
+  document.querySelector("h1 a").innerHTML = "<span style='color:green;'>GA</span>rnett: Anything is possible"
 });
