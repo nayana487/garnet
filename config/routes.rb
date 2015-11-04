@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   resources :users, param: :user do
     resources :observations, only: [:create]
     put 'refresh_memberships', on: :member
+    get "orphans", to: "users#orphans", on: :collection
     get "is_authorized", action: :is_authorized?
   end
 
