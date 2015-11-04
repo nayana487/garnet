@@ -42,3 +42,17 @@ $(".fold").on("click", function(e){
     window.location.hash = '#'
   }
 })
+
+new KonamiListener(window, function(){
+  var img = document.createElement("IMG");
+  img.title = "Garnett. Get it?";
+  img.src = "http://i.imgur.com/dfb04ls.png";
+  img.style.display = "block";
+  img.style.position = "fixed";
+  img.style.zIndex = 9000;
+  img.style.right = "0px";
+  img.style.bottom = "0px";
+  img.style.cursor = "help";
+  document.body.appendChild(img);
+  document.querySelector("h1 a").innerHTML = "<span style='color:green;'>GA</span>rnett"
+});
