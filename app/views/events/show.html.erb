@@ -2,10 +2,10 @@
 
 
 <p>
-<% if request.url.match(/filter=na/) %>
-  <%=link_to "Show All", request.url.gsub(/filter=na/,'') %>
+<% if params[:status] == "nil" %>
+  <%=link_to "Show All", request.url.gsub(/&status=nil/,'') %>
 <% else %>
-  <%=link_to "Filter by N/A", request.url + "&filter=na" %>
+  <%=link_to "Filter by N/A", request.url + "&status=nil" %>
 <% end %>
 </p>
 
