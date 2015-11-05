@@ -19,7 +19,11 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     @current_user_is_admin = @event.group.has_admin?(current_user)
     redirect_to(current_user, flash:{alert: "You're not authorized."}) if !@current_user_is_admin
-    @attendances = @event.attendances
+    if params[:status] == "nil"
+      @attendances = @event.attendances.where(status:nil)
+    else
+      @attendances = @event.attendances
+    end
     if params[:group]
       @group = Group.at_path(params[:group])
       @attendances = @attendances.select{|a| a.user.is_member_of(@group)}

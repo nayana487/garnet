@@ -1,4 +1,14 @@
 <h2><%= "#{@event.title}, #{@event.date_s}" %></h2>
+
+
+<p>
+<% if params[:status] == "nil" %>
+  <%=link_to "Show All", event_path(@event, group: @group) %>
+<% else %>
+  <%=link_to "Filter by N/A", event_path(@event, status: "nil", group: @group) %>
+<% end %>
+</p>
+
 <table>
   <% @attendances.each do |attendance| %>
   <tr>
