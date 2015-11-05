@@ -8,6 +8,8 @@
 <% if @assignment.repo_url && !@assignment.repo_url.strip.blank? %>
   <button class="js-count-assignment-issues" data-issues-url="<%= assignment_issues_path(@assignment) %>">Count issues</button>
 <% end %>
+  <button class="js-toggle-notes">Hide Notes</button>
+
 <table>
   <% @submissions.each do |submission| %>
     <tr id="<%= submission.id %>">
@@ -23,7 +25,7 @@
       <% end %>
       <td><%= link_to "x", submission, method: :delete, data: {confirm: "Delete the submission for #{submission.user.name}?"} %></td>
     </tr>
-    <tr>
+    <tr class="submission-note">
       <td colspan="8" class="form">
         <%= form_for submission do |f| %>
           <%= f.text_area :grader_notes, spellcheck: false, placeholder: "Notes" %>
