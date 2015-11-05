@@ -1,4 +1,14 @@
 <h2><%= "#{@event.title}, #{@event.date_s}" %></h2>
+
+
+<p>
+<% if request.url.match(/filter=na/) %>
+  <%=link_to "Show All", request.url.gsub(/filter=na/,'') %>
+<% else %>
+  <%=link_to "Filter by N/A", request.url + "&filter=na" %>
+<% end %>
+</p>
+
 <table>
   <% @attendances.each do |attendance| %>
   <tr>
