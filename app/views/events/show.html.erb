@@ -3,9 +3,9 @@
 
 <p>
 <% if params[:status] == "nil" %>
-  <%=link_to "Show All", request.url.gsub(/&status=nil/,'') %>
+  <%=link_to "Show All", event_path(@event, group: @group) %>
 <% else %>
-  <%=link_to "Filter by N/A", request.url + "&status=nil" %>
+  <%=link_to "Filter by N/A", event_path(@event, status: "nil", group: @group) %>
 <% end %>
 </p>
 
