@@ -76,7 +76,7 @@
       </tr>
       <% @events.each do |event| %>
         <% attendances = @attendances.select{|a| a.event == event} %>
-        <tr>
+        <tr class="<%= "today" if event.date.today? %>">
           <td><%= link_to_if @is_admin, event.date_s, event_path(event, group: @group) %></td>
           <td><%= event.title %></td>
           <td><%= event.group.path %></td>
