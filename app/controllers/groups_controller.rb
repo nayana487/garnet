@@ -13,7 +13,7 @@ class GroupsController < ApplicationController
     @submissions = @group.members_submissions.uniq
     @assignments = @submissions.collect(&:assignment).uniq.sort_by(&:due_date)
     @attendances = @group.members_attendances.uniq
-    @events = @attendances.collect(&:event).uniq.sort_by(&:date)
+    @events = @attendances.collect(&:event).uniq.sort_by(&:date).reverse
     @observations = @group.members_observations.sort_by(&:created_at)
   end
 
