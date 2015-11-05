@@ -8,6 +8,8 @@ $(".js-count-assignment-issues").on("click", function(e){
   })
 })
 
+$(".js-toggle-notes").on("click", toggleNotes);
+
 function loadIssues(url, callback){
   var els = $("[data-gh-issues]");
   var summaries = {};
@@ -21,7 +23,7 @@ function loadIssues(url, callback){
       var userID = el.getAttribute("data-gh-issues");
       el.textContent = issueSummaryToString(userID)
     });
-    if(typeof callback == "function"){ 
+    if(typeof callback == "function"){
       callback()
     }
   });
@@ -49,4 +51,9 @@ function loadIssues(url, callback){
     }
     return output.join(", ");
   }
+}
+
+function toggleNotes() {
+  $(this).text() === "Show Notes" ? $(this).text("Hide Notes") : $(this).text("Show Notes");
+  $(".submission-note").slideToggle("fast");
 }
