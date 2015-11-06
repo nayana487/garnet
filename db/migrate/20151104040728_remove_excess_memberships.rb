@@ -6,7 +6,9 @@ class RemoveExcessMemberships < ActiveRecord::Migration
 
     garoot = User.named("garoot")
     garoot.destroy if garoot
-    Group.at_path("ga").add_owner("jshawl")
-    Group.at_path("ga").add_owner("bmartinowich")
+
+    # Add specific owners, need condition for env's that don't have these users (dev/test)
+    Group.at_path("ga").add_owner("jshawl") if User.named("jshawl")
+    Group.at_path("ga").add_owner("bmartinowich") if User.named("bmartinowich")
   end
 end
