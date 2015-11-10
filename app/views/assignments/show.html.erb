@@ -10,6 +10,14 @@
 <% end %>
   <button class="js-toggle-notes">Hide Notes</button>
 
+<p>
+<% if params[:status] == "nil" %>
+  <%=link_to "Show All", assignment_path(@assignment, group: @group) %>
+<% else %>
+  <%=link_to "Filter by N/A", assignment_path(@assignment, status: "nil", group: @group) %>
+<% end %>
+</p>
+
 <table>
   <% @submissions.each do |submission| %>
     <tr id="<%= submission.id %>">
