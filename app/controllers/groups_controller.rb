@@ -14,6 +14,7 @@ class GroupsController < ApplicationController
     @assignments = @submissions.collect(&:assignment).uniq.sort_by(&:due_date)
     @attendances = @group.members_attendances.uniq
     @events = @attendances.collect(&:event).uniq.sort_by(&:date).reverse
+    @event_for_today_already_exists = @events.first.date.strftime("%Y%m%d") == DateTime.now.strftime("%Y%m%d")
     @observations = @group.members_observations.sort_by(&:created_at)
   end
 
