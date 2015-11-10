@@ -21,6 +21,9 @@ class AssignmentsController < ApplicationController
       @group = @assignment.group
     end
     @submissions = @submissions.sort_by{|s| s.user.last_name}
+    if params[:status] == "nil"
+      @submissions = @submissions.select{|s| s.status == nil }
+    end
   end
 
   def create
