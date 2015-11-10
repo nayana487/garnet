@@ -87,7 +87,8 @@
     </table>
 
     <% if @is_admin %>
-      <section>
+      <section data-event-for-today-already-exists="<%= @event_for_today_already_exists %>">
+        <button class='js-show-attendance-form'>An Event for today already exists! Create one anyway...</button>
         <h4>New Event</h4>
         <%= render partial: "events/form", locals: {group: @group, event: Event.new} %>
       </section>

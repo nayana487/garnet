@@ -1,0 +1,11 @@
+[data-event-for-today-already-exists] > button{
+  display:none;
+}
+
+[data-event-for-today-already-exists="true"] > button {
+  display:block;
+}
+
+[data-event-for-today-already-exists="true"] > button ~ * {
+  display:none;
+}
