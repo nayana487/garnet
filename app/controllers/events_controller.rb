@@ -2,6 +2,7 @@ class EventsController < ApplicationController
 
   def create
     @group = Group.at_path(params[:group_path])
+    last_event = @group.events.last
     @event = @group.events.new(event_params)
     date = DateTime.new(
       event_params["date(1i)"].to_i,
@@ -11,6 +12,10 @@ class EventsController < ApplicationController
       event_params["date(5i)"].to_i
     )
     @event.date = date
+    if @event.date.to_i - last_event.date.to_i < 500
+      redirect_to last_event
+      return
+    end
     @event.save!
     redirect_to @event
   end
