@@ -41,6 +41,7 @@ class Group < Tree
   def self.at_path path
     path = path.split("_")
     group = Group.find_by(title: path[0])
+    return false if !group
     path.each_with_index do |title, i|
       next if i == 0
       group = group.children.find_by(title: path[i])
