@@ -12,7 +12,7 @@ class EventsController < ApplicationController
     )
     @event.date = date
     @event.save!
-    redirect_to :back
+    redirect_to @event
   end
 
   def show
