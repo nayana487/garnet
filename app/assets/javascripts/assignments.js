@@ -9,6 +9,7 @@ $(".js-count-assignment-issues").on("click", function(e){
 })
 
 $(".js-toggle-notes").on("click", toggleNotes);
+toggleNotes(); // notes are shown in the HTML, but hidden by default using JS
 
 function loadIssues(url, callback){
   var els = $("[data-gh-issues]");
@@ -54,6 +55,10 @@ function loadIssues(url, callback){
 }
 
 function toggleNotes() {
-  $(this).text() === "Show Notes" ? $(this).text("Hide Notes") : $(this).text("Show Notes");
-  $(".submission-note").slideToggle("fast");
+  // when called globally, use the default of js-toggle-notes
+  // when called in a callback, use the button that triggered the event
+  var button = this === window ? $(".js-toggle-notes") : this
+
+  $(button).text() === "Show Notes" ? $(button).text("Hide Notes") : $(button).text("Show Notes");
+  $(".submission-note").toggle("fast");
 }
