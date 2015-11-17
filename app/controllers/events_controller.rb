@@ -12,9 +12,8 @@ class EventsController < ApplicationController
       event_params["date(5i)"].to_i
     )
     @event.date = date
-    if @event.date.to_i - last_event.date.to_i < 500
-      redirect_to last_event
-      return
+    if last_event && @event.date - last_event.date < (60 * 5)
+      return redirect_to last_event, alert: "An event was already created for #{last_event.date.strftime("%I:%M %p")}."
     end
     @event.save!
     redirect_to @event
