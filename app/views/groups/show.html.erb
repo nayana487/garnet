@@ -79,7 +79,7 @@
         <tr class="<%= "today" if event.date.today? %>">
           <td><%= link_to_if @is_admin, event.date_s, event_path(event, group: @group) %></td>
           <td><%= event.title %></td>
-          <td><%= event.group.path %></td>
+          <td><%= event.group.path_string %></td>
           <td><%= percent_of(attendances, 2) %>%</td>
           <td><%= attendances.count %></td>
         </tr>
@@ -112,7 +112,7 @@
         <tr>
           <td><%= link_to_if @is_admin, assignment.title, assignment_path(assignment, group: @group) %></td>
           <td><%= assignment.due_date_s %></td>
-          <td><%= assignment.group.path %></td>
+          <td><%= assignment.group.path_string %></td>
           <td><%= percent_of(submissions, 2) %>%</td>
           <td><%= submissions.count %></td>
         </tr>

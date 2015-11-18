@@ -11,7 +11,7 @@
         <%= markdown(observation.body) %>
         <p><small>By
           <%= link_to observation.admin.username, user_path(observation.admin) %> for
-          <%= link_to observation.group.path, group_path(observation.group) %>,
+          <%= link_to observation.group.path_string, group_path(observation.group) %>,
           <span title="<%= observation.created_at.strftime("%a %m/%d/%y %r") %>">
           <%= time_ago_in_words(observation.created_at) %> ago</span> <%= link_to "(x)", observation, method: :delete, data: {confirm: "Are you sure?"} %></small></p>
       </div>
