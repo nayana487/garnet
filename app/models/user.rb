@@ -88,7 +88,7 @@ class User < ActiveRecord::Base
     return @adminned_groups if defined? @adminned_groups
     @adminned_groups = []
     self.owned_groups.each do |group|
-      @adminned_groups.push(group.descendants)
+      @adminned_groups.push(group.subtree)
     end
     @adminned_groups = @adminned_groups.flatten.uniq
   end
