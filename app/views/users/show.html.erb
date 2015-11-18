@@ -38,6 +38,7 @@
         <tr>
           <th>Name</th>
           <th>Details</th>
+          <th>Due Date</th>
           <th></th>
           <th colspan="4"></th>
         </tr>
@@ -45,6 +46,7 @@
         <tr>
           <td><%= link_to submission.user.name, submission.user %></td>
           <td><%= link_to submission.assignment.title, assignment_path(submission.assignment, anchor: submission.id) %></td>
+          <td><%= submission.due_date %></td>
           <td>
             <% if submission.assignment.repo_url && !submission.assignment.repo_url.strip.blank? %>
               <a href="<%= submission.issues_url %>" target="_blank" data-gh-issues="<%= submission.user.github_id %>">Issues</a>,
