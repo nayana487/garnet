@@ -119,7 +119,9 @@ class User < ActiveRecord::Base
   def get_due model_name
     records = squaddies.collect{|g| g.send(model_name).where(status: nil)}.flatten.uniq
     records.select!{|r| adminned_groups.include?(r.group)}
-    records.select!{|r| r.assignment.due_date <= DateTime.now}
+    if self.is_a? Submission
+      records.select!{|r| r.assignment.due_date <= DateTime.now}
+    end
     return records
   end
 
