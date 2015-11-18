@@ -7,13 +7,13 @@ RSpec.describe Group do
 
   describe "path" do
     it "is joining of ancestor group titles with underscore" do
-      expect(Group.find_by(title: "squad-adam").path).to eq("ga_wdi_dc_7_squad-adam")
+      expect(Group.find_by(title: "squad-adam").path_string).to eq("ga_wdi_dc_7_squad-adam")
     end
     context "on updating of ancestor's title" do
       it "is also updated" do
         newtitle = "foo"
         Group.find_by(title: "wdi").update(title: newtitle)
-        expect(Group.find_by(title: "squad-adam").path).to eq("ga_foo_dc_7_squad-adam")
+        expect(Group.find_by(title: "squad-adam").path_string).to eq("ga_foo_dc_7_squad-adam")
       end
     end
   end
