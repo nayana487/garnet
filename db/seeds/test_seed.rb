@@ -13,7 +13,7 @@ matt = User.create(username: "matt", password: "fo")
 
 Group.at_path("ga_wdi_dc_7").add_owner(adam)
 Group.at_path("ga_wdi_dc_7").add_owner(jesse)
-Group.at_path("ga_wdi_dc_7_squad-adam").add_owner(adam)
+Group.at_path("ga_wdi_dc_7_squad-adam").add_owner(adam, true)
 Group.at_path("ga_wdi_dc_7_squad-adam").add_owner(matt)
 
 Group.at_path("ga_wdi_dc_7_squad-adam").add_member(jane)

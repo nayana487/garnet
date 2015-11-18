@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe User do
+  before(:all) do
+    load "#{Rails.root}/db/seeds/test_seed.rb"
+  end
+
   describe "names" do
     it "#name returns name when set" do
       bob = User.new(name: "Bob", username: "bdylan" )
@@ -59,6 +63,15 @@ RSpec.describe User do
         expect(bob.last_name.downcase).to eq(bob.username.downcase)
       end
     end
+  end
 
+
+  describe "#squad" do
+    let(:squad) { Group.at_path("ga_wdi_dc_7_squad-adam") }
+    subject(:instructor) { squad.owners.first }
+
+    it "returns the last Priority Group" do
+      expect(instructor.squad).to eql(squad)
+    end
   end
 end
