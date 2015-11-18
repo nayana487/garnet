@@ -36,7 +36,7 @@
             <td class="<%= color_of_status( avg_obz = average_status(user.observations)) %>">
               <%= avg_obz %>
             </td>
-            <td><%= link_to("Remove", group_membership_path(@group, user), method: :delete, data: {confirm: "Are you sure?"}) %></td>
+            <td><%= link_to("Remove", group_membership_path(@group, user), method: :delete, data: {confirm: "Are you sure?"}) if user.memberships.exists?(group: @group) %></td>
           <% end %>
         </tr>
       <% end %>
