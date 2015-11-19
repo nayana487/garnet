@@ -163,14 +163,6 @@ class UsersController < ApplicationController
     redirect_to action: :index
   end
 
-  def refresh_memberships
-    @user = User.find_by(username: params[:user])
-    @user.memberships.select{|m| m.group.is_childless?}.each do |membership|
-      membership.update_ancestor_memberships
-    end
-    redirect_to @user
-  end
-
   private
   def user_params
     params.require(:form_user).permit(:password, :username, :name, :email, :image_url)

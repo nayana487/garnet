@@ -1,14 +1,11 @@
 class Group < ActiveRecord::Base
   has_many :events
   has_many :attendances, through: :events
-  has_many :members_attendances, through: :users, source: :attendances
 
   has_many :assignments
   has_many :submissions, through: :assignments
-  has_many :members_submissions, through: :users, source: :submissions
 
   has_many :observations
-  has_many :members_observations, through: :users, source: :observations
 
   has_many :memberships, dependent: :destroy
   has_many :users, through: :memberships
@@ -18,6 +15,13 @@ class Group < ActiveRecord::Base
   validates :title, presence: true, format: {with: /\A[a-zA-Z0-9\-]+\z/, message: "Only letters, numbers, and hyphens are allowed."}
 
   before_save :validate_uniqueness_of_title_among_siblings
+
+  def paths_in_tree
+    paths = {}
+    self.ancestors.each{|g| paths[g.id] = g.path_string }
+    self.subtree.each{|g| paths[g.id] = g.path_string }
+    return paths
+  end
 
   def to_param
     self.path_string
@@ -48,26 +52,7 @@ class Group < ActiveRecord::Base
   end
 
   def path_string
-    @path_string ||= self.path.collect(&:title).join("_")
-  end
-
-  def owners compact = true
-    memberships = self.memberships.where(is_owner: true)
-    return compact ? compact_users(memberships) : memberships
-  end
-
-  def nonowners compact = true
-    memberships = self.memberships.where(is_owner: [false, nil])
-    return compact ? compact_users(memberships) : memberships
-  end
-
-  def admins
-    return compact_users(self.path.collect{|g| g.owners(false)})
-  end
-
-  def nonadmins
-    memberships = compact_users(self.subtree.collect(&:memberships))
-    return memberships - self.owners
+    @path_string ||= self.path.map(&:title).join("_")
   end
 
   def member user
@@ -100,8 +85,49 @@ class Group < ActiveRecord::Base
     self.memberships.exists?(user: user, is_priority: true)
   end
 
-  def is_childless?
-    return self.children.count < 1
+  def owners
+    @owners ||= User.joins(:memberships).where(memberships: {group: self, is_owner: true}).sort_by(&:last_name).uniq
+  end
+
+  def nonowners
+    @nonowners ||= User.joins(:memberships).where(memberships: {group: self, is_owner: [false, nil]}).sort_by(&:last_name).uniq
+  end
+
+  def admins
+    @admins ||= User.joins(:memberships).where(memberships: {group_id: self.path_ids, is_owner: true}).uniq
+  end
+
+  def nonadmins
+    @nonadmins ||= (User.joins(:memberships).where(memberships: {group_id: self.subtree_ids}).uniq - owners).sort_by(&:last_name)
+  end
+
+  def members_assignments
+    Assignment.joins(submissions: :user).where(in_subtree, submissions: in_nonadmins).uniq.order(:due_date)
+  end
+
+  def members_submissions
+    Submission.joins(:assignment, :user).where(in_nonadmins, assignments: in_subtree).uniq
+  end
+
+  def members_events
+    Event.joins(attendances: :user).where(in_subtree, attendances: in_nonadmins).uniq.order(:date)
+  end
+
+  def members_attendances
+    Attendance.joins(:event, :user).where(in_nonadmins, events: in_subtree).uniq
+  end
+
+  def members_observations
+    Observation.joins(:user).where(in_nonadmins, in_subtree).uniq
+  end
+
+  def create_descendants hash, name
+    hash.each do |key, subtree|
+      child = self.children.new
+      child.send("#{name}=", key)
+      child.save!
+      child.create_descendants(subtree, name)
+    end
   end
 
   def create_descendants hash, name
@@ -114,8 +140,12 @@ class Group < ActiveRecord::Base
   end
 
   private
-  def compact_users memberships
-    memberships.flatten.reject(&:blank?).collect(&:user).uniq.sort_by(&:last_name)
+  def in_nonadmins
+    {user_id: self.nonadmins.map(&:id)}
+  end
+
+  def in_subtree
+    {group_id: self.subtree_ids}
   end
 
 end

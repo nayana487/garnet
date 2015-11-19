@@ -27,16 +27,16 @@
             <td><%= avatar(user) if user.image_url && !user.image_url.strip.blank? %></td>
           <% end %>
           <% if @is_admin %>
-            <td class="<%= color_of_percent( present = percent_of(user.attendances, 2)) %>">
+            <td class="<%= color_of_percent( present = percent_of(@attendances.select{|a| a.user_id == user.id}, 2)) %>">
               <%= present %>%
             </td>
-            <td class="<%= color_of_percent( complete = percent_of(user.submissions, 2)) %>">
+            <td class="<%= color_of_percent( complete = percent_of(@submissions.select{|s| s.user_id == user.id}, 2)) %>">
               <%= complete %>%
             </td>
-            <td class="<%= color_of_status( avg_obz = average_status(user.observations)) %>">
+            <td class="<%= color_of_status( avg_obz = average_status(@observations.select{|o| o.user_id == user.id})) %>">
               <%= avg_obz %>
             </td>
-            <td><%= link_to("Remove", group_membership_path(@group, user), method: :delete, data: {confirm: "Are you sure?"}) if user.memberships.exists?(group: @group) %></td>
+            <td><%= link_to("Remove", group_membership_path(@group, user), method: :delete, data: {confirm: "Are you sure?"}) if @member_ids.include?(user.id) %></td>
           <% end %>
         </tr>
       <% end %>
@@ -75,11 +75,11 @@
         <th>Total</th>
       </tr>
       <% @events.each do |event| %>
-        <% attendances = @attendances.select{|a| a.event == event} %>
+        <% attendances = @attendances.select{|e| e.event_id == event.id} %>
         <tr class="<%= "today" if event.date.today? %>">
           <td><%= link_to_if @is_admin, event.date_s, event_path(event, group: @group) %></td>
           <td><%= event.title %></td>
-          <td><%= event.group.path_string %></td>
+          <td><%= @paths[event.group_id] %></td>
           <td><%= percent_of(attendances, 2) %>%</td>
           <td><%= attendances.count %></td>
         </tr>
@@ -108,11 +108,11 @@
         <th>Total</th>
       </tr>
       <% @assignments.each do |assignment| %>
-        <% submissions = @submissions.select{|s| s.assignment == assignment} %>
+        <% submissions = @submissions.select{|s| s.assignment_id == assignment.id} %>
         <tr>
           <td><%= link_to_if @is_admin, assignment.title, assignment_path(assignment, group: @group) %></td>
           <td><%= assignment.due_date_s %></td>
-          <td><%= assignment.group.path_string %></td>
+          <td><%= @paths[assignment.group_id] %></td>
           <td><%= percent_of(submissions, 2) %>%</td>
           <td><%= submissions.count %></td>
         </tr>
