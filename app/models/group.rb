@@ -1,4 +1,4 @@
-class Group < Tree
+class Group < ActiveRecord::Base
   has_many :events
   has_many :attendances, through: :events
   has_many :members_attendances, through: :users, source: :attendances
@@ -13,16 +13,14 @@ class Group < Tree
   has_many :memberships, dependent: :destroy
   has_many :users, through: :memberships
 
-  belongs_to :parent, class_name: "Group"
-  has_many :children, class_name: "Group", foreign_key: "parent_id"
+  has_ancestry
 
   validates :title, presence: true, format: {with: /\A[a-zA-Z0-9\-]+\z/, message: "Only letters, numbers, and hyphens are allowed."}
 
-  validate :validates_presence_of_parent
   before_save :validate_uniqueness_of_title_among_siblings
 
   def to_param
-    self.path
+    self.path_string
   end
 
   def validates_presence_of_parent
@@ -38,19 +36,19 @@ class Group < Tree
     end
   end
 
-  def self.at_path path
-    path = path.split("_")
-    group = Group.find_by(title: path[0])
+  def self.at_path path_string
+    titles = path_string.split("_")
+    group = Group.find_by(title: titles.first)
     return false if !group
-    path.each_with_index do |title, i|
+    titles.each_with_index do |title, i|
       next if i == 0
-      group = group.children.find_by(title: path[i])
+      group = group.children.find_by(title: title)
     end
     return group
   end
 
-  def path
-    @path ||= self.ancestors.collect{|g| g.title}.join("_")
+  def path_string
+    @path_string ||= self.path.collect(&:title).join("_")
   end
 
   def owners compact = true
@@ -64,11 +62,11 @@ class Group < Tree
   end
 
   def admins
-    return compact_users(self.ancestors.collect{|g| g.owners(false)})
+    return compact_users(self.path.collect{|g| g.owners(false)})
   end
 
   def nonadmins
-    memberships = compact_users(self.descendants.collect(&:memberships))
+    memberships = compact_users(self.subtree.collect(&:memberships))
     return memberships - self.owners
   end
 
@@ -104,6 +102,15 @@ class Group < Tree
 
   def is_childless?
     return self.children.count < 1
+  end
+
+  def create_descendants hash, name
+    hash.each do |key, subtree|
+      child = self.children.new
+      child.send("#{name}=", key)
+      child.save!
+      child.create_descendants(subtree, name)
+    end
   end
 
   private

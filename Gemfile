@@ -7,6 +7,7 @@ gem 'pg'
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>
 # remaining gems are sorted alphabetically
+gem 'ancestry'
 gem 'bcrypt' # Use ActiveModel has_secure_password
 gem 'cancancan'
 # Use CoffeeScript for .coffee assets and views

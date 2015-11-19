@@ -1,8 +1,7 @@
 module ApplicationHelper
 
   def breadcrumbs(group, user = nil)
-    output = group.ancestors([]).sort{|a,b| a.path <=> b.path}.to_a
-    output.push(group)
+    output = group.path.sort{|a,b| a.path_string <=> b.path_string}.to_a
     output.map!{|g| (link_to g.title, group_path(g), class: "breadcrumb")}
     output = output.join("_")
     if user
@@ -18,7 +17,7 @@ module ApplicationHelper
   def group_descendant_list(group)
     output = ""
     group.descendants.each do |subgroup|
-      output += "<li>" + link_to(subgroup.path, group_path(subgroup)) + "</li>"
+      output += "<li>" + link_to(subgroup.path_string, group_path(subgroup)) + "</li>"
     end
     return output.html_safe
   end
