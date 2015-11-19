@@ -7,15 +7,13 @@ class GroupsController < ApplicationController
     else
       @group = Group.first
     end
-    @owners = @group.owners
-    @nonadmins = @group.nonadmins
     @is_admin = @group.has_admin?(current_user)
-    @submissions = @group.members_submissions.uniq
-    @assignments = @submissions.collect(&:assignment).uniq.sort_by(&:due_date)
-    @attendances = @group.members_attendances.uniq
-    @events = @attendances.collect(&:event).uniq.sort_by(&:date).reverse
-    @event_for_today_already_exists = @events[0] ? @events.first.date.strftime("%Y%m%d") == DateTime.now.strftime("%Y%m%d") : false
-    @observations = @group.members_observations.sort_by(&:created_at)
+    @submissions = @group.members_submissions
+    @assignments = @group.members_assignments
+    @attendances = @group.members_attendances
+    @events = @group.members_events.reverse
+    @observations = @group.members_observations
+    @event_for_today_already_exists = @events.any? ? @events.first.date == DateTime.now : false
   end
 
   def create

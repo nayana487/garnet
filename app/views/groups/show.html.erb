@@ -1,7 +1,7 @@
 <section>
   <h3 class="fold" id="members"><a href="#members">Members</a></h3>
   <div>
-    <h4>Roster: <%= @nonadmins.count %> total</h4>
+    <h4>Roster: <%= @group.nonadmins.count %> total</h4>
     <% if @hide_pics %>
       <a class="button" href="?show_pics=true">Load all photos</a>
     <% else %>
@@ -20,20 +20,20 @@
           <th>Average Obz</th>
           <th></th>
         <% end %>
-      <% @nonadmins.each do |user| %>
+      <% @group.nonadmins.each do |user| %>
         <tr>
           <td><%= link_to user.name || user.username, user_path(user) %></td>
           <% if !@hide_pics %>
             <td><%= avatar(user) if user.image_url && !user.image_url.strip.blank? %></td>
           <% end %>
           <% if @is_admin %>
-            <td class="<%= color_of_percent( present = percent_of(user.attendances, 2)) %>">
+            <td class="<%= color_of_percent( present = percent_of(@attendances.where(user: user), 2)) %>">
               <%= present %>%
             </td>
-            <td class="<%= color_of_percent( complete = percent_of(user.submissions, 2)) %>">
+            <td class="<%= color_of_percent( complete = percent_of(@submissions.where(user: user), 2)) %>">
               <%= complete %>%
             </td>
-            <td class="<%= color_of_status( avg_obz = average_status(user.observations)) %>">
+            <td class="<%= color_of_status( avg_obz = average_status(@observations.where(user: user))) %>">
               <%= avg_obz %>
             </td>
             <td><%= link_to("Remove", group_membership_path(@group, user), method: :delete, data: {confirm: "Are you sure?"}) if user.memberships.exists?(group: @group) %></td>
@@ -43,7 +43,7 @@
     </table>
 
     <p>Owners:
-      <% @owners.each do |user| %>
+      <% @group.owners.each do |user| %>
         <%= link_to user.name || user.username, user_path(user) %>
         <%= link_to("(x)", group_membership_path(@group, user), method: :delete, data: {confirm: "Are you sure you want to remove this admin?"}) if @is_admin %>,
       <% end %>
@@ -75,7 +75,7 @@
         <th>Total</th>
       </tr>
       <% @events.each do |event| %>
-        <% attendances = @attendances.select{|a| a.event == event} %>
+        <% attendances = @attendances.where(event: event) %>
         <tr class="<%= "today" if event.date.today? %>">
           <td><%= link_to_if @is_admin, event.date_s, event_path(event, group: @group) %></td>
           <td><%= event.title %></td>
@@ -108,7 +108,7 @@
         <th>Total</th>
       </tr>
       <% @assignments.each do |assignment| %>
-        <% submissions = @submissions.select{|s| s.assignment == assignment} %>
+        <% submissions = @submissions.where(assignment: assignment) %>
         <tr>
           <td><%= link_to_if @is_admin, assignment.title, assignment_path(assignment, group: @group) %></td>
           <td><%= assignment.due_date_s %></td>
