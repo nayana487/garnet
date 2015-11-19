@@ -130,6 +130,15 @@ class Group < ActiveRecord::Base
     end
   end
 
+  def create_descendants hash, name
+    hash.each do |key, subtree|
+      child = self.children.new
+      child.send("#{name}=", key)
+      child.save!
+      child.create_descendants(subtree, name)
+    end
+  end
+
   private
   def in_nonadmins
     {user_id: self.nonadmins.map(&:id)}
