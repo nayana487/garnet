@@ -8,11 +8,15 @@ class GroupsController < ApplicationController
       @group = Group.first
     end
     @is_admin = @group.has_admin?(current_user)
-    @submissions = @group.members_submissions
-    @assignments = @group.members_assignments
-    @attendances = @group.members_attendances
-    @events = @group.members_events.reverse
-    @observations = @group.members_observations
+    @nonadmins = @group.nonadmins.to_a
+    @owners = @group.owners.to_a
+    @member_ids = @group.users.map(&:id).to_a
+    @paths = @group.paths_in_tree
+    @submissions = @group.members_submissions.to_a
+    @assignments = @group.members_assignments.to_a
+    @attendances = @group.members_attendances.to_a
+    @events = @group.members_events.reverse.to_a
+    @observations = @group.members_observations.to_a
     @event_for_today_already_exists = @events.any? ? @events.first.date == DateTime.now : false
   end
 

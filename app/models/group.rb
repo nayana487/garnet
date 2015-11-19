@@ -16,6 +16,13 @@ class Group < ActiveRecord::Base
 
   before_save :validate_uniqueness_of_title_among_siblings
 
+  def paths_in_tree
+    paths = {}
+    self.ancestors.each{|g| paths[g.id] = g.path_string }
+    self.subtree.each{|g| paths[g.id] = g.path_string }
+    return paths
+  end
+
   def to_param
     self.path_string
   end
