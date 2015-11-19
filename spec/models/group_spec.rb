@@ -24,7 +24,7 @@ RSpec.describe Group do
     describe "#owners" do
       it "includes users with physical memberships in the group where #is_owner is true" do
         owners = Group.at_path("ga_wdi_dc_7_squad-adam").owners
-        expect(owners).to match_array([User.named("adam"), User.named("matt")])
+        expect(owners).to match_array([User.named("adam"), User.named("mattscilipoti")])
       end
     end
 
@@ -67,7 +67,7 @@ RSpec.describe Group do
           expect(@nonadmins).to include(User.named("john"))
         end
         it "includes owners of any descendant groups" do
-          expect(@nonadmins).to include(User.named("matt"))
+          expect(@nonadmins).to include(User.named("mattscilipoti"))
         end
       end
 
