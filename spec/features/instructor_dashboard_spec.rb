@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.feature 'Instructor Dashboard' do
+  before(:all) do
+    load "#{Rails.root}/db/seeds/test_seed.rb"
+  end
+
   let(:ga_root_group) { Group.at_path('ga') }
   let(:test_instructor) { User.create!(:username => 'TEST_INSTRUCTOR', :password => 'password') }
   let(:other_instructor) { User.create!(:username => 'OTHER_INSTRUCTOR', :password => 'password') }
