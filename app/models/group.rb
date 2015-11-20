@@ -69,8 +69,9 @@ class Group < ActiveRecord::Base
     self.memberships.create!(user: user, is_owner: is_owner)
   end
 
-  def add_owner user
-    self.add_member(user, true)
+  def add_owner user, is_priority = false
+    membership = self.add_member(user, true)
+    membership.update!(is_priority: is_priority)
   end
 
   def has_member? user

@@ -97,6 +97,10 @@ class User < ActiveRecord::Base
     @priority_groups ||= self.memberships.where(is_owner: true, is_priority: true).collect(&:group)
   end
 
+  def squad
+    priority_groups.last
+  end
+
   def squaddies
     @squaddies ||= priority_groups.collect(&:users).flatten.uniq
   end

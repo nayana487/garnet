@@ -31,5 +31,5 @@ ga_groups = {
   }
 }
 
-ga = Group.create(title: "ga")
+ga = Group.create!(title: "ga")
 ga.create_descendants(ga_groups, :title)
