@@ -43,7 +43,7 @@ class AssignmentsController < ApplicationController
   def destroy
     @assignment = Assignment.find(params[:id])
     @assignment.destroy!
-    redirect_to :back
+    redirect_to @assignment.group
   end
 
   def issues
