@@ -2,6 +2,20 @@
 
 # Garnet
 
+Garnet is a collaboration by the instructors of GA's WDI to produce a student data-tracking app that's better than Google Sheets.
+
+Current features:
+
+- Extensibility across courses and cohorts
+- Mobile-friendly attendance-taking
+- Integration with Github
+  - Keep track of students' and instructors' Github information
+  - Track issues, pull requests, and forks
+- A "Report Card" functionality that shows students their current attendance and assignment turn-in rates
+- Leave detailed notes on homework submissions in Markdown format
+- Leave detailed observations on students in Markdown format
+- Admin and nonadmin roles
+
 ## Local Setup
 
 1. `$ git clone https://github.com/ga-dc/garnet`
@@ -9,7 +23,7 @@
 - `$ bundle install`
 - `$ rake db:create`
 - `$ rake db:migrate`
-- `$ rake db:seed` (or `$ rake db:seed:test_seed` for additional test data)
+- `$ rake db:seed:test_seed` 
 - `$ bundle exec figaro install`
 - [Register a Github application](https://github.com/settings/applications) and update `config/application.yml` to look like this:
 
@@ -21,6 +35,8 @@
 
 9. `$ rspec -f d`
 10. `$ rails s`
+12. Log in with username `adam` and password `foo`
+13. Enter the Konami code
 
 # Models
 
@@ -45,10 +61,6 @@ Users can sign up *with* or *without* Github.
 If they sign up *with* Github, they cannot update their username, password, e-mail, etc. Every time they subsequently sign in, the Github API is polled for their most recent information, and the database is updated accordingly.
 
 If they sign up *without* Github, they can update their username, password, e-mail, etc. Should they wish to later link Github to their account, they can click the "Link Github account" link, which will poll the database, rewrite their information in the Users table to use their Github username, email, etc. From there their account will behave as if they had originally signed up with Github.
-
-## Tree.rb
-
-The "Group" model inherits from a "Tree" model, which allows nesting -- that is, for a Group to have child Groups and a parent Group.
 
 # User roles in a specific group 
 
