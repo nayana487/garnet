@@ -34,6 +34,7 @@
     <%= yield %>
   </main>
   <footer>
+    <div><%= link_to "Orphans", orphans_users_path %></div>
     <div><a class="fa fa-code-fork" href="https://github.com/ga-dc/garnet" target="_blank"> GitHub</a></div>
   </footer>
   <%= javascript_include_tag 'application' %>

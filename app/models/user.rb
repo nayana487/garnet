@@ -18,7 +18,6 @@ class User < ActiveRecord::Base
   has_many :events, through: :attendances
 
   before_save :downcase_username, :dont_update_blank_password
-  after_create :add_to_ga
   attr_accessor :password
 
   def downcase_username
@@ -35,15 +34,6 @@ class User < ActiveRecord::Base
     if self.password && !self.password.strip.blank?
       self.password_digest = User.new_password(self.password)
     end
-  end
-
-  def add_to_ga
-    @ga = Group.at_path("ga")
-    # I know, I know.
-    if !@ga
-      @ga = Group.create(title: "ga")
-    end
-    Membership.create(user_id: self.id, group_id: @ga.id)
   end
 
   def to_param
