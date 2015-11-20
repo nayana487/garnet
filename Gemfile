@@ -35,6 +35,8 @@ group :production do
 end
 
 group :development, :test do
+  gem 'capybara'
+  gem 'launchy' # for capybara, save_and_open_page
   gem 'newrelic_rpm' # http://newrelic.com/ruby
 
   # Call 'binding.pry', 'debugger', or 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -42,7 +44,8 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
-  gem 'capybara'
+
+
 end
 
 group :development do
