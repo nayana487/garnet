@@ -4,7 +4,9 @@
 
 Garnet is a collaboration by the instructors of GA's WDI to produce a student data-tracking app that's better than Google Sheets.
 
-Current features:
+### Please fork, clone, and contribute!
+
+### Current features:
 
 - Extensibility across courses and cohorts
 - Mobile-friendly attendance-taking
