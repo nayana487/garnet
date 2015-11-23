@@ -31,6 +31,7 @@ end
 group :development, :test do
   gem 'awesome_print'
   gem 'capybara'
+  gem 'launchy' # for capybara, save_and_open_page
   gem 'newrelic_rpm' # http://newrelic.com/ruby
   gem 'pry-byebug' # Call 'binding.pry', 'debugger', or 'byebug' to debug
   gem 'rspec-rails', '~> 3.0'
