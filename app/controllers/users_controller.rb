@@ -1,6 +1,11 @@
 class UsersController < ApplicationController
 
-  skip_before_action :authenticate, except: [:show]
+  skip_before_action :authenticate, only: [:create,
+    :gh_authorize, :gh_authenticate,
+    :is_registered?,
+    :new,
+    :sign_in, :sign_in!
+  ]
 
   def orphans
     @users = User.all.select{|u| u.groups.count < 1}
@@ -87,7 +92,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def is_authorized?
+  def is_registered?
     render json: User.exists?(username: params[:github_username])
   end
 
@@ -123,7 +128,9 @@ class UsersController < ApplicationController
   end
 
   def gh_authenticate
-    if(!params[:code]) then redirect_to action: :gh_authorize end
+    if(!params[:code])
+      redirect_to action: :gh_authorize
+    end
     github = Github.new(ENV)
     session[:access_token] = github.get_access_token(params[:code])
     gh_user_info = github.user_info

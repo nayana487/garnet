@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     resources :observations, only: [:create]
     put 'refresh_memberships', on: :member
     get "orphans", to: "users#orphans", on: :collection
-    get "is_authorized", action: :is_authorized?
+    get "is-registered", action: :is_registered?, on: :collection
   end
 
   resources :assignments, only: [:show, :update, :destroy] do
