@@ -1,6 +1,8 @@
 <h2>Sign in:</h2>
+<a class="button github" href="/github/authorize">Sign in with Github</a>
+<hr class="double-bar or"/>
+
 <%= form_tag("/sign_in", method: "post") do %>
-  <a class="button" href="/github/authorize">Sign in with Github</a>
   <input type="text" name="username" placeholder="username" value="<%= cookies[:username] %>" />
   <input type="password" name="password" placeholder="password" />
   <input type="submit" value="Sign in" />
