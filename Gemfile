@@ -10,24 +10,18 @@ gem 'pg'
 gem 'ancestry'
 gem 'bcrypt' # Use ActiveModel has_secure_password
 gem 'cancancan'
-# Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coderay'
+gem 'coffee-rails', '~> 4.1.0' # Use CoffeeScript for .coffee assets and views
 gem 'figaro'
 gem 'font-awesome-rails'
 gem 'httparty'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.0'
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
+gem 'jbuilder', '~> 2.0' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem 'jquery-rails' # Use jquery as the JavaScript library
 gem 'octokit'
-# Redcarpet is a Ruby library for Markdown processing that smells like butterflies and popcorn.
-gem 'redcarpet'
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
-# use redcarpet for markdown support
-gem 'coderay'
+gem 'redcarpet' # use redcarpet for markdown support
+gem 'sass-rails', '~> 5.0' # Use SCSS for stylesheets
+gem 'uglifier', '>= 1.3.0' # Use Uglifier as compressor for JavaScript assets
+
 
 group :production do
   # WORKAROUND: had difficulties debugging with unicorn, reverted to Webrick for dev
@@ -35,20 +29,15 @@ group :production do
 end
 
 group :development, :test do
-  gem 'newrelic_rpm' # http://newrelic.com/ruby
-
-  # Call 'binding.pry', 'debugger', or 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'pry-byebug'
-  gem 'rspec-rails', '~> 3.0'
-  # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
+  gem 'awesome_print'
   gem 'capybara'
+  gem 'newrelic_rpm' # http://newrelic.com/ruby
+  gem 'pry-byebug' # Call 'binding.pry', 'debugger', or 'byebug' to debug
+  gem 'rspec-rails', '~> 3.0'
+  gem 'web-console', '~> 2.0' # Access an IRB console on exception pages or by using <%= console %> in views
 end
 
 group :development do
-  # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', '~> 0.4.0', group: :doc
-
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'sdoc', '~> 0.4.0', group: :doc   # bundle exec rake doc:rails generates the API under doc/api.
   # gem 'spring'
 end
