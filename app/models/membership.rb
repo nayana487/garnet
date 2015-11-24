@@ -1,4 +1,6 @@
 class Membership < ActiveRecord::Base
+  enum status: [ :active, :inactive ]
+
   belongs_to :group
   belongs_to :user
 
@@ -14,6 +16,7 @@ class Membership < ActiveRecord::Base
     end
   end
 
+  # TODO: This isn't called anywhere -AB
   def make_admin_nonadmin
     if self.is_owner
       self.update(is_owner: false)
@@ -26,10 +29,15 @@ class Membership < ActiveRecord::Base
     self.user.username
   end
 
+  # TODO: This isn't called anywhere -AB
   def has_descendants?
     children = self.group.children
     descendants = children.select{|c| c.memberships.where(user_id: self.user_id).count > 0}
     return (descendants.count > 0)
+  end
+
+  def toggle_active!
+    self.active? ? self.inactive! : self.active!
   end
 
 end

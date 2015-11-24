@@ -91,8 +91,12 @@ class User < ActiveRecord::Base
     priority_groups.last
   end
 
-  def squaddies
-    @squaddies ||= priority_groups.collect(&:users).flatten.uniq
+  def squaddies active=true
+    if active
+      @squaddies_active ||= priority_groups.collect{|g| g.memberships.active}.flatten.uniq.collect(&:user)
+    else
+      @squaddies_inactive ||= priority_groups.collect{|g| g.memberships}.flatten.uniq.collect(&:user)
+    end
   end
 
   def groups_adminned_by user

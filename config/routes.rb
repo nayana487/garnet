@@ -16,7 +16,9 @@ Rails.application.routes.draw do
     resources :groups,      only: [:create]
     resources :events,      only: [:create]
     resources :assignments, only: [:create]
-    resources :memberships, only: [:create, :update, :destroy], path: "users", param: :user
+    resources :memberships, only: [:create, :update, :destroy], path: "users", param: :user do
+      post :toggle_active, on: :member
+    end
   end
 
   resources :users, param: :user do

@@ -1,4 +1,6 @@
 class EventsController < ApplicationController
+  before_action :set_event, only: [:show, :update, :destroy]
+  before_action :authorize_admin, only: [:show]
 
   def create
     @group = Group.at_path(params[:group_path])
@@ -20,31 +22,28 @@ class EventsController < ApplicationController
   end
 
   def show
-    @event = Event.find(params[:id])
-    @current_user_is_admin = @event.group.has_admin?(current_user)
-    redirect_to(current_user, flash:{alert: "You're not authorized."}) if !@current_user_is_admin
-    if params[:status] == "nil"
-      @attendances = @event.attendances.where(status:nil)
-    else
-      @attendances = @event.attendances
+    @group = Group.at_path(params[:group]) || @assignment.group
+    @attendances = @event.attendances.select{|a| a.user.is_member_of(@group)}
+    @attendances.sort_by!{|a| a.user.last_name}
+
+    @show_na = params[:show_na] == "true"
+    @show_inactive = params[:show_inactive] == "true"
+
+    unless @show_inactive
+      @attendances.select!{|a| a.user.memberships.find_by(group: @group).active? }
     end
-    if params[:group]
-      @group = Group.at_path(params[:group])
-      @attendances = @attendances.select{|a| a.user.is_member_of(@group)}
-    else
-      @group = @event.group
+
+    if @show_na
+      @attendances = @attendances.select!{|a| a.status == nil}
     end
-    @attendances = @attendances.sort_by{|a| a.user.last_name}
   end
 
   def update
-    @event = Event.find(params[:id])
     @event.update(event_params)
     redirect_to event_path(@event)
   end
 
   def destroy
-    @event = Event.find(params[:id])
     @event.destroy!
     redirect_to group_path(@event.group)
   end
@@ -54,4 +53,12 @@ class EventsController < ApplicationController
     params.require(:event).permit(:date, :title, :required)
   end
 
+  def set_event
+    @event = Event.find(params[:id])
+  end
+
+  def authorize_admin
+    is_admin = @event.group.has_admin?(current_user)
+    redirect_to(root_path, flash: {alert: "You're not authorized."}) if !is_admin
+  end
 end
