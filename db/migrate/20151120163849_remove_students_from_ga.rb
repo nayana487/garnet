@@ -1,5 +1,7 @@
 class RemoveStudentsFromGa < ActiveRecord::Migration
   def change
-    Group.at_path("ga").memberships.where(is_owner: [false, nil]).delete_all
+    @group = Group.at_path("ga")
+    return if !@group
+    @group.memberships.where(is_owner: [false, nil]).delete_all
   end
 end
