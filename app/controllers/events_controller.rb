@@ -22,7 +22,7 @@ class EventsController < ApplicationController
   end
 
   def show
-    @group = Group.at_path(params[:group]) || @assignment.group
+    @group = Group.at_path(params[:group]) || @event.group
 
     @show_na = params[:show_na] == "true"
     @show_inactive = params[:show_inactive] == "true"
