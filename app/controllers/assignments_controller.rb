@@ -12,11 +12,11 @@ class AssignmentsController < ApplicationController
   end
 
   def show
-    @assignment = Assignment.find(params[:id])
     @group = Group.at_path(params[:group]) || @assignment.group
+    @assignment = Assignment.find(params[:id])
 
-    @show_inactive = params[:show_inactive] == "true"
     @show_na = params[:show_na] == "true"
+    @show_inactive = params[:show_inactive] == "true"
 
     @submissions = @assignment.submissions.includes(user: [:memberships]).references(:memberships)
     @submissions = @submissions.where("memberships.group_id = ?", @group.id)
