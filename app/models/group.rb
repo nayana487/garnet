@@ -41,6 +41,7 @@ class Group < ActiveRecord::Base
   end
 
   def self.at_path path_string
+    return nil unless path_string
     titles = path_string.split("_")
     group = Group.find_by(title: titles.first)
     return false if !group

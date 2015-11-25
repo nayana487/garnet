@@ -23,19 +23,22 @@ class EventsController < ApplicationController
 
   def show
     @group = Group.at_path(params[:group]) || @assignment.group
-    @attendances = @event.attendances.select{|a| a.user.is_member_of(@group)}
-    @attendances.sort_by!{|a| a.user.last_name}
 
     @show_na = params[:show_na] == "true"
     @show_inactive = params[:show_inactive] == "true"
 
+    @attendances = @event.attendances.includes(user: [:memberships]).references(:memberships)
+    @attendances = @attendances.where("memberships.group_id = ?", @group.id)
+
     unless @show_inactive
-      @attendances.select!{|a| a.user.memberships.find_by(group: @group).active? }
+      @attendances = @attendances.where("memberships.status = ?", Membership.statuses[:active])
     end
 
     if @show_na
-      @attendances = @attendances.select!{|a| a.status == nil}
+      @attendances = @attendances.where(status: nil)
     end
+
+    @attendances.to_a.sort_by!{|a| a.user.last_name}
   end
 
   def update

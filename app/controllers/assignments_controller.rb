@@ -14,19 +14,22 @@ class AssignmentsController < ApplicationController
   def show
     @assignment = Assignment.find(params[:id])
     @group = Group.at_path(params[:group]) || @assignment.group
-    @submissions = @assignment.submissions.select{|s| s.user.is_member_of(@group) }
-    @submissions.sort_by!{|s| s.user.last_name}
 
     @show_inactive = params[:show_inactive] == "true"
     @show_na = params[:show_na] == "true"
 
+    @submissions = @assignment.submissions.includes(user: [:memberships]).references(:memberships)
+    @submissions = @submissions.where("memberships.group_id = ?", @group.id)
+
     unless @show_inactive
-      @submissions = @submissions.select{|s| s.user.memberships.find_by(group: @group).active? }
+      @submissions = @submissions.where("memberships.status = ?", Membership.statuses[:active])
     end
 
     if @show_na
-      @submissions = @submissions.select{|s| s.status == nil }
+      @submissions = @submissions.where(status: nil)
     end
+
+    @submissions.to_a.sort_by!{|s| s.user.last_name}
   end
 
   def create
