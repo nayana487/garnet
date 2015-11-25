@@ -1,12 +1,14 @@
 <h2><%= "#{@event.title}, #{@event.date_s}" %></h2>
 
+<% status_link_text = @show_na ? "Show All" : "Show only N/A" %>
+<% active_link_text = @show_inactive ? "Show only active students" : "Include inactive students" %>
 
 <p>
-<% if params[:status] == "nil" %>
-  <%=link_to "Show All", event_path(@event, group: @group) %>
-<% else %>
-  <%=link_to "Filter by N/A", event_path(@event, status: "nil", group: @group) %>
-<% end %>
+<%= link_to status_link_text, event_path(@event, group: @group, show_na: !@show_na, show_inactive: @show_inactive) %>
+</p>
+
+<p>
+<%= link_to active_link_text, event_path(@event, group: @group, show_na: @show_na,  show_inactive: !@show_inactive) %>
 </p>
 
 <table>

@@ -1,5 +1,7 @@
 class AssignmentsController < ApplicationController
+  before_action :authorize_admin, only: [:show]
 
+  # TODO: pretty sure this is dead code, nothing in routes.rb routes to it -AB
   def index
     @group = Group.at_path(params[:group_path])
     @users = @group.nonadmins
@@ -10,20 +12,24 @@ class AssignmentsController < ApplicationController
   end
 
   def show
+    @group = Group.at_path(params[:group]) || @assignment.group
     @assignment = Assignment.find(params[:id])
-    @current_user_is_admin = @assignment.group.has_admin?(current_user)
-    redirect_to(current_user, flash:{alert: "You're not authorized."}) if !@current_user_is_admin
-    @submissions = @assignment.submissions
-    if params[:group]
-      @group = Group.at_path(params[:group])
-      @submissions = @submissions.select{|s| s.user.is_member_of(@group)}
-    else
-      @group = @assignment.group
+
+    @show_na = params[:show_na] == "true"
+    @show_inactive = params[:show_inactive] == "true"
+
+    @submissions = @assignment.submissions.includes(user: [:memberships]).references(:memberships)
+    @submissions = @submissions.where("memberships.group_id = ?", @group.id)
+
+    unless @show_inactive
+      @submissions = @submissions.where("memberships.status = ?", Membership.statuses[:active])
     end
-    @submissions = @submissions.sort_by{|s| s.user.last_name}
-    if params[:status] == "nil"
-      @submissions = @submissions.select{|s| s.status == nil }
+
+    if @show_na
+      @submissions = @submissions.where(status: nil)
     end
+
+    @submissions.to_a.sort_by!{|s| s.user.last_name}
   end
 
   def create
@@ -54,6 +60,15 @@ class AssignmentsController < ApplicationController
   private
     def assignment_params
       params.require(:assignment).permit(:title, :category, :repo_url, :due_date)
+    end
+
+    def authorize_admin
+      @assignment = Assignment.find(params[:id])
+
+      is_admin = @assignment.group.has_admin?(current_user)
+      if !is_admin
+        redirect_to(current_user, flash:{alert: "You're not authorized."}) and return
+      end
     end
 
 end

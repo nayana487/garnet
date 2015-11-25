@@ -19,13 +19,16 @@
           <th>% Complete</th>
           <th>Average Obz</th>
           <th></th>
+          <th></th>
         <% end %>
       <% @nonadmins.each do |user| %>
         <tr>
           <td><%= link_to user.name || user.username, user_path(user) %></td>
+
           <% if !@hide_pics %>
             <td><%= avatar(user) if user.image_url && !user.image_url.strip.blank? %></td>
           <% end %>
+
           <% if @is_admin %>
             <td class="<%= color_of_percent( present = percent_of(@attendances.select{|a| a.user_id == user.id}, 2)) %>">
               <%= present %>%
@@ -36,8 +39,22 @@
             <td class="<%= color_of_status( avg_obz = average_status(@observations.select{|o| o.user_id == user.id})) %>">
               <%= avg_obz %>
             </td>
-            <td><%= link_to("Remove", group_membership_path(@group, user), method: :delete, data: {confirm: "Are you sure?"}) if @member_ids.include?(user.id) %></td>
+
+            <% if @member_ids.include?(user.id) %>
+              <td>
+                <%= link_to("Remove", group_membership_path(@group, user), method: :delete, data: {confirm: "Are you sure?"}) %>
+              </td>
+              <td>
+                <%  toggle_active_link_text = user.memberships.find_by(group: @group).active? ? "Deactivate" : "Activate" %>
+                <%= link_to(toggle_active_link_text, toggle_active_group_membership_path(@group, user), method: :post, data: {confirm: "Are you sure?"}) %>
+              </td>
+            <%else %>
+              <td colspan=2>
+                Member is in subgroup only
+              </td>
+            <% end  %>
           <% end %>
+
         </tr>
       <% end %>
     </table>

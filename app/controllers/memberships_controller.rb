@@ -1,4 +1,5 @@
 class MembershipsController < ApplicationController
+  before_action :set_membership, only: [:destroy, :update, :toggle_active]
 
   def create
     @group = Group.at_path(params[:group_path])
@@ -14,9 +15,6 @@ class MembershipsController < ApplicationController
   end
 
   def destroy
-    @group = Group.at_path(params[:group_path])
-    @user = User.named(params[:user])
-    @membership = @group.memberships.find_by(user_id: @user.id)
     if @group.memberships.exists?(user: @user, is_owner: true)
       @membership.update!(is_owner: false)
     else
@@ -26,16 +24,24 @@ class MembershipsController < ApplicationController
   end
 
   def update
-    @group = Group.at_path(params[:group_path])
-    @user = User.find_by(username: params[:user])
-    membership = @group.memberships.find_by(user: @user)
     membership.update!(is_priority: !membership.is_priority)
     redirect_to :back
   end
 
+  def toggle_active
+    @membership.toggle_active!
+    redirect_to :back
+  end
+
+
   private
+    def set_membership
+      @group = Group.at_path(params[:group_path])
+      @user = User.named(params[:user])
+      @membership = @group.memberships.find_by(user: @user)
+    end
+
     def membership_params
       params.require(:membership).permit(:user_id, :is_owner)
     end
-
 end

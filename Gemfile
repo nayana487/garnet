@@ -34,6 +34,7 @@ group :development, :test do
   gem 'launchy' # for capybara, save_and_open_page
   gem 'newrelic_rpm' # http://newrelic.com/ruby
   gem 'pry-byebug' # Call 'binding.pry', 'debugger', or 'byebug' to debug
+  gem 'quiet_assets'
   gem 'rspec-rails', '~> 3.0'
   gem 'web-console', '~> 2.0' # Access an IRB console on exception pages or by using <%= console %> in views
 end
