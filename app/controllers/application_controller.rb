@@ -21,7 +21,11 @@ class ApplicationController < ActionController::Base
     end
 
     def current_user
-      @current_user ||= User.find(session[:user]["id"]) if session[:user]
+      begin
+	@current_user ||= User.find(session[:user]["id"]) if session[:user]
+      rescue
+        nil
+      end
     end
 
     def signed_in?
