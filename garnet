@@ -1,0 +1,7 @@
+garnet(){
+  case $1 in
+logs)
+  ssh debug@garnet.wdidc.org "tail -f /var/www/garnet.wdidc.org/log/production.log"
+  ;;
+  esac
+}
