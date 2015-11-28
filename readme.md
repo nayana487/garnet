@@ -93,3 +93,22 @@ New Relic monitors the app and provides metrics.  They are available in developm
 
 Use it!
 
+# Debugging
+
+`ssh debug@garnet.wdidc.org` to log in as a read-only user. 
+
+Important Places:
+
+- `/var/www/garnet.wdidc.org/logs`
+- `/var/www/`
+
+## CLI
+
+- `curl https://raw.githubusercontent.com/jshawl/garnet/cli/garnet >> ~/.bash_profile`
+- ` source ~/.bash_profile`
+
+```
+garnet logs
+```
+
+
