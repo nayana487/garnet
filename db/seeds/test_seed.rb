@@ -11,17 +11,23 @@ adam = User.create(username: "adam", password: "foo")
 jesse = User.create(username: "jesse", password: "foo")
 matt = User.create(username: "mattscilipoti", password: "foo", github_id: '31929')
 
-Group.at_path("ga_wdi_dc_7").add_owner(adam)
-Group.at_path("ga_wdi_dc_7").add_owner(jesse)
-Group.at_path("ga_wdi_dc_7_squad-adam").add_owner(adam, true)
-Group.at_path("ga_wdi_dc_7_squad-adam").add_owner(matt, true)
 
-Group.at_path("ga_wdi_dc_7_squad-adam").add_member(jane)
-Group.at_path("ga_wdi_dc_7_squad-adam").add_member(john)
-Group.at_path("ga_wdi_dc_7_squad-adam").add_member(test_user)
-Group.at_path("ga_wdi_dc_7").add_member(alice)
-Group.at_path("ga_wdi_dc_7").add_member(bob)
-Group.at_path("ga_wdi_dc_7").add_member(carol)
+wdi_dc_7 = Group.at_path("ga_wdi_dc_7")
+wdi_dc_7.add_owner(adam)
+wdi_dc_7.add_owner(jesse)
+wdi_dc_7.add_owner(matt) # for attendance
+
+wdi_dc_7.add_member(alice)
+wdi_dc_7.add_member(bob)
+wdi_dc_7.add_member(carol)
 
 squad_adam = Group.at_path("ga_wdi_dc_7_squad-adam")
+squad_adam.add_owner(adam, true)
+squad_adam.add_member(jane)
+squad_adam.add_member(john)
+squad_adam.add_member(test_user)
 squad_adam.assignments.create!(title: "Test Assignment1", repo_url: "http://github.com/wdidc/test_repo")
+
+squad_matt = Group.at_path("ga_wdi_dc_7_squad-matt")
+squad_matt.add_owner(matt, true)
+squad_matt.add_member(test_user)

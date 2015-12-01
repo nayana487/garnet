@@ -24,7 +24,7 @@ RSpec.describe Group do
     describe "#owners" do
       it "includes users with physical memberships in the group where #is_owner is true" do
         owners = Group.at_path("ga_wdi_dc_7_squad-adam").owners
-        expect(owners).to match_array([User.named("adam"), User.named("mattscilipoti")])
+        expect(owners).to match_array([User.named("adam")])
       end
     end
 
@@ -55,25 +55,29 @@ RSpec.describe Group do
     end
 
     describe "#nonadmins" do
-      before(:all) do
-        @nonadmins = Group.at_path("ga_wdi_dc_7").nonadmins
+      subject(:nonadmins) { Group.at_path("ga_wdi_dc_7").nonadmins }
+      let(:test_leader) { User.create!(username: "test_leader", password: "foo") }
+      let!(:test_squad) do
+        squad = Group.at_path("ga_wdi_dc_7").children.create!(title: "TEST-SQUAD")
+        squad.add_owner(test_leader, true)
       end
+
       it "includes users who are nonowners of the group" do
-        expect(@nonadmins).to include(User.named("alice"))
+        expect(nonadmins).to include(User.named("alice"))
       end
 
       describe "bubble up" do
         it "includes nonowners of any descendant groups" do
-          expect(@nonadmins).to include(User.named("john"))
+          expect(nonadmins).to include(User.named("john"))
         end
         it "includes owners of any descendant groups" do
-          expect(@nonadmins).to include(User.named("mattscilipoti"))
+          expect(nonadmins).to include(User.named("test_leader"))
         end
       end
 
       it "does not include users who are owners of the group" do
-        expect(@nonadmins).to_not include(User.named("jesse"))
-        expect(@nonadmins).to_not include(User.named("adam"))
+        expect(nonadmins).to_not include(User.named("jesse"))
+        expect(nonadmins).to_not include(User.named("adam"))
       end
     end
 
