@@ -25,7 +25,7 @@ Garnet is a collaboration by the instructors of GA's WDI to produce a student da
 - `$ bundle install`
 - `$ rake db:create`
 - `$ rake db:migrate`
-- `$ rake db:seed:test_seed` 
+- `$ rake db:seed:test_seed`
 - `$ bundle exec figaro install`
 - [Register a Github application](https://github.com/settings/applications) and update `config/application.yml` to look like this:
 
@@ -64,7 +64,7 @@ If they sign up *with* Github, they cannot update their username, password, e-ma
 
 If they sign up *without* Github, they can update their username, password, e-mail, etc. Should they wish to later link Github to their account, they can click the "Link Github account" link, which will poll the database, rewrite their information in the Users table to use their Github username, email, etc. From there their account will behave as if they had originally signed up with Github.
 
-# User roles in a specific group 
+# User roles in a specific group
 
 - **Owner**: A user with a physical membership to a group where `membership.is_owner == true`
 - **Nonowner**: A user with a physical membership to a group where `membership.is_owner == false`
@@ -95,7 +95,7 @@ Use it!
 
 # Debugging
 
-`ssh debug@garnet.wdidc.org` to log in as a read-only user. 
+`ssh debug@garnet.wdidc.org` to log in as a read-only user.
 
 Important Places:
 
@@ -104,11 +104,28 @@ Important Places:
 
 ## CLI
 
-- `curl https://raw.githubusercontent.com/jshawl/garnet/cli/garnet >> ~/.bash_profile`
-- ` source ~/.bash_profile`
+### Setup
+
+We have created a garnet function that needs to be "sourced" to be available from the CLI.
+
+1. Use the provided garnet shell file:
+  - Either, symlink to your local copy (updated automatically, as you `pull` changes):
+  ```
+  ln -s absolute_path/to/garnet/garnet ~/.garnet
+  ```
+  - Or, Download from github:
+  ```
+  curl https://raw.githubusercontent.com/ga-dc/garnet/cli/garnet > ~/.garnet
+  ```
+    - Note: to get updates (using this method), just re-download the latest file, replacing the current file.
+- Update your ~/.bash_profile to "source" this file (only do this once).
+  - e.g. `echo 'source ~/.garnet' >> ~/.bash_profile`
+
+
+### CLI Usage
+
+Once the file has been sourced, the function is available from terminal.
 
 ```
-garnet logs
+$ garnet logs
 ```
-
-
