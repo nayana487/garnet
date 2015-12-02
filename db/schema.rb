@@ -58,9 +58,9 @@ ActiveRecord::Schema.define(version: 20160127183605) do
   end
 
   create_table "events", force: :cascade do |t|
-    t.datetime "date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "occurred_at"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.string   "title"
     t.boolean  "required"
     t.integer  "cohort_id"

@@ -58,10 +58,10 @@ Cohort.all.each_with_index do |cohort, i|
   end
   # creates events for cohort, which auto generates attendance
   rand(0..30).times do |i|
-    date = rand_time(cohort.start_date.to_time, cohort.end_date.to_time)
+    event_time = rand_time(cohort.start_date.to_time, cohort.end_date.to_time)
     cohort.events.create!(
-      date: date,
-      title: date.strftime("%B %d, %Y")
+      occurred_at: event_time,
+      title: event_time.strftime("%B %d, %Y")
     )
   end
   # creates assignments for cohort, which auto generates submissions

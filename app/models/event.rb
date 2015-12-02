@@ -4,9 +4,9 @@ class Event < ActiveRecord::Base
   has_many :attendances, dependent: :destroy
   has_many :users, through: :attendances
 
-  scope :on_date, ->(date) { where("date >= ? and date <= ?", date.beginning_of_day, date.end_of_day)}
+  scope :on_date, ->(date) { where("occurred_at >= ? and occurred_at <= ?", date.beginning_of_day, date.end_of_day)}
 
-  validates :date,
+  validates :occurred_at,
     presence: true,
     uniqueness: {
       scope: :cohort,
@@ -29,10 +29,10 @@ class Event < ActiveRecord::Base
     end
   end
 
-  def date_s
-    date = read_attribute(:date)
-    if date
-      return date.strftime("%a, %m/%d/%y")
+  def occurred_at_s
+    event_time = read_attribute(:occurred_at)
+    if event_time
+      return event_time.strftime("%a, %m/%d/%y")
     else
       return nil
     end
@@ -40,7 +40,7 @@ class Event < ActiveRecord::Base
 
   # returns events that occur close to this event's date
   def nigh_events(delta = Event.duplicate_date_delta)
-    cohort.events.where("date > ? AND date < ?", date - delta, date + delta)
+    cohort.events.where("occurred_at > ? AND occurred_at < ?", occurred_at - delta, occurred_at + delta)
   end
 
   private
@@ -50,7 +50,7 @@ class Event < ActiveRecord::Base
   # TODO: should be warning?  http://stackoverflow.com/questions/24628628/efficient-way-to-report-record-validation-warnings-as-well-as-errors
   def avoid_duplicate_events
     if self.nigh_events.exists?
-      errors.add(:date, "Event (for #{date}, #{title}) occurs too close to other events.")
+      errors.add(:occurred_at, "Event (for #{occurred_at}, #{title}) occurs too close to other events.")
     end
   end
 end

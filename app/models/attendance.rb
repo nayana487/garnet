@@ -6,12 +6,12 @@ class Attendance < ActiveRecord::Base
   has_one :cohort, through: :event
 
   scope :unmarked, -> { where(status: nil)}
-  scope :due, -> { includes(:event).references(:event).where("events.date <= ?", DateTime.now)}
+  scope :due, -> { includes(:event).references(:event).where("events.occurred_at <= ?", DateTime.now)}
   scope :todo, -> { due.unmarked }
   scope :self_takeable, -> {unmarked.joins(:event).where("events.date < ? AND events.date > ?", 1.hour.from_now, 4.hours.ago)}
 
   def date
-    self.event.date.strftime("%a, %m/%d/%y")
+    self.event.occurred_at.strftime("%a, %m/%d/%y")
   end
 
   # TODO: this should use activerecord enums maybe -ab
