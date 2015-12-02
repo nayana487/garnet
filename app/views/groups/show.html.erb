@@ -45,7 +45,7 @@
                 <%= link_to("Remove", group_membership_path(@group, user), method: :delete, data: {confirm: "Are you sure?"}) %>
               </td>
               <td>
-                <%  toggle_active_link_text = user.memberships.find_by(group: @group).active? ? "Deactivate" : "Activate" %>
+                <%  toggle_active_link_text = user.memberships.find_by(group: @group).active? ? "Deactivate" : "Re-activate" %>
                 <%= link_to(toggle_active_link_text, toggle_active_group_membership_path(@group, user), method: :post, data: {confirm: "Are you sure?"}) %>
               </td>
             <%else %>
