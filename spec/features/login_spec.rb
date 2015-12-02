@@ -1,4 +1,5 @@
 require 'rails_helper'
+require_relative 'login_helper'
 
 RSpec.describe "the login process", :type => :feature do
   before :each do
@@ -6,13 +7,14 @@ RSpec.describe "the login process", :type => :feature do
   end
 
   scenario "sign in via username & password" do
-    visit '/sign_in'
-    within("main") do
-      fill_in 'username', :with => 'testuser'
-      fill_in 'password', :with => 'password'
-      click_button 'Sign in'
-    end
-
+    sign_in_as('testuser', 'password')
     expect(page).to have_content "You're signed in"
+  end
+
+  scenario "sign_out" do
+    sign_in_as('testuser', 'password')
+
+    click_on "sign out"
+    expect(page).to have_content "signed out"
   end
 end
