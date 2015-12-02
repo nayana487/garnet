@@ -21,11 +21,11 @@ RSpec.configure do |config|
     module Kernel
       alias :__at_exit :at_exit
       def at_exit(&block)
-	__at_exit do
-	  exit_status = $!.status if $!.is_a?(SystemExit)
-	  block.call
-	  exit exit_status if exit_status
-	end
+        __at_exit do
+          exit_status = $!.status if $!.is_a?(SystemExit)
+          block.call
+          exit exit_status if exit_status
+        end
       end
     end
   end
@@ -52,9 +52,9 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
-# The settings below are suggested to provide a good initial experience
-# with RSpec, but feel free to customize to your heart's content.
-=begin
+  # The settings below are suggested to provide a good initial experience
+  # with RSpec, but feel free to customize to your heart's content.
+  =begin
   # These two settings work together to allow you to limit a spec run
   # to individual examples or groups you care about by tagging them with
   # `:focus` metadata. When nothing is tagged with `:focus`, all examples
@@ -100,5 +100,5 @@ RSpec.configure do |config|
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
   Kernel.srand config.seed
-=end
+  =end
 end
