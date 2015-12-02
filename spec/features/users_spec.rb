@@ -1,9 +1,9 @@
 require 'rails_helper'
 require_relative 'helpers/login_helper'
 
-RSpec.describe "the login process", :type => :feature do
+RSpec.describe "user pages", :type => :feature do
   before :each do
-    FactoryGirl.create(:user)
+    User.create(:username => 'testuser', :password => 'password')
   end
 
   scenario "sign in via username & password" do

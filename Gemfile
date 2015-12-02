@@ -32,6 +32,7 @@ group :development, :test do
   gem 'awesome_print'
   gem 'capybara'
   gem 'launchy' # for capybara, save_and_open_page
+  gem "factory_girl_rails" # for generating sample data for tests
   gem 'newrelic_rpm' # http://newrelic.com/ruby
   gem 'pry-byebug' # Call 'binding.pry', 'debugger', or 'byebug' to debug
   gem 'quiet_assets'
