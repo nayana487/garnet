@@ -1,5 +1,5 @@
 <h2>Sign in:</h2>
-<a class="button github" href="/github/authorize">Sign in with Github</a>
+<%= link_to "Sign in with Github", gh_authorize_path, class: "button github" %>
 <hr class="double-bar or"/>
 
 <%= form_tag("/sign_in", method: "post") do %>
