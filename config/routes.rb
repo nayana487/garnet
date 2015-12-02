@@ -1,18 +1,17 @@
 Rails.application.routes.draw do
   root to: "users#show"
 
-  get '/sign_in', to: 'users#sign_in', as: :sign_in
-  post '/sign_in', to: 'users#sign_in!'
-  get '/sign_out', to: 'users#sign_out', as: :sign_out
+  get  '/sign_in',  to: 'sessions#new',     as: :sign_in
+  post '/sign_in',  to: 'sessions#create'
+  get  '/sign_out', to: 'sessions#destroy', as: :sign_out
 
   scope :github do
-    get "/authorize", to: "users#gh_authorize", as: :gh_authorize
-    get "/authenticate", to: "users#gh_authenticate", as: :gh_authenticate
-    get "/refresh", to: "users#gh_refresh", as: :gh_refresh
+    get "/authorize",     to: "sessions#gh_authorize",     as: :gh_authorize
+    get "/authenticate",  to: "sessions#gh_authenticate",  as: :gh_authenticate
   end
 
   resources :groups, param: :path, except: :create do
-    get "refresh_all", action: :gh_refresh_all, as: :refresh
+    get 'gh_refresh', on: :member
     resources :groups,      only: [:create]
     resources :events,      only: [:create]
     resources :assignments, only: [:create]
@@ -23,9 +22,14 @@ Rails.application.routes.draw do
 
   resources :users, param: :user do
     resources :observations, only: [:create]
-    put 'refresh_memberships', on: :member
-    get "orphans", to: "users#orphans", on: :collection
-    get "is-registered", action: :is_registered?, on: :collection
+    member do
+      get "is_registered", action: :is_registered?
+      get 'gh_refresh'
+      put 'refresh_memberships'
+    end
+    collection do
+      get "orphans", to: "users#orphans"
+    end
   end
 
   resources :assignments, only: [:show, :update, :destroy] do

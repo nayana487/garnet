@@ -7,7 +7,7 @@
     <% else %>
       <a class="button" href="?">Hide photos</a>
     <% end %>
-    <%= link_to "Refresh all Github info", group_refresh_path(@group), class: "button", data: {confirm: "This might take a while. That OK?"} %>
+    <%= link_to "Refresh all Github info", gh_refresh_group_path(@group), class: "button", data: {confirm: "This might take a while. That OK?"} %>
     <table>
       <tr>
         <th></th>
