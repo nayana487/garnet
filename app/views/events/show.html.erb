@@ -15,7 +15,7 @@
 
 <table>
   <% @attendances.each do |attendance| %>
-  <tr>
+  <tr data-attendee="<%= attendance.user.username %>">
     <td><%= avatar(attendance.user) %></td>
     <td><%= link_to attendance.user.name, attendance.user %></td>
     <% Attendance.statuses.keys.each do |status| %>
