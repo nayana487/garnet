@@ -100,7 +100,7 @@ class Group < ActiveRecord::Base
   end
 
   def nonadmins
-    @nonadmins ||= (User.joins(:memberships).where(memberships: {group_id: self.subtree_ids}).uniq - owners).sort_by(&:last_name)
+    @nonadmins ||= (User.joins(:memberships).where(memberships: {group_id: self.subtree_ids}).where.not( id: self.owners.map(&:id) )).uniq.sort_by(&:last_name)
   end
 
   def members_assignments

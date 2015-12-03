@@ -501,7 +501,8 @@ textarea.waiting,
 }
 .fold:target+div{
   opacity:1;
-  max-height:5000px;
+  overflow: auto;
+  max-height:50000px;
 }
 
 .markdown{

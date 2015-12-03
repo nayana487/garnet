@@ -1,63 +1,12 @@
 <section>
   <h3 class="fold" id="members"><a href="#members">Members</a></h3>
   <div>
-    <h4>Roster: <%= @nonadmins.count %> total</h4>
-    <% if @hide_pics %>
-      <a class="button" href="?show_pics=true">Load all photos</a>
-    <% else %>
-      <a class="button" href="?">Hide photos</a>
-    <% end %>
+    <h4>Roster</h4>
     <%= link_to "Refresh all Github info", group_refresh_path(@group), class: "button", data: {confirm: "This might take a while. That OK?"} %>
-    <table>
-      <tr>
-        <th></th>
-        <% if !@hide_pics %>
-          <th></th>
-        <% end %>
-        <% if @is_admin %>
-          <th>% Present</th>
-          <th>% Complete</th>
-          <th>Average Obz</th>
-          <th></th>
-          <th></th>
-        <% end %>
-      <% @nonadmins.each do |user| %>
-        <tr>
-          <td><%= link_to user.name || user.username, user_path(user) %></td>
 
-          <% if !@hide_pics %>
-            <td><%= avatar(user) if user.image_url && !user.image_url.strip.blank? %></td>
-          <% end %>
-
-          <% if @is_admin %>
-            <td class="<%= color_of_percent( present = percent_of(@attendances.select{|a| a.user_id == user.id}, 2)) %>">
-              <%= present %>%
-            </td>
-            <td class="<%= color_of_percent( complete = percent_of(@submissions.select{|s| s.user_id == user.id}, 2)) %>">
-              <%= complete %>%
-            </td>
-            <td class="<%= color_of_status( avg_obz = average_status(@observations.select{|o| o.user_id == user.id})) %>">
-              <%= avg_obz %>
-            </td>
-
-            <% if @member_ids.include?(user.id) %>
-              <td>
-                <%= link_to("Remove", group_membership_path(@group, user), method: :delete, data: {confirm: "Are you sure?"}) %>
-              </td>
-              <td>
-                <%  toggle_active_link_text = user.memberships.find_by(group: @group).active? ? "Deactivate" : "Re-activate" %>
-                <%= link_to(toggle_active_link_text, toggle_active_group_membership_path(@group, user), method: :post, data: {confirm: "Are you sure?"}) %>
-              </td>
-            <%else %>
-              <td colspan=2>
-                Member is in subgroup only
-              </td>
-            <% end  %>
-          <% end %>
-
-        </tr>
-      <% end %>
-    </table>
+    <%= render partial: "users_table", locals: {users: @active_members, header: "Active Members"} %>
+    <%= render partial: "users_table", locals: {users: @inactive_members, header: "Inactive Members"} %>
+    <%= render partial: "users_table", locals: {users: @subgroup_members, header: "Subgroup Members"} %>
 
     <p>Owners:
       <% @owners.each do |user| %>
