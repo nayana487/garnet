@@ -31,7 +31,6 @@ $("[data-record-url]").on("change", function(){
     data: params
   }).success(function(data){
     el.removeClass("waiting");
-    console.log(data);
   });
 });
 

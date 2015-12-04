@@ -22,7 +22,9 @@ Garnet is a collaboration by the instructors of GA's WDI to produce a student da
 
 1. `$ git clone https://github.com/ga-dc/garnet`
 - `$ cd garnet`
-- `$ brew install phantomjs`
+- Install headless browser for js features
+  - `$ brew install phantomjs`
+  - If you get an error about installing on Yosemite (or later), download https://github.com/Vitallium/phantomjs/releases/tag/2.0.1 and copy `phantomjs` to `/usr/local/bin`.
 - `$ bundle install`
 - `$ rake db:create`
 - `$ rake db:migrate`
