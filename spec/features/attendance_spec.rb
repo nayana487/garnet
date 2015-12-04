@@ -45,6 +45,9 @@ RSpec.feature 'Taking Attendance', js: true do
     end
 
     visit page.current_url # refresh current page to check persistence
+    # ensure page is ready by checking content
+    expect(page).to have_css("h1", "TEST EVENT")
+
     # Then
     within("[data-attendee='alice']") do |element|
       expect(page).to have_checked_field("Present")

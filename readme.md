@@ -22,6 +22,7 @@ Garnet is a collaboration by the instructors of GA's WDI to produce a student da
 
 1. `$ git clone https://github.com/ga-dc/garnet`
 - `$ cd garnet`
+- `$ brew install phantomjs`
 - `$ bundle install`
 - `$ rake db:create`
 - `$ rake db:migrate`
