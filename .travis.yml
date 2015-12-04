@@ -23,3 +23,5 @@ before_install:
 - echo -e "Host garnet.wdidc.org\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - openssl aes-256-cbc -K $encrypted_91297e33cb51_key -iv $encrypted_91297e33cb51_iv
   -in travis_rsa.enc -out travis_rsa -d
+sudo: required
+dist: trusty
