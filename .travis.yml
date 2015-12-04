@@ -23,5 +23,8 @@ before_install:
 - echo -e "Host garnet.wdidc.org\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - openssl aes-256-cbc -K $encrypted_91297e33cb51_key -iv $encrypted_91297e33cb51_iv
   -in travis_rsa.enc -out travis_rsa -d
+# to support running ubuntu trusty on travis
+# this in turn allows us to use phantomjs2 on travis
+# required to support Function.prototype.bind()
 sudo: required
 dist: trusty
