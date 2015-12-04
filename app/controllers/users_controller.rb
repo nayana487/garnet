@@ -105,13 +105,10 @@ class UsersController < ApplicationController
   end
 
   def sign_in!
-    Rails.logger.debug "User.count:#{User.count}, in sign_in!"
-
     if signed_in?
       @user = current_user
     elsif params[:username]
       if !User.exists?(username: params[:username])
-# debugger
         raise "That user doesn't seem to exist!"
       else
         @user = User.find_by(username: params[:username])
