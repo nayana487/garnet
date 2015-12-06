@@ -1,4 +1,6 @@
-<h2><%= "#{@event.title}, #{@event.date_s}" %></h2>
+<h1>
+  <%= "#{@event.title}, #{@event.date_s}" %>
+</h1>
 
 <% status_link_text = @show_na ? "Show All" : "Show only N/A" %>
 <% active_link_text = @show_inactive ? "Show only active students" : "Include inactive students" %>
@@ -13,7 +15,7 @@
 
 <table>
   <% @attendances.each do |attendance| %>
-  <tr>
+  <tr data-attendee="<%= attendance.user.username %>">
     <td><%= avatar(attendance.user) %></td>
     <td><%= link_to attendance.user.name, attendance.user %></td>
     <% Attendance.statuses.keys.each do |status| %>
@@ -24,7 +26,7 @@
   <% end %>
 </table>
 
-<section>
+<section id="new_event">
   <h3>Edit Event</h3>
   <%= render partial: "events/form", locals: {event: @event} %>
   <%= link_to "Delete Event", event_path(@event), method: :delete, class: "button", data: {confirm: "You sure?"} %>
