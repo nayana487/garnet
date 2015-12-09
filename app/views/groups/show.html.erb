@@ -96,7 +96,7 @@
       <% @events.each do |event| %>
         <% attendances = @attendances.select{|e| e.event_id == event.id} %>
         <tr class="<%= "today" if event.date.today? %>">
-          <td><%= link_to_if @is_admin, event.date_s, event_path(event, group: @group) %></td>
+          <td><%= link_to_if @is_admin, event.date_s, event_path(event, group: @group, show_na: true) %></td>
           <td><%= event.title %></td>
           <td><%= @paths[event.group_id] %></td>
           <td><%= percent_of(attendances, 2) %>%</td>
