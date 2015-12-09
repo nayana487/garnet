@@ -31,17 +31,18 @@ $("[data-record-url]").on("change", function(){
     data: params
   }).success(function(data){
     el.removeClass("waiting");
-    console.log(data);
   });
 });
 
 $(".fold").on("click", function(e){
-  var hash = window.location.hash
+  // toggles url anchor
+  // Actual "fold"ing is performed by CSS
+  var hash = window.location.hash;
   if(hash == e.target.getAttribute('href')){
-    e.preventDefault()
-    window.location.hash = '#'
+    e.preventDefault();
+    window.location.hash = '#';
   }
-})
+});
 
 new KonamiListener(window, function(){
   var img = document.createElement("IMG");
@@ -54,5 +55,5 @@ new KonamiListener(window, function(){
   img.style.bottom = "0px";
   img.style.cursor = "help";
   document.body.appendChild(img);
-  document.querySelector("h1 a").innerHTML = "<span style='color:green;'>GA</span>rnett: Anything is possible"
+  document.querySelector("h1 a").innerHTML = "<span style='color:green;'>GA</span>rnett: Anything is possible";
 });

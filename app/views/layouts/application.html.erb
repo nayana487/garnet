@@ -24,7 +24,7 @@
     <% if flash.count > 0 %>
       <section class="errareHumanumEst">
       <% flash.each do |key, value| %>
-        <p><%= value %></p>
+        <p><%= simple_format(value) %></p>
       <% end %>
       </section>
     <% end %>
