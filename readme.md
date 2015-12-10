@@ -24,7 +24,7 @@ Garnet is a collaboration by the instructors of GA's WDI to produce a student da
 - `$ cd garnet`
 - Install headless browser for js features
   - `$ brew install phantomjs`
-  - If you get an error about installing on Yosemite (or later), download https://github.com/Vitallium/phantomjs/releases/tag/2.0.1 and copy `phantomjs` to `/usr/local/bin`.
+  - If you get an error about installing on Yosemite (or later), we need phantom 2.x.  Download the latest 2.x from https://github.com/Vitallium/phantomjs/releases and copy `phantomjs` to `/usr/local/bin`.
 - `$ bundle install`
 - `$ rake db:create`
 - `$ rake db:migrate`

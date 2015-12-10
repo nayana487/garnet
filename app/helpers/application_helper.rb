@@ -110,4 +110,8 @@ module ApplicationHelper
     return output.html_safe
   end
 
+  def group_status(group, user)
+    user.memberships.find_by(group: group).status.to_s
+  end
+
 end

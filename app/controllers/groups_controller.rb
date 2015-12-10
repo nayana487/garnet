@@ -1,21 +1,30 @@
 class GroupsController < ApplicationController
 
   def show
-    @hide_pics = (params[:show_pics] ? false : true)
     if params[:path]
       @group = Group.at_path(params[:path])
     else
       @group = Group.first
     end
     @is_admin = @group.has_admin?(current_user)
-    @nonadmins = @group.nonadmins.to_a
+
+    @nonadmins = @group.nonadmins
+    @active_members    = @nonadmins.select{ |u| u.memberships.find_by(group: @group, status: Membership.statuses[:active]) }
+    @inactive_members  = @nonadmins.select{ |u| u.memberships.find_by(group: @group, status: Membership.statuses[:inactive]) }
+    @subgroup_members  = @nonadmins.select{ |u| !u.memberships.find_by(group: @group) }
+
+
     @owners = @group.owners.to_a
     @member_ids = @group.users.map(&:id).to_a
+
     @paths = @group.paths_in_tree
+
     @submissions = @group.members_submissions.to_a
     @assignments = @group.members_assignments.to_a
+
     @attendances = @group.members_attendances.to_a
     @events = @group.members_events.reverse.to_a
+
     @observations = @group.members_observations.to_a
     @event_for_today_already_exists = @events.any? ? @events.first.date == DateTime.now : false
   end
