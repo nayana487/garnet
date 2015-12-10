@@ -2,7 +2,7 @@ class ObservationsController < ApplicationController
 
   def create
     # TODO: figure out how to fix the weirdness in this route -AB
-    @user = User.named(params[:user_user] )
+    @user = User.named(params[:user_user])
     @observation = current_user.admin_observations.new(observation_params)
     @observation.user = @user
     @observation.group = Group.find(observation_params["group_id"])
