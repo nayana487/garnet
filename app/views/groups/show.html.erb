@@ -2,7 +2,7 @@
   <h3 class="fold" id="members"><a href="#members">Members</a></h3>
   <div>
     <h4>Roster</h4>
-    <%= link_to "Refresh all Github info", group_refresh_path(@group), class: "button", data: {confirm: "This might take a while. That OK?"} %>
+    <%= link_to "Refresh all Github info", gh_refresh_group_path(@group), class: "button", data: {confirm: "This might take a while. That OK?"} %>
 
     <%= render partial: "users_table", locals: {users: @active_members, header: "Active Members"} %>
     <%= render partial: "users_table", locals: {users: @inactive_members, header: "Inactive Members"} %>

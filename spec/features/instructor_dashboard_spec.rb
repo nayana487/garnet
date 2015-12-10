@@ -31,14 +31,7 @@ RSpec.feature 'Instructor Dashboard' do
   end
 
   scenario 'when signed in' do
-    visit root_path
-    within("main") do
-      fill_in 'username', :with => test_instructor.username
-      fill_in 'password', :with => test_instructor.password
-    end
-    click_button 'Sign in'
-    expect(page).to have_content "You're signed in"
-
+    login_user(test_instructor)
     expect(page).to have_content "Welcome, #{test_instructor.username}"
 
     click_on "Test Assignment1"
@@ -49,7 +42,6 @@ RSpec.feature 'Instructor Dashboard' do
 
     # should only see members of squad1
     expected_students = dashboard_squad1.nonadmins.collect(&:username)
-
     expect(displayed_students).to match_array(expected_students)
   end
 end

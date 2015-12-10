@@ -40,7 +40,7 @@ Garnet is a collaboration by the instructors of GA's WDI to produce a student da
 
 9. `$ rspec -f d`
 10. `$ rails s`
-12. Log in with username `adam` and password `foo`
+12. Log in with username `adam` and password `password`
 13. Enter the Konami code
 
 # Models

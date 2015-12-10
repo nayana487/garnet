@@ -1,15 +1,15 @@
 load "#{Rails.root}/db/seeds.rb"
 # ActiveRecord::Base.logger = Logger.new(STDOUT)
 
-test_user = User.create(username: "TestWDIDCStudent", password: 'foo', github_id: 13137527)
-jane = User.create(username: "jane", password: "foo")
-john = User.create(username: "john", password: "foo")
-alice = User.create(username: "alice", password: "foo")
-bob = User.create(username: "bob", password: "foo")
-carol = User.create(username: "carol", password: "foo")
-adam = User.create(username: "adam", password: "foo")
-jesse = User.create(username: "jesse", password: "foo")
-matt = User.create(username: "mattscilipoti", password: "foo", github_id: '31929')
+test_user = FactoryGirl.create(:user, username: "TestWDIDCStudent", github_id: 13137527)
+jane      = FactoryGirl.create(:user, username: "jane")
+john      = FactoryGirl.create(:user, username: "john")
+alice     = FactoryGirl.create(:user, username: "alice")
+bob       = FactoryGirl.create(:user, username: "bob")
+carol     = FactoryGirl.create(:user, username: "carol")
+adam      = FactoryGirl.create(:user, username: "adam")
+jesse     = FactoryGirl.create(:user, username: "jesse")
+matt      = FactoryGirl.create(:user, username: "mattscilipoti", github_id: '31929')
 
 
 wdi_dc_7 = Group.at_path("ga_wdi_dc_7")

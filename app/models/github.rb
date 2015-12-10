@@ -8,27 +8,6 @@ class Github
     @token = token
   end
 
-  def get_user_by_id id
-    # This is an undocumented endpoint for some reason
-    # Documentation exists only for using "username", not id
-    query = {
-      client_id: @env["gh_client_id"],
-      client_secret: @env["gh_client_secret"]
-    }.to_query
-    url = "https://api.github.com/user/#{id}?#{query}"
-    api_response = HTTParty.get(url)
-    if api_response.code > 400
-      raise "Looks like some API trouble. #{api_response.code} #{api_response.to_json}"
-    end
-    return {
-      github_id: api_response["id"],
-      username: api_response["login"].downcase,
-      image_url: api_response["avatar_url"],
-      name: api_response["name"],
-      email: api_response["email"]
-    }
-  end
-
   def user_info username = nil
     api_response = api.user(username)
     return {
@@ -69,5 +48,5 @@ class Github
     ).split("&")[0].split("=")[1]
     return @token
   end
-  
+
 end

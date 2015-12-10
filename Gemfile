@@ -33,6 +33,7 @@ group :development, :test do
   gem 'capybara'
   gem 'database_cleaner'
   gem 'launchy' # for capybara, save_and_open_page
+  gem "factory_girl_rails" # for generating sample data for tests
   gem 'newrelic_rpm' # http://newrelic.com/ruby
   gem 'poltergeist' # for headless browser tests via capybara
   gem 'pry-byebug' # Call 'binding.pry', 'debugger', or 'byebug' to debug
