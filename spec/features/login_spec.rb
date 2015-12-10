@@ -1,18 +1,17 @@
 require 'rails_helper'
-require_relative 'helpers/login_helper'
 
-RSpec.describe "the login process", :type => :feature do
-  before :each do
+RSpec.feature "the login process" do
+  given!(:test_user) do
     FactoryGirl.create(:user)
   end
 
   scenario "sign in via username & password" do
-    sign_in_as('testuser', 'password')
+    login_user(test_user)
     expect(page).to have_content "You're signed in"
   end
 
   scenario "sign_out" do
-    sign_in_as('testuser', 'password')
+    login_user(test_user)
 
     click_on "sign out"
     expect(page).to have_content "signed out"

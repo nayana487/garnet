@@ -1,5 +1,4 @@
 require 'rails_helper'
-require_relative './helpers/login_helper'
 
 RSpec.feature 'Instructor Dashboard' do
   before(:all) do
@@ -32,7 +31,7 @@ RSpec.feature 'Instructor Dashboard' do
   end
 
   scenario 'when signed in' do
-    sign_in_as(test_instructor.username, test_instructor.password)
+    login_user(test_instructor)
     expect(page).to have_content "Welcome, #{test_instructor.username}"
 
     click_on "Test Assignment1"
