@@ -3,5 +3,8 @@ garnet(){
 logs)
   ssh debug@garnet.wdidc.org "tail -f /var/www/garnet.wdidc.org/log/production.log"
   ;;
+console)
+  ssh debug@garnet.wdidc.org "source /home/git/.rvm/gems/ruby-2.2.3/environment && cd /var/www/garnet.wdidc.org && ./bin/rails c production"
+  ;;
   esac
 }
