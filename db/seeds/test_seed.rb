@@ -7,7 +7,7 @@ john      = FactoryGirl.create(:user, username: "john")
 alice     = FactoryGirl.create(:user, username: "alice")
 bob       = FactoryGirl.create(:user, username: "bob")
 carol     = FactoryGirl.create(:user, username: "carol")
-adam      = FactoryGirl.create(:user, username: "adam")
+adam      = FactoryGirl.create(:user, username: "adam", password: "foo")
 jesse     = FactoryGirl.create(:user, username: "jesse")
 matt      = FactoryGirl.create(:user, username: "mattscilipoti", github_id: '31929')
 
