@@ -248,6 +248,14 @@
    min-width:200px;
    transition: background-color 0.1s, border-color 0.1s, color 0.1s;
  }
+ .danger,
+ .button[data-method=delete]{
+   background-color:#a00;
+ }
+ .danger:hover,
+ .button[data-method=delete]:hover{
+   background-color:#f00;
+ }
  input[type=submit].secondary,
  button.secondary,
  .button.secondary{
