@@ -143,6 +143,7 @@
     <% end %>
     </ul>
   <% end %>
+  <%= link_to "Refresh Memberships", refresh_memberships_user_path(@user), method: :put, class: "button" %>
 </section>
 
 <section>
@@ -151,5 +152,4 @@
   <% if @user.github_id %>
     <%= link_to "Refresh Github info", gh_refresh_user_path(@user), class: "button" %>
   <% end %>
-  <%= link_to "Refresh Memberships", refresh_memberships_user_path(@user), method: :put, class: "button" %>
 </section>

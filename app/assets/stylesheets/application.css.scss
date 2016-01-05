@@ -42,7 +42,7 @@
  div{
    position:relative;
  }
- a[href], button, label{
+ a[href], button, label, input[type=submit], label{
    cursor:pointer;
  }
  *[title]{
@@ -206,10 +206,23 @@
  button, .button,
  .date{
    background-color:#eee;
-   display:block;
-   width:100%;
    line-height:24px;
    height:48px;
+ }
+ input[type=text],
+ input[type=password],
+ textarea,
+ select,
+ label,
+ .date{
+   display:block;
+   width:100%;
+ }
+ input[type=submit],
+ button, .button{
+   display:inline-block;
+   width:auto;
+   vertical-align:middle;
  }
  textarea{
    resize: vertical;
@@ -231,7 +244,17 @@
    cursor:pointer;
    font-size:10px;
    border-bottom:0;
+   line-height:28px;
+   min-width:200px;
    transition: background-color 0.1s, border-color 0.1s, color 0.1s;
+ }
+ .danger,
+ .button[data-method=delete]{
+   background-color:#a00;
+ }
+ .danger:hover,
+ .button[data-method=delete]:hover{
+   background-color:#f00;
  }
  input[type=submit].secondary,
  button.secondary,
@@ -245,7 +268,7 @@
  .button:hover{
    border-color:transparent;
    background-color:#7ad;
-   color:#fff;
+   color:#fff !important;
  }
  input[type=radio],
  input[type=checkbox]{
@@ -284,12 +307,6 @@
    margin:0;
    padding:0;
    height:initial;
- }
- input[type=submit].important{
-   background-color:#d55;
- }
- input[type=submit].important:hover{
-   background-color:#c44;
  }
 
  .date{
@@ -400,7 +417,7 @@
    display:block;
    height:18px;
  }
- table input,
+ table input[type=text],
  table label,
  table textarea{
    padding-top:0;
