@@ -1,6 +1,6 @@
 <%= form_for @user, as: :form_user do |f| %>
   <% if @is_editable %>
-    <%= link_to "Link your Github account", gh_authorize_path, class: "button" %>
+    <%= link_to "Link your Github account", gh_authorize_path, class: "button github" %>
   <% end %>
 
   <%= f.text_field :username, placeholder: "Username", disabled: !@is_editable %>
