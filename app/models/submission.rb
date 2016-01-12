@@ -1,6 +1,9 @@
 class Submission < ActiveRecord::Base
   has_one :group, through: :assignment
+  has_one :cohort, through: :assignment
+
   belongs_to :assignment
+  belongs_to :membership
   belongs_to :user
   belongs_to :admin, class_name: "User"
 

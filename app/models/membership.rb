@@ -2,6 +2,7 @@ class Membership < ActiveRecord::Base
   enum status: [ :active, :inactive ]
 
   belongs_to :group
+  belongs_to :cohort
   belongs_to :user
 
   validate :is_unique_in_group, on: :create

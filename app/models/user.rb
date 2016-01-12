@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
 
   has_many :memberships, dependent: :destroy
   has_many :groups, through: :memberships
+  has_many :cohorts, through: :memberships
 
   has_many :observations
   has_many :admin_observations, class_name: "Observation", foreign_key: "admin_id"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160112193039) do
+ActiveRecord::Schema.define(version: 20160112201539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20160112193039) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean  "required"
+    t.integer  "cohort_id"
   end
 
   create_table "attendances", force: :cascade do |t|
@@ -41,8 +42,10 @@ ActiveRecord::Schema.define(version: 20160112193039) do
     t.string   "name"
     t.date     "start_date"
     t.date     "end_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "course_id"
+    t.integer  "location_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "courses", force: :cascade do |t|
@@ -60,6 +63,7 @@ ActiveRecord::Schema.define(version: 20160112193039) do
     t.datetime "updated_at", null: false
     t.string   "title"
     t.boolean  "required"
+    t.integer  "cohort_id"
   end
 
   create_table "groups", force: :cascade do |t|
@@ -88,6 +92,7 @@ ActiveRecord::Schema.define(version: 20160112193039) do
     t.datetime "updated_at",              null: false
     t.boolean  "is_priority"
     t.integer  "status",      default: 0
+    t.integer  "cohort_id"
   end
 
   create_table "observations", force: :cascade do |t|
