@@ -4,6 +4,7 @@ class Membership < ActiveRecord::Base
   belongs_to :cohort
   has_many :taggings
   has_many :tags, through: :taggings
+
   belongs_to :user
 
   has_many :observations
