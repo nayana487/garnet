@@ -20,6 +20,16 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :cohorts do
+    get 'gh_refresh', on: :member
+    resources :events,      only: [:create]
+    resources :assignments, only: [:create]
+    resources :memberships, only: [:create, :update, :destroy], path: "users", param: :user do
+      post :toggle_active, on: :member
+    end
+  end
+
+
   resources :users, param: :user do
     resources :observations, only: [:create]
     member do

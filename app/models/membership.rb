@@ -5,6 +5,10 @@ class Membership < ActiveRecord::Base
   belongs_to :cohort
   belongs_to :user
 
+  has_many :observations
+  has_many :attendances
+  has_many :submissions
+
   validate :is_unique_in_group, on: :create
 
   def to_param

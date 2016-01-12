@@ -1,4 +1,4 @@
-<%= form_for ((defined? group) ? [group, assignment] : assignment) do |f| %>
+<%= form_for ((defined? cohort) ? [cohort, assignment] : assignment) do |f| %>
   <%= f.text_field :title, placeholder: "Title" %>
   <%= f.select :category, assignment.categories %>
   <%= f.text_field :repo_url, placeholder: "Repo URL"%>
