@@ -29,6 +29,7 @@ group :production do
 end
 
 group :development, :test do
+  gem 'shoulda'
   gem 'awesome_print'
   gem 'capybara'
   gem 'database_cleaner'

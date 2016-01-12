@@ -1,6 +1,7 @@
 class Membership < ActiveRecord::Base
   enum status: [ :active, :inactive ]
-
+  has_many :taggings
+  has_many :tags, through: :taggings
   belongs_to :group
   belongs_to :user
 
