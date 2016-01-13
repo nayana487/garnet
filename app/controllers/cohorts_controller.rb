@@ -8,9 +8,9 @@ class CohortsController < ApplicationController
   def show
     @is_admin = @cohort.has_admin?(current_user)
 
-    @nonadmins = @cohort.nonadmins
-    @active_members    = @nonadmins.select{ |u| u.memberships.find_by(cohort: @cohort, status: Membership.statuses[:active]) }
-    @inactive_members  = @nonadmins.select{ |u| u.memberships.find_by(cohort: @cohort, status: Membership.statuses[:inactive]) }
+    @students = @cohort.students
+    @active_members    = @students.select{ |u| u.memberships.find_by(cohort: @cohort, status: Membership.statuses[:active]) }
+    @inactive_members  = @students.select{ |u| u.memberships.find_by(cohort: @cohort, status: Membership.statuses[:inactive]) }
 
     @owners = @cohort.owners
     @member_ids = @cohort.users.map(&:id).to_a

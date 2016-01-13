@@ -6,11 +6,11 @@
 <% active_link_text = @show_inactive ? "Show only active students" : "Include inactive students" %>
 
 <p>
-<%= link_to status_link_text, event_path(@event, group: @group, show_na: !@show_na, show_inactive: @show_inactive) %>
+<%= link_to status_link_text, event_path(@event, cohort: @cohort, show_na: !@show_na, show_inactive: @show_inactive) %>
 </p>
 
 <p>
-<%= link_to active_link_text, event_path(@event, group: @group, show_na: @show_na,  show_inactive: !@show_inactive) %>
+<%= link_to active_link_text, event_path(@event, cohort: @cohort, show_na: @show_na,  show_inactive: !@show_inactive) %>
 </p>
 
 <table>
@@ -34,9 +34,9 @@
 
 <section>
   <h3>Manually Create Attendances</h3>
-  <p>When an event is created, an attendance is created automatically for each user of the group to which the event belongs.</p>
+  <p>When an event is created, an attendance is created automatically for each user of the cohort to which the event belongs.</p>
   <%= form_for [@event, Attendance.new] do |f| %>
-    <%= f.select :user_id, @event.group.nonadmins.collect{|u| [u.name, u.id]} %>
+    <%= f.select :user_id, @event.cohort.nonadmins.collect{|u| [u.name, u.id]} %>
     <%= f.submit "Create" %>
   <% end %>
 </section>

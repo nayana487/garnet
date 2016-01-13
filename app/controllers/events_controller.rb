@@ -3,8 +3,8 @@ class EventsController < ApplicationController
   before_action :authorize_admin, only: [:show]
 
   def create
-    @group = Group.at_path(params[:group_path])
-    @event = @group.events.new(event_params) # AR handles date parts from rails helpers
+    @cohort = Cohort.find(params[:cohort_id])
+    @event = @cohort.events.new(event_params) # AR handles date parts from rails helpers
     if @event.save
       redirect_to @event
     else
@@ -15,13 +15,12 @@ class EventsController < ApplicationController
   end
 
   def show
-    @group = Group.at_path(params[:group]) || @event.group
+    @cohort = @event.cohort
 
     @show_na = params[:show_na] == "true"
     @show_inactive = params[:show_inactive] == "true"
 
-    @attendances = @event.attendances.includes(user: [:memberships]).references(:memberships)
-    @attendances = @attendances.where("memberships.group_id = ?", @group.id)
+    @attendances = @event.attendances.includes(:membership).references(:membership)
 
     unless @show_inactive
       @attendances = @attendances.where("memberships.status = ?", Membership.statuses[:active])
@@ -41,7 +40,7 @@ class EventsController < ApplicationController
 
   def destroy
     @event.destroy!
-    redirect_to group_path(@event.group)
+    redirect_to cohort_path(@event.cohort)
   end
 
   private
@@ -54,7 +53,7 @@ class EventsController < ApplicationController
   end
 
   def authorize_admin
-    is_admin = @event.group.has_admin?(current_user)
+    is_admin = @event.cohort.has_admin?(current_user)
     redirect_to(root_path, flash: {alert: "You're not authorized."}) if !is_admin
   end
 end

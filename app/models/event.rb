@@ -23,8 +23,9 @@ class Event < ActiveRecord::Base
 
 
   def create_attendances
-    self.group.nonadmins.each do |user|
-      user.attendances.create(event_id: self.id, required: self.required?)
+    # TODO use named scope on cohort
+    self.cohort.memberships.where(is_owner: false).each do |membership|
+      membership.attendances.create!(event_id: self.id, required: self.required?)
     end
   end
 
@@ -39,7 +40,7 @@ class Event < ActiveRecord::Base
 
   # returns events that occur close to this event's date
   def nigh_events(delta = Event.duplicate_date_delta)
-    group.events.where("date > ? AND date < ?", date - delta, date + delta)
+    cohort.events.where("date > ? AND date < ?", date - delta, date + delta)
   end
 
   private
