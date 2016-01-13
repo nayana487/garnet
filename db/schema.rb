@@ -31,11 +31,12 @@ ActiveRecord::Schema.define(version: 20160112212517) do
   create_table "attendances", force: :cascade do |t|
     t.integer  "status"
     t.integer  "event_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.integer  "user_id"
     t.integer  "admin_id"
     t.boolean  "required"
+    t.integer  "membership_id"
   end
 
   create_table "cohorts", force: :cascade do |t|
@@ -115,6 +116,7 @@ ActiveRecord::Schema.define(version: 20160112212517) do
     t.datetime "updated_at",    null: false
     t.integer  "user_id"
     t.integer  "admin_id"
+    t.integer  "membership_id"
   end
 
   create_table "users", force: :cascade do |t|
