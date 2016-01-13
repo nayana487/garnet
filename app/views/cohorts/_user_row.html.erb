@@ -13,19 +13,13 @@
       <%= avg_obz %>
     </td>
 
-    <% if @member_ids.include?(user.id) %>
-      <td>
-        <%= link_to("Remove", cohort_membership_path(@cohort, user), method: :delete, data: {confirm: "Are you sure?"}) %>
-      </td>
-      <td>
-        <%  toggle_active_link_text = user.memberships.find_by(cohort: @cohort).active? ? "Deactivate" : "Re-activate" %>
-        <%= link_to(toggle_active_link_text, toggle_active_cohort_membership_path(@cohort, user), method: :post, data: {confirm: "Are you sure?"}) %>
-      </td>
-    <%else %>
-      <td colspan=2>
-        Member is in subcohort only
-      </td>
-    <% end  %>
+    <td>
+      <%= link_to("Remove", cohort_membership_path(@cohort, user), method: :delete, data: {confirm: "Are you sure?"}) %>
+    </td>
+    <td>
+      <%  toggle_active_link_text = user.memberships.find_by(cohort: @cohort).active? ? "Deactivate" : "Re-activate" %>
+      <%= link_to(toggle_active_link_text, toggle_active_cohort_membership_path(@cohort, user), method: :post, data: {confirm: "Are you sure?"}) %>
+    </td>
   <% end %>
 
 </tr>
