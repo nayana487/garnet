@@ -1,7 +1,7 @@
 <h2>
   <%= "#{@assignment.title || "Assignment"}, #{@assignment.due_date_s}"  %>
   ,
-  <%= link_to("Issues", @assignment.issues_url(@group.nonadmins), target: '_blank') %>
+  <%= link_to("Issues", @assignment.issues_url(@cohort.nonadmins), target: '_blank') %>
 </h2>
 
 <p><%= percent_of(@submissions, 2) %>% complete</p>
@@ -14,11 +14,11 @@
 <% active_link_text = @show_inactive ? "Show only active students" : "Include inactive students" %>
 
 <p>
-<%= link_to status_link_text, assignment_path(@assignment, group: @group, show_na: !@show_na, show_inactive: @show_inactive) %>
+<%= link_to status_link_text, assignment_path(@assignment, cohort: @cohort, show_na: !@show_na, show_inactive: @show_inactive) %>
 </p>
 
 <p>
-<%= link_to active_link_text, assignment_path(@assignment, group: @group, show_na: @show_na,  show_inactive: !@show_inactive) %>
+<%= link_to active_link_text, assignment_path(@assignment, cohort: @cohort, show_na: @show_na,  show_inactive: !@show_inactive) %>
 </p>
 
 <table id='submissions'>
@@ -56,9 +56,9 @@
 
 <section>
   <h3>Manually Create Submission</h3>
-  <p>When an assignment is created, a submission is created automatically for each user of the group to which the assignment belongs.</p>
+  <p>When an assignment is created, a submission is created automatically for each user of the cohort to which the assignment belongs.</p>
   <%= form_for [@assignment, Submission.new] do |f| %>
-    <%= f.select :user_id, @assignment.group.nonadmins.collect{|u| [u.name, u.id]} %>
+    <%= f.select :user_id, @assignment.cohort.nonadmins.collect{|u| [u.name, u.id]} %>
     <%= f.submit "Create" %>
   <% end %>
 </section>

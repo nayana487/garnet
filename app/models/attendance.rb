@@ -10,6 +10,7 @@ class Attendance < ActiveRecord::Base
     self.event.date.strftime("%a, %m/%d/%y")
   end
 
+  # TODO: this should use activerecord enums maybe -ab
   def self.statuses
     {
       nil => "n/a",
