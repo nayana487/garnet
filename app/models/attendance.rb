@@ -1,7 +1,7 @@
 class Attendance < ActiveRecord::Base
   belongs_to :event
-  belongs_to :user
   belongs_to :membership
+  has_one :user, through: :membership
 
   has_one :group, through: :event
   has_one :cohort, through: :event
