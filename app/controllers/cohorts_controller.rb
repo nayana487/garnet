@@ -1,7 +1,11 @@
 class CohortsController < ApplicationController
+  before_action :set_cohort, only: [:show, :edit, :update, :destroy, :gh_refresh]
+
+  def index
+    @cohorts = Cohort.all
+  end
 
   def show
-    @cohort = Cohort.first
     @is_admin = @cohort.has_admin?(current_user)
 
     @nonadmins = @cohort.nonadmins
@@ -35,45 +39,39 @@ class CohortsController < ApplicationController
   end
 
   def edit
-    @cohort = Cohort.find(params[:id])
   end
 
   def update
+    if @cohort.update(cohort_params)
+      redirect_to @cohort
+    else
+      render :edit
+    end
   end
 
-  # TODO: Refactor for cohorts
-  # def update
-  #   @group = Group.at_path(params[:path])
-  #   @group.update!(group_params)
-  #   redirect_to group_path(@group)
-  # end
-  #
-  # def destroy
-  #   @group = Group.at_path(params[:path])
-  #   @parent = @group.parent
-  #   @group.destroy!
-  #   if @parent
-  #     redirect_to group_path(@parent)
-  #   else
-  #     redirect_to user_path(current_user)
-  #   end
-  # end
-  #
-  # def gh_refresh
-  #   @group = Group.at_path(params[:path])
-  #   @group.memberships.each do |membership|
-  #     user = membership.user
-  #     next unless user.github_id
-  #     gh_user_info = Github.new(ENV).user_info(user.username)
-  #     user.update!(gh_user_info)
-  #   end
-  #   flash[:notice] = "Github info updated!"
-  #   redirect_to group_path(@group)
-  # end
+  def destroy
+    @cohort.destroy
+    redirect_to current_user
+  end
+
+  def gh_refresh
+    @cohort.memberships.each do |membership|
+      user = membership.user
+      next unless user.github_id
+      gh_user_info = Github.new(ENV).user_info(user.username)
+      user.update!(gh_user_info)
+    end
+    flash[:notice] = "Github info updated!"
+    redirect_to cohort_path(@cohort)
+  end
 
   private
-  def group_params
-    params.require(:group).permit(:name, :start_date, :end_date, :course_id, :location_id)
+  def set_cohort
+    @cohort = Cohort.find(params[:id])
+  end
+
+  def cohort_params
+    params.require(:cohort).permit(:name, :start_date, :end_date, :course_id, :location_id)
   end
 
 end
