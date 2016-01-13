@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :courses
+  resources :locations
+
   root to: "users#show"
 
   get  '/sign_in',  to: 'sessions#new',     as: :sign_in
