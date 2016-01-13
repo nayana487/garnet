@@ -1,27 +1,5 @@
 module ApplicationHelper
 
-  def breadcrumbs(group, user = nil)
-    output = group.path.sort{|a,b| a.path_string <=> b.path_string}.to_a
-    output.map!{|g| (link_to g.title, group_path(g), class: "breadcrumb")}
-    output = output.join("_")
-    if user
-      output += ("<a>admin</a>") if group.has_admin?(user)
-    end
-    return output.html_safe
-  end
-
-  def squadcrumb group, user
-    link_to "squad", group_membership_path(group, user), method: :put, class: (group.has_priority?(user) ? "yes" : "no")
-  end
-
-  def group_descendant_list(group)
-    output = ""
-    group.descendants.each do |subgroup|
-      output += "<li>" + link_to(subgroup.path_string, group_path(subgroup)) + "</li>"
-    end
-    return output.html_safe
-  end
-
   def avatar user
     if user.image_url
       return link_to image_tag(user.image_url), user_path(user), class: :avatar
@@ -110,8 +88,8 @@ module ApplicationHelper
     return output.html_safe
   end
 
-  def group_status(group, user)
-    user.memberships.find_by(group: group).status.to_s
+  def cohort_status(cohort, user)
+    user.memberships.find_by(cohort: cohort).status.to_s
   end
 
 end

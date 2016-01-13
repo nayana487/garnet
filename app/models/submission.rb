@@ -1,5 +1,4 @@
 class Submission < ActiveRecord::Base
-  has_one :group, through: :assignment
   has_one :cohort, through: :assignment
 
   belongs_to :assignment

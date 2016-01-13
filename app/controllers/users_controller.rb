@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   skip_before_action :authenticate, only: [:create, :is_registered?, :new]
 
   def orphans
-    @users = User.all.select{|u| u.groups.count < 1}
+    @users = User.all.select{|u| u.cohorts.count < 1}
     render :index
   end
 
@@ -22,9 +22,9 @@ class UsersController < ApplicationController
 
     @is_current_user = (@user == current_user)
     @is_admin_of_anything = @user.is_admin_of_anything?
-    @is_adminned_by_current_user = (@user.groups_adminned_by(current_user).count > 0)
+    @is_adminned_by_current_user = (@user.cohorts_adminned_by(current_user).count > 0)
     @is_editable = @is_current_user && !@user.github_id
-    @memberships = @user.memberships.sort_by{|a| a.group.path_string}
+    @memberships = @user.memberships.sort_by{|a| a.cohort.name}
 
     # Looking at yourself, or someone you admin
     if (@is_current_user || @is_adminned_by_current_user)
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
     # Looking at someone you admin
     if !@is_current_user && @is_adminned_by_current_user
       @observations = @user.records_accessible_by(current_user, "observations").sort_by(&:created_at)
-      @common_groups = (@user.groups & current_user.adminned_groups).collect{|g| [g.path_string, g.id]}
+      @common_cohorts = (@user.cohorts & current_user.adminned_cohorts).collect{|g| [g.name, g.id]}
     end
 
     # TODO: Refactor this part into a status / dashboard page

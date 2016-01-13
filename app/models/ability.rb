@@ -3,44 +3,44 @@ class Ability
 
   def initialize(user)
     can :manage, Assignment do |assignment|
-      assignment.group.has_admin?(user)
+      assignment.cohort.has_admin?(user)
     end
     can :read, Assignment
 
     can :manage, Submission do |submission|
-      submission.group.has_admin?(user)
+      submission.cohort.has_admin?(user)
     end
     can :read, Submission do |submission|
       submission.user == user
     end
 
     can :manage, Event do |event|
-      event.group.has_admin?(user)
+      event.cohort.has_admin?(user)
     end
     can :read, Event
 
     can :manage, Attendance do |attendance|
-      attendance.group.has_admin?(user)
+      attendance.cohort.has_admin?(user)
     end
     can :read, Attendance do |attendance|
       attendance.user == user
     end
 
     can :manage, Observation do |observation|
-      observation.group.has_admin?(user)
+      observation.cohort.has_admin?(user)
     end
 
     can :manage, Membership do |membership|
-      membership.group.has_admin?(user)
+      membership.cohort.has_admin?(user)
     end
     can :read, Membership
 
-    can :create, Group do |group|
-      group.parent.has_admin?(user)
+    can :create, Cohort do |cohort|
+      cohort.parent.has_admin?(user)
     end
-    can :manage, Group do |group|
-      group.has_admin?(user)
+    can :manage, Cohort do |cohort|
+      cohort.has_admin?(user)
     end
-    can :read, Group
+    can :read, Cohort
   end
 end
