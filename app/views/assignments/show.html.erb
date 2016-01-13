@@ -58,7 +58,7 @@
   <h3>Manually Create Submission</h3>
   <p>When an assignment is created, a submission is created automatically for each user of the cohort to which the assignment belongs.</p>
   <%= form_for [@assignment, Submission.new] do |f| %>
-    <%= f.select :user_id, @assignment.cohort.nonadmins.collect{|u| [u.name, u.id]} %>
+    <%= f.select :membership_id, @assignment.cohort.memberships.where(status: Membership.statuses[:active]).collect{|m| [m.user.name, m.id]} %>
     <%= f.submit "Create" %>
   <% end %>
 </section>

@@ -1,7 +1,0 @@
-<%= form_for ((defined? parent) ? [parent, group] : group) do |f| %>
-  <%= label_tag do %><span><%= "#{group.parent.path_string}_" if group.parent %></span><%= f.text_field :title, placeholder: "Group title" %><% end %>
-  <%= f.submit "Save group" %>
-  <% if !group.new_record? %>
-    <%= link_to "Delete group", group_path(group), method: :delete, class: "button", data: {confirm: "You sure? This will orphan all of the grades, attendances, and everything else."} %>
-  <% end %>
-<% end %>

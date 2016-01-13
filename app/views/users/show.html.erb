@@ -11,15 +11,16 @@
         <%= markdown(observation.body) %>
         <p><small>By
           <%= link_to observation.admin.username, user_path(observation.admin) %> for
-          <%= link_to observation.group.path_string, group_path(observation.group) %>,
+          <%= link_to observation.cohort.name, cohort_path(observation.cohort) %>,
           <span title="<%= observation.created_at.strftime("%a %m/%d/%y %r") %>">
           <%= time_ago_in_words(observation.created_at) %> ago</span> <%= link_to "(x)", observation, method: :delete, data: {confirm: "Are you sure?"} %></small></p>
       </div>
     <% end %>
     <section>
       <h4>New Observation</h4>
-      <%= form_for [@user, Observation.new] do |f| %>
-        <%= f.select :group_id, @common_groups %>
+      <%= simple_form_for [@user, Observation.new] do |f| %>
+      <!-- TODO:  -->
+        <%= f.association :membership, as: :select, collection: @user.memberships.map{|m| [m.cohort.name, m.id]} %>
         <%= f.select :status, Observation.statuses %>
         <%= f.text_area :body, placeholder: "Write your observation." %>
         <%= f.submit "Submit new observation" %>
@@ -31,7 +32,7 @@
 <% if @due_submissions || @due_attendances %>
   <section>
     <h3>To-Do</h3>
-    <p>All records with the status of "n/a" in groups you've marked "squad":</p>
+    <p>All records with the status of "n/a" in cohorts you've marked "squad":</p>
     <section>
       <h4>Grades</h4>
       <table>
@@ -44,7 +45,7 @@
         <% @due_submissions.each do |submission| %>
         <tr>
           <td><%= link_to submission.user.name, submission.user %></td>
-          <td><%= link_to submission.assignment.title, assignment_path(submission.assignment, anchor: submission.id, group: @current_user.squad) %></td>
+          <td><%= link_to submission.assignment.title, assignment_path(submission.assignment, anchor: submission.id) %></td>
           <td>
             <% if submission.assignment.repo_url && !submission.assignment.repo_url.strip.blank? %>
               <a href="<%= submission.issues_url %>" target="_blank" data-gh-issues="<%= submission.user.github_id %>">Issues</a>,
@@ -129,7 +130,7 @@
   </section>
 <% end %>
 
-<section id="groups_section">
+<section id="cohorts_section">
   <h3>Cohorts</h3>
   <% if @memberships.count == 0 %>
     <p>None yet!</p>
@@ -137,8 +138,7 @@
     <ul class="pills">
     <% @memberships.each do |membership| %>
       <li>
-        <%= breadcrumbs(membership.group, @user) %>
-        <%= squadcrumb(membership.group, membership.user) if @is_current_user && @is_admin_of_anything %>
+        <%= link_to(membership.cohort.name, membership.cohort) %>
       </li>
     <% end %>
     </ul>

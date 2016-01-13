@@ -1,5 +1,4 @@
 class Event < ActiveRecord::Base
-  belongs_to :group
   belongs_to :cohort
 
   has_many :attendances, dependent: :destroy
@@ -9,8 +8,8 @@ class Event < ActiveRecord::Base
   validates :date,
     presence: true,
     uniqueness: {
-      scope: :group,
-      message: "should be unique for this group"
+      scope: :cohort,
+      message: "should be unique for this cohort"
     }
   validates :title, presence: true
 
