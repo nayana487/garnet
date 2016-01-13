@@ -1,0 +1,7 @@
+<%= simple_form_for @cohort do |f| %>
+  <%= f.input :name %>
+  <%= f.association :location %>
+  <%= f.association :course %>
+  <%= f.input :start_date %>
+  <%= f.input :end_date %>
+<% end %>

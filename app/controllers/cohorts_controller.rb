@@ -21,15 +21,27 @@ class CohortsController < ApplicationController
     @event_for_today_already_exists = @events.any? ? @events.first.date == DateTime.now : false
   end
 
+  def new
+    @cohort = Cohort.new
+  end
+
+  def create
+    @cohort = Cohort.new(cohort_params)
+    if @cohort.save
+      redirect_to @cohort
+    else
+      render :new
+    end
+  end
+
+  def edit
+    @cohort = Cohort.find(params[:id])
+  end
+
+  def update
+  end
+
   # TODO: Refactor for cohorts
-  # def create
-  #   @parent = Group.at_path(params[:group_path])
-  #   @group = @parent.children.create!(group_params)
-  #   raise "You're not an admin of this group!" if !@parent.has_admin?(current_user)
-  #   @group.memberships.create!(user_id: current_user.id, is_owner: true)
-  #   redirect_to group_path(@group)
-  # end
-  #
   # def update
   #   @group = Group.at_path(params[:path])
   #   @group.update!(group_params)
@@ -61,7 +73,7 @@ class CohortsController < ApplicationController
 
   private
   def group_params
-    params.require(:group).permit(:title, :category)
+    params.require(:group).permit(:name, :start_date, :end_date, :course_id, :location_id)
   end
 
 end
