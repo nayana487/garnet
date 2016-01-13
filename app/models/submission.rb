@@ -4,7 +4,7 @@ class Submission < ActiveRecord::Base
 
   belongs_to :assignment
   belongs_to :membership
-  belongs_to :user
+  has_one :user, through: :membership
   belongs_to :admin, class_name: "User"
 
   def due_date

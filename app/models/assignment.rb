@@ -11,8 +11,8 @@ class Assignment < ActiveRecord::Base
   attr_accessor :issues
 
   def create_submissions
-    self.group.nonadmins.each do |user|
-      user.submissions.create(assignment_id: self.id)
+    self.cohort.memberships.where(is_owner: false).each do |membership|
+      membership.submissions.create(assignment_id: self.id)
     end
   end
 

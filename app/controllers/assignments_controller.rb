@@ -3,23 +3,22 @@ class AssignmentsController < ApplicationController
 
   # TODO: pretty sure this is dead code, nothing in routes.rb routes to it -AB
   def index
-    @group = Group.at_path(params[:group_path])
-    @users = @group.nonadmins
-    @is_admin = @group.admins.include?(current_user)
-    @assignment = Assignment.new(group_id: @group)
-    @assignments = @group.descendants_attr("assignments")
-    @submissions = @group.descendants_attr("submissions")
+    @cohort = Cohort.find(params[:id])
+    @users = @cohort.students
+    @is_admin = @cohort.admins.include?(current_user)
+    @assignment = Assignment.new(cohort_id: @cohort)
+    @assignments = @cohort.assignments
+    @submissions = @cohort.submissions
   end
 
   def show
-    @group = Group.at_path(params[:group]) || @assignment.group
+    @cohort = @assignment.cohort
     @assignment = Assignment.find(params[:id])
 
     @show_na = params[:show_na] == "true"
     @show_inactive = params[:show_inactive] == "true"
 
-    @submissions = @assignment.submissions.includes(user: [:memberships]).references(:memberships)
-    @submissions = @submissions.where("memberships.group_id = ?", @group.id)
+    @submissions = @assignment.submissions.includes(:membership).references(:membership)
 
     unless @show_inactive
       @submissions = @submissions.where("memberships.status = ?", Membership.statuses[:active])
@@ -33,8 +32,8 @@ class AssignmentsController < ApplicationController
   end
 
   def create
-    @group = Group.at_path(params[:group_path])
-    @assignment = @group.assignments.new(assignment_params)
+    @cohort = Cohort.find(params[:cohort_id])
+    @assignment = @cohort.assignments.new(assignment_params)
     if @assignment.save
       redirect_to assignment_path(@assignment)
     end
@@ -49,7 +48,7 @@ class AssignmentsController < ApplicationController
   def destroy
     @assignment = Assignment.find(params[:id])
     @assignment.destroy!
-    redirect_to @assignment.group
+    redirect_to @assignment.cohort
   end
 
   def issues
@@ -65,7 +64,7 @@ class AssignmentsController < ApplicationController
     def authorize_admin
       @assignment = Assignment.find(params[:id])
 
-      is_admin = @assignment.group.has_admin?(current_user)
+      is_admin = @assignment.cohort.has_admin?(current_user)
       if !is_admin
         redirect_to(current_user, flash:{alert: "You're not authorized."}) and return
       end
