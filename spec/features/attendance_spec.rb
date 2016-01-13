@@ -5,11 +5,10 @@ RSpec.feature 'Taking Attendance', js: true do
     load "#{Rails.root}/db/seeds/test_seed.rb"
   end
 
-  given(:ga_root_group) { Group.at_path('ga') }
-  given(:group_under_test) { Group.at_path('ga_wdi_dc_7') }
+  given(:cohort_under_test) { Cohort.find_by(name: 'WDIDC7') }
   given!(:test_instructor) do
     instructor = User.create!(:username => 'TEST_INSTRUCTOR', :password => 'password')
-    group_under_test.add_owner(instructor)
+    cohort_under_test.add_owner(instructor)
     instructor
   end
 
@@ -18,10 +17,10 @@ RSpec.feature 'Taking Attendance', js: true do
     # Given
     login_user(test_instructor)
 
-    # visit group show, with expanded Attendance section
-    visit group_path(group_under_test, anchor: 'attendance')
+    # visit cohort show, with expanded Attendance section
+    visit cohort_path(cohort_under_test, anchor: 'attendance')
 
-    # on group show page
+    # on cohort show page
     within('#new_event') do
       fill_in "event_title", with: "TEST ATTENDANCE"
       # use default date time (now)
