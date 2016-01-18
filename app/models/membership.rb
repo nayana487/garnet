@@ -13,10 +13,6 @@ class Membership < ActiveRecord::Base
 
   validate :is_unique_in_cohort, on: :create
 
-  def to_param
-    self.user.username
-  end
-
   def is_unique_in_cohort
     if self.cohort.memberships.where(user_id: self.user_id).count > 0
       errors[:base].push("A user may have only one membership in a given cohort.")
@@ -29,6 +25,10 @@ class Membership < ActiveRecord::Base
 
   def toggle_active!
     self.active? ? self.inactive! : self.active!
+  end
+
+  def toggle_admin!
+    self.update_attribute(:is_owner, !self.is_owner)
   end
 
 end
