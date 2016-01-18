@@ -16,17 +16,25 @@ class Cohort < ActiveRecord::Base
     self.admins.include?(user)
   end
 
-  def instructors
-    self.memberships.where(is_owner: true).map(&:user)
+  def student_memberships
+    self.memberships.where(is_owner: false)
   end
-  alias_method :owners, :instructors
-  alias_method :admins, :instructors
+
+  def admin_memberships
+    self.memberships.where(is_owner: true)
+  end
 
   def students
-    self.memberships.where(is_owner: false).map(&:user)
+    self.student_memberships.map(&:user)
   end
   alias_method :nonadmins, :students
   alias_method :nonowners, :students
+
+  def admins
+    admin_memberships.where(is_owner: true).map(&:user)
+  end
+  alias_method :owners, :admins
+  alias_method :instructors, :admins
 
   def add_owner(user)
     self.memberships.create!(user: user, is_owner: true)

@@ -8,20 +8,17 @@ class CohortsController < ApplicationController
   def show
     @is_admin = @cohort.has_admin?(current_user)
 
-    @students = @cohort.students
-    @active_members    = @students.select{ |u| u.memberships.find_by(cohort: @cohort, status: Membership.statuses[:active]) }
-    @inactive_members  = @students.select{ |u| u.memberships.find_by(cohort: @cohort, status: Membership.statuses[:inactive]) }
+    @student_memberships = @cohort.student_memberships.includes(:user).includes(:attendances).includes(:submissions)
+    @active_memberships    = @student_memberships.where(status: Membership.statuses[:active])
+    @inactive_memberships  = @student_memberships.where(status: Membership.statuses[:inactive])
 
     @owners = @cohort.owners
     @member_ids = @cohort.users.map(&:id).to_a
 
-    @submissions = @cohort.submissions
-    @assignments = @cohort.assignments
-
-    @attendances = @cohort.attendances
-    @events = @cohort.events.reverse
-
+    @assignments = @cohort.assignments.includes(:submissions)
+    @events = @cohort.events.includes(:attendances)
     @observations = @cohort.observations
+
     @event_for_today_already_exists = @events.any? ? @events.first.date == DateTime.now : false
   end
 

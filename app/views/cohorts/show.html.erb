@@ -4,8 +4,8 @@
     <h4>Roster</h4>
     <%= link_to "Refresh all Github info", gh_refresh_cohort_path(@cohort), class: "button", data: {confirm: "This might take a while. That OK?"} %>
 
-    <%= render partial: "users_table", locals: {users: @active_members, header: "Active Members"} %>
-    <%= render partial: "users_table", locals: {users: @inactive_members, header: "Inactive Members"} %>
+    <%= render partial: "memberships_table", locals: {memberships: @active_memberships, header: "Active Members"} %>
+    <%= render partial: "memberships_table", locals: {memberships: @inactive_memberships, header: "Inactive Members"} %>
 
     <p>Owners:
       <% @owners.each do |user| %>
@@ -41,7 +41,7 @@
         <th>Total</th>
       </tr>
       <% @events.each do |event| %>
-        <% attendances = @attendances.select{|e| e.event_id == event.id} %>
+        <% attendances = event.attendances %>
         <tr class="<%= "today" if event.date.today? %>">
           <td><%= link_to_if @is_admin, event.date_s, event_path(event, cohort: @cohort, show_na: true) %></td>
           <td><%= link_to_if @is_admin, event.title, event_path(event, cohort: @cohort, show_na: true) %></td>
@@ -72,7 +72,7 @@
         <th>Total</th>
       </tr>
       <% @assignments.each do |assignment| %>
-        <% submissions = @submissions.select{|s| s.assignment_id == assignment.id} %>
+        <% submissions = assignment.submissions %>
         <tr>
           <td><%= link_to_if @is_admin, assignment.title, assignment_path(assignment, cohort: @cohort) %></td>
           <td><%= assignment.due_date_s %></td>
