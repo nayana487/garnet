@@ -18,8 +18,7 @@
     <% end %>
     <section>
       <h4>New Observation</h4>
-      <%= simple_form_for [@user, Observation.new] do |f| %>
-      <!-- TODO:  -->
+      <%= simple_form_for Observation.new do |f| %>
         <%= f.association :membership, as: :select, collection: @user.memberships.map{|m| [m.cohort.name, m.id]} %>
         <%= f.select :status, Observation.statuses %>
         <%= f.text_area :body, placeholder: "Write your observation." %>

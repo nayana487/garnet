@@ -17,14 +17,17 @@ Rails.application.routes.draw do
     get 'gh_refresh', on: :member
     resources :events,      only: [:create]
     resources :assignments, only: [:create]
-    resources :memberships, only: [:create, :update, :destroy], path: "users", param: :user do
-      post :toggle_active, on: :member
-    end
+    resources :memberships, only: [:create]
   end
 
+  resources :memberships, only: [:destroy] do
+    post :toggle_active, on: :member
+    post :toggle_admin, on: :member
+    post :add_tag, on: :member
+    post :remove_tag, on: :member
+  end
 
   resources :users, param: :user do
-    resources :observations, only: [:create]
     member do
       get "is_registered", action: :is_registered?
       get 'gh_refresh'
@@ -46,6 +49,5 @@ Rails.application.routes.draw do
 
   resources :submissions,   only: [:update, :destroy]
   resources :attendances,   only: [:update, :destroy]
-  resources :observations,  only: [:destroy]
-
+  resources :observations,  only: [:create, :destroy]
 end
