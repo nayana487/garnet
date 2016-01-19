@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :courses
   resources :locations
 
-  root to: "users#show"
+  root to: "dashboards#to_do"
 
   get  '/sign_in',  to: 'sessions#new',     as: :sign_in
   post '/sign_in',  to: 'sessions#create'
@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     resources :memberships, only: [:create]
   end
 
-  resources :memberships, only: [:destroy] do
+  resources :memberships, only: [:show, :destroy] do
     post :toggle_active, on: :member
     post :toggle_admin, on: :member
     post :add_tag, on: :member
@@ -31,7 +31,6 @@ Rails.application.routes.draw do
     member do
       get "is_registered", action: :is_registered?
       get 'gh_refresh'
-      put 'refresh_memberships'
     end
     collection do
       get "orphans", to: "users#orphans"

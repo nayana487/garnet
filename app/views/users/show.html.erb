@@ -1,134 +1,21 @@
 <div class="intro">
-  <%= avatar(@user) if @user.image_url && !@user.image_url.strip.blank? %>
-  <h2 title="user#<%= @user.id %>"><%= "Welcome, " if @is_current_user %><%= @user.username %></h2>
+  <%= avatar(@user) %>
+  <h2><%= @user.name %></h2>
 </div>
-
-<% if @observations %>
-  <section>
-    <h3>Observations</h3>
-    <%= render @observations %>
-    <section>
-      <h4>New Observation</h4>
-      <%= render partial: "observations/form", locals: {user: @user} %>
-    </section>
-  </section>
-<% end %>
-
-<% if @due_submissions || @due_attendances %>
-  <section>
-    <h3>To-Do</h3>
-    <p>All records with the status of "n/a" in cohorts you've marked "squad":</p>
-    <section>
-      <h4>Grades</h4>
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>Details</th>
-          <th></th>
-          <th colspan="4"></th>
-        </tr>
-        <% @due_submissions.each do |submission| %>
-        <tr>
-          <td><%= link_to submission.user.name, submission.user %></td>
-          <td><%= link_to submission.assignment.title, assignment_path(submission.assignment, anchor: submission.id) %></td>
-          <td>
-            <% if submission.assignment.repo_url && !submission.assignment.repo_url.strip.blank? %>
-              <a href="<%= submission.issues_url %>" target="_blank" data-gh-issues="<%= submission.user.github_id %>">Issues</a>,
-              <a href="<%= submission.fork_url %>">Fork</a>
-            <% end %>
-          </td>
-          <% Submission.statuses.keys.each do |status| %>
-            <td><%= status_button(submission, status) %></td>
-          <% end %>
-        </tr>
-        <% end %>
-      </table>
-    </section>
-
-    <section>
-      <h4>Attendance</h4>
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>Event Title</th>
-          <th>Event Date</th>
-          <th colspan="4"></th>
-        </tr>
-        <% @due_attendances.each do |attendance| %>
-        <tr>
-          <td><%= link_to attendance.user.name, attendance.user %></td>
-          <td><%= attendance.event.title %></td>
-          <td><%= link_to attendance.event.date_s, attendance.event %></td>
-          <% Attendance.statuses.keys.each do |status| %>
-            <td><%= status_button(attendance, status) %></td>
-          <% end %>
-        </tr>
-        <% end %>
-      </table>
-    </section>
-  </section>
-<% end %>
-
-<% if @attendances.count > 0 %>
-  <section>
-    <h3><%= @user.first_name %>'s Attendance</h3>
-    <p>Tardy: <%= @attendances.select{|a| a.status === 1}.count %>, Absent: <%= @attendances.select{|a| a.status === 0}.count %></p>
-    <table>
-      <% @attendances.each do |attendance| %>
-        <% if attendance.status != 2 %>
-          <tr>
-            <td><%= link_to_if @is_adminned_by_current_user, attendance.date, attendance.event %></td>
-            <td><%= attendance.status_english %></td>
-          </tr>
-        <% end %>
-      <% end %>
-    </table>
-  </section>
-<% end %>
-
-<% if @submissions.count > 0 %>
-  <section>
-    <h3><%= @user.first_name %>'s Homework Submissions</h3>
-    <p>Percent Complete: <%= percent_of(@submissions, 2) %>%</p>
-    <table>
-      <% @submissions.each do |submission| %>
-        <tr>
-          <% if @is_adminned_by_current_user %>
-            <td><%= link_to submission.assignment.title, assignment_path(submission.assignment, anchor: submission.id) %></td>
-          <% else %>
-            <td><%= link_to_if !submission.assignment.repo_url.blank?, submission.assignment.title, submission.assignment.repo_url %></td>
-          <% end %>
-          <td><%= submission.status_english %></td>
-        </tr>
-      <% end %>
-    </table>
-
-    <section>
-      <h4>Instructor Notes on Submissions</h4>
-      <% @submission_notes.each do |submission| %>
-        <section>
-          <h5><%= submission.assignment.title %></h5>
-          <%= markdown(submission.grader_notes) %>
-        </section>
-      <% end %>
-    </section>
-  </section>
-<% end %>
 
 <section id="cohorts_section">
   <h3>Cohorts</h3>
-  <% if @memberships.count == 0 %>
+  <% if @user.memberships.count == 0 %>
     <p>None yet!</p>
   <% else %>
     <ul class="pills">
     <% @memberships.each do |membership| %>
       <li>
-        <%= link_to(membership.cohort.name, membership.cohort) %>
+        <%= link_to(membership.cohort.name, membership) %>
       </li>
     <% end %>
     </ul>
   <% end %>
-  <%= link_to "Refresh Memberships", refresh_memberships_user_path(@user), method: :put, class: "button" %>
 </section>
 
 <section>
