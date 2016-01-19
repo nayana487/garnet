@@ -13,7 +13,7 @@
       <% end %>
     </tr>
     <% memberships.each do |membership| %>
-      <%= render partial: "membership_row", locals: {membership: membership} %>
+      <%= render partial: "memberships/row", locals: {membership: membership} %>
     <% end %>
   </table>
 <% else %>

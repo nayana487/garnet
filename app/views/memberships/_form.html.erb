@@ -1,0 +1,7 @@
+<h4>Add Member(s)</h4>
+<%= form_for [cohort, cohort.memberships.new] do %>
+  <input name="usernames" placeholder="One or more usernames, separated by spaces and/or commas" />
+  <input type="checkbox" name="is_admin" id="is_admin" />
+  <label for="is_admin">Is admin</label>
+  <input type="submit" value="Add member(s)" />
+<% end %>
