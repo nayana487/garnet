@@ -8,7 +8,7 @@ RSpec.feature 'Taking Attendance', js: true do
   given(:cohort_under_test) { Cohort.find_by(name: 'WDIDC7') }
   given!(:test_instructor) do
     instructor = User.create!(:username => 'TEST_INSTRUCTOR', :password => 'password')
-    cohort_under_test.add_owner(instructor)
+    cohort_under_test.add_admin(instructor)
     instructor
   end
 

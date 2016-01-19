@@ -71,13 +71,13 @@ class User < ActiveRecord::Base
   end
 
   def owned_cohorts
-    @owned_cohorts ||= self.memberships.where(is_owner: true).collect(&:cohort)
+    @owned_cohorts ||= self.memberships.where(is_admin: true).collect(&:cohort)
   end
   alias_method :adminned_cohorts, :owned_cohorts
 
   # TODO: reimplement using tags -ab
   # def priority_cohorts
-  #   @priority_cohorts ||= self.memberships.where(is_owner: true, is_priority: true).collect(&:cohort)
+  #   @priority_cohorts ||= self.memberships.where(is_admin: true, is_priority: true).collect(&:cohort)
   # end
 
   def cohorts_adminned_by user
@@ -92,7 +92,7 @@ class User < ActiveRecord::Base
   end
 
   def is_admin_of_anything?
-    self.memberships.exists?(is_owner: true)
+    self.memberships.exists?(is_admin: true)
   end
 
   # TODO: Optimize and remove inactive students memberships

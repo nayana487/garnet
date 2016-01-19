@@ -12,7 +12,7 @@ class CohortsController < ApplicationController
     @active_memberships    = @student_memberships.where(status: Membership.statuses[:active])
     @inactive_memberships  = @student_memberships.where(status: Membership.statuses[:inactive])
 
-    @owners = @cohort.owners
+    @admins = @cohort.admins
 
     @assignments = @cohort.assignments.includes(:submissions)
     @events = @cohort.events.includes(:attendances).order(date: :desc)

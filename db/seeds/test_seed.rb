@@ -18,16 +18,16 @@ pmi = Course.find_by(short_name: "PMI")
 wdi7 = Cohort.create!(name: "WDIDC7", location: dc, course: wdi)
 pmi1 = Cohort.create!(name: "PMIDC1", location: dc, course: wdi)
 
-wdi7.add_owner(adam)
-wdi7.add_owner(jesse)
-wdi7.add_owner(matt) # for attendance
+wdi7.add_admin(adam)
+wdi7.add_admin(jesse)
+wdi7.add_admin(matt) # for attendance
 
 wdi7.add_member(alice)
 wdi7.add_member(bob)
 wdi7.add_member(carol)
 
-pmi1.add_owner(jane)
-pmi1.add_owner(john)
+pmi1.add_admin(jane)
+pmi1.add_admin(john)
 
 pmi1.add_member(bob)
 pmi1.add_member(carol)
@@ -35,12 +35,12 @@ pmi1.add_member(carol)
 
 # TODO: Add back ones tags are implemented -ab
 # squad_adam = Group.at_path("ga_wdi_dc_7_squad-adam")
-# squad_adam.add_owner(adam, true)
+# squad_adam.add_admin(adam, true)
 # squad_adam.add_member(jane)
 # squad_adam.add_member(john)
 # squad_adam.add_member(test_user)
 # squad_adam.assignments.create!(title: "Test Assignment1", repo_url: "http://github.com/wdidc/test_repo")
 #
 # squad_matt = Group.at_path("ga_wdi_dc_7_squad-matt")
-# squad_matt.add_owner(matt, true)
+# squad_matt.add_admin(matt, true)
 # squad_matt.add_member(test_user)

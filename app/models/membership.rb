@@ -28,7 +28,7 @@ class Membership < ActiveRecord::Base
   end
 
   def toggle_admin!
-    self.update_attribute(:is_owner, !self.is_owner)
+    self.update_attribute(:is_admin, !self.is_admin)
   end
 
 end

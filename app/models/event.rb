@@ -24,7 +24,7 @@ class Event < ActiveRecord::Base
 
   def create_attendances
     # TODO use named scope on cohort
-    self.cohort.memberships.where(is_owner: false).each do |membership|
+    self.cohort.memberships.where(is_admin: false).each do |membership|
       membership.attendances.create!(event_id: self.id, required: self.required?)
     end
   end

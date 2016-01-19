@@ -10,7 +10,7 @@ class Assignment < ActiveRecord::Base
   attr_accessor :issues
 
   def create_submissions
-    self.cohort.memberships.where(is_owner: false).each do |membership|
+    self.cohort.memberships.where(is_admin: false).each do |membership|
       membership.submissions.create(assignment_id: self.id)
     end
   end
