@@ -73,7 +73,7 @@ ActiveRecord::Schema.define(version: 20160119015808) do
 
   create_table "memberships", force: :cascade do |t|
     t.integer  "user_id"
-    t.boolean  "is_admin"
+    t.boolean  "is_admin",               null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.integer  "status",     default: 0
