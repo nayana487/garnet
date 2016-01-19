@@ -13,13 +13,11 @@ class CohortsController < ApplicationController
     @inactive_memberships  = @student_memberships.where(status: Membership.statuses[:inactive])
 
     @owners = @cohort.owners
-    @member_ids = @cohort.users.map(&:id).to_a
 
     @assignments = @cohort.assignments.includes(:submissions)
-    @events = @cohort.events.includes(:attendances)
-    @observations = @cohort.observations
+    @events = @cohort.events.includes(:attendances).order(date: :desc)
 
-    @event_for_today_already_exists = @events.any? ? @events.first.date == DateTime.now : false
+    @event_for_today_already_exists = @events.on_date(Date.today).any?
   end
 
   def new
