@@ -7,8 +7,8 @@
     <%= render partial: "memberships_table", locals: {memberships: @active_memberships, header: "Active Members"} %>
     <%= render partial: "memberships_table", locals: {memberships: @inactive_memberships, header: "Inactive Members"} %>
 
-    <p>Owners:
-      <% @owners.each do |user| %>
+    <p>Admins:
+      <% @admins.each do |user| %>
         <%= link_to user.name || user.username, user_path(user) %>
         <%= link_to("(x)", toggle_admin_membership_path(user.memberships.find_by(cohort: @cohort)), method: :post, data: {confirm: "Are you sure you want to remove this admin?"}) if @is_admin %>,
       <% end %>
@@ -19,8 +19,8 @@
         <h4>Add Member(s)</h4>
         <%= form_for [@cohort, @cohort.memberships.new] do %>
           <input name="usernames" placeholder="One or more usernames, separated by spaces and/or commas" />
-          <input type="checkbox" name="is_owner" id="is_owner" />
-          <label for="is_owner">Is admin</label>
+          <input type="checkbox" name="is_admin" id="is_admin" />
+          <label for="is_admin">Is admin</label>
           <input type="submit" value="Add member(s)" />
         <% end %>
       </section>
