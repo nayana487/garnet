@@ -4,6 +4,8 @@ class Event < ActiveRecord::Base
   has_many :attendances, dependent: :destroy
   has_many :users, through: :attendances
 
+  scope :on_date, ->(date) { where("date >= ? and date <= ?", date.beginning_of_day, date.end_of_day)}
+
   validate :avoid_duplicate_events, on: :create
   validates :date,
     presence: true,
@@ -14,7 +16,6 @@ class Event < ActiveRecord::Base
   validates :title, presence: true
 
   after_create :create_attendances
-
 
   def self.duplicate_date_delta
     5.minutes
