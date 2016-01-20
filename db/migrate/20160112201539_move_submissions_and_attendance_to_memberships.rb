@@ -5,11 +5,11 @@ class MoveSubmissionsAndAttendanceToMemberships < ActiveRecord::Migration
 
     Submission.all.each do |s|
       s.membership = Membership.find_by(user: s.user, group: s.group)
-      s.save
+      s.save!
     end
     Attendance.all.each do |a|
       a.membership = Membership.find_by(user: a.user, group: a.group)
-      a.save
+      a.save!
     end
   end
 
