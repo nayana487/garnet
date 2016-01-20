@@ -1,0 +1,26 @@
+<tr>
+  <% user = membership.user %>
+  <td><%= link_to user.name, user_path(user) %></td>
+  <td><%= avatar(user) if user.image_url && !user.image_url.strip.blank? %></td>
+
+  <% if @is_admin %>
+    <td class="<%= color_of_percent( present = percent_of(membership.attendances, 2)) %>">
+      <%= present %>%
+    </td>
+    <td class="<%= color_of_percent( complete = percent_of(membership.submissions, 2)) %>">
+      <%= complete %>%
+    </td>
+    <td class="<%= color_of_status( avg_obz = average_status(membership.observations)) %>">
+      <%= avg_obz %>
+    </td>
+
+    <td>
+      <%= link_to("Remove", membership_path(membership), method: :delete, data: {confirm: "Are you sure?"}) %>
+    </td>
+    <td>
+      <%  toggle_active_link_text = membership.active? ? "Deactivate" : "Re-activate" %>
+      <%= link_to(toggle_active_link_text, toggle_active_membership_path(membership), method: :post, data: {confirm: "Are you sure?"}) %>
+    </td>
+  <% end %>
+
+</tr>

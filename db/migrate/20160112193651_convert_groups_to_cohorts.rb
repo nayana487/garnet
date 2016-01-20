@@ -30,7 +30,7 @@ class ConvertGroupsToCohorts < ActiveRecord::Migration
       pmi_cohort.memberships = pmi_group.memberships
       pmi_cohort.assignments = pmi_group.assignments
       pmi_cohort.events = pmi_group.events
-      wdi_cohort.save!
+      pmi_cohort.save!
     end
   end
 
