@@ -75,10 +75,6 @@ module ApplicationHelper
     end
   end
 
-  def is_admin_of_anything? user
-    return (user.memberships.select{|m| m.is_admin?}.count > 0)
-  end
-
   def status_button record, status
     output = ""
     id = "a#{record.id}_#{status}"

@@ -4,6 +4,8 @@ class Event < ActiveRecord::Base
   has_many :attendances, dependent: :destroy
   has_many :users, through: :attendances
 
+  scope :on_date, ->(date) { where("date >= ? and date <= ?", date.beginning_of_day, date.end_of_day)}
+
   validate :avoid_duplicate_events, on: :create
   validates :date,
     presence: true,
@@ -15,7 +17,6 @@ class Event < ActiveRecord::Base
 
   after_create :create_attendances
 
-
   def self.duplicate_date_delta
     5.minutes
   end
@@ -23,7 +24,7 @@ class Event < ActiveRecord::Base
 
   def create_attendances
     # TODO use named scope on cohort
-    self.cohort.memberships.where(is_owner: false).each do |membership|
+    self.cohort.memberships.where(is_admin: false).each do |membership|
       membership.attendances.create!(event_id: self.id, required: self.required?)
     end
   end

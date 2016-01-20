@@ -6,24 +6,12 @@
 <% if @observations %>
   <section>
     <h3>Observations</h3>
-    <% @observations.each do |observation| %>
-      <div class="observation <%= color_of_status(observation.status) %>">
-        <%= markdown(observation.body) %>
-        <p><small>By
-          <%= link_to observation.admin.username, user_path(observation.admin) %> for
-          <%= link_to observation.cohort.name, cohort_path(observation.cohort) %>,
-          <span title="<%= observation.created_at.strftime("%a %m/%d/%y %r") %>">
-          <%= time_ago_in_words(observation.created_at) %> ago</span> <%= link_to "(x)", observation, method: :delete, data: {confirm: "Are you sure?"} %></small></p>
-      </div>
-    <% end %>
+
+    <%= render @observations %>
+
     <section>
       <h4>New Observation</h4>
-      <%= simple_form_for Observation.new do |f| %>
-        <%= f.association :membership, as: :select, collection: @user.memberships.map{|m| [m.cohort.name, m.id]} %>
-        <%= f.select :status, Observation.statuses %>
-        <%= f.text_area :body, placeholder: "Write your observation." %>
-        <%= f.submit "Submit new observation" %>
-      <% end %>
+      <%= render partial: "observations/form", locals: {user: @user} %>
     </section>
   </section>
 <% end %>

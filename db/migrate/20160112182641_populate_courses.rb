@@ -18,6 +18,6 @@ class PopulateCourses < ActiveRecord::Migration
     end
 
     def down
-      Location.destroy_all
+      Course.destroy_all
     end
   end

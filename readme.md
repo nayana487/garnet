@@ -69,10 +69,10 @@ If they sign up *without* Github, they can update their username, password, e-ma
 
 # User roles in a specific group
 
-- **Owner**: A user with a physical membership to a group where `membership.is_owner == true`
-- **Nonowner**: A user with a physical membership to a group where `membership.is_owner == false`
-- **Admin**: Trickles down: An owner of a group, or an owner of any of its ancestor groups
-- **Nonadmin**: Bubbles up: A nonowner of a group, or a member of any of its descendant groups
+- **Admin**: A user with a physical membership to a group where `membership.is_admin == true`
+- **Nonadmin**: A user with a physical membership to a group where `membership.is_admin == false`
+- **Admin**: Trickles down: An admin of a group, or an admin of any of its ancestor groups
+- **Nonadmin**: Bubbles up: A nonadmin of a group, or a member of any of its descendant groups
 
 # Deployment
 
