@@ -8,13 +8,10 @@
   <% if @user.memberships.count == 0 %>
     <p>None yet!</p>
   <% else %>
-    <ul class="pills">
-    <% @memberships.each do |membership| %>
-      <li>
-        <%= link_to(membership.cohort.name, membership) %>
-      </li>
-    <% end %>
-    </ul>
+    <%= render partial: "memberships/table", locals: {
+                                              memberships: @memberships,
+                                              header: "#{@user.name}'s Memberships",
+                                              row_header: :cohort } %>
   <% end %>
 </section>
 

@@ -1,9 +1,10 @@
 <tr>
   <% user = membership.user %>
-  <td><%= link_to user.name, membership %></td>
+  <% row_header == :user_name ? link_text = user.name : link_text = membership.cohort.name %>
+  <td><%= link_to link_text, membership %></td>
   <td><%= avatar(user) if user.image_url && !user.image_url.strip.blank? %></td>
 
-  <% if @is_admin %>
+  <% if current_user.is_admin_of?(membership.cohort) %>
     <td class="<%= color_of_percent( present = percent_of(membership.attendances, 2)) %>">
       <%= present %>%
     </td>
