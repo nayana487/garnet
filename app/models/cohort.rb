@@ -30,7 +30,7 @@ class Cohort < ActiveRecord::Base
   alias_method :nonadmins, :students
 
   def admins
-    admin_memberships.where(is_admin: true).map(&:user)
+    admin_memberships.map(&:user)
   end
   alias_method :instructors, :admins
 
