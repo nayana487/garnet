@@ -29,7 +29,7 @@ class Membership < ActiveRecord::Base
   end
 
   def name
-    self.user.username
+    self.user.name
   end
 
   def toggle_active!

@@ -10,7 +10,7 @@
                                               row_header: :user_name } %>
     <%= render partial: "memberships/table", locals: {
                                               memberships: @inactive_memberships,
-                                              header: "Inctive Members",
+                                              header: "Inactive Members",
                                               row_header: :user_name } %>
     <p>Admins:
       <% @admins.each do |user| %>
@@ -22,6 +22,12 @@
     <% if @is_admin %>
       <section>
         <%= render partial: "memberships/form", locals: {cohort: @cohort} %>
+      </section>
+
+      <section>
+        <%= render partial: "tags/form",  locals: {
+                                            tags: @existing_tags,
+                                            memberships: @cohort.memberships} %>
       </section>
     <% end %>
   </div>

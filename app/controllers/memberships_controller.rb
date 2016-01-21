@@ -1,7 +1,6 @@
 class MembershipsController < ApplicationController
   before_action :set_membership, only: [:show, :destroy,
-                                        :toggle_active, :toggle_admin,
-                                        :add_tag, :remove_tag]
+                                        :toggle_active, :toggle_admin]
 
   def create
     @cohort = Cohort.find(params[:cohort_id])
