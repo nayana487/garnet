@@ -1,5 +1,6 @@
 <tr>
-  <td><%= link_to user.name || user.username, user_path(user) %></td>
+  <% membership = user.memberships.find_by(cohort: @cohort) %>
+  <td><%= link_to user.name, user_path(user) %></td>
   <td><%= avatar(user) if user.image_url && !user.image_url.strip.blank? %></td>
 
   <% if @is_admin %>
@@ -14,11 +15,11 @@
     </td>
 
     <td>
-      <%= link_to("Remove", cohort_membership_path(@cohort, user), method: :delete, data: {confirm: "Are you sure?"}) %>
+      <%= link_to("Remove", membership_path(membership), method: :delete, data: {confirm: "Are you sure?"}) %>
     </td>
     <td>
-      <%  toggle_active_link_text = user.memberships.find_by(cohort: @cohort).active? ? "Deactivate" : "Re-activate" %>
-      <%= link_to(toggle_active_link_text, toggle_active_cohort_membership_path(@cohort, user), method: :post, data: {confirm: "Are you sure?"}) %>
+      <%  toggle_active_link_text = membership.active? ? "Deactivate" : "Re-activate" %>
+      <%= link_to(toggle_active_link_text, toggle_active_membership_path(membership), method: :post, data: {confirm: "Are you sure?"}) %>
     </td>
   <% end %>
 

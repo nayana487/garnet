@@ -10,7 +10,7 @@
     <p>Owners:
       <% @owners.each do |user| %>
         <%= link_to user.name || user.username, user_path(user) %>
-        <%= link_to("(x)", cohort_membership_path(@cohort, user), method: :delete, data: {confirm: "Are you sure you want to remove this admin?"}) if @is_admin %>,
+        <%= link_to("(x)", toggle_admin_membership_path(user.memberships.find_by(cohort: @cohort)), method: :post, data: {confirm: "Are you sure you want to remove this admin?"}) if @is_admin %>,
       <% end %>
     </p>
 
