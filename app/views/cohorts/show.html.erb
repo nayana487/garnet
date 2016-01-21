@@ -4,9 +4,14 @@
     <h4>Roster</h4>
     <%= link_to "Refresh all Github info", gh_refresh_cohort_path(@cohort), class: "button", data: {confirm: "This might take a while. That OK?"} %>
 
-    <%= render partial: "memberships/table", locals: {memberships: @active_memberships, header: "Active Members"} %>
-    <%= render partial: "memberships/table", locals: {memberships: @inactive_memberships, header: "Inactive Members"} %>
-
+    <%= render partial: "memberships/table", locals: {
+                                              memberships: @active_memberships,
+                                              header: "Active Members",
+                                              row_header: :user_name } %>
+    <%= render partial: "memberships/table", locals: {
+                                              memberships: @inactive_memberships,
+                                              header: "Inctive Members",
+                                              row_header: :user_name } %>
     <p>Admins:
       <% @admins.each do |user| %>
         <%= link_to user.name || user.username, user_path(user) %>

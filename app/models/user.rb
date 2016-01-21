@@ -95,6 +95,10 @@ class User < ActiveRecord::Base
     self.memberships.exists?(is_admin: true)
   end
 
+  def is_admin_of?(cohort)
+    self.memberships.where(cohort: cohort, is_admin: true).any?
+  end
+
   # TODO: Optimize and remove inactive students memberships
   def get_due model_name
     records = adminned_cohorts.map(&:memberships).flatten.collect{|m| m.send(model_name).where(status: nil)}.flatten.uniq
