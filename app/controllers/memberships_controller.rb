@@ -1,5 +1,6 @@
 class MembershipsController < ApplicationController
-  before_action :set_membership, only: [:destroy, :toggle_active, :toggle_admin,
+  before_action :set_membership, only: [:show, :destroy,
+                                        :toggle_active, :toggle_admin,
                                         :add_tag, :remove_tag]
 
   def create
@@ -13,6 +14,26 @@ class MembershipsController < ApplicationController
     end
     flash[:notice] = "Added #{@membership.user.username} to #{@cohort.name}!"
     redirect_to :back
+  end
+
+  def show
+    @user = @membership.user
+
+    is_current_user = (@user == current_user)
+    @is_adminned_by_current_user = (@user.cohorts_adminned_by(current_user).count > 0)
+
+    redirect_to current_user unless is_current_user || @is_adminned_by_current_user
+
+    @is_editable = is_current_user && !@user.github_id
+
+    @attendances = @membership.attendances.sort_by{|a| a.event.date}
+    @submissions = @membership.submissions.where.not(status: nil).sort_by{|a| a.assignment.due_date}
+    @submissions_with_notes = @submissions.select(&:grader_notes)
+
+    # Looking at someone you admin
+    if !is_current_user && @is_adminned_by_current_user
+      @observations = @user.records_accessible_by(current_user, "observations").sort_by(&:created_at)
+    end
   end
 
   def destroy

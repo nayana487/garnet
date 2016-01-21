@@ -1,0 +1,50 @@
+<div class="intro">
+  <%= avatar(@user) %>
+  <h2><%= link_to @user.name, @user %> in <%= link_to @membership.cohort.name, @membership.cohort %></h2>
+</div>
+
+<% if @observations %>
+  <section>
+    <h3>Observations</h3>
+    <%= render @observations %>
+    <section>
+      <h4>New Observation</h4>
+      <%= render partial: "observations/form", locals: {user: @user, membership: @membership} %>
+    </section>
+  </section>
+<% end %>
+
+<% if @attendances.count > 0 %>
+  <section>
+    <h3><%= @user.first_name %>'s Attendance</h3>
+    <p>Present: <%= @attendances.select{|a| a.status === 2}.count %>, Tardy: <%= @attendances.select{|a| a.status === 1}.count %>, Absent: <%= @attendances.select{|a| a.status === 0}.count %></p>
+    <%= render partial: "attendances/table", locals: {attendances: @attendances} %>
+  </section>
+<% end %>
+
+<% if @submissions.count > 0 %>
+  <section>
+    <h3><%= @user.first_name %>'s Homework Submissions</h3>
+    <p>Percent Complete: <%= percent_of(@submissions, 2) %>%</p>
+    <%= render partial: "submissions/table", locals: {submissions: @submissions} %>
+
+    <section>
+      <h4>Instructor Notes on Submissions</h4>
+      <% @submissions_with_notes.each do |submission| %>
+        <section>
+          <h5><%= submission.assignment.title %></h5>
+          <%= markdown(submission.grader_notes) %>
+        </section>
+      <% end %>
+    </section>
+  </section>
+<% end %>
+
+
+<section>
+  <h3>Profile</h3>
+  <%= render partial: "users/form" %>
+  <% if @user.github_id %>
+    <%= link_to "Refresh Github info", gh_refresh_user_path(@user), class: "button" %>
+  <% end %>
+</section>

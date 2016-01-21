@@ -1,6 +1,6 @@
 <tr>
   <% user = membership.user %>
-  <td><%= link_to user.name, user_path(user) %></td>
+  <td><%= link_to user.name, membership %></td>
   <td><%= avatar(user) if user.image_url && !user.image_url.strip.blank? %></td>
 
   <% if @is_admin %>

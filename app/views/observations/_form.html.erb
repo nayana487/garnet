@@ -1,5 +1,10 @@
+<% membership ||= false  %>
 <%= simple_form_for Observation.new do |f| %>
-  <%= f.association :membership, as: :select, collection: user.memberships.map{|m| [m.cohort.name, m.id]} %>
+  <% if membership %>
+    <%= f.input :membership_id, as: :hidden, value: membership.id %>
+  <% else %>
+    <%= f.association :membership, as: :select, collection: user.memberships.map{|m| [m.cohort.name, m.id]} %>
+  <% end %>
   <%= f.select :status, Observation.statuses %>
   <%= f.text_area :body, placeholder: "Write your observation." %>
   <%= f.submit "Submit new observation" %>

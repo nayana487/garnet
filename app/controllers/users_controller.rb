@@ -20,31 +20,13 @@ class UsersController < ApplicationController
       redirect_to sign_in_path
     end
 
-    @is_current_user = (@user == current_user)
-    @is_admin_of_anything = @user.is_admin_of_anything?
+    is_current_user = (@user == current_user)
     @is_adminned_by_current_user = (@user.cohorts_adminned_by(current_user).count > 0)
-    @is_editable = @is_current_user && !@user.github_id
-    @memberships = @user.memberships.sort_by{|a| a.cohort.name}
 
-    # Looking at yourself, or someone you admin
-    if (@is_current_user || @is_adminned_by_current_user)
-      @attendances = @user.attendances.sort_by{|a| a.event.date}
-      @submissions = @user.submissions.where.not(status: nil).sort_by{|a| a.assignment.due_date}
-      @submission_notes = @submissions.select(&:grader_notes)
-    end
+    redirect_to current_user unless is_current_user || @is_adminned_by_current_user
 
-    # Looking at someone you admin
-    if !@is_current_user && @is_adminned_by_current_user
-      @observations = @user.records_accessible_by(current_user, "observations").sort_by(&:created_at)
-      @common_cohorts = (@user.cohorts & current_user.adminned_cohorts).collect{|g| [g.name, g.id]}
-    end
-
-    # TODO: Refactor this part into a status / dashboard page
-    # Looking at your to-do page
-    if @is_current_user && @is_admin_of_anything
-      @due_submissions = @user.get_due("submissions")
-      @due_attendances = @user.get_due("attendances")
-    end
+    @is_editable = is_current_user && !@user.github_id
+    @memberships = @user.memberships.sort_by{|m| m.cohort.name}
   end
 
   def update
