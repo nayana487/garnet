@@ -4,17 +4,16 @@ class User < ActiveRecord::Base
   validate :validates_name_if_no_github_id
 
   has_many :memberships, dependent: :destroy
-  has_many :groups, through: :memberships
   has_many :cohorts, through: :memberships
 
-  has_many :observations
+  has_many :observations, through: :memberships
   has_many :admin_observations, class_name: "Observation", foreign_key: "admin_id"
 
-  has_many :submissions
+  has_many :submissions, through: :memberships
   has_many :admin_submissions, class_name: "Submission", foreign_key: "admin_id"
   has_many :assignments, through: :submissions
 
-  has_many :attendances
+  has_many :attendances, through: :memberships
   has_many :admin_attendances, class_name: "Attendance", foreign_key: "admin_id"
   has_many :events, through: :attendances
 
@@ -71,61 +70,43 @@ class User < ActiveRecord::Base
     BCrypt::Password.new(self.password_digest).is_password?(password)
   end
 
-  def owned_groups
-    @owned_groups ||= self.memberships.where(is_owner: true).collect(&:group)
+  def owned_cohorts
+    @owned_cohorts ||= self.memberships.where(is_owner: true).collect(&:cohort)
   end
+  alias_method :adminned_cohorts, :owned_cohorts
 
-  def adminned_groups
-    return @adminned_groups if defined? @adminned_groups
-    @adminned_groups = []
-    self.owned_groups.each do |group|
-      @adminned_groups.push(group.subtree)
-    end
-    @adminned_groups = @adminned_groups.flatten.uniq
-  end
+  # TODO: reimplement using tags -ab
+  # def priority_cohorts
+  #   @priority_cohorts ||= self.memberships.where(is_owner: true, is_priority: true).collect(&:cohort)
+  # end
 
-  def priority_groups
-    @priority_groups ||= self.memberships.where(is_owner: true, is_priority: true).collect(&:group)
-  end
-
-  def squad
-    priority_groups.last
-  end
-
-  def squaddies active=true
-    if active
-      @squaddies_active ||= priority_groups.collect{|g| g.memberships.active}.flatten.uniq.collect(&:user)
-    else
-      @squaddies_inactive ||= priority_groups.collect{|g| g.memberships}.flatten.uniq.collect(&:user)
-    end
-  end
-
-  def groups_adminned_by user
-    self.groups & user.adminned_groups
+  def cohorts_adminned_by user
+    self.cohorts & user.adminned_cohorts
   end
 
   def records_accessible_by user, attribute_name
     records = self.send(attribute_name)
-    my_groups = records.collect(&:group).uniq
-    common_groups = my_groups & user.adminned_groups
-    return records.select{|r| common_groups.include?(r.group)}
+    my_cohorts = records.collect(&:cohort).uniq
+    common_cohorts = my_cohorts & user.adminned_cohorts
+    return records.select{|r| common_cohorts.include?(r.cohort)}
   end
 
   def is_admin_of_anything?
     self.memberships.exists?(is_owner: true)
   end
 
+  # TODO: Optimize and remove inactive students memberships
   def get_due model_name
-    records = squaddies.collect{|g| g.send(model_name).where(status: nil)}.flatten.uniq
-    records.select!{|r| adminned_groups.include?(r.group)}
+    records = adminned_cohorts.map(&:memberships).flatten.collect{|m| m.send(model_name).where(status: nil)}.flatten.uniq
+    records.select!{|r| adminned_cohorts.include?(r.cohort)}
     if self.is_a? Submission
       records.select!{|r| r.assignment.due_date <= DateTime.now}
     end
     return records
   end
 
-  def is_member_of group
-    group.memberships.exists?(user: self)
+  def is_member_of cohort
+    cohort.memberships.exists?(user: self)
   end
 
 end

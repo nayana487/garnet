@@ -13,16 +13,6 @@ Rails.application.routes.draw do
     get "/authenticate",  to: "sessions#gh_authenticate",  as: :gh_authenticate
   end
 
-  resources :groups, param: :path, except: :create do
-    get 'gh_refresh', on: :member
-    resources :groups,      only: [:create]
-    resources :events,      only: [:create]
-    resources :assignments, only: [:create]
-    resources :memberships, only: [:create, :update, :destroy], path: "users", param: :user do
-      post :toggle_active, on: :member
-    end
-  end
-
   resources :cohorts do
     get 'gh_refresh', on: :member
     resources :events,      only: [:create]

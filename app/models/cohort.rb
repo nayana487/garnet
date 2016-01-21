@@ -28,4 +28,11 @@ class Cohort < ActiveRecord::Base
   alias_method :nonadmins, :students
   alias_method :nonowners, :students
 
+  def add_owner(user)
+    self.memberships.create!(user: user, is_owner: true)
+  end
+
+  def add_member(user, is_owner = false)
+    self.memberships.create!(user: user, is_owner: is_owner)
+  end
 end

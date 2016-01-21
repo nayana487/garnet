@@ -1,5 +1,4 @@
 class Assignment < ActiveRecord::Base
-  belongs_to :group
   belongs_to :cohort
 
   has_many :submissions, dependent: :destroy
@@ -11,8 +10,8 @@ class Assignment < ActiveRecord::Base
   attr_accessor :issues
 
   def create_submissions
-    self.group.nonadmins.each do |user|
-      user.submissions.create(assignment_id: self.id)
+    self.cohort.memberships.where(is_owner: false).each do |membership|
+      membership.submissions.create(assignment_id: self.id)
     end
   end
 

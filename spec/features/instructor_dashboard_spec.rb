@@ -30,7 +30,7 @@ RSpec.feature 'Instructor Dashboard' do
     dashboard_squad1.assignments.create!(title: "Test Assignment1", repo_url: "http://github.com/wdidc/test_repo")
   end
 
-  scenario 'when signed in' do
+  scenario 'when signed in', pending: true do
     login_user(test_instructor)
     expect(page).to have_content "Welcome, #{test_instructor.username}"
 

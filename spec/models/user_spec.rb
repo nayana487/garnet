@@ -66,12 +66,12 @@ RSpec.describe User do
   end
 
 
-  describe "#squad" do
-    let(:squad) { Group.at_path("ga_wdi_dc_7_squad-adam") }
-    subject(:instructor) { squad.owners.first }
-
-    it "returns the last Priority Group" do
-      expect(instructor.squad).to eql(squad)
-    end
-  end
+  # describe "#squad" do
+  #   let(:squad) { Group.at_path("ga_wdi_dc_7_squad-adam") }
+  #   subject(:instructor) { squad.owners.first }
+  #
+  #   it "returns the last Priority Group" do
+  #     expect(instructor.squad).to eql(squad)
+  #   end
+  # end
 end

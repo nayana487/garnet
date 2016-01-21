@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160112212600) do
+ActiveRecord::Schema.define(version: 20160113142118) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,7 +21,6 @@ ActiveRecord::Schema.define(version: 20160112212600) do
     t.string   "repo_url"
     t.string   "title"
     t.datetime "due_date"
-    t.integer  "group_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean  "required"
@@ -33,7 +32,6 @@ ActiveRecord::Schema.define(version: 20160112212600) do
     t.integer  "event_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
-    t.integer  "user_id"
     t.integer  "admin_id"
     t.boolean  "required"
     t.integer  "membership_id"
@@ -59,24 +57,12 @@ ActiveRecord::Schema.define(version: 20160112212600) do
 
   create_table "events", force: :cascade do |t|
     t.datetime "date"
-    t.integer  "group_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "title"
     t.boolean  "required"
     t.integer  "cohort_id"
   end
-
-  create_table "groups", force: :cascade do |t|
-    t.string   "title"
-    t.string   "category"
-    t.integer  "parent_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string   "ancestry"
-  end
-
-  add_index "groups", ["ancestry"], name: "index_groups_on_ancestry", using: :btree
 
   create_table "locations", force: :cascade do |t|
     t.string   "name"
@@ -86,13 +72,11 @@ ActiveRecord::Schema.define(version: 20160112212600) do
   end
 
   create_table "memberships", force: :cascade do |t|
-    t.integer  "group_id"
     t.integer  "user_id"
-    t.boolean  "is_owner",                null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-    t.boolean  "is_priority"
-    t.integer  "status",      default: 0
+    t.boolean  "is_owner",               null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "status",     default: 0
     t.integer  "cohort_id"
   end
 
@@ -101,9 +85,7 @@ ActiveRecord::Schema.define(version: 20160112212600) do
     t.text     "body"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
-    t.integer  "user_id"
     t.integer  "admin_id"
-    t.integer  "group_id"
     t.integer  "membership_id"
   end
 
@@ -114,7 +96,6 @@ ActiveRecord::Schema.define(version: 20160112212600) do
     t.integer  "assignment_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
-    t.integer  "user_id"
     t.integer  "admin_id"
     t.integer  "membership_id"
   end
