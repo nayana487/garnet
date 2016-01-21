@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :courses
+  resources :locations
+
   root to: "users#show"
 
   get  '/sign_in',  to: 'sessions#new',     as: :sign_in
@@ -19,6 +22,16 @@ Rails.application.routes.draw do
       post :toggle_active, on: :member
     end
   end
+
+  resources :cohorts do
+    get 'gh_refresh', on: :member
+    resources :events,      only: [:create]
+    resources :assignments, only: [:create]
+    resources :memberships, only: [:create, :update, :destroy], path: "users", param: :user do
+      post :toggle_active, on: :member
+    end
+  end
+
 
   resources :users, param: :user do
     resources :observations, only: [:create]

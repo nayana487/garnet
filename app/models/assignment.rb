@@ -1,5 +1,7 @@
 class Assignment < ActiveRecord::Base
   belongs_to :group
+  belongs_to :cohort
+
   has_many :submissions, dependent: :destroy
   has_many :users, through: :submissions
 

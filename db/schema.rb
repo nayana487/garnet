@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151123212847) do
+ActiveRecord::Schema.define(version: 20160112212600) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,16 +25,36 @@ ActiveRecord::Schema.define(version: 20151123212847) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean  "required"
+    t.integer  "cohort_id"
   end
 
   create_table "attendances", force: :cascade do |t|
     t.integer  "status"
     t.integer  "event_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.integer  "user_id"
     t.integer  "admin_id"
     t.boolean  "required"
+    t.integer  "membership_id"
+  end
+
+  create_table "cohorts", force: :cascade do |t|
+    t.string   "name"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.integer  "course_id"
+    t.integer  "location_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "courses", force: :cascade do |t|
+    t.string   "name"
+    t.string   "short_name"
+    t.string   "format"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "events", force: :cascade do |t|
@@ -44,6 +64,7 @@ ActiveRecord::Schema.define(version: 20151123212847) do
     t.datetime "updated_at", null: false
     t.string   "title"
     t.boolean  "required"
+    t.integer  "cohort_id"
   end
 
   create_table "groups", force: :cascade do |t|
@@ -57,24 +78,33 @@ ActiveRecord::Schema.define(version: 20151123212847) do
 
   add_index "groups", ["ancestry"], name: "index_groups_on_ancestry", using: :btree
 
+  create_table "locations", force: :cascade do |t|
+    t.string   "name"
+    t.string   "short_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "memberships", force: :cascade do |t|
     t.integer  "group_id"
     t.integer  "user_id"
-    t.boolean  "is_owner"
+    t.boolean  "is_owner",                null: false
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.boolean  "is_priority"
     t.integer  "status",      default: 0
+    t.integer  "cohort_id"
   end
 
   create_table "observations", force: :cascade do |t|
     t.integer  "status"
     t.text     "body"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.integer  "user_id"
     t.integer  "admin_id"
     t.integer  "group_id"
+    t.integer  "membership_id"
   end
 
   create_table "submissions", force: :cascade do |t|
@@ -86,6 +116,7 @@ ActiveRecord::Schema.define(version: 20151123212847) do
     t.datetime "updated_at",    null: false
     t.integer  "user_id"
     t.integer  "admin_id"
+    t.integer  "membership_id"
   end
 
   create_table "users", force: :cascade do |t|

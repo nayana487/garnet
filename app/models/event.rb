@@ -1,5 +1,7 @@
 class Event < ActiveRecord::Base
   belongs_to :group
+  belongs_to :cohort
+
   has_many :attendances, dependent: :destroy
   has_many :users, through: :attendances
 

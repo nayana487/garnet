@@ -1,0 +1,92 @@
+<section>
+  <h3 class="fold" id="members"><a href="#members">Members</a></h3>
+  <div>
+    <h4>Roster</h4>
+    <%= link_to "Refresh all Github info", gh_refresh_cohort_path(@cohort), class: "button", data: {confirm: "This might take a while. That OK?"} %>
+
+    <%= render partial: "users_table", locals: {users: @active_members, header: "Active Members"} %>
+    <%= render partial: "users_table", locals: {users: @inactive_members, header: "Inactive Members"} %>
+
+    <p>Owners:
+      <% @owners.each do |user| %>
+        <%= link_to user.name || user.username, user_path(user) %>
+        <%= link_to("(x)", cohort_membership_path(@cohort, user), method: :delete, data: {confirm: "Are you sure you want to remove this admin?"}) if @is_admin %>,
+      <% end %>
+    </p>
+
+    <% if @is_admin %>
+      <section>
+        <h4>Add Member(s)</h4>
+        <%= form_for [@cohort, @cohort.memberships.new] do %>
+          <input name="usernames" placeholder="One or more usernames, separated by spaces and/or commas" />
+          <input type="checkbox" name="is_owner" id="is_owner" />
+          <label for="is_owner">Is admin</label>
+          <input type="submit" value="Add member(s)" />
+        <% end %>
+      </section>
+    <% end %>
+  </div>
+</section>
+
+<section id="attendance_section">
+  <h3 class="fold" id="attendance">
+    <a href="#attendance">Attendance</a>
+  </h3>
+  <div>
+    <table>
+      <tr>
+        <th>Date</th>
+        <th>Title</th>
+        <th>Present</th>
+        <th>Total</th>
+      </tr>
+      <% @events.each do |event| %>
+        <% attendances = @attendances.select{|e| e.event_id == event.id} %>
+        <tr class="<%= "today" if event.date.today? %>">
+          <td><%= link_to_if @is_admin, event.date_s, event_path(event, cohort: @cohort, show_na: true) %></td>
+          <td><%= link_to_if @is_admin, event.title, event_path(event, cohort: @cohort, show_na: true) %></td>
+          <td><%= percent_of(attendances, 2) %>%</td>
+          <td><%= attendances.count %></td>
+        </tr>
+      <% end %>
+    </table>
+
+    <% if @is_admin %>
+      <section data-event-for-today-already-exists="<%= @event_for_today_already_exists %>">
+        <button class='js-show-attendance-form'>An Event for today already exists! Create one anyway...</button>
+        <h4>New Event</h4>
+        <%= render partial: "events/form", locals: {cohort: @cohort, event: Event.new} %>
+      </section>
+    <% end %>
+  </div>
+</section>
+
+<section>
+  <h3 class="fold" id="assignments"><a href="#assignments">Assignments</a></h3>
+  <div>
+    <table>
+      <tr>
+        <th>Title</th>
+        <th>Due</th>
+        <th>Complete</th>
+        <th>Total</th>
+      </tr>
+      <% @assignments.each do |assignment| %>
+        <% submissions = @submissions.select{|s| s.assignment_id == assignment.id} %>
+        <tr>
+          <td><%= link_to_if @is_admin, assignment.title, assignment_path(assignment, cohort: @cohort) %></td>
+          <td><%= assignment.due_date_s %></td>
+          <td><%= percent_of(submissions, 2) %>%</td>
+          <td><%= submissions.count %></td>
+        </tr>
+      <% end %>
+    </table>
+
+    <% if @is_admin %>
+      <section>
+        <h4>New Assignment</h4>
+        <%= render partial: "assignments/form", locals: {cohort: @cohort, assignment: Assignment.new} %>
+      </section>
+    <% end %>
+  </div>
+</section>
