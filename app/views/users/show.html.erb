@@ -6,7 +6,9 @@
 <% if @observations %>
   <section>
     <h3>Observations</h3>
+
     <%= render @observations %>
+
     <section>
       <h4>New Observation</h4>
       <%= render partial: "observations/form", locals: {user: @user} %>
