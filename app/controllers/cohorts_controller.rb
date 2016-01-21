@@ -8,7 +8,7 @@ class CohortsController < ApplicationController
   def show
     @is_admin = @cohort.has_admin?(current_user)
 
-    @student_memberships = @cohort.student_memberships.includes(:user).includes(:attendances).includes(:submissions)
+    @student_memberships = @cohort.student_memberships.includes(:user).includes(:attendances).includes(:submissions).includes(:cohort)
     @active_memberships    = @student_memberships.where(status: Membership.statuses[:active])
     @inactive_memberships  = @student_memberships.where(status: Membership.statuses[:inactive])
 

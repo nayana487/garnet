@@ -4,7 +4,7 @@
     <tr>
       <th></th>
       <th></th>
-      <% if @is_admin %>
+      <% if current_user.is_admin_of_anything? %>
         <th>% Present</th>
         <th>% Complete</th>
         <th>Average Obz</th>
@@ -13,7 +13,7 @@
       <% end %>
     </tr>
     <% memberships.each do |membership| %>
-      <%= render partial: "memberships/row", locals: {membership: membership} %>
+      <%= render partial: "memberships/row", locals: {membership: membership, row_header: row_header} %>
     <% end %>
   </table>
 <% else %>
