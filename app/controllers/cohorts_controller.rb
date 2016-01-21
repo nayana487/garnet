@@ -50,10 +50,11 @@ class CohortsController < ApplicationController
   end
 
   def gh_refresh
+    github = Github.new(ENV)
     @cohort.memberships.each do |membership|
       user = membership.user
       next unless user.github_id
-      gh_user_info = Github.new(ENV).user_info(user.username)
+      gh_user_info = github.user_info(user.username)
       user.update!(gh_user_info)
     end
     flash[:notice] = "Github info updated!"

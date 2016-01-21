@@ -17,6 +17,8 @@ class Github
       name: api_response["name"],
       email: api_response["email"]
     }
+  rescue Octokit::NotFound
+    return {}
   end
 
   def api
