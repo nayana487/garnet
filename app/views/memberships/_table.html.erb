@@ -1,5 +1,5 @@
-<% if users.any? %>
-  <h5><%= "#{header} (#{users.count})" %></h5>
+<% if memberships.any? %>
+  <h5><%= "#{header} (#{memberships.count})" %></h5>
   <table>
     <tr>
       <th></th>
@@ -12,8 +12,8 @@
         <th></th>
       <% end %>
     </tr>
-    <% users.each do |user| %>
-      <%= render partial: "user_row", locals: {user: user} %>
+    <% memberships.each do |membership| %>
+      <%= render partial: "memberships/row", locals: {membership: membership} %>
     <% end %>
   </table>
 <% else %>

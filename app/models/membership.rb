@@ -4,6 +4,7 @@ class Membership < ActiveRecord::Base
   belongs_to :cohort
   has_many :taggings
   has_many :tags, through: :taggings
+
   belongs_to :user
 
   has_many :observations
@@ -11,6 +12,12 @@ class Membership < ActiveRecord::Base
   has_many :submissions
 
   validate :is_unique_in_cohort, on: :create
+  before_save :convert_nil_to_false
+
+  def convert_nil_to_false
+    self.is_admin = false unless self.is_admin == true
+    return true
+  end
 
   def is_unique_in_cohort
     if self.cohort.memberships.where(user_id: self.user_id).count > 0
@@ -27,7 +34,7 @@ class Membership < ActiveRecord::Base
   end
 
   def toggle_admin!
-    self.update_attribute(:is_owner, !self.is_owner)
+    self.update_attribute(:is_admin, !self.is_admin)
   end
 
 end

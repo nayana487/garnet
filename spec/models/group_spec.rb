@@ -21,17 +21,17 @@
 #   end
 #
 #   describe "membership methods" do
-#     describe "#owners" do
-#       it "includes users with physical memberships in the group where #is_owner is true" do
-#         owners = Group.at_path("ga_wdi_dc_7_squad-adam").owners
-#         expect(owners).to match_array([User.named("adam")])
+#     describe "#admins" do
+#       it "includes users with physical memberships in the group where #is_admin is true" do
+#         admins = Group.at_path("ga_wdi_dc_7_squad-adam").admins
+#         expect(admins).to match_array([User.named("adam")])
 #       end
 #     end
 #
-#     describe "#nonowners" do
-#       it "includes users with physical memberships in the group where #is_owner is not true" do
-#         nonowners = Group.at_path("ga_wdi_dc_7_squad-adam").nonowners
-#         expect(nonowners).to match_array([User.named("jane"), User.named("john"), User.named("testwdidcstudent")])
+#     describe "#nonadmins" do
+#       it "includes users with physical memberships in the group where #is_admin is not true" do
+#         nonadmins = Group.at_path("ga_wdi_dc_7_squad-adam").nonadmins
+#         expect(nonadmins).to match_array([User.named("jane"), User.named("john"), User.named("testwdidcstudent")])
 #       end
 #     end
 #
@@ -39,18 +39,18 @@
 #       before(:all) do
 #         @admins = Group.at_path("ga_wdi_dc_7_squad-adam").admins
 #       end
-#       it "includes users who are owners of the group" do
+#       it "includes users who are admins of the group" do
 #         expect(@admins).to include(User.named("adam"))
 #       end
-#       it "trickle down: includes owners of any ancestor groups" do
+#       it "trickle down: includes admins of any ancestor groups" do
 #         expect(@admins).to include(User.named("jesse"))
 #       end
-#       it "does not include users who are nonowners of the group" do
+#       it "does not include users who are nonadmins of the group" do
 #         expect(@admins).to_not include(User.named("john"))
 #       end
 #       describe "membership abilities" do
-#         it "can change an owner's membership status to nonowner"
-#         it "can remove an nonowner's membership from group"
+#         it "can change an admin's membership status to nonadmin"
+#         it "can remove an nonadmin's membership from group"
 #       end
 #     end
 #
@@ -59,44 +59,44 @@
 #       let(:test_leader) { User.create!(username: "test_leader", password: "foo") }
 #       let!(:test_squad) do
 #         squad = Group.at_path("ga_wdi_dc_7").children.create!(title: "TEST-SQUAD")
-#         squad.add_owner(test_leader, true)
+#         squad.add_admin(test_leader, true)
 #       end
 #
-#       it "includes users who are nonowners of the group" do
+#       it "includes users who are nonadmins of the group" do
 #         expect(nonadmins).to include(User.named("alice"))
 #       end
 #
 #       describe "bubble up" do
-#         it "includes nonowners of any descendant groups" do
+#         it "includes nonadmins of any descendant groups" do
 #           expect(nonadmins).to include(User.named("john"))
 #         end
-#         it "includes owners of any descendant groups" do
+#         it "includes admins of any descendant groups" do
 #           expect(nonadmins).to include(User.named("test_leader"))
 #         end
 #       end
 #
-#       it "does not include users who are owners of the group" do
+#       it "does not include users who are admins of the group" do
 #         expect(nonadmins).to_not include(User.named("jesse"))
 #         expect(nonadmins).to_not include(User.named("adam"))
 #       end
 #     end
 #
-#     describe "#add_owner" do
+#     describe "#add_admin" do
 #
-#       let(:test_owner) { User.create!(username: "test_owner", password: "password") }
+#       let(:test_admin) { User.create!(username: "test_admin", password: "password") }
 #
 #       describe "(defaults)" do
 #         it "is_priority as false" do
 #           non_priority_group = ga_root_group.children.create(title: "TESTPRIORITY")
-#           non_priority_group.add_owner(test_owner)
-#           expect(test_owner.priority_groups).to be_empty
+#           non_priority_group.add_admin(test_admin)
+#           expect(test_admin.priority_groups).to be_empty
 #         end
 #       end
 #
 #       it "accepts, and assigns, is_priority" do
 #         priority_group = ga_root_group.children.create(title: "TESTPRIORITY")
-#         priority_group.add_owner(test_owner, true)
-#         expect(test_owner.priority_groups).to include(priority_group)
+#         priority_group.add_admin(test_admin, true)
+#         expect(test_admin.priority_groups).to include(priority_group)
 #       end
 #     end
 #   end

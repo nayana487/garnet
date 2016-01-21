@@ -14,14 +14,14 @@ RSpec.feature 'Instructor Dashboard' do
 
   let(:dashboard_squad1) do
     group = ga_root_group.children.create!(title: "TESTSQUAD1")
-    group.add_owner(test_instructor, true)
+    group.add_admin(test_instructor, true)
     group.add_member(test_student)
     group
   end
 
   let(:dashboard_squad2) do
     group = ga_root_group.children.create!(title: "TESTSQUAD2")
-    group.add_owner(other_instructor, true)
+    group.add_admin(other_instructor, true)
     group.add_member(test_student2)
     group
   end
