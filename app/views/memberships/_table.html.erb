@@ -2,23 +2,23 @@
   <h5><%= "#{header} (#{memberships.count})" %></h5>
   <table class="js-dataTable memberships">
     <thead>
-    <tr>
-      <th></th>
-      <th></th>
-      <% if current_user.is_admin_of_anything? %>
-        <th>Tags</th>
-        <th>% Present</th>
-        <th>% Complete</th>
-        <th>Average Obz</th>
+      <tr>
         <th></th>
         <th></th>
-      <% end %>
-    </tr>
+        <% if current_user.is_admin_of_anything? %>
+          <th>Tags</th>
+          <th>% Present</th>
+          <th>% Complete</th>
+          <th>Average Obz</th>
+          <th></th>
+          <th></th>
+        <% end %>
+      </tr>
     </thead>
     <tbody>
-    <% memberships.each do |membership| %>
-      <%= render partial: "memberships/row", locals: {membership: membership, row_header: row_header} %>
-    <% end %>
+      <% memberships.each do |membership| %>
+        <%= render partial: "memberships/row", locals: {membership: membership, row_header: row_header} %>
+      <% end %>
     </tbody>
   </table>
 <% else %>

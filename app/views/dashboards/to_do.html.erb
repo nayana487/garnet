@@ -1,16 +1,21 @@
-<% if @due_submissions || @due_attendances %>
+<section>
+  <h3>To-Do</h3>
+  <p>All records for students for which you share a tag.</p>
   <section>
-    <h3>To-Do</h3>
-    <p>All records with the status of "n/a" in cohorts you've marked "squad":</p>
-    <section>
-      <h4>Grades</h4>
-      <table>
+    <h4>Submissions</h4>
+    <table class="js-dataTable submissions">
+      <thead>
         <tr>
           <th>Name</th>
           <th>Details</th>
-          <th></th>
-          <th colspan="4"></th>
+          <th class="no-sort"></th>
+          <th class="no-sort"></th>
+          <th class="no-sort"></th>
+          <th class="no-sort"></th>
+          <th class="no-sort"></th>
         </tr>
+      </thead>
+      <tbody>
         <% @due_submissions.each do |submission| %>
         <tr>
           <td><%= link_to submission.user.name, submission.user %></td>
@@ -26,29 +31,36 @@
           <% end %>
         </tr>
         <% end %>
-      </table>
-    </section>
+      </tbody>
+    </table>
+  </section>
 
-    <section>
-      <h4>Attendance</h4>
-      <table>
+  <section>
+    <h4>Attendance</h4>
+    <table class="js-dataTable attendances">
+      <thead>
         <tr>
           <th>Name</th>
           <th>Event Title</th>
           <th>Event Date</th>
-          <th colspan="4"></th>
+          <th class="no-sort"></th>
+          <th class="no-sort"></th>
+          <th class="no-sort"></th>
+          <th class="no-sort"></th>
         </tr>
+      </thead>
+      <tbody>
         <% @due_attendances.each do |attendance| %>
-        <tr>
-          <td><%= link_to attendance.user.name, attendance.user %></td>
-          <td><%= attendance.event.title %></td>
-          <td><%= link_to attendance.event.date_s, attendance.event %></td>
-          <% Attendance.statuses.keys.each do |status| %>
-            <td><%= status_button(attendance, status) %></td>
-          <% end %>
-        </tr>
+          <tr>
+            <td><%= link_to attendance.user.name, attendance.user %></td>
+            <td><%= attendance.event.title %></td>
+            <td><%= link_to attendance.event.date_s, attendance.event %></td>
+            <% Attendance.statuses.keys.each do |status| %>
+              <td><%= status_button(attendance, status) %></td>
+            <% end %>
+          </tr>
         <% end %>
-      </table>
-    </section>
+      </tbody>
+    </table>
   </section>
-<% end %>
+</section>
