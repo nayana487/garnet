@@ -13,9 +13,11 @@ class Cohort < ActiveRecord::Base
   # is important becuase otherwise we'll get duplicates of tags
   has_many :existing_tags, -> {uniq},  through: :memberships, source: :tags
 
-
   belongs_to :course
   belongs_to :location
+
+  scope :active, -> {where("end_date >= ?", Time.now)}
+  scope :inactive, -> {where("end_date < ?", Time.now)}
 
   def has_admin? user
     self.admins.include?(user)

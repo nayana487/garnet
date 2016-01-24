@@ -18,6 +18,7 @@ class Membership < ActiveRecord::Base
   before_save :convert_nil_to_false
 
   scope :admin, -> {where(is_admin: true)}
+  scope :current, -> {joins(:cohort).where("cohorts.end_date <= ?", Time.now)}
 
   def convert_nil_to_false
     self.is_admin = false unless self.is_admin == true

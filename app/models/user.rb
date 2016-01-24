@@ -70,10 +70,9 @@ class User < ActiveRecord::Base
     BCrypt::Password.new(self.password_digest).is_password?(password)
   end
 
-  def owned_cohorts
-    @owned_cohorts ||= self.memberships.where(is_admin: true).collect(&:cohort)
+  def adminned_cohorts
+    @adminned_cohorts ||= self.cohorts.includes(:memberships).where(memberships: {is_admin: true})
   end
-  alias_method :adminned_cohorts, :owned_cohorts
 
   def cohorts_adminned_by user
     self.cohorts & user.adminned_cohorts
@@ -94,16 +93,21 @@ class User < ActiveRecord::Base
     self.memberships.where(cohort: cohort, is_admin: true).any?
   end
 
-  # returns all memberships in cohorts that you are an admin of, and
+  # returns all memberships in a cohort that you are an admin of, and
   # that share 1 or more tags in common with your admin membership
-  def adminned_memberships_by_tag
-    tagged_memberships = []
-    memberships.admin.each do |membership|
-      membership.tag_ids.each do |tag_id|
-        tagged_memberships << Membership.joins(:taggings).where(cohort_id: membership.cohort_id).where("taggings.tag_id = ?", tag_id)
-      end
-    end
-    tagged_memberships.flatten!.uniq
+  def adminned_memberships_by_tag(cohort)
+    membership = memberships.find_by(cohort: cohort, is_admin: true)
+    return [] unless membership && membership.tag_ids.any?
+
+    tag_ids = membership.tag_ids
+    tagged_memberships = Membership.joins(:taggings).where(cohort: cohort).where("taggings.tag_id in (?)", tag_ids.join(', '))
+
+    # tagged_memberships = []
+    # membership.tag_ids.each do |tag_id|
+    #     tagged_memberships << Membership.joins(:taggings).where(cohort_id: membership.cohort_id).where("taggings.tag_id = ?", tag_id)
+    # end
+
+    tagged_memberships.uniq
   end
 
   # Returns all submissions or assignments for memberships that a user is an
@@ -112,8 +116,9 @@ class User < ActiveRecord::Base
   # For assignments, it means they aren't been marked completed/incomplete/missing
   # Additionally, the due date or date of the associated event/assignment is taken
   # into consideration
-  def get_todo model
-    ids = adminned_memberships_by_tag.map(&:id)
+  def get_todo model, cohort
+    return [] unless model && cohort
+    ids = adminned_memberships_by_tag(cohort).map(&:id)
     records = model.where(membership_id: ids).todo
   end
 
