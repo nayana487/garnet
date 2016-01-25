@@ -10,7 +10,12 @@ class AttendancesController < ApplicationController
 
   def update
     @attendance = Attendance.find(params[:id])
-    @attendance.update!(status: params[:status])
+    if params[:status]
+      @attendance.update!(status: params[:status])
+    else
+      # User is checking in
+      @attendance.update!(status: @attendance.calculate_status)
+    end
     render json: @attendance
   end
 

@@ -27,4 +27,15 @@ class Attendance < ActiveRecord::Base
   def status_english
     return Attendance.statuses[self.status]
   end
+
+  def calculate_status
+    now = Time.now
+    if now.hour < 9
+      2
+    elsif now.hour < 13
+      1
+    else
+      0
+    end
+  end
 end
