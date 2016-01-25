@@ -4,7 +4,7 @@ class DashboardsController < ApplicationController
 
     redirect_to current_user unless @user.is_admin_of_anything?
 
-    @due_submissions = @user.get_due("submissions")
-    @due_attendances = @user.get_due("attendances")
+    @due_submissions = @user.get_todo(Submission)
+    @due_attendances = @user.get_todo(Attendance)
   end
 end

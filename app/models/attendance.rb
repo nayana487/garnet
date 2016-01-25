@@ -5,6 +5,11 @@ class Attendance < ActiveRecord::Base
 
   has_one :cohort, through: :event
 
+  scope :unmarked, -> { where(status: nil)}
+  scope :due, -> { includes(:event).references(:event).where("events.date <= ?", DateTime.now)}
+  scope :todo, -> { due.unmarked }
+
+
   def date
     self.event.date.strftime("%a, %m/%d/%y")
   end

@@ -6,6 +6,10 @@ class Submission < ActiveRecord::Base
   has_one :user, through: :membership
   belongs_to :admin, class_name: "User"
 
+  scope :unmarked, -> { where(status: nil) }
+  scope :due, -> { includes(:assignment).references(:assignment).where("assignments.due_date <= ?", DateTime.now)}
+  scope :todo, -> { due.unmarked }
+
   def due_date
     self.assignment.due_date.strftime("%a, %m/%d/%y")
   end

@@ -17,6 +17,8 @@ class Membership < ActiveRecord::Base
   validate :is_unique_in_cohort, on: :create
   before_save :convert_nil_to_false
 
+  scope :admin, -> {where(is_admin: true)}
+
   def convert_nil_to_false
     self.is_admin = false unless self.is_admin == true
     return true

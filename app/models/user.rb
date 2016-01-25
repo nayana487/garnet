@@ -75,11 +75,6 @@ class User < ActiveRecord::Base
   end
   alias_method :adminned_cohorts, :owned_cohorts
 
-  # TODO: reimplement using tags -ab
-  # def priority_cohorts
-  #   @priority_cohorts ||= self.memberships.where(is_admin: true, is_priority: true).collect(&:cohort)
-  # end
-
   def cohorts_adminned_by user
     self.cohorts & user.adminned_cohorts
   end
@@ -99,14 +94,27 @@ class User < ActiveRecord::Base
     self.memberships.where(cohort: cohort, is_admin: true).any?
   end
 
-  # TODO: Optimize and remove inactive students memberships
-  def get_due model_name
-    records = adminned_cohorts.map(&:memberships).flatten.collect{|m| m.send(model_name).where(status: nil)}.flatten.uniq
-    records.select!{|r| adminned_cohorts.include?(r.cohort)}
-    if self.is_a? Submission
-      records.select!{|r| r.assignment.due_date <= DateTime.now}
+  # returns all memberships in cohorts that you are an admin of, and
+  # that share 1 or more tags in common with your admin membership
+  def adminned_memberships_by_tag
+    tagged_memberships = []
+    memberships.admin.each do |membership|
+      membership.tag_ids.each do |tag_id|
+        tagged_memberships << Membership.joins(:taggings).where(cohort_id: membership.cohort_id).where("taggings.tag_id = ?", tag_id)
+      end
     end
-    return records
+    tagged_memberships.flatten!.uniq
+  end
+
+  # Returns all submissions or assignments for memberships that a user is an
+  # admin of, by tag, and that haven't been 'graded'.
+  # For submissions, it means they aren't marked present/tardy/absent.
+  # For assignments, it means they aren't been marked completed/incomplete/missing
+  # Additionally, the due date or date of the associated event/assignment is taken
+  # into consideration
+  def get_todo model
+    ids = adminned_memberships_by_tag.map(&:id)
+    records = model.where(membership_id: ids).todo
   end
 
   def is_member_of cohort
