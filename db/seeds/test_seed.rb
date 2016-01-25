@@ -19,7 +19,7 @@ wdi7 = Cohort.create!(name: "WDIDC7", location: dc, course: wdi)
 pmi1 = Cohort.create!(name: "PMIDC1", location: dc, course: wdi)
 
 wdi7.add_admin(adam)
-wdi7.add_admin(jesse)
+wdi7.add_member(jesse)
 wdi7.add_admin(matt) # for attendance
 
 wdi7.add_member(alice)

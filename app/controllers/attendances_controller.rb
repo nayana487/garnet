@@ -14,6 +14,8 @@ class AttendancesController < ApplicationController
       @attendance.update!(status: params[:status])
     else
       # User is checking in
+      flash[:error] = "You must be at GA to check in."
+      return redirect_to :back
       @attendance.update!(status: @attendance.calculate_status)
     end
     render json: @attendance
