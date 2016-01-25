@@ -30,9 +30,10 @@ class Attendance < ActiveRecord::Base
 
   def calculate_status
     now = Time.now
-    if now.hour < 9
+    event_hour = self.event.date.hour
+    if now.hour < event_hour
       2
-    elsif now.hour < 13
+    elsif (now.hour - event_hour) < 4
       1
     else
       0

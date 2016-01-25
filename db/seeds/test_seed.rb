@@ -32,9 +32,6 @@ pmi1.add_admin(john)
 pmi1.add_member(bob)
 pmi1.add_member(carol)
 
-Event.destroy_all
-Attendance.destroy_all
-
 # TODO: Add back ones tags are implemented -ab
 # squad_adam = Group.at_path("ga_wdi_dc_7_squad-adam")
 # squad_adam.add_admin(adam, true)

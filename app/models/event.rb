@@ -6,7 +6,6 @@ class Event < ActiveRecord::Base
 
   scope :on_date, ->(date) { where("date >= ? and date <= ?", date.beginning_of_day, date.end_of_day)}
 
-  validate :avoid_duplicate_events, on: :create
   validates :date,
     presence: true,
     uniqueness: {
@@ -14,6 +13,7 @@ class Event < ActiveRecord::Base
       message: "should be unique for this cohort"
     }
   validates :title, presence: true
+  validate :avoid_duplicate_events, on: :create
 
   after_create :create_attendances
 

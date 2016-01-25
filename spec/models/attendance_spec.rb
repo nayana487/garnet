@@ -5,8 +5,10 @@ RSpec.describe Attendance do
     load "#{Rails.root}/db/seeds/test_seed.rb"
   end
   describe "#calculate_status" do
+
     before(:each) do
-      @att = Attendance.create()
+      @evt = Event.create(title: "Test Event", date: Time.parse("1969-07-20 09:00:00"), cohort: Cohort.last)
+      @att = @evt.attendances.last
     end
     it "is present if before 9 am" do
       now = Time.parse("1969-07-20 08:59:59")
