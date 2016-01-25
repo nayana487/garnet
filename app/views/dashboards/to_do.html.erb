@@ -1,54 +1,75 @@
-<% if @due_submissions || @due_attendances %>
-  <section>
-    <h3>To-Do</h3>
-    <p>All records with the status of "n/a" in cohorts you've marked "squad":</p>
+<section>
+  <h2>Cohorts You Admin</h2>
+  <% @todo_info.each do |cohort, items| %>
+    <h3><%= link_to cohort.name, cohort %></h3>
     <section>
-      <h4>Grades</h4>
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>Details</th>
-          <th></th>
-          <th colspan="4"></th>
-        </tr>
-        <% @due_submissions.each do |submission| %>
-        <tr>
-          <td><%= link_to submission.user.name, submission.user %></td>
-          <td><%= link_to submission.assignment.title, assignment_path(submission.assignment, anchor: submission.id) %></td>
-          <td>
-            <% if submission.assignment.repo_url && !submission.assignment.repo_url.strip.blank? %>
-              <a href="<%= submission.issues_url %>" target="_blank" data-gh-issues="<%= submission.user.github_id %>">Issues</a>,
-              <a href="<%= submission.fork_url %>">Fork</a>
+      <h4>Submissions</h4>
+      <table class="js-dataTable submissions">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Details</th>
+            <th class="no-sort"></th>
+            <th class="no-sort"></th>
+            <th class="no-sort"></th>
+            <th class="no-sort"></th>
+            <th class="no-sort"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% items[:submissions] && items[:submissions].each do |submission| %>
+          <tr>
+            <td><%= link_to submission.user.name, submission.user %></td>
+            <td><%= link_to submission.assignment.title, assignment_path(submission.assignment, anchor: submission.id) %></td>
+            <td>
+              <% if submission.assignment.repo_url && !submission.assignment.repo_url.strip.blank? %>
+                <a href="<%= submission.issues_url %>" target="_blank" data-gh-issues="<%= submission.user.github_id %>">Issues</a>,
+                <a href="<%= submission.fork_url %>">Fork</a>
+              <% end %>
+            </td>
+            <% Submission.statuses.keys.each do |status| %>
+              <td><%= status_button(submission, status) %></td>
             <% end %>
-          </td>
-          <% Submission.statuses.keys.each do |status| %>
-            <td><%= status_button(submission, status) %></td>
+          </tr>
           <% end %>
-        </tr>
-        <% end %>
+        </tbody>
       </table>
     </section>
 
     <section>
       <h4>Attendance</h4>
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>Event Title</th>
-          <th>Event Date</th>
-          <th colspan="4"></th>
-        </tr>
-        <% @due_attendances.each do |attendance| %>
-        <tr>
-          <td><%= link_to attendance.user.name, attendance.user %></td>
-          <td><%= attendance.event.title %></td>
-          <td><%= link_to attendance.event.date_s, attendance.event %></td>
-          <% Attendance.statuses.keys.each do |status| %>
-            <td><%= status_button(attendance, status) %></td>
+      <table class="js-dataTable attendances">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Event Title</th>
+            <th>Event Date</th>
+            <th class="no-sort"></th>
+            <th class="no-sort"></th>
+            <th class="no-sort"></th>
+            <th class="no-sort"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% items[:attendances] && items[:attendances].each do |attendance| %>
+            <tr>
+              <td><%= link_to attendance.user.name, attendance.user %></td>
+              <td><%= attendance.event.title %></td>
+              <td><%= link_to attendance.event.date_s, attendance.event %></td>
+              <% Attendance.statuses.keys.each do |status| %>
+                <td><%= status_button(attendance, status) %></td>
+              <% end %>
+            </tr>
           <% end %>
-        </tr>
-        <% end %>
+        </tbody>
       </table>
     </section>
-  </section>
-<% end %>
+
+  <% end %>
+  <h2>Past Cohorts</h2>
+  <ul class="pills">
+    <% @inactive_cohorts.each do |cohort| %>
+      <li><%= link_to cohort.name, cohort %></li>
+    <% end %>
+  </ul>
+</section>
