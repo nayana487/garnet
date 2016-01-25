@@ -45,7 +45,7 @@ Garnet is a collaboration by the instructors of GA's WDI to produce a student da
 
 # Models
 
-![The ERD](http://i.imgur.com/jW4WQQK.png)
+![The ERD](app/assets/images/Garnet_ERD.png)
 
 ## Github.rb
 
