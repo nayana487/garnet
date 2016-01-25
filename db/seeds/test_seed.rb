@@ -19,7 +19,7 @@ wdi7 = Cohort.create!(name: "WDIDC7", location: dc, course: wdi)
 pmi1 = Cohort.create!(name: "PMIDC1", location: dc, course: wdi)
 
 wdi7.add_admin(adam)
-wdi7.add_member(jesse)
+wdi7.add_admin(jesse)
 wdi7.add_admin(matt) # for attendance
 
 wdi7.add_member(alice)
@@ -32,7 +32,8 @@ pmi1.add_admin(john)
 pmi1.add_member(bob)
 pmi1.add_member(carol)
 
-Event.create(title:"test event", cohort: wdi7, date: Time.now)
+Event.destroy_all
+Attendance.destroy_all
 
 # TODO: Add back ones tags are implemented -ab
 # squad_adam = Group.at_path("ga_wdi_dc_7_squad-adam")

@@ -6,7 +6,7 @@ RSpec.describe Attendance do
   end
   describe "#calculate_status" do
     before(:each) do
-      @att = Attendance.last
+      @att = Attendance.create()
     end
     it "is present if before 9 am" do
       now = Time.parse("1969-07-20 08:59:59")
