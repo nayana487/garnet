@@ -5,9 +5,14 @@ class Cohort < ActiveRecord::Base
   has_many :assignments
   has_many :submissions,  through: :assignments
 
-  has_many :memberships,  dependent:  :destroy
-  has_many :users,        through:    :memberships
-  has_many :observations, through:    :memberships
+  has_many :memberships,    dependent:  :destroy
+  has_many :users,          through:    :memberships
+  has_many :observations,   through:    :memberships
+
+  # we use this to only show existing tags on the cohort tag form. The unique
+  # is important becuase otherwise we'll get duplicates of tags
+  has_many :existing_tags, -> {uniq},  through: :memberships, source: :tags
+
 
   belongs_to :course
   belongs_to :location

@@ -5,6 +5,7 @@
   <td><%= avatar(user) if user.image_url && !user.image_url.strip.blank? %></td>
 
   <% if current_user.is_admin_of?(membership.cohort) %>
+    <td><%= tag_list(membership)%></td>
     <td class="<%= color_of_percent( present = percent_of(membership.attendances, 2)) %>">
       <%= present %>%
     </td>

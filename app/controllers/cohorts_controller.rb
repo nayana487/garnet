@@ -18,6 +18,8 @@ class CohortsController < ApplicationController
     @events = @cohort.events.includes(:attendances).order(date: :desc)
 
     @event_for_today_already_exists = @events.on_date(Date.today).any?
+
+    @existing_tags = @cohort.existing_tags
   end
 
   def new

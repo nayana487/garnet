@@ -1,0 +1,11 @@
+<h3>Tag Members</h3>
+
+<%= form_tag taggings_path, method: "post" do %>
+  <%= label_tag :tag_ids, "Tags" %>
+  <%= select_tag(:tag_ids, options_from_collection_for_select(tags, :id, :name), multiple: true, class: "js-select2 tag_select") %>
+
+  <%= label_tag :membership_ids, "Members" %>
+  <%= select_tag(:membership_ids, options_from_collection_for_select(memberships, :id, :name), multiple: true, class: "js-select2 member_select") %>
+
+  <%= submit_tag "Tag Members" %>
+<% end %>

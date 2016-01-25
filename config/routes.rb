@@ -23,9 +23,9 @@ Rails.application.routes.draw do
   resources :memberships, only: [:show, :destroy] do
     post :toggle_active, on: :member
     post :toggle_admin, on: :member
-    post :add_tag, on: :member
-    post :remove_tag, on: :member
   end
+
+  resources :taggings, only: [:create]
 
   resources :users, param: :user do
     member do
