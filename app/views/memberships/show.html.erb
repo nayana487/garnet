@@ -3,8 +3,10 @@
   <h2><%= link_to @user.name, @user %> in <%= link_to @membership.cohort.name, @membership.cohort %></h2>
 </div>
 
-<%= form_tag attendance_path(@attendances.last), method: :put do  %>
-  <%= button_tag "Check In" %>
+<% unless @attendances.last.status %>
+  <%= form_tag attendance_path(@attendances.last), method: :put do  %>
+    <%= button_tag "Check In" %>
+  <% end %>
 <% end %>
 
 <% if @observations %>
