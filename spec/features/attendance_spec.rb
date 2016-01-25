@@ -22,7 +22,7 @@ RSpec.feature 'Taking Attendance', js: true do
 
     # on cohort show page
     within('#new_event') do
-      fill_in "event_title", with: "TEST ATTENDANCE"
+      fill_in "event_title", with: "TEST EVENT"
       # use default date time (now)
       submit_form # Clicks the commit button regardless of id or text
     end
