@@ -32,7 +32,7 @@ pmi1.add_admin(john)
 pmi1.add_member(bob)
 pmi1.add_member(carol)
 
-Event.create(title:"test event", cohort: wdi7)
+Event.create(title:"test event", cohort: wdi7, date: Time.now)
 
 # TODO: Add back ones tags are implemented -ab
 # squad_adam = Group.at_path("ga_wdi_dc_7_squad-adam")
