@@ -1,0 +1,34 @@
+# Feature Requests for GArnet
+
+## Tim
+
+## Outcomes
+
+* Chrome Extension that automatically creates observation in garnet
+  when observation is created in outcomes.generalassemb.ly
+
+### Must Have
+
+* Grading HW - each HW must have a max score, and instructors must be able to give
+  each submission a score out of that max
+
+### Nice to Have
+
+* Exit Tickets - baseline: each course has the same exit ticket survey
+* Attendance / HW Table View (like in Tim's course tracker, students are rows, assignments/dates are columns)
+* Student Profile on a membership - like a quiz about what they want to get out
+of every class, experience w/ tools, could be a 'quiz'
+* Marking HWs as 'required to graduate'
+* Generate data export of cohort w/ members, present %, completion %, req. hw %, etc
+
+* Production Needs - on a membership, be able to track attributes like who has
+  paid, same for every course
+* Production Dashboards - Show assignments / attendance in table view, AS WELL AS most recent exit tickets
+* HW Scores are public or private at the HW or course level
+* Include exit ticket responses on membership show page
+
+### Bonus
+
+* Rubrics per HW Assignment for detailed grading
+* Differentiated Exit Tickets per cohort
+* Cross-cohort dashboard
