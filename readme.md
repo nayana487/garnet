@@ -36,12 +36,16 @@ Garnet is a collaboration by the instructors of GA's WDI to produce a student da
     gh_client_id: "12345"
     gh_client_secret: "67890"
     gh_redirect_url: "http://localhost:3000/github/authenticate"
+    check_in_static_ip: "your.static.ip.address"
     ```
 
 9. `$ rspec -f d`
 10. `$ rails s`
 12. Log in with username `adam` and password `password`
 13. Enter the Konami code
+
+`check_in_static_ip` allows site administrators to restrict users "checking in" to a
+specific location.
 
 # Models
 
