@@ -2,6 +2,11 @@
 
 ## Tim
 
+## Outcomes
+
+* Chrome Extension that automatically creates observation in garnet
+  when observation is created in outcomes.generalassemb.ly
+
 ### Must Have
 
 * Grading HW - each HW must have a max score, and instructors must be able to give
