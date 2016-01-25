@@ -8,7 +8,7 @@ alice     = FactoryGirl.create(:user, username: "alice")
 bob       = FactoryGirl.create(:user, username: "bob")
 carol     = FactoryGirl.create(:user, username: "carol")
 adam      = FactoryGirl.create(:user, username: "adam", password: "foo")
-jesse     = FactoryGirl.create(:user, username: "jesse")
+jesse     = FactoryGirl.create(:user, username: "jshawl", github_id:3824954)
 matt      = FactoryGirl.create(:user, username: "mattscilipoti", github_id: '31929')
 
 dc = Location.find_by(short_name: "DC")
