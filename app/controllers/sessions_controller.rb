@@ -4,7 +4,12 @@ class SessionsController < ApplicationController
 
   def new
     if current_user
-      redirect_to current_user
+      is_an_admin_of_anything = current_user.memberships.where(is_admin: true).length > 0
+      if is_an_admin_of_anything
+	redirect_to root_path
+      else
+	redirect_to current_user
+      end
     end
   end
 
