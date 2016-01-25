@@ -101,12 +101,6 @@ class User < ActiveRecord::Base
 
     tag_ids = membership.tag_ids
     tagged_memberships = Membership.joins(:taggings).where(cohort: cohort).where("taggings.tag_id in (?)", tag_ids.join(', '))
-
-    # tagged_memberships = []
-    # membership.tag_ids.each do |tag_id|
-    #     tagged_memberships << Membership.joins(:taggings).where(cohort_id: membership.cohort_id).where("taggings.tag_id = ?", tag_id)
-    # end
-
     tagged_memberships.uniq
   end
 
