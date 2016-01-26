@@ -100,7 +100,7 @@ class User < ActiveRecord::Base
     return [] unless membership && membership.tag_ids.any?
 
     tag_ids = membership.tag_ids
-    tagged_memberships = Membership.joins(:taggings).where(cohort: cohort).where("taggings.tag_id in (?)", tag_ids.join(', '))
+    tagged_memberships = Membership.joins(:taggings).where(cohort: cohort).where(taggings: {tag_id: tag_ids})
     tagged_memberships.uniq
   end
 
