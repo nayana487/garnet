@@ -43,9 +43,6 @@ Garnet is a collaboration by the instructors of GA's WDI to produce a student da
 12. Log in with username `adam` and password `password`
 13. Enter the Konami code
 
-`check_in_static_ip` allows site administrators to restrict users "checking in" to a
-specific location.
-
 # Models
 
 ![The ERD](app/assets/images/Garnet_ERD.png)
