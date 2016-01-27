@@ -38,4 +38,13 @@ class Submission < ActiveRecord::Base
   def status_english
     return Submission.statuses[self.status]
   end
+
+  def get_percentage_score
+    if self.assignment.base_score
+      ((self.score.to_f / self.assignment.base_score) * 100).round.to_s + " %"
+    else
+      "No Grade"
+    end
+  end
+
 end
