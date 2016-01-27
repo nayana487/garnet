@@ -1,7 +1,7 @@
 <% membership ||= false  %>
 <%= simple_form_for Observation.new do |f| %>
   <% if membership %>
-    <%= f.input :membership_id, as: :hidden, value: membership.id %>
+    <%= f.input :membership_id, as: :hidden, input_html: {value: membership.id} %>
   <% else %>
     <%= f.association :membership, as: :select, collection: user.memberships.map{|m| [m.cohort.name, m.id]} %>
   <% end %>
