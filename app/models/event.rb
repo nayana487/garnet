@@ -18,7 +18,7 @@ class Event < ActiveRecord::Base
   after_create :create_attendances
 
   def self.duplicate_date_delta
-    5.minutes
+    1.second
   end
 
 

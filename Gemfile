@@ -30,6 +30,7 @@ group :production do
 end
 
 group :development, :test do
+  gem 'ffaker'
   gem 'shoulda'
   gem 'awesome_print'
   gem 'capybara'
