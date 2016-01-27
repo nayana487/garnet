@@ -3,6 +3,15 @@
   <h2><%= link_to @user.name, @user %> in <%= link_to @membership.cohort.name, @membership.cohort %></h2>
 </div>
 
+<% if @is_current_user  %>
+  <% @current_attendances.each do |attendance| %>
+    <%= form_tag self_take_attendance_path(attendance), method: :put do  %>
+      <%= button_tag "Check In for #{attendance.event.title}" %>
+    <% end %>
+  <% end %>
+<% end %>
+
+
 <% if @observations %>
   <section>
     <h3>Observations</h3>
