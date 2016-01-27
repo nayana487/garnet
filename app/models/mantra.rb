@@ -2,7 +2,13 @@ class Mantra
   @@all = []
 
   def self.reload
-    @@all = File.read("./vendor/mantras.html").chomp.split("\n")
+    puts "Duck..." * 10
+    puts "Fetching mantras..."
+    begin
+      @@all = JSON.parse(HTTParty.get("http://rubberduck.rotakarobin.com/all").body)
+    rescue
+      @@all = ["Is your blue elephant running?"];
+    end
   end
 
   def self.all
