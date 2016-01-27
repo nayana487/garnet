@@ -10,17 +10,21 @@ class AttendancesController < ApplicationController
 
   def update
     @attendance = Attendance.find(params[:id])
-    if params[:status]
-      @attendance.update!(status: params[:status])
-    else
-      # User is checking in
-      if request.remote_ip != ENV['check_in_static_ip']
-	flash[:error] = "You must be at GA to check in."
-	return redirect_to :back
-      end
-      @attendance.update!(status: @attendance.calculate_status)
-    end
+    @attendance.update!(status: params[:status])
     render json: @attendance
+  end
+
+  def self_take
+    # User is checking in
+    @attendance = Attendance.find(params[:id])
+
+    correct_user = current_user == @attendance.user
+
+    if correct_user && @attendance.update(self_take_params)
+      redirect_to :back, notice: "Checked in successfully!"
+    else
+      redirect_to :back, notice: "Unable to check in, please contact an instructor or TA"
+    end
   end
 
   def destroy
@@ -30,4 +34,11 @@ class AttendancesController < ApplicationController
     redirect_to @attendance.event
   end
 
+  private
+  def self_take_params
+    return {status: @attendance.calculate_status,
+            self_taken: true,
+            ip_address: request.remote_ip,
+            checked_in_at: Time.now}
+  end
 end

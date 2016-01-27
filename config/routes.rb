@@ -47,6 +47,8 @@ Rails.application.routes.draw do
   end
 
   resources :submissions,   only: [:update, :destroy]
-  resources :attendances,   only: [:update, :destroy]
+  resources :attendances,   only: [:update, :destroy] do
+    put "self_take", on: :member
+  end
   resources :observations,  only: [:create, :destroy]
 end
