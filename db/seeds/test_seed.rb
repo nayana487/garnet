@@ -1,4 +1,4 @@
-load "#{Rails.root}/db/seeds.rb"
+load "#{Rails.root}/db/seeds/common.rb"
 # ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 test_user = FactoryGirl.create(:user, username: "TestWDIDCStudent", github_id: 13137527)
