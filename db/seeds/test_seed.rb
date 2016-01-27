@@ -1,4 +1,4 @@
-load "#{Rails.root}/db/seeds.rb"
+load "#{Rails.root}/db/seeds/common.rb"
 # ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 test_user = FactoryGirl.create(:user, username: "TestWDIDCStudent", github_id: 13137527)
@@ -31,7 +31,6 @@ pmi1.add_admin(john)
 
 pmi1.add_member(bob)
 pmi1.add_member(carol)
-
 
 # TODO: Add back ones tags are implemented -ab
 # squad_adam = Group.at_path("ga_wdi_dc_7_squad-adam")
