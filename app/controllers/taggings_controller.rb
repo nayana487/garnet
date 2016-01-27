@@ -34,6 +34,13 @@ class TaggingsController < ApplicationController
     end
   end
 
+
+  def destroy
+    tagging = Tagging.find(params[:id])
+    tagging.destroy
+    render json: {success: true}, status: :ok
+  end
+
   private
   def is_id(string)
     string.to_i.to_s == string && string.to_i > 0

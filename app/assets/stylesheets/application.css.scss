@@ -364,7 +364,7 @@
  .pills li{
    list-style-type: none;
  }
- .pills a{
+ .pills a, .pills li{
    display:inline-block;
    border-radius:5px;
    padding:5px 10px;
