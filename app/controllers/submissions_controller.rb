@@ -23,17 +23,10 @@ class SubmissionsController < ApplicationController
     redirect_to @submission.assignment
   end
 
-  def update_score
-    submission = Submission.find(params[:submission_id])
-    submission.score = params[:score]
-    submission.save
-    render :json => submission
-  end
-
   private
   def submission_params format = :html
     params[:submission] = params if format == :json
-    params.require(:submission).permit(:status, :grader_notes)
+    params.require(:submission).permit(:status, :grader_notes, :score)
   end
 
 end
