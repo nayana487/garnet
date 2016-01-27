@@ -36,7 +36,6 @@ Garnet is a collaboration by the instructors of GA's WDI to produce a student da
     gh_client_id: "12345"
     gh_client_secret: "67890"
     gh_redirect_url: "http://localhost:3000/github/authenticate"
-    check_in_static_ip: "your.static.ip.address"
     ```
 
 9. `$ rspec -f d`
