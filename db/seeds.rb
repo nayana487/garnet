@@ -1,7 +1,5 @@
 # ActiveRecord::Base.logger = Logger.new(STDOUT)
-puts "seeds file running"
 Assignment.destroy_all
-puts "assignments destroyed"
 Attendance.destroy_all
 Event.destroy_all
 Cohort.destroy_all
@@ -65,7 +63,6 @@ end
 
 # Creates cohorts based on course and locations
 Location.all.sample(3).each do |loc|
-  puts loc
   Course.all.sample(3).each do |course|
     rand(4).times do |i|
       start_date = rand_time
@@ -81,7 +78,7 @@ Location.all.sample(3).each do |loc|
 end
 
 Cohort.all.each_with_index do |cohort, i|
-  puts "iteration #{i} cohort #{cohort} stuff generating"
+  puts "iteration #{i} cohort #{cohort.name} stuff generating"
   students = User.all.sample(rand(5..75))
   instructors = (User.all - students).sample(rand(1..5))
   # For each cohort, adds some members and admins
