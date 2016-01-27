@@ -17,6 +17,9 @@ class User < ActiveRecord::Base
   has_many :admin_attendances, class_name: "Attendance", foreign_key: "admin_id"
   has_many :events, through: :attendances
 
+  has_and_belongs_to_many :locations
+  has_and_belongs_to_many :courses
+
   before_save :downcase_username, :dont_update_blank_password
   attr_accessor :password
 

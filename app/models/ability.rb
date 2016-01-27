@@ -22,6 +22,15 @@ class Ability
     can :manage, Attendance do |attendance|
       attendance.cohort.has_admin?(user)
     end
+
+    can :manage, Location do |location|
+      location.has_admin?(user)
+    end
+
+    can :manage, Course do |course|
+      course.has_admin?(user)
+    end
+
     can :read, Attendance do |attendance|
       attendance.user == user
     end

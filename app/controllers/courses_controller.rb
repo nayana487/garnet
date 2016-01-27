@@ -1,22 +1,34 @@
 class CoursesController < ApplicationController
   before_action :set_course, only: [:show, :edit, :update, :destroy]
 
+  # TODO: Refactor authorization to use before_filters || helpers
+  
   def index
     @courses = Course.all
   end
 
   def show
+    authorize! :manage, @course
+    rescue CanCan::AccessDenied
+      redirect_to :back, notice: 'You are not Authorized!'
   end
 
   def new
     @course = Course.new
+    authorize! :manage, @course
+    rescue CanCan::AccessDenied
+      redirect_to :back, notice: 'You are not Authorized!'
   end
 
   def edit
+    authorize! :manage, @course
+    rescue CanCan::AccessDenied
+      redirect_to :back, notice: 'You are not Authorized!'
   end
 
   def create
     @course = Course.new(course_params)
+    authorize! :manage, @course
     if @course.save
       redirect_to @course, notice: 'Course was successfully created.'
     else
@@ -25,6 +37,9 @@ class CoursesController < ApplicationController
   end
 
   def update
+    authorize! :manage, @course
+    rescue CanCan::AccessDenied
+      redirect_to :back, notice: 'You are not Authorized!'
     if @course.update(course_params)
       redirect_to @course, notice: 'Course was successfully updated.'
     else
@@ -33,6 +48,9 @@ class CoursesController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, @course
+    rescue CanCan::AccessDenied
+      redirect_to :back, notice: 'You are not Authorized!'
     @course.destroy
     redirect_to courses_url, notice: 'Course was successfully destroyed.'
   end
