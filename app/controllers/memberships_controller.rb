@@ -30,7 +30,7 @@ class MembershipsController < ApplicationController
     @submissions_with_notes = @submissions.select(&:grader_notes)
 
     if @is_current_user
-      @current_attendances = @membership.attendances.unmarked.joins(:event).where("events.date < ? AND events.date > ?", 1.hour.from_now, 4.hours.ago)
+      @current_attendances = @membership.attendances.self_takeable
     end
 
     # Looking at someone you admin
