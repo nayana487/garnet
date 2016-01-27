@@ -8,10 +8,6 @@ Rails.application.routes.draw do
   post '/sign_in',  to: 'sessions#create'
   get  '/sign_out', to: 'sessions#destroy', as: :sign_out
 
-  get "/mantras",         to: "mantras#all"
-  get "/mantras/reload",  to: "mantras#reload"
-  get "/mantra",          to: "mantras#one"
-
   scope :github do
     get "/authorize",     to: "sessions#gh_authorize",     as: :gh_authorize
     get "/authenticate",  to: "sessions#gh_authenticate",  as: :gh_authenticate
