@@ -1,5 +1,7 @@
 # ActiveRecord::Base.logger = Logger.new(STDOUT)
+puts "seeds file running"
 Assignment.destroy_all
+puts "assignments destroyed"
 Attendance.destroy_all
 Event.destroy_all
 Cohort.destroy_all
@@ -60,8 +62,9 @@ NUM_USERS.times do |i|
   User.create!(name: name, username: username, email: FFaker::Internet.safe_email, password: "foo")
 end
 
-Location.all.each do |loc|
-  Course.all.each do |course|
+Location.all.sample(3).each do |loc|
+  puts loc
+  Course.all.sample(3).each do |course|
     rand(4).times do |i|
       start_date = rand_time
       Cohort.create(name: "#{loc.short_name} #{course.short_name} #{i}",
@@ -75,7 +78,8 @@ Location.all.each do |loc|
   end
 end
 
-Cohort.all.each do |cohort|
+Cohort.all.each_with_index do |cohort, i|
+  puts "iteration #{i} cohort #{cohort} stuff generating"
   students = User.all.sample(rand(5..75))
   instructors = (User.all - students).sample(rand(1..5))
   students.each do |student|
@@ -96,14 +100,14 @@ Cohort.all.each do |cohort|
       )
     end
   end
-  rand(0..75).times do |i|
+  rand(0..30).times do |i|
     date = rand_time(cohort.start_date.to_time, cohort.end_date.to_time)
     cohort.events.create!(
       date: date,
       title: date.strftime("%B %d, %Y")
     )
   end
-  rand(0..75).times do |i|
+  rand(0..30).times do |i|
     due_date = rand_time(cohort.start_date.to_time, cohort.end_date.to_time)
     cohort.assignments.create!(
       due_date: due_date,
