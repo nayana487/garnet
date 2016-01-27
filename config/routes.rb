@@ -46,7 +46,10 @@ Rails.application.routes.draw do
     resources :attendances, only: [:create]
   end
 
-  resources :submissions,   only: [:update, :destroy]
+  resources :submissions,   only: [:update, :destroy] do
+    put :update_score  
+  end
+
   resources :attendances,   only: [:update, :destroy]
   resources :observations,  only: [:create, :destroy]
 end
