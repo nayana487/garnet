@@ -34,7 +34,7 @@
       <% Submission.statuses.keys.each do |status| %>
         <td><%= status_button(submission, status) %></td>
       <% end %>
-      <td><input class="submission-score" submission-id="<%=submission.id%>" type="text" value="<%=submission.score%>"></td>
+      <td><form class="score-update-form"><input class="submission-score" submission-id="<%=submission.id%>" type="text" value="<%=submission.score%>"></form></td>
       <td><%= link_to "x", submission, method: :delete, data: {confirm: "Delete the submission for #{submission.user.name}?"} %></td>
     </tr>
     <tr class="submission-note">
