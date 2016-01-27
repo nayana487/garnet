@@ -5,7 +5,7 @@ class Mantra
     puts "Duck..." * 10
     puts "Fetching mantras..."
     begin
-      @@all = JSON.parse(HTTParty.get("http://rubberduck.rotakarobin.com/all").body)
+      @@all = JSON.parse(HTTParty.get("http://rubberduck.robertakarobin.com/all").body)
     rescue
       @@all = ["Is your blue elephant running?"];
     end
