@@ -48,6 +48,7 @@ Location.create!([
   { name: 'Washington, DC', short_name: 'DC' }
 ])
 
+# generates a random time from a start to end date, defaults to 8 month range of current time
 def rand_time( from = Time.now - 4.months, to = Time.now + 4.months)
   Time.at(from + rand * (to.to_time.to_f - from.to_time.to_f))
 end
@@ -62,6 +63,7 @@ NUM_USERS.times do |i|
   User.create!(name: name, username: username, email: FFaker::Internet.safe_email, password: "foo")
 end
 
+# Creates cohorts based on course and locations
 Location.all.sample(3).each do |loc|
   puts loc
   Course.all.sample(3).each do |course|
@@ -82,12 +84,14 @@ Cohort.all.each_with_index do |cohort, i|
   puts "iteration #{i} cohort #{cohort} stuff generating"
   students = User.all.sample(rand(5..75))
   instructors = (User.all - students).sample(rand(1..5))
+  # For each cohort, adds some members and admins
   students.each do |student|
     cohort.add_member(student)
   end
   instructors.each do |instructor|
     cohort.add_admin(instructor)
   end
+  # for each student in cohort, creates random observations
   students.each do |student|
     membership = Membership.find_by(cohort: cohort, user: student)
     inst_memberships = Membership.where(cohort: cohort, user: instructors)
@@ -100,6 +104,7 @@ Cohort.all.each_with_index do |cohort, i|
       )
     end
   end
+  # creates events for cohort, which auto generates attendance
   rand(0..30).times do |i|
     date = rand_time(cohort.start_date.to_time, cohort.end_date.to_time)
     cohort.events.create!(
@@ -107,6 +112,7 @@ Cohort.all.each_with_index do |cohort, i|
       title: date.strftime("%B %d, %Y")
     )
   end
+  # creates assignments for cohort, which auto generates submissions
   rand(0..30).times do |i|
     due_date = rand_time(cohort.start_date.to_time, cohort.end_date.to_time)
     cohort.assignments.create!(
