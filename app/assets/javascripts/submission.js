@@ -12,8 +12,9 @@ $(".js-score-update-form").on("submit", function(evt){
     }
   }).done(function(res){
     var td = $("<td>Score Update</td>")
-    inputEl.parents("tr").append(td)
-    td.fadeOut(3000)
+    var parentTr = inputEl.parents("tr")
+    parentTr.animate({backgroundColor: "#DCFFDC" }, 0)
+    parentTr.animate({backgroundColor: "#eeeeee" }, 50)
   }).fail(function(res){
     console.log("this failed");
   });

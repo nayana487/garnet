@@ -17,6 +17,7 @@ gem 'font-awesome-rails'
 gem 'httparty'
 gem 'jbuilder', '~> 2.0' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jquery-rails' # Use jquery as the JavaScript library
+gem 'jquery-ui-rails'
 gem 'octokit'
 gem 'redcarpet' # use redcarpet for markdown support
 gem 'sass-rails', '~> 5.0' # Use SCSS for stylesheets
