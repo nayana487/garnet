@@ -11,7 +11,6 @@ $(".js-score-update-form").on("submit", function(evt){
       score: inputEl.val()
     }
   }).done(function(res){
-    var td = $("<td>Score Update</td>")
     var parentTr = inputEl.parents("tr")
     parentTr.animate({backgroundColor: "#DCFFDC" }, 0)
     parentTr.animate({backgroundColor: "#eeeeee" }, 50)
