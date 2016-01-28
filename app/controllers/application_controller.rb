@@ -4,11 +4,12 @@ class ApplicationController < ActionController::Base
   # protect_from_forgery with: :exception
   before_action :authenticate
   helper_method :current_user, :signed_in?
-  if Rails.env.production?
-    rescue_from StandardError, ActionController::RedirectBackError, with: :global_rescuer
-  end
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   private
+    def record_not_found
+      render template: 'errors/not_found', layout: 'layouts/application', status: 404
+    end
     def authenticate
       if !current_user
         redirect_to "/sign_in"
