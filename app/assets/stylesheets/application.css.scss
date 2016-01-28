@@ -12,6 +12,7 @@
  *
  *= require select2
  *= require jquery.dataTable.min
+ *= require jquery-ui
  *= require_tree .
  *= require_self
  *= require font-awesome
@@ -413,6 +414,7 @@
  th, td{
    padding:10px;
  }
+
  td:empty:after{
    content:"...";
    color:#ccc;
@@ -584,4 +586,10 @@ textarea.waiting,
 
 .today{
   background-color:#adf;
+}
+
+table#submissions td {
+  max-width: 8em;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
