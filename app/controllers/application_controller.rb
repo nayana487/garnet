@@ -4,9 +4,6 @@ class ApplicationController < ActionController::Base
   # protect_from_forgery with: :exception
   before_action :authenticate
   helper_method :current_user, :signed_in?
-  if Rails.env.production?
-    rescue_from StandardError, ActionController::RedirectBackError, with: :global_rescuer
-  end
 
   private
     def authenticate
@@ -35,21 +32,4 @@ class ApplicationController < ActionController::Base
         return false
       end
     end
-
-    def global_rescuer(exception)
-      buffer = "*" * 50
-      Rails.logger.error(buffer)
-      Rails.logger.error(exception.message)
-      Rails.logger.error(buffer)
-      Rails.logger.error(exception.backtrace.join("\n"))
-      Rails.logger.error(buffer)
-
-      flash[:alert] = exception.message
-      flash.keep
-      redirect_to :back
-    rescue ActionController::RedirectBackError
-      flash.keep
-      redirect_to error_path
-    end
-
 end
