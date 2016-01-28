@@ -13,7 +13,7 @@ $(".js-score-update-form").on("submit", function(evt){
   }).done(function(res){
     var parentTr = inputEl.parents("tr")
     parentTr.animate({backgroundColor: "#DCFFDC" }, 0)
-    parentTr.animate({backgroundColor: "#eeeeee" }, 50)
+    parentTr.animate({backgroundColor: "#eeeeee" }, 500)
   }).fail(function(res){
     console.log("this failed");
   });
