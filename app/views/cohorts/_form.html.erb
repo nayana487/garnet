@@ -5,7 +5,9 @@
     <%= f.input :name, label: false, placeholder: "Name"  %>
     <%= f.association :location, label: false, include_blank: "Location"  %>
     <%= f.association :course, label: false, include_blank: "Course" %>
+    <%= f.label :start_date %>
     <%= f.input :start_date, label: false  %>
+    <%= f.label :end_date %>
     <%= f.input :end_date, label: false, default: 3.month.from_now %>
   </div>
 
