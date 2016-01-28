@@ -10,7 +10,7 @@ end
 NUM_USERS = 100
 ASSIGNMENT_CATEGORIES = ["outcomes", "homework", "project"]
 REPO_NAMES = ["pixart_js", "wdi_radio", "puppy_db", "tunr", "trillo", "stock-tracker", "spotify-me"]
-TAG_NAMES = ["Squad A", "Squad B", "Squad C", "Squad D", "Squad E"]
+TAG_NAMES = ["Squad A", "Squad B", "Squad C", "Squad D", "Squad E", "Lightning Bears", "Fire Goldfish", "Water Monkeys"]
 
 NUM_USERS.times do |i|
   name = FFaker::Name.name
@@ -46,14 +46,16 @@ Cohort.all.each_with_index do |cohort, i|
   students.each_with_index do |student, i|
     cohort.add_member(student)
     membership = Membership.find_by(cohort: cohort, user: student)
-    Tagging.create!(membership: membership, tag: Tag.all.sample)
-    puts ("Finish tagging #{i}")
+    Tag.all.sample(2).each do |tag|
+      Tagging.create!(membership: membership, tag: tag)
+    end
   end
   instructors.each do |instructor|
     cohort.add_admin(instructor)
     membership = Membership.find_by(cohort: cohort, user: instructor)
-    Tagging.create!(membership: membership, tag: Tag.all.sample)
-    puts ("Finish tagging #{i}")
+    Tag.all.sample(2).each do |tag|
+      Tagging.create!(membership: membership, tag: tag)
+    end
   end
   # for each student in cohort, creates random observations
   students.each do |student|
