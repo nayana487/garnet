@@ -116,6 +116,12 @@
  strong{
    font-weight:bold;
  }
+ kbd{
+   font-family:monospace;
+   background-color:#eee;
+   border-radius:3px;
+   padding:0 3px;
+ }
 
  header{
    display:block;
@@ -163,15 +169,38 @@
  footer{
    display:block;
    width:100%;
-   height:50px;
-   border-top:1px dotted #eee;
    text-align:center;
-   color:#ccc;
+   margin-top:75px;
  }
- footer>*{
+ footer .links a{
    display:inline-block;
+   height:50px;
+   color:#ccc;
    line-height:50px;
    padding:0 20px;
+ }
+ .mantra{
+   overflow:visible;
+   clear:both;
+   border:1px dashed #ddd;
+   border-radius:10px;
+ }
+ .mantra img{
+   position:absolute;
+   bottom:0;
+   left:0;
+   width:70px;
+ }
+ .mantra p{
+   text-align:left;
+   color:#666;
+   padding-left:75px;
+ }
+ .mantra p:before{
+   content:"\201c";
+ }
+ .mantra p:after{
+   content:"\201d";
  }
 
  .avatar{
