@@ -11,7 +11,9 @@ $(".js-score-update-form").on("submit", function(evt){
       score: inputEl.val()
     }
   }).done(function(res){
-    inputEl.parents("tr").append($("<td>Score Update</td>"))
+    var td = $("<td>Score Update</td>")
+    inputEl.parents("tr").append(td)
+    td.fadeOut(3000)
   }).fail(function(res){
     console.log("this failed");
   });
