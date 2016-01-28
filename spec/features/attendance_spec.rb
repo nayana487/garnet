@@ -29,7 +29,7 @@ RSpec.feature 'Taking Attendance', js: true do
 
     # When
     # on attendance event show page
-    expect(page).to have_css("h1", "TEST EVENT")
+    expect(page).to have_css("h1", text: "TEST EVENT")
 
     within("[data-attendee='alice']") do
       choose "Present"
