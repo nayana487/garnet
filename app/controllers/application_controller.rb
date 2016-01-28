@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   private
     def record_not_found
-      render template: 'errors/not_found', layout: 'layouts/application', status: 404
+      render 'errors/not_found', status: 404
     end
     def authenticate
       if !current_user
