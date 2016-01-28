@@ -1,4 +1,4 @@
-$(".score-update-form").on("submit", function(evt){
+$(".js-score-update-form").on("submit", function(evt){
   evt.preventDefault();
   var inputEl = $(this).children(".submission-score").eq(0);
   var submissionId = inputEl.attr("submission-id");
