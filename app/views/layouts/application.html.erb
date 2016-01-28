@@ -28,14 +28,17 @@
       <% end %>
       </section>
     <% end %>
-    <% if @cohort %>
-      <h2 class="pills"><%= link_to @cohort.name, @cohort %></h2>
-    <% end %>
     <%= yield %>
   </main>
   <footer>
-    <div><%= link_to "Orphans", orphans_users_path %></div>
-    <div><a class="fa fa-code-fork" href="https://github.com/ga-dc/garnet" target="_blank"> GitHub</a></div>
+    <div class="mantra">
+      <%= image_tag("duck.gif") %>
+      <p><%= Mantra.all.sample.html_safe %></p>
+    </div>
+    <div class="links">
+      <%= link_to "Orphans", orphans_users_path %>
+      <a class="fa fa-code-fork" href="https://github.com/ga-dc/garnet" target="_blank">GitHub</a>
+    </div>
   </footer>
   <%= javascript_include_tag 'application' %>
 </body>

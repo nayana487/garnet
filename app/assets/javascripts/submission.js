@@ -1,4 +1,4 @@
-$(".score-update-form").on("submit", function(evt){
+$(".js-score-update-form").on("submit", function(evt){
   evt.preventDefault();
   var inputEl = $(this).children(".submission-score").eq(0);
   var submissionId = inputEl.attr("submission-id");
@@ -11,7 +11,9 @@ $(".score-update-form").on("submit", function(evt){
       score: inputEl.val()
     }
   }).done(function(res){
-    inputEl.parents("tr").append($("<td>Score Update</td>"))
+    var parentTr = inputEl.parents("tr")
+    parentTr.animate({backgroundColor: "#DCFFDC" }, 0)
+    parentTr.animate({backgroundColor: "#eeeeee" }, 500)
   }).fail(function(res){
     console.log("this failed");
   });
