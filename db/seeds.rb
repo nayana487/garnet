@@ -10,10 +10,16 @@ end
 NUM_USERS = 100
 ASSIGNMENT_CATEGORIES = ["outcomes", "homework", "project"]
 REPO_NAMES = ["pixart_js", "wdi_radio", "puppy_db", "tunr", "trillo", "stock-tracker", "spotify-me"]
+TAG_NAMES = ["Squad A", "Squad B", "Squad C", "Squad D", "Squad E"]
+
 NUM_USERS.times do |i|
   name = FFaker::Name.name
   username = name.split(" ").first.gsub(/[\'\s\.]/, "-") + i.to_s
   User.create!(name: name, username: username, email: FFaker::Internet.safe_email, password: "foo")
+end
+
+TAG_NAMES.each do |tag|
+  Tag.create!(name: tag)
 end
 
 # Creates cohorts based on course and locations
@@ -37,11 +43,17 @@ Cohort.all.each_with_index do |cohort, i|
   students = User.all.sample(rand(5..75))
   instructors = (User.all - students).sample(rand(1..5))
   # For each cohort, adds some members and admins
-  students.each do |student|
+  students.each_with_index do |student, i|
     cohort.add_member(student)
+    membership = Membership.find_by(cohort: cohort, user: student)
+    Tagging.create!(membership: membership, tag: Tag.all.sample)
+    puts ("Finish tagging #{i}")
   end
   instructors.each do |instructor|
     cohort.add_admin(instructor)
+    membership = Membership.find_by(cohort: cohort, user: instructor)
+    Tagging.create!(membership: membership, tag: Tag.all.sample)
+    puts ("Finish tagging #{i}")
   end
   # for each student in cohort, creates random observations
   students.each do |student|
