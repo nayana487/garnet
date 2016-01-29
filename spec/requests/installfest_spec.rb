@@ -7,7 +7,8 @@ RSpec.describe "Installfest", :type => :request do
   end
 
   it "returns true (as json) for registered user" do
-    get "/users/mattscilipoti/is_registered", format: :json
+    FactoryGirl.create(:user, username: "RegisteredUser")
+    get "/users/registereduser/is_registered", format: :json
     expect(response).to be_success
     expect(response.body).to eq("true")
   end

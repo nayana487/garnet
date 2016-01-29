@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Github' do
+RSpec.describe 'Github' do
   before {skip}
   it "has an access token" do
     g = Github.new(nil, ENV['token'])
@@ -9,7 +9,7 @@ describe 'Github' do
   it "has a repo" do
     g = Github.new(nil, ENV['token'])
     repo = g.repo("ga-dc/js-calculator")
-    expect(repo).to be 
+    expect(repo).to be
   end
   it "has issues" do
     g = Github.new(nil, ENV['token'])
