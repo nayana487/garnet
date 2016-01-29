@@ -28,7 +28,7 @@ class CohortsController < ApplicationController
 		  :type => 'text/csv; charset=UTF-8;',
 		  :disposition => "attachment; filename=#{@cohort.id}.csv"
 	else
-	  redirect_to @cohort
+	  redirect_to @cohort, notice: "Requires admin rights to export"
 	end
       }
     end
