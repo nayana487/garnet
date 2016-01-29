@@ -15,7 +15,7 @@ class CohortsController < ApplicationController
     @admins = @cohort.admins
 
     @assignments = @cohort.assignments.includes(:submissions)
-    @events = @cohort.events.includes(:attendances).order(date: :desc)
+    @events = @cohort.events.includes(:attendances).order(occurs_at: :desc)
 
     @event_for_today_already_exists = @events.on_date(Date.today).any?
 

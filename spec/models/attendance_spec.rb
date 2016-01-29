@@ -7,7 +7,7 @@ RSpec.describe Attendance do
   describe "#calculate_status" do
 
     before(:each) do
-      @evt = Event.create(title: "Test Event", date: Time.parse("1969-07-20 09:00:00"), cohort: Cohort.last)
+      @evt = Event.create(title: "Test Event", occurs_at: Time.parse("1969-07-20 09:00:00"), cohort: Cohort.last)
       @att = @evt.attendances.last
     end
     it "is present if before 9 am" do
