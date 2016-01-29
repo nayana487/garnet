@@ -48,4 +48,14 @@ class Cohort < ActiveRecord::Base
   def add_member(user, is_admin = false)
     self.memberships.create!(user: user, is_admin: is_admin)
   end
+
+  def self.to_csv(collection)
+    CSV.generate({}) do |csv|
+      csv << ["User Name", "Percent Present", "Percent Homework"]
+      collection.each do |row|
+        csv << [row.user.name, row.user.percent_present, row.user.percent_homework]
+      end
+    end
+  end
+
 end

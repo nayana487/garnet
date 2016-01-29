@@ -20,6 +20,10 @@ class CohortsController < ApplicationController
     @event_for_today_already_exists = @events.on_date(Date.today).any?
 
     @existing_tags = @cohort.existing_tags
+    respond_to do |format|
+      format.html
+      format.csv {render plain: Cohort.to_csv(@active_memberships)}
+    end
   end
 
   def new
