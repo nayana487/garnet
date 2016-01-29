@@ -15,6 +15,7 @@ NUM_USERS = 100
 NUM_LOCATIONS = 3
 NUM_COURSES = 3
 NUM_COHORTS_PER_COURSE = 4
+
 NUM_USERS.times do |i|
   name = FFaker::Name.name
   username = name.split(" ").first.gsub(/[\'\s\.]/, "-") + i.to_s
