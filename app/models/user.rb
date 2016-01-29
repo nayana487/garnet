@@ -120,12 +120,4 @@ class User < ActiveRecord::Base
     cohort.memberships.exists?(user: self)
   end
 
-  def percent_present
-    ((self.attendances.where(status:2).length.to_f / self.attendances.length.to_f) * 100).round(2)
-  end
-
-  def percent_homework
-    ((self.submissions.where(status:2).length.to_f / self.submissions.length.to_f) * 100).round(2)
-  end
-
 end
