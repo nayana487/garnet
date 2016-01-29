@@ -23,9 +23,13 @@ class CohortsController < ApplicationController
     respond_to do |format|
       format.html
       format.csv {
-        send_data Cohort.to_csv(@active_memberships),
+        if @is_admin
+	  send_data Cohort.to_csv(@student_memberships),
 		  :type => 'text/csv; charset=UTF-8;',
 		  :disposition => "attachment; filename=#{@cohort.id}.csv"
+	else
+	  redirect_to @cohort
+	end
       }
     end
   end

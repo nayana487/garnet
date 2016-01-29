@@ -1,6 +1,8 @@
 <h2 class="pills"><%= link_to @cohort.name, @cohort %></h2>
 
-<%= link_to "Export", cohort_path(@cohort, format: 'csv') %>
+<% if @is_admin %>
+  <%= link_to "Export", cohort_path(@cohort, format: 'csv') %>
+<% end %>
 
 <section>
   <h3 class="fold" id="members"><a href="#members">Members</a></h3>
