@@ -1,5 +1,5 @@
 <%= form_for ((defined? cohort) ? [cohort, event] : event) do |f| %>
   <%= f.text_field :title, placeholder: "Title" %>
-  <div class="date"><%= f.datetime_select :date %></div>
+  <div class="date"><%= f.datetime_select :date, minute_step: 15 %></div>
   <%= f.submit "Save event" %>
 <% end %>
