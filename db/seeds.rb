@@ -7,13 +7,14 @@ def rand_time( from = Time.now - 4.months, to = Time.now + 4.months)
 end
 
 
-NUM_USERS = 100
 ASSIGNMENT_CATEGORIES = ["outcomes", "homework", "project"]
 REPO_NAMES = ["pixart_js", "wdi_radio", "puppy_db", "tunr", "trillo", "stock-tracker", "spotify-me"]
 TAG_NAMES = ["Squad A", "Squad B", "Squad C", "Squad D", "Squad E", "Lightning Bears", "Fire Goldfish", "Water Monkeys"]
 
-# ensure a demo user is available
-User.create!(name: "Demo McDemoton", username: "demo", password: "demo", email:FFaker::Internet.safe_email)
+NUM_USERS = 100
+NUM_LOCATIONS = 3
+NUM_COURSES = 3
+NUM_COHORTS_PER_COURSE = 4
 
 NUM_USERS.times do |i|
   name = FFaker::Name.name
@@ -21,14 +22,12 @@ NUM_USERS.times do |i|
   User.create!(name: name, username: username, email: FFaker::Internet.safe_email, password: "foo")
 end
 
-TAG_NAMES.each do |tag|
-  Tag.create!(name: tag)
-end
+TAG_NAMES.each { |tag| Tag.create!(name: tag) }
 
 # Creates cohorts based on course and locations
-Location.all.sample(3).each do |loc|
-  Course.all.sample(3).each do |course|
-    rand(4).times do |i|
+Location.all.sample(NUM_LOCATIONS).each do |loc|
+  Course.all.sample(NUM_COURSES).each do |course|
+    rand(NUM_COHORTS_PER_COURSE).times do |i|
       start_date = rand_time
       Cohort.create(name: "#{loc.short_name} #{course.short_name} #{i}",
                     start_date: start_date,
@@ -76,19 +75,50 @@ Cohort.all.each_with_index do |cohort, i|
   # creates events for cohort, which auto generates attendance
   rand(0..30).times do |i|
     date = rand_time(cohort.start_date.to_time, cohort.end_date.to_time)
-    cohort.events.create!(
+    event = cohort.events.create!(
       date: date,
       title: date.strftime("%B %d, %Y")
     )
+
+    event.attendances.each do |attendance|
+      case rand(100)
+      when 0..90
+        attendance.update_columns(status: 2)
+      when 91..95
+        attendance.update_columns(status: 1)
+      when 95..98
+        attendance.update_columns(status: 0)
+      end
+    end
+
   end
   # creates assignments for cohort, which auto generates submissions
   rand(0..30).times do |i|
     due_date = rand_time(cohort.start_date.to_time, cohort.end_date.to_time)
-    cohort.assignments.create!(
+    assignment = cohort.assignments.create!(
       due_date: due_date,
       title: due_date.strftime("%B %d, %Y"),
       category: ASSIGNMENT_CATEGORIES.sample,
       repo_url: "https://github.com/ga-dc/" + REPO_NAMES.sample
     )
+
+    assignment.submissions.each do |submission|
+      case rand(100)
+      when 0..90
+        submission.update_columns(status: 2)
+      when 91..95
+        submission.update_columns(status: 1)
+      when 95..98
+        submission.update_columns(status: 0)
+      end
+    end
+
+
   end
+end
+
+# Deactivate a random number of memberships
+num_to_deactivate = (Membership.where(is_admin: false).count * 0.1).to_i
+Membership.order("RANDOM()").limit(num_to_deactivate).each do |m|
+  m.inactive!
 end
