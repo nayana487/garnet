@@ -27,8 +27,10 @@ Garnet is a collaboration by the instructors of GA's WDI to produce a student da
   - If you get an error about installing on Yosemite (or later), we need phantom 2.x.  Download the latest 2.x from https://github.com/Vitallium/phantomjs/releases and copy `phantomjs` to `/usr/local/bin`.
 - `$ bundle install`
 - `$ rake db:create`
-- `$ rake db:migrate`
-- `$ rake db:seed:test_seed`
+- `$ rake db:schema:load`
+  - Note: migrations are **not** designed to be run from a new DB
+- `$ rake db:seed`
+  - Note: this generates a decent amount of data and can take up to 1 minute
 - `$ bundle exec figaro install`
 - [Register a Github application](https://github.com/settings/applications) and update `config/application.yml` to look like this:
 
@@ -67,13 +69,6 @@ If they sign up *with* Github, they cannot update their username, password, e-ma
 
 If they sign up *without* Github, they can update their username, password, e-mail, etc. Should they wish to later link Github to their account, they can click the "Link Github account" link, which will poll the database, rewrite their information in the Users table to use their Github username, email, etc. From there their account will behave as if they had originally signed up with Github.
 
-# User roles in a specific group
-
-- **Admin**: A user with a physical membership to a group where `membership.is_admin == true`
-- **Nonadmin**: A user with a physical membership to a group where `membership.is_admin == false`
-- **Admin**: Trickles down: An admin of a group, or an admin of any of its ancestor groups
-- **Nonadmin**: Bubbles up: A nonadmin of a group, or a member of any of its descendant groups
-
 # Deployment
 
 When commits are pushed or merged via pull request to master on this repo, [Travis](https://travis-ci.org/ga-dc/garnet)
@@ -98,7 +93,7 @@ Use it!
 
 # Debugging
 
-`ssh debug@garnet.wdidc.org` to log in as a read-only user.
+`ssh debug@garnet.wdidc.org` to log in as a read-only user (for approved devs only)
 
 Important Places:
 
