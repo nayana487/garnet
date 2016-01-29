@@ -26,7 +26,7 @@ class SubmissionsController < ApplicationController
   private
   def submission_params format = :html
     params[:submission] = params if format == :json
-    params.require(:submission).permit(:status, :grader_notes)
+    params.require(:submission).permit(:status, :grader_notes, :score)
   end
 
 end

@@ -3,7 +3,7 @@
   ,
   <%= link_to("Issues", @assignment.issues_url(@cohort.nonadmins), target: '_blank') %>
 </h2>
-
+<h3>Base Score: <%=@assignment.base_score ? @assignment.base_score : "No Score" %></h3>
 <p><%= percent_of(@submissions, 2) %>% complete</p>
 <% if @assignment.repo_url && !@assignment.repo_url.strip.blank? %>
   <button class="js-count-assignment-issues" data-issues-url="<%= assignment_issues_path(@assignment) %>">Count issues</button>
@@ -34,6 +34,7 @@
       <% Submission.statuses.keys.each do |status| %>
         <td><%= status_button(submission, status) %></td>
       <% end %>
+      <td><form class="js-score-update-form"><input class="submission-score" submission-id="<%=submission.id%>" type="text" value="<%=submission.score%>"></form></td>
       <td><%= link_to "x", submission, method: :delete, data: {confirm: "Delete the submission for #{submission.user.name}?"} %></td>
     </tr>
     <tr class="submission-note">

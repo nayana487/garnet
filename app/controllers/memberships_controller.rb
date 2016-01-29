@@ -18,19 +18,23 @@ class MembershipsController < ApplicationController
   def show
     @user = @membership.user
 
-    is_current_user = (@user == current_user)
+    @is_current_user = (@user == current_user)
     @is_adminned_by_current_user = (@user.cohorts_adminned_by(current_user).count > 0)
 
-    redirect_to current_user unless is_current_user || @is_adminned_by_current_user
+    redirect_to current_user unless @is_current_user || @is_adminned_by_current_user
 
-    @is_editable = is_current_user && !@user.github_id
+    @is_editable = @is_current_user && !@user.github_id
 
     @attendances = @membership.attendances.sort_by{|a| a.event.date}
     @submissions = @membership.submissions.where.not(status: nil).sort_by{|a| a.assignment.due_date}
     @submissions_with_notes = @submissions.select(&:grader_notes)
 
+    if @is_current_user
+      @current_attendances = @membership.attendances.self_takeable
+    end
+
     # Looking at someone you admin
-    if !is_current_user && @is_adminned_by_current_user
+    if !@is_current_user && @is_adminned_by_current_user
       @observations = @user.records_accessible_by(current_user, "observations").sort_by(&:created_at)
     end
   end

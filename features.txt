@@ -1,11 +1,11 @@
 # Feature Requests for GArnet
 
-## Tim
-
 ## Outcomes
 
 * Chrome Extension that automatically creates observation in garnet
   when observation is created in outcomes.generalassemb.ly
+
+## Tim
 
 ### Must Have
 

@@ -3,5 +3,6 @@
   <%= f.select :category, assignment.categories %>
   <%= f.text_field :repo_url, placeholder: "Repo URL"%>
   <div class="date"><%= f.date_select :due_date, placeholder: Date.today %></div>
+  <%= f.text_field :base_score, placeholder: "Optional Max Score For Assignment" %>
   <%= f.submit "Save Assignment" %>
 <% end %>
