@@ -1,0 +1,14 @@
+<% data = [ membership.percent_from_status(:attendances, 2),
+            membership.percent_from_status(:attendances, 1),
+            membership.percent_from_status(:attendances, 0),
+            membership.percent_from_status(:submissions, 2) ] %>
+
+<% data.each do |datum| %>
+  <td class="<%= color_of_percent(datum) %>">
+    <% if datum %>
+      <%= datum %>%
+    <% else %>
+      N/A
+    <% end %>
+  </td>
+<% end  %>
