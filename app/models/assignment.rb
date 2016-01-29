@@ -9,6 +9,13 @@ class Assignment < ActiveRecord::Base
 
   attr_accessor :issues
 
+  CATEGORIES = [
+    "outcomes",
+    "homework",
+    "project",
+    "quiz"
+  ]
+
   def create_submissions
     self.cohort.memberships.where(is_admin: false).each do |membership|
       membership.submissions.create(assignment_id: self.id)
@@ -38,15 +45,6 @@ class Assignment < ActiveRecord::Base
     repo = self.repo_url.gsub(/(https?:\/\/)?(www\.)?github\.com\//, "")
     issues = g.api.issues(repo, {state: "all"})
     @issues = issues
-  end
-
-  def categories
-    [
-      "outcomes",
-      "homework",
-      "project",
-      "quiz"
-    ]
   end
 
   def issues_url users = nil

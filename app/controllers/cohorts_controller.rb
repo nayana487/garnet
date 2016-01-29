@@ -20,6 +20,18 @@ class CohortsController < ApplicationController
     @event_for_today_already_exists = @events.on_date(Date.today).any?
 
     @existing_tags = @cohort.existing_tags
+    respond_to do |format|
+      format.html
+      format.csv {
+        if @is_admin
+	  send_data Cohort.to_csv(@student_memberships),
+		  :type => 'text/csv; charset=UTF-8;',
+		  :disposition => "attachment; filename=#{@cohort.id}.csv"
+	else
+	  redirect_to @cohort, notice: "Requires admin rights to export"
+	end
+      }
+    end
   end
 
   def new
