@@ -9,7 +9,7 @@
     <p>None yet!</p>
   <% else %>
     <% @admin_memberships.each do |membership| %>
-      <%= link_to membership.cohort.name, membership.cohort%>
+      <p><%= link_to membership.cohort.name, membership.cohort%></p>
     <% end %>
   <% end %>
 </section>
