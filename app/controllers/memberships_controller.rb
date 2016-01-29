@@ -26,7 +26,7 @@ class MembershipsController < ApplicationController
     @is_editable = @is_current_user && !@user.github_id
 
     @attendances = @membership.attendances.sort_by{|a| a.event.date}
-    @submissions = @membership.submissions.where.not(status: nil).sort_by{|a| a.assignment.due_date}
+    @submissions = @membership.submissions.sort_by{|a| a.assignment.due_date}
     @submissions_with_notes = @submissions.select(&:grader_notes)
 
     if @is_current_user
