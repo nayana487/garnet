@@ -1,0 +1,9 @@
+<tr>
+  <td><%=link_to membership.cohort.name,membership %></td>
+    <td class="<%= color_of_percent( present = percent_of(membership.attendances, 2)) %>">
+      <%= present %>%
+    </td>
+    <td class="<%= color_of_percent( complete = percent_of(membership.submissions, 2)) %>">
+      <%= complete %>%
+    </td>
+</tr>
