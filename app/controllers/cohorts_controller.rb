@@ -6,11 +6,14 @@ class CohortsController < ApplicationController
   end
 
   def show
+    authorize! :read, @cohort
+    
     @is_admin = @cohort.has_admin?(current_user)
 
     @student_memberships = @cohort.student_memberships.includes(:user).includes(:attendances).includes(:submissions).includes(:cohort)
     @active_memberships    = @student_memberships.where(status: Membership.statuses[:active])
     @inactive_memberships  = @student_memberships.where(status: Membership.statuses[:inactive])
+
 
     @admins = @cohort.admins
 
@@ -24,12 +27,12 @@ class CohortsController < ApplicationController
       format.html
       format.csv {
         if @is_admin
-	  send_data Cohort.to_csv(@student_memberships),
-		  :type => 'text/csv; charset=UTF-8;',
-		  :disposition => "attachment; filename=#{@cohort.id}.csv"
-	else
-	  redirect_to @cohort, notice: "Requires admin rights to export"
-	end
+          send_data Cohort.to_csv(@student_memberships),
+          :type => 'text/csv; charset=UTF-8;',
+          :disposition => "attachment; filename=#{@cohort.id}.csv"
+        else
+          redirect_to @cohort, notice: "Requires admin rights to export"
+        end
       }
     end
   end

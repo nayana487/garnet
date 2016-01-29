@@ -6,6 +6,9 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :signed_in?
 
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  rescue_from CanCan::AccessDenied do |exception|
+     redirect_to root_url, :alert => exception.message
+  end
 
   private
     def record_not_found

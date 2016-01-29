@@ -1,5 +1,10 @@
 <section>
   <h2>Cohorts You Admin</h2>
+
+  <% if @todo_info.length == 0 %>
+    <p>None active</p>
+  <% end %>
+
   <% @todo_info.each do |cohort, items| %>
     <h3><%= link_to cohort.name, cohort %></h3>
     <section>

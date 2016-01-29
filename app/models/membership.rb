@@ -17,8 +17,9 @@ class Membership < ActiveRecord::Base
   validate :is_unique_in_cohort, on: :create
   before_save :convert_nil_to_false
 
-  scope :admin, -> {where(is_admin: true)}
-  scope :current, -> {joins(:cohort).where("cohorts.end_date <= ?", Time.now)}
+  scope :admin,   -> { where(is_admin: true) }
+  scope :student, -> { where(is_admin: false) }
+  scope :current, -> { joins(:cohort).where("cohorts.end_date <= ?", Time.now) } # TODO: not used -ab
 
   def convert_nil_to_false
     self.is_admin = false unless self.is_admin == true
@@ -45,7 +46,8 @@ class Membership < ActiveRecord::Base
 
   def percent_from_status( association, status)
     assoc = self.send(association)
-    ((assoc.where(status:status).length.to_f / assoc.length.to_f) * 100).round(2)
+    return nil if assoc.length == 0
+    ((assoc.where(status:status).length.to_f / assoc.length.to_f) * 100).round(0)
   end
 
 

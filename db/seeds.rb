@@ -16,6 +16,9 @@ NUM_LOCATIONS = 3
 NUM_COURSES = 3
 NUM_COHORTS_PER_COURSE = 4
 
+# ensure a demo user is available
+User.create!(name: "Demo McDemoton", username: "demo", password: "demo", email:FFaker::Internet.safe_email)
+
 NUM_USERS.times do |i|
   name = FFaker::Name.name
   username = name.split(" ").first.gsub(/[\'\s\.]/, "-") + i.to_s
@@ -121,4 +124,9 @@ end
 num_to_deactivate = (Membership.where(is_admin: false).count * 0.1).to_i
 Membership.order("RANDOM()").limit(num_to_deactivate).each do |m|
   m.inactive!
+end
+
+# Ensure demo user has at least one membership
+User.named("demo").memberships.sample(2).each do |membership|
+  membership.update_attribute(:is_admin, true)
 end

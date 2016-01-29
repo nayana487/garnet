@@ -7,6 +7,8 @@ class UsersController < ApplicationController
     render :index
   end
 
+  # TODO: refactor for simplicity in terms of finding the correct user and
+  # authorizing. -ab
   def show
     if params[:user]
       if User.exists?(username: params[:user])
@@ -26,12 +28,10 @@ class UsersController < ApplicationController
     redirect_to current_user unless is_current_user || @is_adminned_by_current_user
 
     @is_editable = is_current_user && !@user.github_id
-    @admin_cohorts = @user.cohorts_adminned_by(current_user)
-    @admin_memberships = @admin_cohorts.map do |cohort|
-      membership = Membership.find_by(cohort:cohort,user:@user)
-    end
-    @admin_memberships.sort_by{|m| m.cohort.name}
-    @non_admin_memberships = @user.memberships.sort_by{|m| m.cohort.name}-@admin_memberships
+
+    memberships = @user.memberships.includes(:cohort).order("cohorts.name")
+    @admin_memberships = memberships.admin
+    @student_memberships = memberships.student
   end
 
   def update
