@@ -77,12 +77,11 @@ Cohort.all.each_with_index do |cohort, i|
   end
   # creates events for cohort, which auto generates attendance
   rand(0..30).times do |i|
-    date = rand_time(cohort.start_date.to_time, cohort.end_date.to_time)
-    event = cohort.events.create!(
-      date: date,
-      title: date.strftime("%B %d, %Y")
+    event_time = rand_time(cohort.start_date.to_time, cohort.end_date.to_time)
+    cohort.events.create!(
+      occurs_at: event_time,
+      title: event_time.strftime("%B %d, %Y")
     )
-
     event.attendances.each do |attendance|
       case rand(100)
       when 0..90

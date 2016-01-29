@@ -60,7 +60,7 @@
             <tr>
               <td><%= link_to attendance.user.name, attendance.user %></td>
               <td><%= attendance.event.title %></td>
-              <td><%= link_to attendance.event.date_s, attendance.event %></td>
+              <td><%= link_to attendance.event.occurs_at_s, attendance.event %></td>
               <% Attendance.statuses.keys.each do |status| %>
                 <td><%= status_button(attendance, status) %></td>
               <% end %>
