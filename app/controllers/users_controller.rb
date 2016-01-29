@@ -21,7 +21,12 @@ class UsersController < ApplicationController
     redirect_to current_user unless is_current_user || @is_adminned_by_current_user
 
     @is_editable = is_current_user && !@user.github_id
-    @memberships = @user.memberships.sort_by{|m| m.cohort.name}
+    @admin_cohorts = @user.cohorts_adminned_by(current_user)
+    @admin_memberships = @admin_cohorts.map do |cohort|
+      membership = Membership.find_by(cohort:cohort,user:@user)
+    end
+    @admin_memberships.sort_by{|m| m.cohort.name}
+    @non_admin_memberships = @user.memberships.sort_by{|m| m.cohort.name}-@admin_memberships
   end
 
   def update
