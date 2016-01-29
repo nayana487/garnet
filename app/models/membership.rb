@@ -43,4 +43,10 @@ class Membership < ActiveRecord::Base
     self.update_attribute(:is_admin, !self.is_admin)
   end
 
+  def percent_from_status( association, status)
+    assoc = self.send(association)
+    ((assoc.where(status:status).length.to_f / assoc.length.to_f) * 100).round(2)
+  end
+
+
 end

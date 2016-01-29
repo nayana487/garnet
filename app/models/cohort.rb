@@ -48,4 +48,22 @@ class Cohort < ActiveRecord::Base
   def add_member(user, is_admin = false)
     self.memberships.create!(user: user, is_admin: is_admin)
   end
+
+  def self.to_csv(memberships)
+    CSV.generate({}) do |csv|
+      csv << ["User Name", "Percent Present", "Percent Tardy", "Percent Absent", "Percent HW Complete", "Percent HW Incomplete","Percent HW Missing"]
+      memberships.each do |membership|
+        csv << [
+	  membership.name,
+	  membership.percent_from_status(:attendances, 2),
+	  membership.percent_from_status(:attendances, 1),
+	  membership.percent_from_status(:attendances, 0),
+	  membership.percent_from_status(:submissions, 2),
+	  membership.percent_from_status(:submissions, 1),
+	  membership.percent_from_status(:submissions, 0),
+	]
+      end
+    end
+  end
+
 end
