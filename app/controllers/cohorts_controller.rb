@@ -22,7 +22,11 @@ class CohortsController < ApplicationController
     @existing_tags = @cohort.existing_tags
     respond_to do |format|
       format.html
-      format.csv {render plain: Cohort.to_csv(@active_memberships)}
+      format.csv {
+        send_data Cohort.to_csv(@active_memberships),
+		  :type => 'text/csv; charset=UTF-8;',
+		  :disposition => "attachment; filename=#{@cohort.id}.csv"
+      }
     end
   end
 
