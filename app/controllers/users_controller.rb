@@ -2,13 +2,6 @@ class UsersController < ApplicationController
 
   skip_before_action :authenticate, only: [:create, :is_registered?, :new]
 
-  def orphans
-    @users = User.all.select{|u| u.cohorts.count < 1}
-    render :index
-  end
-
-  # TODO: refactor for simplicity in terms of finding the correct user and
-  # authorizing. -ab
   def show
     if params[:user]
       if User.exists?(username: params[:user])

@@ -6,17 +6,21 @@ class CoursesController < ApplicationController
   end
 
   def show
+    authorize! :show, @course
   end
 
   def new
     @course = Course.new
+    authorize! :new, @course
   end
 
   def edit
+    authorize! :edit, @course
   end
 
   def create
     @course = Course.new(course_params)
+    authorize! :create, @course
     if @course.save
       redirect_to @course, notice: 'Course was successfully created.'
     else
@@ -25,6 +29,7 @@ class CoursesController < ApplicationController
   end
 
   def update
+    authorize! :update, @course
     if @course.update(course_params)
       redirect_to @course, notice: 'Course was successfully updated.'
     else
@@ -33,6 +38,7 @@ class CoursesController < ApplicationController
   end
 
   def destroy
+    authorize! :destroy, @course
     @course.destroy
     redirect_to courses_url, notice: 'Course was successfully destroyed.'
   end

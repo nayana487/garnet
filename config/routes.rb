@@ -32,9 +32,6 @@ Rails.application.routes.draw do
       get "is_registered", action: :is_registered?
       get 'gh_refresh'
     end
-    collection do
-      get "orphans", to: "users#orphans"
-    end
   end
 
   resources :assignments, only: [:show, :update, :destroy] do
