@@ -1,6 +1,6 @@
 <%= form_for ((defined? cohort) ? [cohort, assignment] : assignment) do |f| %>
   <%= f.text_field :title, placeholder: "Title" %>
-  <%= f.select :category, assignment.categories %>
+  <%= f.select :category, Assignment::CATEGORIES %>
   <%= f.text_field :repo_url, placeholder: "Repo URL"%>
   <div class="date"><%= f.date_select :due_date, placeholder: Date.today %></div>
   <%= f.text_field :base_score, placeholder: "Optional Max Score For Assignment" %>
