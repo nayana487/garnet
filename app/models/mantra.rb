@@ -2,18 +2,15 @@ class Mantra
   @@all = []
 
   def self.reload
-    puts "Duck..." * 10
-    puts "Fetching mantras..."
     begin
-      @@all = JSON.parse(HTTParty.get("http://rubberduck.robertakarobin.com/all").body)
+      @@all = JSON.parse(File.read(Rails.root + "public/mantras.json"))
     rescue
       @@all = ["Is your blue elephant running?"];
     end
   end
 
   def self.all
-    if @@all.empty? then Mantra.reload end
+    Mantra.reload if @@all.empty?
     return @@all
   end
-
 end
