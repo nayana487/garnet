@@ -60,7 +60,7 @@ Cohort.all.each_with_index do |cohort, i|
   rand(0..30).times do |i|
     event_time = rand_time(cohort.start_date.to_time, cohort.end_date.to_time)
     cohort.events.create!(
-      occurred_at: event_time,
+      occurs_at: event_time,
       title: event_time.strftime("%B %d, %Y")
     )
   end
