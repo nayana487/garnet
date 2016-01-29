@@ -5,6 +5,10 @@ class ApplicationController < ActionController::Base
   before_action :authenticate
   helper_method :current_user, :signed_in?
 
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to :back, :notice => exception.message
+  end
+
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   private
