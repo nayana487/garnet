@@ -8,7 +8,7 @@ class Attendance < ActiveRecord::Base
   scope :unmarked, -> { where(status: nil)}
   scope :due, -> { includes(:event).references(:event).where("events.occurs_at <= ?", DateTime.now)}
   scope :todo, -> { due.unmarked }
-  scope :self_takeable, -> {unmarked.joins(:event).where("events.date < ? AND events.date > ?", 1.hour.from_now, 4.hours.ago)}
+  scope :self_takeable, -> {unmarked.joins(:event).where("events.occurs_at < ? AND events.occurs_at > ?", 1.hour.from_now, 4.hours.ago)}
 
   def date
     self.event.occurs_at.strftime("%a, %m/%d/%y")
