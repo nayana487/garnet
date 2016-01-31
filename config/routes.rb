@@ -14,7 +14,10 @@ Rails.application.routes.draw do
   end
 
   resources :cohorts do
-    get 'gh_refresh', on: :member
+    member do
+      get 'gh_refresh'
+      get 'manage'
+    end
     resources :events,      only: [:create]
     resources :assignments, only: [:create]
     resources :memberships, only: [:create]

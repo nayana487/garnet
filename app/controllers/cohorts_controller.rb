@@ -1,5 +1,6 @@
 class CohortsController < ApplicationController
-  before_action :set_cohort, only: [:show, :edit, :update, :destroy, :gh_refresh]
+  before_action :set_cohort, only: [:show, :edit, :update, :destroy,
+                                    :manage, :gh_refresh]
 
   def index
     @cohorts = Cohort.all
@@ -7,13 +8,12 @@ class CohortsController < ApplicationController
 
   def show
     authorize! :read, @cohort
-    
+
     @is_admin = @cohort.has_admin?(current_user)
 
     @student_memberships = @cohort.student_memberships.includes(:user).includes(:attendances).includes(:submissions).includes(:cohort)
     @active_memberships    = @student_memberships.where(status: Membership.statuses[:active])
     @inactive_memberships  = @student_memberships.where(status: Membership.statuses[:inactive])
-
 
     @admins = @cohort.admins
 
@@ -22,7 +22,6 @@ class CohortsController < ApplicationController
 
     @event_for_today_already_exists = @events.on_date(Date.today).any?
 
-    @existing_tags = @cohort.existing_tags
     respond_to do |format|
       format.html
       format.csv {
@@ -35,6 +34,11 @@ class CohortsController < ApplicationController
         end
       }
     end
+  end
+
+  def manage
+    authorize! :manage, @cohort
+    @existing_tags = @cohort.existing_tags
   end
 
   def new
