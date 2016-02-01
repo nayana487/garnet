@@ -84,6 +84,7 @@ class CohortsController < ApplicationController
 
   def generate_invite_code
     @cohort = Cohort.find(params[:id])
+    authorize! :manage, @cohort
     @cohort.update(invite_code: Digest::MD5.hexdigest(@cohort.name + Time.now.to_s))
     redirect_to :back
   end

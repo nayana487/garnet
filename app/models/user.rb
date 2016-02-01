@@ -128,7 +128,7 @@ class User < ActiveRecord::Base
   def accept_invite
     if self.invite_code
       cohort = Cohort.find_by(invite_code: self.invite_code)
-      cohort.memberships.create!(user: self)
+      cohort.memberships.create(user: self)
     end
   end
 
