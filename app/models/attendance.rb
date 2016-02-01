@@ -39,4 +39,13 @@ class Attendance < ActiveRecord::Base
       0
     end
   end
+
+  def mark_na_absent_24
+    unless self.status
+      if Time.now > self.event.occurs_at + 24.hours
+        self.status = 0
+        self.save
+      end
+    end
+  end
 end
