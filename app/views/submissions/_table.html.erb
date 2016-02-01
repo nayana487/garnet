@@ -4,7 +4,7 @@
   <th>Grades</th>
   <% submissions.each do |submission| %>
     <tr>
-      <% if @is_adminned_by_current_user %>
+      <% if can? :manage, submission %>
         <td><%= link_to submission.assignment.title, assignment_path(submission.assignment, anchor: submission.id) %></td>
       <% else %>
         <td><%= link_to_if !submission.assignment.repo_url.blank?, submission.assignment.title, submission.assignment.repo_url %></td>
