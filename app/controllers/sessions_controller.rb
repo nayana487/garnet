@@ -35,7 +35,6 @@ class SessionsController < ApplicationController
 
   def gh_authorize
     session[:invite_code] = params[:invite_code]
-
     redirect_to Github.new(ENV).oauth_link
   end
 
