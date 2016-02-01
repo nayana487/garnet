@@ -14,28 +14,34 @@
 
 <% if @observations %>
   <section>
-    <h3>Observations</h3>
-    <%= render @observations %>
-    <section>
-      <h4>New Observation</h4>
-      <%= render partial: "observations/form", locals: {user: @user, membership: @membership} %>
-    </section>
+    <h3 class="fold" id="observations"><a href="#observations"><%= @user.first_name %>'s Observations</a></h3>
+    <div>
+      <%= render @observations %>
+      <section>
+        <h4>New Observation</h4>
+        <%= render partial: "observations/form", locals: {user: @user, membership: @membership} %>
+      </section>
+    </div>
   </section>
 <% end %>
 
 <% if @attendances.count > 0 %>
   <section>
-    <h3><%= @user.first_name %>'s Attendance</h3>
+    <h3 class="fold" id="attendances"><a href="#attendances"><%= @user.first_name %>'s Attendance</a></h3>
     <p>Present: <%= @attendances.select{|a| a.status === 2}.count %>, Tardy: <%= @attendances.select{|a| a.status === 1}.count %>, Absent: <%= @attendances.select{|a| a.status === 0}.count %></p>
-    <%= render partial: "attendances/table", locals: {attendances: @attendances} %>
+    <div>
+        <%= render partial: "attendances/table", locals: {attendances: @attendances} %>
+    </div>
   </section>
 <% end %>
 
 <% if @submissions.count > 0 %>
   <section>
-    <h3><%= @user.first_name %>'s Homework Submissions</h3>
+    <h3 class="fold" id="submissions"><a href="#submissions"><%= @user.first_name %>'s Homework Submissions</a></h3>
     <p>Percent Complete: <%= percent_of(@submissions, 2) %>%</p>
-    <%= render partial: "submissions/table", locals: {submissions: @submissions} %>
+    <div>
+      <%= render partial: "submissions/table", locals: {submissions: @submissions} %>
+    </div>
 
     <section>
       <h4>Instructor Notes on Submissions</h4>
