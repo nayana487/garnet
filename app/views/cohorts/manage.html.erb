@@ -24,3 +24,15 @@
     </section>
     <%= link_to "Refresh all Github info", gh_refresh_cohort_path(@cohort), class: "button", data: {confirm: "This might take a while. That OK?"} %>
 </div>
+
+<div class="row group">
+  <section>
+    <%= form_tag generate_invite_code_cohort_path(@cohort), method: "post" do  %>
+      <%= button_tag "Generate Invite Token", data: {confirm: "This will revoke all previous invite codes. Are you sure?"} %>
+    <% end %>
+
+    <% if @cohort.invite_code %>
+      <%= link_to "Invite Link", gh_authorize_url(invite_code: @cohort.invite_code) %>
+    <% end %>
+  </section>
+</div>

@@ -20,8 +20,9 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :adminned_locations, -> { uniq }, class_name: "Location", foreign_key: :user_id
   has_and_belongs_to_many :adminned_courses, -> { uniq }, class_name: "Course", foreign_key: :user_id
 
-  before_save :downcase_username, :dont_update_blank_password
+  before_save :downcase_username, :dont_update_blank_password, :accept_invite
   attr_accessor :password
+  attr_accessor :invite_code
 
   def downcase_username
     self.username.downcase!
@@ -121,6 +122,14 @@ class User < ActiveRecord::Base
 
   def is_member_of cohort
     cohort.memberships.exists?(user: self)
+  end
+
+  private
+  def accept_invite
+    if self.invite_code
+      cohort = Cohort.find_by(invite_code: self.invite_code)
+      cohort.memberships.create(user: self)
+    end
   end
 
 end
