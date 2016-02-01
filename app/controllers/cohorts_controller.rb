@@ -82,13 +82,19 @@ class CohortsController < ApplicationController
     redirect_to cohort_path(@cohort)
   end
 
+  def generate_invite_code
+    @cohort = Cohort.find(params[:id])
+    @cohort.update(invite_code: Digest::MD5.hexdigest(@cohort.name + Time.now.to_s))
+    redirect_to :back
+  end
+
   private
   def set_cohort
     @cohort = Cohort.find(params[:id])
   end
 
   def cohort_params
-    params.require(:cohort).permit(:name, :start_date, :end_date, :course_id, :location_id)
+    params.require(:cohort).permit(:name, :start_date, :end_date, :course_id, :invite_code, :location_id)
   end
 
 end

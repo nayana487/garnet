@@ -54,6 +54,9 @@ class UsersController < ApplicationController
     if current_user
       redirect_to current_user and return
     end
+    if params[:invite_code]
+      session[:invite_code] = params[:invite_code]
+    end
     @user = User.new
     @is_editable = true
   end
@@ -63,6 +66,10 @@ class UsersController < ApplicationController
     if params[:password_confirmation] != params[:password]
       raise "Your passwords don't match!"
     elsif @user.save!
+      if session[:invite_code]
+        cohort = Cohort.find_by(invite_code: session[:invite_code])
+        cohort.memberships.create!(user: @user)
+      end
       flash[:notice] = "You've signed up!"
       set_current_user @user
       redirect_to @user

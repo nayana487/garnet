@@ -6,9 +6,9 @@ class SessionsController < ApplicationController
     if current_user
       is_an_admin_of_anything = current_user.memberships.where(is_admin: true).length > 0
       if is_an_admin_of_anything
-	redirect_to root_path
+    	   redirect_to root_path
       else
-	redirect_to current_user
+	       redirect_to current_user
       end
     end
   end
@@ -34,6 +34,8 @@ class SessionsController < ApplicationController
   end
 
   def gh_authorize
+    session[:invite_code] = params[:invite_code]
+
     redirect_to Github.new(ENV).oauth_link
   end
 
@@ -53,6 +55,10 @@ class SessionsController < ApplicationController
       @gh_user = User.new
     end
     if @gh_user.update!(gh_user_info)
+      if session[:invite_code]
+        cohort = Cohort.find_by(invite_code: session[:invite_code])
+        cohort.memberships.create!(user: @gh_user)
+      end
       set_current_user @gh_user
       redirect_to sign_in_path
     end
