@@ -54,11 +54,8 @@ class SessionsController < ApplicationController
     else
       @gh_user = User.new
     end
+    @gh_user.invite_code = session[:invite_code]
     if @gh_user.update!(gh_user_info)
-      if session[:invite_code]
-        cohort = Cohort.find_by(invite_code: session[:invite_code])
-        cohort.memberships.create!(user: @gh_user)
-      end
       set_current_user @gh_user
       redirect_to sign_in_path
     end

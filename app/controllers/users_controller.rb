@@ -63,13 +63,10 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @user.invite_code = session[:invite_code]
     if params[:password_confirmation] != params[:password]
       raise "Your passwords don't match!"
     elsif @user.save!
-      if session[:invite_code]
-        cohort = Cohort.find_by(invite_code: session[:invite_code])
-        cohort.memberships.create!(user: @user)
-      end
       flash[:notice] = "You've signed up!"
       set_current_user @user
       redirect_to @user
