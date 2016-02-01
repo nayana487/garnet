@@ -40,15 +40,6 @@ class Attendance < ActiveRecord::Base
     end
   end
 
-  def mark_na_absent_24
-    unless self.status
-      if Time.now > self.event.occurs_at + 24.hours
-        self.status = 0
-        self.save
-      end
-    end
-  end
-
   def self.mark_pastdue_attendances_as_missed
     na_attendances = self.unmarked.joins(:event).where("events.occurs_at < ?", Time.now.beginning_of_day)
     na_attendances.update_all(status: 0)
