@@ -1,6 +1,6 @@
 class Attendance < ActiveRecord::Base
-  belongs_to :event
-  belongs_to :membership
+  belongs_to :event, touch: true
+  belongs_to :membership, touch: true
   has_one :user, through: :membership
 
   has_one :cohort, through: :event

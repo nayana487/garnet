@@ -9,14 +9,20 @@
   <div>
     <h4>Roster</h4>
 
-    <%= render partial: "memberships/table", locals: {
-                                              memberships: @active_memberships,
-                                              header: "Active Members",
-                                              row_header: :user_name } %>
-    <%= render partial: "memberships/table", locals: {
-                                              memberships: @inactive_memberships,
-                                              header: "Inactive Members",
-                                              row_header: :user_name } %>
+    <% cache [@active_memberships, current_user] do %>
+      <%= render partial: "memberships/table", locals: {
+                                                memberships: @active_memberships,
+                                                header: "Active Members",
+                                                row_header: :user_name } %>
+    <% end %>
+
+    <% cache [@inactive_memberships, current_user] do %>
+      <%= render partial: "memberships/table", locals: {
+                                                memberships: @inactive_memberships,
+                                                header: "Inactive Members",
+                                                row_header: :user_name } %>
+    <% end %>
+
     <p>Admins:
       <% @admins.each do |user| %>
         <%= link_to user.name || user.username, user_path(user) %>
@@ -29,8 +35,9 @@
 <section>
   <h3 class="fold" id="attendance"><a href="#attendance">Attendance</a></h3>
   <div>
-    <%= render partial: "events/table", locals: {events: @events}%>
-
+    <% cache cache_key_for_cohort(@cohort, @events, @is_admin) do %>
+      <%= render partial: "events/table", locals: {events: @events}%>
+    <% end %>
     <% if @is_admin %>
       <section data-event-for-today-already-exists="<%= @event_for_today_already_exists %>">
         <button class='js-show-attendance-form'>An Event for today already exists! Create one anyway...</button>
@@ -44,8 +51,9 @@
 <section>
   <h3 class="fold" id="assignments"><a href="#assignments">Assignments</a></h3>
   <div>
-    <%= render partial: "assignments/table", locals: {assignments: @assignments} %>
-
+    <% cache cache_key_for_cohort(@cohort, @assignments, @is_admin) do %>
+      <%= render partial: "assignments/table", locals: {assignments: @assignments} %>
+    <% end  %>
     <% if @is_admin %>
       <section>
         <h4>New Assignment</h4>
