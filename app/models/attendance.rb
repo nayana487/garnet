@@ -1,6 +1,6 @@
 class Attendance < ActiveRecord::Base
-  belongs_to :event
-  belongs_to :membership
+  belongs_to :event, touch: true
+  belongs_to :membership, touch: true
   has_one :user, through: :membership
 
   has_one :cohort, through: :event
@@ -38,5 +38,10 @@ class Attendance < ActiveRecord::Base
     else
       0
     end
+  end
+
+  def self.mark_pastdue_attendances_as_missed
+    na_attendances = self.unmarked.joins(:event).where("events.occurs_at < ?", Time.now.beginning_of_day)
+    na_attendances.update_all(status: 0)
   end
 end

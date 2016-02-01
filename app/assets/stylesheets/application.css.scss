@@ -76,7 +76,7 @@
  label,
  .date,
  button,
- input,.button{
+ input,.button {
    padding:10px;
    margin-bottom:10px;
    box-sizing:border-box;
@@ -540,7 +540,7 @@ textarea.waiting,
   transform:rotateZ(0deg);
   content:"\025B8";
 }
-.fold+div{
+.fold~div{
   max-height:0px;
   opacity:0;
   overflow:hidden;
@@ -549,7 +549,7 @@ textarea.waiting,
 .fold:target:after{
   transform:rotateZ(90deg);
 }
-.fold:target+div{
+.fold:target~div{
   opacity:1;
   overflow: auto;
   max-height:50000px;

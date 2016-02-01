@@ -1,7 +1,10 @@
 <h4>Add Member(s)</h4>
-<%= form_for [cohort, Membership.new(cohort: cohort)] do %>
-  <input name="usernames" placeholder="One or more usernames, separated by spaces and/or commas" />
-  <input type="checkbox" name="is_admin" id="is_admin" />
-  <label for="is_admin">Is admin</label>
-  <input type="submit" value="Add member(s)" />
+<%= form_tag cohort_memberships_path(cohort), method: "post" do %>
+  <%= label_tag :user_ids, "Members" %>
+  <%= select_tag(:user_ids, options_from_collection_for_select(User.all - cohort.users, :id, :name), multiple: true, class: "js-select2 member_select") %>
+
+  <%= check_box_tag :is_admin %>
+  <%= label_tag :is_admin %>
+
+  <%= submit_tag "Add Members" %>
 <% end %>

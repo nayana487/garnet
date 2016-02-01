@@ -12,12 +12,16 @@ Rails.application.routes.draw do
     get "/authorize",     to: "sessions#gh_authorize",     as: :gh_authorize
     get "/authenticate",  to: "sessions#gh_authenticate",  as: :gh_authenticate
   end
-
+  
   resources :cohorts do
-    get 'gh_refresh', on: :member
+    member do
+      get 'gh_refresh'
+      get 'manage'
+    end
     resources :events,      only: [:create]
     resources :assignments, only: [:create]
     resources :memberships, only: [:create]
+    post 'generate_invite_code', on: :member
   end
 
   resources :memberships, only: [:show, :destroy] do

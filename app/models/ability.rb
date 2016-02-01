@@ -48,7 +48,7 @@ class Ability
     end
 
     can :create, Cohort do |cohort|
-      cohort.parent.has_admin?(user)
+      cohort.location.has_admin?(user) || cohort.course.has_admin?(user)
     end
     can :manage, Cohort do |cohort|
       cohort.has_admin?(user)

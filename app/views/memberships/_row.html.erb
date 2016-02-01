@@ -1,11 +1,13 @@
-<tr>
-  <% user = membership.user %>
-  <td><%= link_to user.name, membership %></td>
-  <td><%= avatar(user) if user.image_url && !user.image_url.strip.blank? %></td>
+<% cache [membership, (can? :see_performance, membership)] do %>
+  <tr>
+    <% user = membership.user %>
+    <td><%= link_to user.name, membership %></td>
+    <td><%= avatar(user) if user.image_url && !user.image_url.strip.blank? %></td>
 
-  <% if can? :see_performance, membership %>
+    <% if can? :see_performance, membership %>
     <td><%= tag_list(membership)%></td>
     <%= render partial: "memberships/row_performance_cells", locals: {membership: membership} %>
-  <% end %>
+    <% end %>
 
-</tr>
+  </tr>
+<% end %>

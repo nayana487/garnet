@@ -1,5 +1,9 @@
 module ApplicationHelper
 
+  def cache_key_for_cohort(cohort, association, is_admin)
+    return ["cohort-#{cohort.id}/events", association.maximum(:updated_at), is_admin] 
+  end
+
   def avatar user
     if user.image_url && !user.image_url.strip.blank?
       return link_to image_tag(user.image_url), user_path(user), class: :avatar

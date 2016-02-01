@@ -54,12 +54,16 @@ class UsersController < ApplicationController
     if current_user
       redirect_to current_user and return
     end
+    if params[:invite_code]
+      session[:invite_code] = params[:invite_code]
+    end
     @user = User.new
     @is_editable = true
   end
 
   def create
     @user = User.new(user_params)
+    @user.invite_code = session[:invite_code]
     if params[:password_confirmation] != params[:password]
       raise "Your passwords don't match!"
     elsif @user.save!

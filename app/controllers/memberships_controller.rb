@@ -4,15 +4,15 @@ class MembershipsController < ApplicationController
 
   def create
     @cohort = Cohort.find(params[:cohort_id])
+    authorize! :manage, @cohort
+
     @is_admin = params[:is_admin]
-    @usernames = params[:usernames].downcase.split(/[ ,]+/)
-    @usernames.each do |username|
-      user = User.named(username)
-      if !user then raise "I couldn't find a user named #{username}!" end
-      @membership = @cohort.memberships.create!(user: user, is_admin: @is_admin)
+    user_ids = params[:user_ids]
+    user_ids.each do |user_id|
+      @cohort.memberships.create!(user_id: user_id, is_admin: @is_admin)
     end
-    flash[:notice] = "Added #{@membership.user.username} to #{@cohort.name}!"
-    redirect_to :back
+
+    redirect_to @cohort
   end
 
   def show
