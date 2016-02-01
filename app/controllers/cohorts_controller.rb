@@ -48,6 +48,7 @@ class CohortsController < ApplicationController
   def create
     @cohort = Cohort.new(cohort_params)
     if @cohort.save
+      @cohort.add_admin(current_user)
       redirect_to @cohort
     else
       render :new
