@@ -1,7 +1,14 @@
 module ApplicationHelper
 
-  def cache_key_for_cohort(cohort, association, is_admin)
-    return ["cohort-#{cohort.id}/events", association.maximum(:updated_at), is_admin] 
+  # returns an array to be passed to a Rails fragment `cache` method call.
+  # designed to work with a cohort and one of it's associations, such as
+  # assignments, events, etc.
+  #
+  # the final value, `opt` can be anything, but is usually used for an option
+  # related to the current user, such as whether or not they are an admin,
+  # or possible the user object itself.
+  def cache_key_for_cohort(cohort, association, opt)
+    return ["cohort-#{cohort.id}/events", association.maximum(:updated_at), opt]
   end
 
   def avatar user

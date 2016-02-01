@@ -9,14 +9,14 @@
   <div>
     <h4>Roster</h4>
 
-    <% cache [@active_memberships, current_user] do %>
+    <% cache cache_key_for_cohort(@cohort, @active_memberships, current_user) do %>
       <%= render partial: "memberships/table", locals: {
                                                 memberships: @active_memberships,
                                                 header: "Active Members",
                                                 row_header: :user_name } %>
     <% end %>
 
-    <% cache [@inactive_memberships, current_user] do %>
+    <% cache cache_key_for_cohort(@cohort, @inactive_memberships, current_user) do %>
       <%= render partial: "memberships/table", locals: {
                                                 memberships: @inactive_memberships,
                                                 header: "Inactive Members",
