@@ -1,0 +1,17 @@
+<h5><%= "#{header} (#{memberships.count})" %></h5>
+<table class="js-dataTable memberships stripe">
+  <thead>
+    <tr>
+      <th>Cohort Name</th>
+      <th>% Present</th>
+      <th>% Tardy</th>
+      <th>% Absent</th>
+      <th>% HW Complete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% memberships.each do |membership| %>
+    <%= render partial: "memberships/cohort_row", locals: {membership: membership, row_header: row_header} %>
+    <% end %>
+  </tbody>
+</table>

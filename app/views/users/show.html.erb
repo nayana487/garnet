@@ -4,12 +4,25 @@
 </div>
 
 <section id="cohorts_section">
-  <h3>Cohorts</h3>
+  <h3>Administrated Cohorts</h3>
+  <% if @admin_memberships.count == 0 %>
+    <p>None yet!</p>
+  <% else %>
+    <ul class="pills">
+      <% @admin_memberships.each do |membership| %>
+        <li><%= link_to membership.cohort.name, membership.cohort%></li>
+      <% end %>
+    </ul>
+  <% end %>
+</section>
+
+<section id="cohorts_section">
+  <h3>Enrolled Classes</h3>
   <% if @user.memberships.count == 0 %>
     <p>None yet!</p>
   <% else %>
-    <%= render partial: "memberships/table", locals: {
-                                              memberships: @memberships,
+    <%= render partial: "memberships/cohorts_table", locals: {
+                                              memberships: @student_memberships,
                                               header: "#{@user.name}'s Memberships",
                                               row_header: :cohort } %>
   <% end %>

@@ -1,8 +1,8 @@
 class Submission < ActiveRecord::Base
   has_one :cohort, through: :assignment
 
-  belongs_to :assignment
-  belongs_to :membership
+  belongs_to :assignment, touch: true
+  belongs_to :membership, touch: true
   has_one :user, through: :membership
   belongs_to :admin, class_name: "User"
 

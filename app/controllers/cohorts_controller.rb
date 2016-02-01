@@ -1,11 +1,14 @@
 class CohortsController < ApplicationController
-  before_action :set_cohort, only: [:show, :edit, :update, :destroy, :gh_refresh]
+  before_action :set_cohort, only: [:show, :edit, :update, :destroy,
+                                    :manage, :gh_refresh]
 
   def index
     @cohorts = Cohort.all
   end
 
   def show
+    authorize! :read, @cohort
+
     @is_admin = @cohort.has_admin?(current_user)
 
     @student_memberships = @cohort.student_memberships.includes(:user).includes(:attendances).includes(:submissions).includes(:cohort)
@@ -19,19 +22,23 @@ class CohortsController < ApplicationController
 
     @event_for_today_already_exists = @events.on_date(Date.today).any?
 
-    @existing_tags = @cohort.existing_tags
     respond_to do |format|
       format.html
       format.csv {
         if @is_admin
-	  send_data Cohort.to_csv(@student_memberships),
-		  :type => 'text/csv; charset=UTF-8;',
-		  :disposition => "attachment; filename=#{@cohort.id}.csv"
-	else
-	  redirect_to @cohort, notice: "Requires admin rights to export"
-	end
+          send_data Cohort.to_csv(@student_memberships),
+          :type => 'text/csv; charset=UTF-8;',
+          :disposition => "attachment; filename=#{@cohort.id}.csv"
+        else
+          redirect_to @cohort, notice: "Requires admin rights to export"
+        end
       }
     end
+  end
+
+  def manage
+    authorize! :manage, @cohort
+    @existing_tags = @cohort.existing_tags
   end
 
   def new

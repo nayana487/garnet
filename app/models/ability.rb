@@ -43,13 +43,18 @@ class Ability
       membership.cohort.has_admin?(user)
     end
     can :read, Membership
+    can :see_performance, Membership do |membership|
+      user.is_admin_of?(membership.cohort) || user == membership.user
+    end
 
     can :create, Cohort do |cohort|
-      cohort.parent.has_admin?(user)
+      cohort.location.has_admin?(user) || cohort.course.has_admin?(user)
     end
     can :manage, Cohort do |cohort|
       cohort.has_admin?(user)
     end
-    can :read, Cohort
+    can :read, Cohort do |cohort|
+      cohort.has_admin?(user) || cohort.students.include?(user)
+    end
   end
 end
