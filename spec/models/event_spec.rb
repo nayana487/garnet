@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Event do
+  before(:all) do
+    load "#{Rails.root}/db/seeds/test_seed.rb"
+  end
+
   let(:cohort) { Cohort.last } #any cohort
 
   context "when created" do
