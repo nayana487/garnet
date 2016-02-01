@@ -48,4 +48,9 @@ class Attendance < ActiveRecord::Base
       end
     end
   end
+
+  def self.mark_pastdue_attendances_as_missed
+    na_attendances = self.unmarked.joins(:event).where("events.occurs_at < ?", Time.now.beginning_of_day)
+    na_attendances.update_all(status: 0)
+  end
 end
