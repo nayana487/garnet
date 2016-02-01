@@ -1,9 +1,8 @@
 namespace :attendance do
   desc "Marks attendances that have been N/A for 24hrs as absent"
   task mark_absent: :environment do
-    Attendance.all.each_with_index do |attendance, i|
+    Attendance.all.each do |attendance|
       attendance.mark_na_absent_24
-      puts i
     end
   end
 end
