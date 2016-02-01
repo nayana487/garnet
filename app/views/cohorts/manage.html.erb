@@ -4,13 +4,23 @@
 <%= button_to "Export", cohort_path(@cohort, format: 'csv'), method: :get %>
 
 <h3 >Manage Memberships</h3>
-<section>
-  <%= render partial: "memberships/form", locals: {cohort: @cohort} %>
-</section>
 
-<section>
-  <%= render partial: "tags/form",  locals: {
-                                      tags: @existing_tags,
-                                      memberships: @cohort.memberships} %>
-</section>
-<%= link_to "Refresh all Github info", gh_refresh_cohort_path(@cohort), class: "button", data: {confirm: "This might take a while. That OK?"} %>
+<div class="row group">
+  <section class="col column-6">
+    <%= render partial: "memberships/form", locals: {cohort: @cohort} %>
+  </section>
+
+  <section class="col column-6">
+    <%= render partial: "memberships/form", locals: {cohort: @cohort} %>
+  </section>
+</div>
+
+<div class="row group">
+  <section>
+    <%= render partial: "tags/form",  locals: {
+      tags: @existing_tags,
+      memberships: @cohort.memberships}
+      %>
+    </section>
+    <%= link_to "Refresh all Github info", gh_refresh_cohort_path(@cohort), class: "button", data: {confirm: "This might take a while. That OK?"} %>
+</div>
