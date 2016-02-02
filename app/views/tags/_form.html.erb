@@ -1,4 +1,11 @@
 <h3>Tag Members</h3>
+<p>Tagging users allows you to track and filter students by 'subgroups' on the
+Cohort dashboard. If you tag an instructor with the same tag(s) as one or more
+students, that instructor will see submissions and attendances for those
+students on their 'To-do Dashboard' (when they login)</p>
+
+<p>To tag members, type one or more tags in the tag box and hit enter after each
+one. Do the same for members, and then click the 'Tag Members' button.</p>
 
 <%= form_tag taggings_path, method: "post" do %>
   <%= label_tag :tag_ids, "Tags" %>
