@@ -8,6 +8,6 @@
     <td><%= tag_list(membership)%></td>
     <%= render partial: "memberships/row_performance_cells", locals: {membership: membership} %>
     <% end %>
-
+    <td class="<%= color_of_percent((membership.average_observations/2) * 100 )%>"><%= membership.average_observations %></td>
   </tr>
 <% end %>
