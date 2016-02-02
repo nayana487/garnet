@@ -1,4 +1,4 @@
-<% cache [membership, (can? :see_performance, membership)] do %>
+<% cache [membership, (can? :see_performance, membership), (can? :see_observations, membership)] do %>
   <tr>
     <% user = membership.user %>
     <td><%= link_to user.name, membership %></td>

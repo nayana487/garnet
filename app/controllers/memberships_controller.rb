@@ -34,7 +34,7 @@ class MembershipsController < ApplicationController
     end
 
     # Looking at someone you admin
-    if !@is_current_user && @is_adminned_by_current_user
+    if can? :see_observations, @membership
       @observations = @user.records_accessible_by(current_user, "observations").sort_by(&:created_at)
     end
   end
