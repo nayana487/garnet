@@ -34,26 +34,26 @@ module ApplicationHelper
 
     case input
     when -1000...25
-      return "s0"
+      return "status_very_bad"
     when 25...50
-      return "s1"
+      return "status_bad"
     when 50...75
-      return "s2"
+      return "status_mediocre"
     when 75..1000
-      return "s3"
+      return "status_good"
     end
   end
 
   def color_of_status input
     case input * 100
     when 0...50
-      return "s0"
+      return "status_very_bad"
     when 50...100
-      return "s1"
+      return "status_bad"
     when 100...150
-      return "s2"
+      return "status_mediocre"
     when 150..200
-      return "s3"
+      return "status_good"
     end
   end
 
