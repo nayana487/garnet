@@ -25,15 +25,21 @@ module ApplicationHelper
    end
   end
 
-  def color_of_percent input
+  def color_of_percent input, type = :good
+    # if the input is a 'bad' value, flip and scale the value accordingly.
+    # e.g. a good value would be %HW complete, and 75% would be green
+    #
+    # but a bad value might be "% absent", and 10% would be yellow
+    input = (100 - (input* 3)) if type == :bad
+
     case input
-    when 0...25
+    when -1000...25
       return "s0"
     when 25...50
       return "s1"
     when 50...75
       return "s2"
-    when 75..100
+    when 75..1000
       return "s3"
     end
   end
