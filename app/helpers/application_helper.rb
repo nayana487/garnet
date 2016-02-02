@@ -4,11 +4,11 @@ module ApplicationHelper
   # designed to work with a cohort and one of it's associations, such as
   # assignments, events, etc.
   #
-  # the final value, `opt` can be anything, but is usually used for an option
+  # the final values, `opt` can be anything, but are usually used for an option
   # related to the current user, such as whether or not they are an admin,
   # or possible the user object itself.
-  def cache_key_for_cohort(cohort, association, opt)
-    return ["cohort-#{cohort.id}/events", association.maximum(:updated_at), opt]
+  def cache_key_for_cohort(cohort, association, *opt)
+    return ["cohort-#{cohort.id}/events", association.maximum(:updated_at), *opt]
   end
 
   def avatar user

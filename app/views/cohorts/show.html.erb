@@ -9,14 +9,17 @@
   <div>
     <h4>Roster</h4>
 
-    <% cache cache_key_for_cohort(@cohort, @active_memberships, current_user) do %>
+    <%  # these two tables are both cached using @cohort.memberships rather than
+        # their corresponding subset to handle the edge case where a user is
+        # activated or de-activated %>
+    <% cache cache_key_for_cohort(@cohort, @cohort.memberships, current_user, "active") do %>
       <%= render partial: "memberships/table", locals: {
                                                 memberships: @active_memberships,
                                                 header: "Active Members",
                                                 row_header: :user_name } %>
     <% end %>
 
-    <% cache cache_key_for_cohort(@cohort, @inactive_memberships, current_user) do %>
+    <% cache cache_key_for_cohort(@cohort, @cohort.memberships, current_user, "inactive") do %>
       <%= render partial: "memberships/table", locals: {
                                                 memberships: @inactive_memberships,
                                                 header: "Inactive Members",
