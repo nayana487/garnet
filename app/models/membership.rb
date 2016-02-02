@@ -50,5 +50,8 @@ class Membership < ActiveRecord::Base
     ((assoc.where(status:status).length.to_f / assoc.length.to_f) * 100).round(0)
   end
 
+  def average_observations
+    (self.observations.map(&:status).inject(:+).to_f/(self.observations.length)).round(2)
+  end
 
 end
