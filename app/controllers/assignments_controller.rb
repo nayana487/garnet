@@ -20,7 +20,7 @@ class AssignmentsController < ApplicationController
     unless @show_inactive
       @submissions = @submissions.where("memberships.status = ?", Membership.statuses[:active])
     end
-    
+
     if @show_na
       @submissions = @submissions.where(status: nil)
     end
