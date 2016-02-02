@@ -26,6 +26,9 @@ module ApplicationHelper
   end
 
   def color_of_percent input, type = :good
+    # can't do calculations on nil values
+    return "" if input.nil?
+
     # if the input is a 'bad' value, flip and scale the value accordingly.
     # e.g. a good value would be %HW complete, and 75% would be green
     #
