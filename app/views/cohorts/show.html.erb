@@ -9,9 +9,9 @@
   <div>
     <h4>Roster</h4>
 
-    <%  # these two tables are both cached using @cohort.memberships rather than
-        # their corresponding subset to handle the edge case where a user is
-        # activated or de-activated %>
+    <% # these two tables are both cached using @cohort.memberships rather than %>
+    <% # their corresponding subset to handle the edge case where a user is %>
+    <% # activated or de-activated %>
     <% cache cache_key_for_cohort(@cohort, @cohort.memberships, current_user, "active") do %>
       <%= render partial: "memberships/table", locals: {
                                                 memberships: @active_memberships,
