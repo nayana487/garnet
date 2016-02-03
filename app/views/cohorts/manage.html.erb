@@ -41,3 +41,15 @@
     <% end %>
   </section>
 </div>
+
+<div class="row group">
+  <section>
+    <%= form_tag generate_api_token_cohort_path(@cohort), method: "post" do  %>
+      <%= button_tag "Generate API Token", data: {confirm: "This will revoke all previous API tokens. Are you sure?"} %>
+    <% end %>
+
+    <% if @cohort.api_token %>
+       <%= @cohort.api_token %>
+    <% end %>
+  </section>
+</div>

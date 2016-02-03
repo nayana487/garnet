@@ -90,6 +90,13 @@ class CohortsController < ApplicationController
     redirect_to :back
   end
 
+  def generate_api_token
+    @cohort = Cohort.find(params[:id])
+    authorize! :manage, @cohort
+    @cohort.update(api_token: Digest::MD5.hexdigest(@cohort.name + Time.now.to_s))
+    redirect_to :back
+  end
+
   private
   def set_cohort
     @cohort = Cohort.find(params[:id])
