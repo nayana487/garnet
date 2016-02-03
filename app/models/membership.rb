@@ -51,7 +51,8 @@ class Membership < ActiveRecord::Base
   end
 
   def average_observations
-    !self.observations.empty? ? (self.observations.map(&:status).inject(:+).to_f/(self.observations.length)).round(2) : 0.0
+    average = (self.observations.map(&:status).inject(:+).to_f/(self.observations.length)).round(2)
+    self.observations.any? ? average : nil
   end
 
 end

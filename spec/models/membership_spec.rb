@@ -28,7 +28,7 @@ RSpec.describe Membership do
     it "has average observations that are a float" do
       expect(@m.average_observations).to be_a(Float)
     end
-    it "has average observations equal to zero as a float " do
+    it "'s for a member with one red observation is the float 0.0" do
       cohort = Cohort.first
       @t = cohort.memberships.create()
       @t.observations.create(status: 0)
@@ -37,7 +37,7 @@ RSpec.describe Membership do
     it "has a default value if no observations" do
       cohort = Cohort.first
       @t = cohort.memberships.create()
-      expect(@t.average_observations).to be(0.0)
+      expect(@t.average_observations).to be(nil)
     end
   end
 
