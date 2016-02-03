@@ -76,7 +76,7 @@ class UsersController < ApplicationController
   end
 
   def is_registered?
-    render json: User.exists?(username: params[:user])
+    render json: User.exists?(username: params[:user].downcase)
   end
 
   def gh_refresh
