@@ -19,6 +19,7 @@ gem 'jbuilder', '~> 2.0' # Build JSON APIs with ease. Read more: https://github.
 gem 'jquery-rails' # Use jquery as the JavaScript library
 gem 'jquery-ui-rails'
 gem 'octokit'
+gem 'rack-cors', require: "rack/cors"
 gem 'redcarpet' # use redcarpet for markdown support
 gem 'sass-rails', '~> 5.0' # Use SCSS for stylesheets
 gem 'select2-rails'

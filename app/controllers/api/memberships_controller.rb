@@ -1,5 +1,6 @@
 module Api
   class MembershipsController < ApplicationController
+    skip_before_action :authenticate
     def index
       @cohort = Cohort.find_by(api_token: params[:api_token])
       if !@cohort

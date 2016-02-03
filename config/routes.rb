@@ -56,6 +56,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :cohorts do
+      get "get_api_token"
       resources :memberships
     end
   end
