@@ -9,7 +9,11 @@
     <%= render partial: "memberships/row_performance_cells", locals: {membership: membership} %>
     <% end %>
     <% if can? :see_observations, membership %>
-      <td class="<%= color_of_percent((membership.average_observations/2) * 100 )%>"><%= membership.average_observations %></td>
+      <% if membership.average_observations %>
+        <td class="<%= color_of_percent((membership.average_observations/2) * 100 )%>"><%= membership.average_observations %></td>
+      <% else %>
+        <td>N/A</td>
+      <% end %>
     <% end %>
   </tr>
 <% end %>
