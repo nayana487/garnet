@@ -22,7 +22,16 @@ User.create!(name: "Demo McDemoton", username: "demo", password: "demo", email:F
 NUM_USERS.times do |i|
   name = FFaker::Name.name
   username = name.split(" ").first.gsub(/[\'\s\.]/, "-") + i.to_s
-  User.create!(name: name, username: username, email: FFaker::Internet.safe_email, password: "foo")
+  case i%4
+    when 0
+      User.create!(name: name, username: username, email: FFaker::Internet.safe_email, password: "foo", image_url: "https://placebear.com/200/200")
+    when 1
+      User.create!(name: name, username: username, email: FFaker::Internet.safe_email, password: "foo", image_url: "http://www.placecage.com/200/200")
+    when 2
+      User.create!(name: name, username: username, email: FFaker::Internet.safe_email, password: "foo", image_url: "http://www.fillmurray.com/200/200")
+    when 3
+      User.create!(name: name, username: username, email: FFaker::Internet.safe_email, password: "foo", image_url: "http://www.stevensegallery.com/200/200")
+  end
 end
 
 TAG_NAMES.each { |tag| Tag.create!(name: tag) }
