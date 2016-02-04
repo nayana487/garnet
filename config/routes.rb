@@ -18,7 +18,6 @@ Rails.application.routes.draw do
       get 'gh_refresh'
       get 'manage'
       post 'generate_invite_code'
-      post 'generate_api_token'
     end
     resources :events,      only: [:create]
     resources :assignments, only: [:create]
@@ -36,6 +35,7 @@ Rails.application.routes.draw do
     member do
       get "is_registered", action: :is_registered?
       get 'gh_refresh'
+      post 'generate_api_token'
     end
   end
 
@@ -55,8 +55,8 @@ Rails.application.routes.draw do
   resources :observations,  only: [:create, :destroy]
 
   namespace :api do
+    get 'send_api_token'
     resources :cohorts do
-      get "get_api_token"
       resources :memberships
     end
   end

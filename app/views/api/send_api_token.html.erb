@@ -1,6 +1,6 @@
-<% if current_user && current_user.is_member_of(@cohort) %>
+<% if current_user %>
   <script type="text/javascript">
-    window.opener.postMessage("<%= @cohort.api_token %>", "*")
+    window.opener.postMessage("<%= current_user.api_token %>", "*")
     window.close()
   </script>
 <% else %>
