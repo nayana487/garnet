@@ -99,8 +99,4 @@ module ApplicationHelper
     user.memberships.find_by(cohort: cohort).status.to_s
   end
 
-  def enum_status_int record
-    record.class.statuses[record.status]
-  end
-
 end
