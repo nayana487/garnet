@@ -22,7 +22,7 @@ class AssignmentsController < ApplicationController
     end
 
     if @show_na
-      @submissions = @submissions.where(status: nil)
+      @submissions = @submissions.where(status: 0)
     end
     @submissions.to_a.sort_by!{|s| s.user.last_name}
   end

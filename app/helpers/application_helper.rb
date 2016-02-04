@@ -91,8 +91,12 @@ module ApplicationHelper
     id = "a#{record.id}_#{status}"
     checked = "checked" if record.status == status
     output += "<input type='radio' name='a#{record.id}' id='#{id}' value='#{status}' #{checked} data-record-url='#{url_for record}' data-record-attribute='status' />"
-    output += "<label for='#{id}' class='status'>#{record.class.statuses[status]}</label>"
+    output += "<label for='#{id}' class='status'>#{status}</label>"
     return output.html_safe
+  end
+
+  def status_format status
+    
   end
 
   def cohort_status(cohort, user)
