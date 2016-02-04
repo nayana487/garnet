@@ -51,7 +51,8 @@ class Membership < ActiveRecord::Base
   end
 
   def average_observations
-    average = (self.observations.map(&:status).inject(:+).to_f/(self.observations.length)).round(2)
+    status_integers = self.observations.map{|observation| observation.get_enum_status_int}
+    average = (status_integers.inject(:+).to_f/(self.observations.length)).round(2)
     self.observations.any? ? average : nil
   end
 

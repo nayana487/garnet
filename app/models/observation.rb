@@ -6,4 +6,8 @@ class Observation < ActiveRecord::Base
   has_one :user,  through: :membership
 
   enum status: [:red, :yellow, :green]
+
+  def get_enum_status_int
+    self.class.statuses[self.status]
+  end
 end
