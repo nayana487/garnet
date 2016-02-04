@@ -5,12 +5,5 @@ class Observation < ActiveRecord::Base
   has_one :cohort, through: :membership
   has_one :user,  through: :membership
 
-  # TODO: should be an enum -ab
-  def self.statuses
-    {
-      red: 0,
-      yellow: 1,
-      green: 2
-    }
-  end
+  enum status: [:red, :yellow, :green]
 end

@@ -1,4 +1,4 @@
-<div class="observation <%= color_of_status(observation.status) %>">
+<div class="observation <%= color_of_status(enum_status_int(observation)) %>">
   <%= markdown(observation.body) %>
   <p><small>By
     <%= link_to observation.admin.username, user_path(observation.admin) %> for
