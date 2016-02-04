@@ -95,10 +95,6 @@ module ApplicationHelper
     return output.html_safe
   end
 
-  def status_format status
-    
-  end
-
   def cohort_status(cohort, user)
     user.memberships.find_by(cohort: cohort).status.to_s
   end
