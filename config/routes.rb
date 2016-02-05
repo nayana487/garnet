@@ -57,7 +57,7 @@ Rails.application.routes.draw do
   namespace :api do
     get 'send_api_token'
     resources :cohorts do
-      resources :memberships
+      resources :memberships, only: [:index]
     end
   end
 end
