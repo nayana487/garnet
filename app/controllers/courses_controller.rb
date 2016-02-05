@@ -6,7 +6,7 @@ class CoursesController < ApplicationController
   end
 
   def show
-    authorize! :show, @course
+    authorize! :read, @course
   end
 
   def new

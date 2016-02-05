@@ -42,8 +42,7 @@ class Ability
     can :manage, Membership do |membership|
       membership.cohort.has_admin?(user)
     end
-    can :read, Membership
-    can :see_performance, Membership do |membership|
+    can :read, :see_performance, Membership do |membership|
       user.is_admin_of?(membership.cohort) || user == membership.user
     end
     can :see_observations, Membership do |membership|
