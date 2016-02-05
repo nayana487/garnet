@@ -43,6 +43,8 @@ RSpec.feature 'Taking Attendance', js: true do
       choose "Absent"
     end
 
+    wait_for_ajax # workaround for race conditions between choose absent and expect h1
+
     visit page.current_url # refresh current page to check persistence
     # ensure page is ready by checking content
     expect(page).to have_css("h1", "TEST EVENT")
