@@ -16,12 +16,12 @@ class MembershipsController < ApplicationController
   end
 
   def show
+    authorize! :read, @membership
+
     @user = @membership.user
 
     @is_current_user = (@user == current_user)
     @is_adminned_by_current_user = (@user.cohorts_adminned_by(current_user).count > 0)
-
-    redirect_to current_user unless @is_current_user || @is_adminned_by_current_user
 
     @is_editable = @is_current_user && !@user.github_id
 
@@ -34,22 +34,25 @@ class MembershipsController < ApplicationController
     end
 
     # Looking at someone you admin
-    if !@is_current_user && @is_adminned_by_current_user
+    if can? :see_observations, @membership
       @observations = @user.records_accessible_by(current_user, "observations").sort_by(&:created_at)
     end
   end
 
   def destroy
+    authorize! :manage, @membership
     @membership.destroy!
     redirect_to :back
   end
 
   def toggle_active
+    authorize! :manage, @membership
     @membership.toggle_active!
     redirect_to :back
   end
 
   def toggle_admin
+    authorize! :manage, @membership
     @membership.toggle_admin!
     redirect_to :back
   end
