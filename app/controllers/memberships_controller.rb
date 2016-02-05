@@ -16,7 +16,7 @@ class MembershipsController < ApplicationController
   end
 
   def show
-    authorize! :show, @membership
+    authorize! :read, @membership
 
     @user = @membership.user
 

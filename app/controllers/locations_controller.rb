@@ -6,7 +6,7 @@ class LocationsController < ApplicationController
   end
 
   def show
-    authorize! :show, @location
+    authorize! :read, @location
   end
 
   def new
