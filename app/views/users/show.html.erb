@@ -35,3 +35,16 @@
     <%= link_to "Refresh Github info", gh_refresh_user_path(@user), class: "button" %>
   <% end %>
 </section>
+<% if @user == current_user %>
+  <div class="row group">
+    <section>
+      <%= form_tag generate_api_token_user_path(@user), method: "post" do  %>
+        <%= button_tag "Generate API Token", data: {confirm: "This will revoke all previous API tokens. Are you sure?"} %>
+      <% end %>
+
+      <% if @user.api_token %>
+         <%= @user.api_token %>
+      <% end %>
+    </section>
+  </div>
+<% end %>

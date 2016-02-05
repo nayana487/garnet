@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     member do
       get "is_registered", action: :is_registered?
       get 'gh_refresh'
+      post 'generate_api_token'
     end
   end
 
@@ -52,4 +53,11 @@ Rails.application.routes.draw do
     put "self_take", on: :member
   end
   resources :observations,  only: [:create, :destroy]
+
+  namespace :api do
+    get 'send_api_token'
+    resources :cohorts do
+      resources :memberships, only: [:index]
+    end
+  end
 end

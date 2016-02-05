@@ -1,7 +1,8 @@
 class Ability
   include CanCan::Ability
 
-  def initialize(user)
+  def initialize(user, params)
+    user ||= User.find_by(api_token: params[:api_token])
     can :manage, Assignment do |assignment|
       assignment.cohort.has_admin?(user)
     end
@@ -42,6 +43,11 @@ class Ability
     can :manage, Membership do |membership|
       membership.cohort.has_admin?(user)
     end
+
+    can :list_cohort_members, Cohort do |cohort|
+      user && user.is_member_of(cohort)
+    end
+
     can :read, :see_performance, Membership do |membership|
       user.is_admin_of?(membership.cohort) || user == membership.user
     end
