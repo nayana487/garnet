@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Taking Attendance', js: true do
+RSpec.feature 'Taking Attendance', js: true, pending: true do
   before(:all) do
     load "#{Rails.root}/db/seeds/test_seed.rb"
   end
