@@ -9,10 +9,10 @@ class ChangeAttendanceObservationStatuses < ActiveRecord::Migration
   end
 
   def convert_status_to_ar_enums class_to_be_changed
-    nil_status_instances = class_to_be_changed.where(status:nil)
-    nil_status_instances.update_all(status:0)
     non_nil_status_instances = class_to_be_changed.where.not(status:nil)
     non_nil_status_instances.update_all("status = status + 1")
+    nil_status_instances = class_to_be_changed.where(status:nil)
+    nil_status_instances.update_all(status:0)
   end
 
   def convert_status_to_class_methods class_to_be_changed
