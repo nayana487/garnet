@@ -126,6 +126,14 @@ class User < ActiveRecord::Base
     cohort.memberships.exists?(user: self)
   end
 
+  def as_json(options={})
+    super.as_json(except: :password_digest)
+  end
+
+  def generate_api_token
+    update(api_token: Digest::MD5.hexdigest(self.name + Time.now.to_s))
+  end
+
   private
   def accept_invite
     if self.invite_code

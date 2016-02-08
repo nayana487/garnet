@@ -88,7 +88,7 @@ class UsersController < ApplicationController
   end
 
   def generate_api_token
-    current_user.update(api_token: Digest::MD5.hexdigest(current_user.name + Time.now.to_s))
+    current_user.generate_api_token
     redirect_to :back
   end
 
