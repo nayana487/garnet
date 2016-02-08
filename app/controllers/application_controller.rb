@@ -14,12 +14,6 @@ class ApplicationController < ActionController::Base
      redirect_to root_url, :alert => exception.message
   end
 
-  # CanCanCan - pass params into ability.rb
-  # http://stackoverflow.com/questions/9472260/passing-params-to-cancan-in-ror
-  def current_ability
-    @current_ability ||= Ability.new(current_user, params)
-  end
-
   private
     def record_not_found
       render 'errors/not_found', status: 404
@@ -37,7 +31,11 @@ class ApplicationController < ActionController::Base
 
     def current_user
       begin
-        @current_user ||= User.find(session[:user_id]) if session[:user_id]
+        if params[:api_token]
+          @current_user ||= User.find_by(api_token: params[:api_token])
+        elsif session[:user_id]
+          @current_user ||= User.find(session[:user_id])
+        end
       rescue
         nil
       end
