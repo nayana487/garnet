@@ -1,6 +1,6 @@
 <div class="intro">
   <%= avatar(@user) %>
-  <h2><%= link_to @user.name, @user %> in <%= link_to @membership.cohort.name, @membership.cohort %></h2>
+  <h2 class='membership'><%= link_to @user.name, @user %> in <%= link_to @membership.cohort.name, @membership.cohort %></h2>
 </div>
 
 <% if @is_current_user  %>
