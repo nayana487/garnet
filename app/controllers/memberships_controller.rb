@@ -35,7 +35,7 @@ class MembershipsController < ApplicationController
 
     # Looking at someone you admin
     if can? :see_observations, @membership
-      @observations = @user.records_accessible_by(current_user, "observations").sort_by(&:created_at)
+      @observations = @membership.observations.order(:created_at)
     end
   end
 
