@@ -7,6 +7,9 @@ class Submission < ActiveRecord::Base
   belongs_to :admin, class_name: "User"
 
   scope :unmarked, -> { where(status: 0) }
+  scope :missing, -> { where(status: 1) }
+  scope :incomplete, -> { where(status: 2) }
+  scope :complete, -> { where(status: 3) }
   scope :due, -> { includes(:assignment).references(:assignment).where("assignments.due_date <= ?", DateTime.now)}
   scope :todo, -> { due.unmarked }
 
