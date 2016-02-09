@@ -10,7 +10,7 @@
     <tr>
       <td><%= link_to_if @is_admin, assignment.title, assignment_path(assignment, cohort: assignment.cohort) %></td>
       <td><%= assignment.due_date_s %></td>
-      <td><%= percent_of(submissions, "Complete") %>%</td>
+      <td><%= percent_of(submissions, "complete") %>%</td>
       <td><%= submissions.count %></td>
     </tr>
   <% end %>

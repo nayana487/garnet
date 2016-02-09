@@ -10,7 +10,7 @@ class Attendance < ActiveRecord::Base
   scope :todo, -> { due.unmarked }
   scope :self_takeable, -> {unmarked.joins(:event).where("events.occurs_at < ? AND events.occurs_at > ?", 1.hour.from_now, 4.hours.ago)}
 
-  enum status: [:"n/a", :Absent, :Tardy, :Present]
+  enum status: [:"n/a", :absent, :tardy, :present]
 
   def date
     self.event.occurs_at.strftime("%a, %m/%d/%y")
