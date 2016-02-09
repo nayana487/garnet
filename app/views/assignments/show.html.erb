@@ -4,7 +4,7 @@
   <%= link_to("Issues", @assignment.issues_url(@cohort.nonadmins), target: '_blank') %>
 </h2>
 <h3>Base Score: <%=@assignment.base_score ? @assignment.base_score : "No Score" %></h3>
-<p><%= percent_of(@submissions, 2) %>% complete</p>
+<p><%= percent_of(@submissions, "Complete") %>% complete</p>
 <% if @assignment.repo_url && !@assignment.repo_url.strip.blank? %>
   <button class="js-count-assignment-issues" data-issues-url="<%= assignment_issues_path(@assignment) %>">Count issues</button>
 <% end %>
