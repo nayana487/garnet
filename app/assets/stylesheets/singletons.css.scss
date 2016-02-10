@@ -1,0 +1,88 @@
+.errareHumanumEst{
+  border:1px dashed #8be;
+  border-radius:5px;
+  padding:1em;
+  text-align:center;
+}
+
+.mantra{
+  overflow:visible;
+  clear:both;
+  border:1px dashed #ddd;
+  border-radius:10px;
+
+  img{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:70px;
+  }
+  p{
+    text-align:left;
+    color:#666;
+    padding-left:75px;
+  }
+  p:before{
+    content:"\201c";
+  }
+  p:after{
+    content:"\201d";
+  }
+}
+
+.avatar{
+  position:relative;
+  display:inline-block;
+  width:50px;
+  height:50px;
+  border:0;
+
+  img{
+    display:block;
+    width:100%;
+    height:100%;
+    position:absolute;
+    left:0;
+    bottom:0;
+    transition:width .2s, height .2s;
+    background-color:transparent;
+  }
+  img:hover{
+    z-index:1000;
+    width:200px;
+    height:200px;
+  }
+  .intro & img:hover{
+    z-index: auto;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.intro{
+  background-color:#eee;
+  h2{
+    padding-left:0;
+  }
+  &>*{
+    display:inline-block;
+    vertical-align:middle;
+  }
+}
+
+.github {
+  background-image: image-url('GitHub-Mark-64px');
+  background-repeat:  no-repeat;
+  background-position: center;
+}
+
+
+[data-event-for-today-already-exists] > button{
+  display:none;
+}
+[data-event-for-today-already-exists="true"] > button {
+  display:block;
+}
+[data-event-for-today-already-exists="true"] > button ~ * {
+  display:none;
+}

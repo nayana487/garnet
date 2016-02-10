@@ -19,10 +19,12 @@ NUM_COHORTS_PER_COURSE = 4
 # ensure a demo user is available
 User.create!(name: "Demo McDemoton", username: "demo", password: "demo", email:FFaker::Internet.safe_email)
 
+user_image_urls = ["https://placebear.com/200/200", "http://www.placecage.com/200/200", "http://www.fillmurray.com/200/200", "http://www.stevensegallery.com/200/200"]
+
 NUM_USERS.times do |i|
   name = FFaker::Name.name
   username = name.split(" ").first.gsub(/[\'\s\.]/, "-") + i.to_s
-  User.create!(name: name, username: username, email: FFaker::Internet.safe_email, password: "foo")
+  User.create!(name: name, username: username, email: FFaker::Internet.safe_email, password: "foo", image_url: user_image_urls[i%4])
 end
 
 TAG_NAMES.each { |tag| Tag.create!(name: tag) }

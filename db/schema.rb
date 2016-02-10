@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 20160205211214) do
     t.string   "image_url"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.string   "api_token"
   end
 
 end

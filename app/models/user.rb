@@ -84,13 +84,6 @@ class User < ActiveRecord::Base
     self.cohorts & user.adminned_cohorts
   end
 
-  def records_accessible_by user, attribute_name
-    records = self.send(attribute_name)
-    my_cohorts = records.collect(&:cohort).uniq
-    common_cohorts = my_cohorts & user.adminned_cohorts
-    return records.select{|r| common_cohorts.include?(r.cohort)}
-  end
-
   def is_admin_of_anything?
     self.memberships.exists?(is_admin: true)
   end
@@ -124,6 +117,14 @@ class User < ActiveRecord::Base
 
   def is_member_of cohort
     cohort.memberships.exists?(user: self)
+  end
+
+  def as_json(options={})
+    super.as_json(except: :password_digest)
+  end
+
+  def generate_api_token
+    update(api_token: Digest::MD5.hexdigest(self.name + Time.now.to_s))
   end
 
   private
