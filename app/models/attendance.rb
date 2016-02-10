@@ -5,10 +5,6 @@ class Attendance < ActiveRecord::Base
 
   has_one :cohort, through: :event
 
-  scope :unmarked, -> { where(status: 0)}
-  scope :absent, -> { where(status: 1)}
-  scope :tardy, -> { where(status: 2)}
-  scope :present, -> { where(status: 3)}
   scope :due, -> { includes(:event).references(:event).where("events.occurs_at <= ?", DateTime.now)}
   scope :todo, -> { due.unmarked }
   scope :self_takeable, -> {unmarked.joins(:event).where("events.occurs_at < ? AND events.occurs_at > ?", 1.hour.from_now, 4.hours.ago)}
