@@ -111,76 +111,77 @@ section{
   padding:10px 0;
   border-bottom:1px dashed #aaa;
   margin-bottom:30px;
-}
-.markdown p,
-.markdown h1,
-.markdown h2,
-.markdown h3,
-.markdown h4,
-.markdown h5,
-.markdown h6{
-  padding-top:0;
-  padding-bottom:0;
-  border:0;
-}
-.markdown hr{
-  margin:0 10px;
-  border-bottom:1px dashed #ccc;
-}
-.markdown li{
-  list-style-type: disc;
-  list-style-position: inside;
-  padding-left:10px;
-  line-height:1.6em;
-}
 
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6{
+    padding-top:0;
+    padding-bottom:0;
+    border:0;
+  }
+  hr{
+    margin:0 10px;
+    border-bottom:1px dashed #ccc;
+  }
+  li{
+    list-style-type: disc;
+    list-style-position: inside;
+    padding-left:10px;
+    line-height:1.6em;
+  }
+
+  .observation &{
+    border:0;
+    margin:0;
+  }
+}
 
 .observation{
   border-radius:5px;
 }
-.observation .markdown{
-  border:0;
-  margin:0;
-}
-
 
 .pills{
   padding-left:0;
   margin-left:0;
   padding-bottom:0;
   margin-bottom:0;
-}
-.pills li{
-  list-style-type: none;
-}
-.pills a, .pills li{
-  display:inline-block;
-  border-radius:5px;
-  padding:5px 10px;
-  margin:5px;
-  vertical-align:baseline;
-  background-color:#eee;
-  border:0;
-}
-.pills a[href]:hover{
-  background-color:#ccc;
-}
-.pills a:nth-child(1){
-  margin-left:0;
-}
-.pills+p{
-  padding-top:0;
-  margin-top:0;
-}
 
+  li{
+    list-style-type: none;
+  }
+  a, li{
+    display:inline-block;
+    border-radius:5px;
+    padding:5px 10px;
+    margin:5px;
+    vertical-align:baseline;
+    background-color:#eee;
+    border:0;
+  }
+  a[href]:hover{
+    background-color:#ccc;
+  }
+  a:nth-child(1){
+    margin-left:0;
+  }
+  &+p{
+    padding-top:0;
+    margin-top:0;
+  }
+}
 
 a.breadcrumb{
   background-color:#ee9;
   color:#f00;
-}
-a.breadcrumb:hover{
-  background-color:#dd9;
-  color:#f00;
+
+  &:hover{
+    background-color:#dd9;
+    color:#f00;
+  }
 }
 
 
