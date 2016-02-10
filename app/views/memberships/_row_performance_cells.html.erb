@@ -1,7 +1,7 @@
-<% data = [ membership.percent_from_status(:attendances, 2),
-            membership.percent_from_status(:attendances, 1),
-            membership.percent_from_status(:attendances, 0),
-            membership.percent_from_status(:submissions, 2) ] %>
+<% data = [ membership.percent_from_status(:attendances, Attendance.statuses[:present]),
+            membership.percent_from_status(:attendances, Attendance.statuses[:tardy]),
+            membership.percent_from_status(:attendances, Attendance.statuses[:absent]),
+            membership.percent_from_status(:submissions, Submission.statuses[:complete]) ] %>
 
 <% data.each do |datum| %>
   <td class="<%= color_of_percent(datum) %>">
