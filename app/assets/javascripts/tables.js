@@ -1,4 +1,4 @@
-$(".js-dataTable.memberships").DataTable({
+var membershipsDataTable = $(".js-dataTable.memberships").DataTable({
     paging: false,
     "aoColumnDefs" : [
       {
