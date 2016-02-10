@@ -4,7 +4,7 @@ class Attendance < ActiveRecord::Base
   has_one :user, through: :membership
 
   has_one :cohort, through: :event
-
+  
   scope :due, -> { includes(:event).references(:event).where("events.occurs_at <= ?", DateTime.now)}
   scope :todo, -> { due.unmarked }
   scope :self_takeable, -> {unmarked.joins(:event).where("events.occurs_at < ? AND events.occurs_at > ?", 1.hour.from_now, 4.hours.ago)}
@@ -29,6 +29,6 @@ class Attendance < ActiveRecord::Base
 
   def self.mark_pastdue_attendances_as_missed
     na_attendances = self.unmarked.joins(:event).where("events.occurs_at < ?", Time.now.beginning_of_day)
-    na_attendances.update_all(status: 1)
+    na_attendances.update_all(status: Attendance.statuses[:absent])
   end
 end
