@@ -19,6 +19,6 @@ function removeTag(event) {
 
 function filterByTag(event){
   if(event.target.classList.contains("js-tag")){
-    membershipsDataTable.search(event.target.innerText).draw()
+    membershipsDataTable.search(event.target.firstChild.textContent).draw()
   }
 }
