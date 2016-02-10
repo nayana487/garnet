@@ -17,14 +17,6 @@ module ApplicationHelper
     end
   end
 
-  def average_status collection
-    if collection.count > 0
-     return (collection.inject(0){|sum, i| sum + (i.status || 0)}.to_f / collection.count).round(2)
-   else
-     return 0
-   end
-  end
-
   def color_of_percent input, type = :good
     # can't do calculations on nil values
     return "" if input.nil?
