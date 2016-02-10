@@ -18,7 +18,8 @@ function removeTag(event) {
 }
 
 function filterByTag(event){
-  if(event.target.classList.contains("js-tag")){
+  var target = $(event.target)
+  if(target.hasClass("js-tag")){
     membershipsDataTable.search(event.target.firstChild.textContent).draw()
   }
 }
