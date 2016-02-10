@@ -17,37 +17,38 @@ module ApplicationHelper
     end
   end
 
-  def average_status collection
-    if collection.count > 0
-     return (collection.inject(0){|sum, i| sum + (i.status || 0)}.to_f / collection.count).round(2)
-   else
-     return 0
-   end
-  end
+  def color_of_percent input, type = :good
+    # can't do calculations on nil values
+    return "" if input.nil?
 
-  def color_of_percent input
+    # if the input is a 'bad' value, flip and scale the value accordingly.
+    # e.g. a good value would be %HW complete, and 75% would be green
+    #
+    # but a bad value might be "% absent", and 10% would be yellow
+    input = (100 - (input* 3)) if type == :bad
+
     case input
-    when 0...25
-      return "s0"
+    when -1000...25
+      return "status_very_bad"
     when 25...50
-      return "s1"
+      return "status_bad"
     when 50...75
-      return "s2"
-    when 75..100
-      return "s3"
+      return "status_mediocre"
+    when 75..1000
+      return "status_good"
     end
   end
 
   def color_of_status input
     case input * 100
     when 0...50
-      return "s0"
+      return "status_very_bad"
     when 50...100
-      return "s1"
+      return "status_bad"
     when 100...150
-      return "s2"
+      return "status_mediocre"
     when 150..200
-      return "s3"
+      return "status_good"
     end
   end
 

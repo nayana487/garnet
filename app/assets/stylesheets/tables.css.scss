@@ -1,0 +1,110 @@
+table{
+  width:100%;
+  margin-bottom:10px;
+  text-align:left;
+
+  tr{
+    &>.number{
+      text-align:right;
+    }
+    &:nth-child(odd){
+      background-color:#eee;
+      input, textarea{
+        background-color:#fff;
+      }
+    }
+  }
+  th, td{
+    padding:10px;
+
+    input[type=text],
+    label, textarea{
+      padding-top:0;
+      padding-bottom:0;
+      margin:0;
+      height:24px;
+      resize:none;
+    }
+    label{
+      background-color:transparent;
+      text-align:center;
+    }
+    #submissions &{
+     max-width: 8em;
+     text-overflow: ellipsis;
+     overflow: hidden;
+    }
+    &:empty:after{
+      content:"...";
+      color:#ccc;
+      display:block;
+      height:18px;
+    }
+    &.form{
+      padding-left:0;
+      padding-right:0;
+      border:0;
+
+      textarea{
+        height:72px;
+        resize:vertical;
+      }
+      input{
+        height:48px;
+      }
+      textarea, input{
+        margin-bottom:10px;
+      }
+    }
+  }
+}
+
+
+/*  SECTIONS  */
+.row {
+	clear: both;
+	padding: 0px;
+	margin: 0px;
+  width: 100%;
+}
+
+/*  COLUMN SETUP  */
+.col {
+	display: block;
+	float:left;
+	margin: 1% 0 1% 1.6%;
+}
+.col:first-child { margin-left: 0; }
+
+
+/*  GROUPING  */
+.group:before,
+.group:after {
+	content:"";
+	display:table;
+}
+.group:after {
+	clear:both;
+}
+.group {
+    zoom:1; /* For IE 6/7 */
+}
+
+.column-1 { width: 6.333%; }  /* = 8.333% - 2% */
+.column-2 { width: 14.66%; }
+.column-3 { width: 23%; }
+.column-4 { width: 31.33%; }
+.column-5 { width: 39.66%; }
+.column-6 { width: 48%; }
+.column-7 { width: 56.33%; }
+.column-8 { width: 64.66%; }
+.column-9 { width: 73%; }
+.column-10 { width: 81.33%; }
+.column-11 { width: 89.66%; }
+.column-12 { width: 98%; }
+/*  GO FULL WIDTH AT LESS THAN 480 PIXELS */
+
+@media only screen and (max-width: 480px) {
+	.col { margin: 1% 0 1% 0%;}
+	.span_3_of_3, .span_2_of_3, .span_1_of_3 { width: 100%; }
+}
