@@ -46,7 +46,6 @@ RSpec.describe Membership do
 
   describe "percent from status" do
     it "should not include future attendances" do
-      binding.pry
       expect(@m.percent_from_status(:attendances, 2)).to eq(100)
     end
   end
