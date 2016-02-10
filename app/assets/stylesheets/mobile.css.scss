@@ -1,0 +1,25 @@
+@media (max-width:600px){
+  body{
+    padding:0;
+  }
+  h1, h2, nav{
+    display:block;
+    text-align:center;
+    width:100%;
+  }
+  nav a{
+    border:0;
+  }
+  th, td{
+    padding:5px;
+  }
+  .status{
+    font-size: 0;
+  }
+  .status:first-letter{
+    font-size: 1rem;
+  }
+  .waiting+label{
+    animation: waiting 0.5s linear alternate infinite;
+  }
+}
