@@ -13,7 +13,7 @@ class Submission < ActiveRecord::Base
   scope :due, -> { includes(:assignment).references(:assignment).where("assignments.due_date <= ?", DateTime.now)}
   scope :todo, -> { due.unmarked }
 
-  enum status: [:"n/a", :missing, :incomplete, :complete]
+  enum status: [:unmarked, :missing, :incomplete, :complete]
 
   def due_date
     self.assignment.due_date.strftime("%a, %m/%d/%y")
