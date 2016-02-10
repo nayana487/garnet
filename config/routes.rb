@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   resources :observations,  only: [:create, :destroy]
 
   namespace :api do
+    resource :user, only: [:show]
     get 'send_api_token'
     resources :cohorts do
       resources :memberships, only: [:index]

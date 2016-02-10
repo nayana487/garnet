@@ -1,8 +1,7 @@
 class Ability
   include CanCan::Ability
 
-  def initialize(user, params)
-    user ||= User.find_by(api_token: params[:api_token])
+  def initialize(user)
     can :manage, Assignment do |assignment|
       assignment.cohort.has_admin?(user)
     end
