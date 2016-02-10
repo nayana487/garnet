@@ -7,10 +7,6 @@ RSpec.describe Event do
 
   let(:cohort) { Cohort.last } #any cohort
 
-  context "when created" do
-    it "creates attendances for all members of the event's cohort"
-  end
-
   describe "(avoiding duplicates, in the same cohort)" do
     it "does NOT allow events within #{Event.duplicate_date_delta / 1.minute} minutes of each other" do
       first_event = cohort.events.create!(occurs_at: (Event.duplicate_date_delta - 1).ago, title: "FIRST")

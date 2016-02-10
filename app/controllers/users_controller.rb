@@ -87,6 +87,11 @@ class UsersController < ApplicationController
     redirect_to user_path(@user)
   end
 
+  def generate_api_token
+    current_user.generate_api_token
+    redirect_to :back
+  end
+
   private
   def user_params
     params.require(:form_user).permit(:password, :username, :name, :email, :image_url)
