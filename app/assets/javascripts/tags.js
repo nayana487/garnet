@@ -3,6 +3,8 @@ $('.js-select2.tag_select').select2({tags: true});
 
 $('.js-remove-tagging').click(removeTag);
 
+$('.js-tag').on("click", filterByTag)
+
 function removeTag(event) {
   event.preventDefault();
   var el = $(this);
@@ -13,4 +15,11 @@ function removeTag(event) {
     .then(function() {
       el.closest("li").fadeOut();
     });
+}
+
+function filterByTag(event){
+  var target = $(event.target)
+  if(target.hasClass("js-tag")){
+    membershipsDataTable.search(event.target.firstChild.textContent).draw()
+  }
 }
