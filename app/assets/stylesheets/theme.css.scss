@@ -6,6 +6,19 @@ body{
   color:#444;
   padding:0 10px;
 }
+h1,h2,h3,h4,h5,h6{
+  font-weight:bold;
+}
+h1{
+  font-size:18px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  padding-left:10px;
+
+  span{
+    color:red;
+  }
+}
 h2,h3,h4,h5,h6,
 p,.intro,
 textarea,
@@ -19,25 +32,14 @@ input,.button {
   box-sizing:border-box;
   border-radius:5px;
 }
-h1,h2,h3,h4,h5,h6{
-  font-weight:bold;
-}
-h1{
-  font-size:18px;
-  letter-spacing:5px;
-  text-transform:uppercase;
-  padding-left:10px;
-}
-h1 span{
-  color:red;
-}
 h2{
   font-size:24px;
   line-height:28px;
-}
-h2.breadcrumbs{
-  padding-left:0;
-  padding-right:0;
+
+  .breadcrumbs{
+    padding-left:0;
+    padding-right:0;
+  }
 }
 h3{
   font-size:24px;
@@ -78,9 +80,10 @@ nav a{
   padding:0 1em;
   font-size:1rem;
   border-left: 1px dotted #eee;
-}
-nav a:hover{
-  background-color:#eee;
+
+  a:hover{
+    background-color:#eee;
+  }
 }
 footer .links a{
   display:inline-block;
@@ -93,13 +96,13 @@ footer .links a{
 
 main{
   margin-top:10px;
-}
-main a{
-  color:#369;
-  border-bottom:1px dashed #9cf;
-}
-main a[href]:hover{
-  color:black;
+  a{
+    color:#369;
+    border-bottom:1px dashed #9cf;
+  }
+  a[href]:hover{
+    color:black;
+  }
 }
 section{
   margin-top:10px;
@@ -113,12 +116,7 @@ section{
   margin-bottom:30px;
 
   p,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6{
+  h1,h2,h3,h4,h5,h6{
     padding-top:0;
     padding-bottom:0;
     border:0;
@@ -133,15 +131,15 @@ section{
     padding-left:10px;
     line-height:1.6em;
   }
-
-  .observation &{
-    border:0;
-    margin:0;
-  }
 }
 
 .observation{
   border-radius:5px;
+
+  .markdown &{
+    border:0;
+    margin:0;
+  }
 }
 
 .pills{
@@ -201,15 +199,11 @@ a.breadcrumb{
 
 .yes{
   opacity:1;
-}
-.yes:after{
-  content:"!";
+  &:after{ content:"!"; }
 }
 .no{
   opacity:0.5;
-}
-.no:after{
-  content:"?";
+  &:after{ content:"?"; }
 }
 
 
