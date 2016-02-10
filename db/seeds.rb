@@ -85,11 +85,11 @@ Cohort.all.each_with_index do |cohort, i|
     event.attendances.each do |attendance|
       case rand(100)
       when 0..90
-        attendance.update_columns(status: 3)
+        attendance.present!
       when 91..95
-        attendance.update_columns(status: 2)
+        attendance.tardy!
       when 95..98
-        attendance.update_columns(status: 1)
+        attendance.absent!
       end
     end
 
@@ -107,11 +107,11 @@ Cohort.all.each_with_index do |cohort, i|
     assignment.submissions.each do |submission|
       case rand(100)
       when 0..90
-        submission.update_columns(status: 3)
+        submission.complete!
       when 91..95
-        submission.update_columns(status: 2)
+        submission.incomplete!
       when 95..98
-        submission.update_columns(status: 1)
+        submission.missing!
       end
     end
 
