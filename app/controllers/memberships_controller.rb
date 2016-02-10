@@ -25,7 +25,7 @@ class MembershipsController < ApplicationController
 
     @is_editable = @is_current_user && !@user.github_id
 
-    @attendances = @membership.attendances.sort_by{|a| a.event.occurs_at}
+    @attendances = @membership.attendances.joins(:event).order("events.occurs_at")
     @submissions = @membership.submissions.sort_by{|a| a.assignment.due_date}
     @submissions_with_notes = @submissions.select(&:grader_notes)
 
