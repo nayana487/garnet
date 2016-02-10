@@ -23,11 +23,11 @@ class Attendance < ActiveRecord::Base
     now = Time.now
     event_time = self.event.occurs_at
     if now < event_time
-      3
+      Attendance.statuses[:present]
     elsif (now - event_time) < 4.hours
-      2
+      Attendance.statuses[:tardy]
     else
-      1
+      Attendance.statuses[:absent]
     end
   end
 
