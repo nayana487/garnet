@@ -40,14 +40,12 @@ module ApplicationHelper
   end
 
   def color_of_status input
-    case input * 100
-    when 0...50
+    case input
+    when "red"
       return "status_very_bad"
-    when 50...100
-      return "status_bad"
-    when 100...150
+    when "yellow"
       return "status_mediocre"
-    when 150..200
+    when "green"
       return "status_good"
     end
   end
