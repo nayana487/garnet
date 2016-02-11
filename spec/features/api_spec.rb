@@ -10,8 +10,14 @@ RSpec.feature "api spec", :type => :feature do
   scenario "get information about a user" do
     login_user(test_instructor)
     # visit cohort show, with expanded Attendance section
-    test_instructor2.generate_api_token
+    test_instructor2.regenerate_api_token
     visit api_user_path + "?api_token=" + test_instructor2.api_token
     expect(page).to have_content("test_instructor2")
+  end
+
+  scenario "can't log in with a blank token" do
+    test_instructor.update(api_token: "")
+    visit api_user_path + "?api_token="
+    expect(page).not_to have_content("test_instructor")
   end
 end

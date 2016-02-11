@@ -38,7 +38,7 @@
 <% if @user == current_user %>
   <div class="row group">
     <section>
-      <%= form_tag generate_api_token_user_path(@user), method: "post" do  %>
+      <%= form_tag regenerate_api_token_user_path(@user), method: "post" do  %>
         <%= button_tag "Generate API Token", data: {confirm: "This will revoke all previous API tokens. Are you sure?"} %>
       <% end %>
 

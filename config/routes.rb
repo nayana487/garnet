@@ -35,7 +35,7 @@ Rails.application.routes.draw do
     member do
       get "is_registered", action: :is_registered?
       get 'gh_refresh'
-      post 'generate_api_token'
+      post 'regenerate_api_token'
     end
   end
 

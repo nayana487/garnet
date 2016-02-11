@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   validates :github_id, allow_blank: true, uniqueness: true
   validate :validates_name_if_no_github_id
 
+  has_secure_token :api_token
+
   has_many :memberships, dependent: :destroy
   has_many :cohorts, through: :memberships
 
@@ -20,7 +22,6 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :adminned_locations, -> { uniq }, class_name: "Location", foreign_key: :user_id
   has_and_belongs_to_many :adminned_courses, -> { uniq }, class_name: "Course", foreign_key: :user_id
 
-  before_create :generate_api_token
   before_save :downcase_username, :dont_update_blank_password
   after_save :accept_invite
 
@@ -122,10 +123,6 @@ class User < ActiveRecord::Base
 
   def as_json(options={})
     super.as_json(except: :password_digest)
-  end
-
-  def generate_api_token
-    update(api_token: Digest::MD5.hexdigest(self.name + Time.now.to_s))
   end
 
   private
