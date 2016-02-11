@@ -27,7 +27,7 @@ class EventsController < ApplicationController
     end
 
     if @show_na
-      @attendances = @attendances.where(status: nil)
+      @attendances = @attendances.unmarked
     end
 
     @attendances.to_a.sort_by!{|a| a.user.last_name}

@@ -9,7 +9,7 @@
       <% else %>
         <td><%= link_to_if !submission.assignment.repo_url.blank?, submission.assignment.title, submission.assignment.repo_url %></td>
       <% end %>
-      <td><%= submission.status_english %></td>
+      <td><%= submission.status %></td>
       <td><%=submission.get_percentage_score%></td>
     </tr>
   <% end %>

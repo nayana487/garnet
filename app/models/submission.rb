@@ -6,9 +6,10 @@ class Submission < ActiveRecord::Base
   has_one :user, through: :membership
   belongs_to :admin, class_name: "User"
 
-  scope :unmarked, -> { where(status: nil) }
   scope :due, -> { includes(:assignment).references(:assignment).where("assignments.due_date <= ?", DateTime.now)}
   scope :todo, -> { due.unmarked }
+
+  enum status: [:unmarked, :missing, :incomplete, :complete]
 
   def due_date
     self.assignment.due_date.strftime("%a, %m/%d/%y")
@@ -24,19 +25,6 @@ class Submission < ActiveRecord::Base
 
   def fork_url
     return self.assignment.repo_url.sub(/ga-dc/, self.user.username)
-  end
-
-  def self.statuses
-    {
-      nil => "n/a",
-      0 => "Missing",
-      1 => "Incomplete",
-      2 => "Complete"
-    }
-  end
-
-  def status_english
-    return Submission.statuses[self.status]
   end
 
   def get_percentage_score

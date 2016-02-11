@@ -1,7 +1,7 @@
-<% data = { present:     { value: membership.percent_from_status(:attendances, 2), type: :good},
-            tardy:       { value: membership.percent_from_status(:attendances, 1), type: :bad },
-            absent:      { value: membership.percent_from_status(:attendances, 0), type: :bad },
-            hw_complete: { value: membership.percent_from_status(:submissions, 2), type: :good }} %>
+<% data = { present:     { value: membership.percent_from_status(:attendances, Attendance.statuses[:present]), type: :good},
+            tardy:       { value: membership.percent_from_status(:attendances, Attendance.statuses[:tardy]), type: :bad },
+            absent:      { value: membership.percent_from_status(:attendances, Attendance.statuses[:absent]), type: :bad },
+            hw_complete: { value: membership.percent_from_status(:submissions, Submission.statuses[:complete]), type: :good }} %>
 
 <% data.each do |name, datum| %>
   <td class="<%= color_of_percent(datum[:value], datum[:type]) %>">

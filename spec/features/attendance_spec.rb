@@ -32,15 +32,15 @@ RSpec.feature 'Taking Attendance', js: true do
     expect(page).to have_css("h1", text: /^TEST EVENT/)
 
     within("[data-attendee='alice']") do
-      choose "Present"
+      choose "present"
     end
 
     within("[data-attendee='bob']") do
-      choose "Tardy"
+      choose "tardy"
     end
 
     within("[data-attendee='carol']") do
-      choose "Absent"
+      choose "absent"
     end
 
     wait_for_ajax # workaround for race conditions between choose absent and expect h1
@@ -51,15 +51,15 @@ RSpec.feature 'Taking Attendance', js: true do
 
     # Then
     within("[data-attendee='alice']") do |element|
-      expect(page).to have_checked_field("Present")
+      expect(page).to have_checked_field("present")
     end
 
     within("[data-attendee='bob']") do
-      expect(page).to have_checked_field("Tardy")
+      expect(page).to have_checked_field("tardy")
     end
 
     within("[data-attendee='carol']") do
-      expect(page).to have_checked_field("Absent")
+      expect(page).to have_checked_field("absent")
     end
   end
 end

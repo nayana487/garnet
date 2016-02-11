@@ -55,12 +55,12 @@ class Cohort < ActiveRecord::Base
       memberships.each do |membership|
         csv << [
 	  membership.name,
-	  membership.percent_from_status(:attendances, 2),
-	  membership.percent_from_status(:attendances, 1),
-	  membership.percent_from_status(:attendances, 0),
-	  membership.percent_from_status(:submissions, 2),
-	  membership.percent_from_status(:submissions, 1),
-	  membership.percent_from_status(:submissions, 0),
+	  membership.percent_from_status(:attendances, Attendance.statuses[:present]),
+	  membership.percent_from_status(:attendances, Attendance.statuses[:tardy]),
+	  membership.percent_from_status(:attendances, Attendance.statuses[:absent]),
+	  membership.percent_from_status(:submissions, Submission.statuses[:complete]),
+	  membership.percent_from_status(:submissions, Submission.statuses[:incomplete]),
+	  membership.percent_from_status(:submissions, Submission.statuses[:missing])
 	]
       end
     end
