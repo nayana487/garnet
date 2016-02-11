@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
 
     def current_user
       begin
-        if params[:api_token]
+        if params[:api_token].present?
           @current_user ||= User.find_by(api_token: params[:api_token])
         elsif session[:user_id]
           @current_user ||= User.find(session[:user_id])
