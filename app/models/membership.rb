@@ -52,7 +52,7 @@ class Membership < ActiveRecord::Base
   end
 
   def average_observations
-    average = self.observations.average(:status).round(2)
+    average = self.observations.average(:status).to_f.round(2)
     self.observations.any? ? average : nil
   end
 
