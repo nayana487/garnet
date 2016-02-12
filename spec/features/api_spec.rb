@@ -38,7 +38,6 @@ RSpec.feature "api spec", :type => :feature do
     expect(page).to have_content(@jane_membership.user.name)
     expect(page).not_to have_content(@tarzan_user_membership.user.name)
     @names = @cohort.memberships.filter_by_tag("#{@john_tag.name}|#{@john_tag1.name}")
-    binding.pry
     expect(@names.length).to eq(@names.uniq.length)
   end
 
