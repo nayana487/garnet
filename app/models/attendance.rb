@@ -7,7 +7,7 @@ class Attendance < ActiveRecord::Base
 
   scope :due, ->    { includes(:event).references(:event).where("events.occurs_at <= ?", DateTime.now)}
   scope :active, -> { includes(:membership).references(:membership).where("memberships.status <= ?", Membership.statuses[:active])}
-  scope :todo, ->   { due.unmarked }
+  scope :todo, ->   { due.unmarked.active }
   scope :self_takeable, -> {unmarked.joins(:event).where("events.occurs_at < ? AND events.occurs_at > ?", 1.hour.from_now, 4.hours.ago)}
 
   enum status: [:unmarked, :absent, :tardy, :present]

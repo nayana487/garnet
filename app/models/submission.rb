@@ -8,7 +8,7 @@ class Submission < ActiveRecord::Base
 
   scope :due, ->    { includes(:assignment).references(:assignment).where("assignments.due_date <= ?", DateTime.now)}
   scope :active, -> { includes(:membership).references(:membership).where("memberships.status <= ?", Membership.statuses[:active])}
-  scope :todo, ->   { due.unmarked }
+  scope :todo, ->   { due.unmarked.active }
 
   enum status: [:unmarked, :missing, :incomplete, :complete]
 
