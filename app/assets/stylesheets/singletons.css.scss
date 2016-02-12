@@ -10,7 +10,7 @@
 .mantra p:after{
   display:inline-block;
   content:"";
-  background-image:url("duck.png");
+  background-image:asset-url("duck.png");
   background-size:contain;
   background-repeat:no-repeat;
   width:1em;
