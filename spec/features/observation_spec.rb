@@ -13,12 +13,16 @@ RSpec.feature "observation taking process" do
 
     login_user(test_instructor)
 
+    expect(page).to have_content "You're signed in"
+
     visit membership_path(test_user.memberships.first)
     within('#new_observation') do
       # use default date time (now)
       select "red", :from => "observation[status]"
+      fill_in 'observation[body]', :with => "TEST OBSERVATION"
       submit_form # Clicks the commit button regardless of id or text
     end
-    expect(page).to have_content "You're signed in"
+
+    expect(page).to have_content("TEST OBSERVATION")
   end
 end
