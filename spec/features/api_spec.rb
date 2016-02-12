@@ -3,14 +3,15 @@ require 'rails_helper'
 RSpec.feature "api spec", :type => :feature do
   before(:all) do
     load "#{Rails.root}/db/seeds/test_seed.rb"
-    @user = User.last
-    @user_membership = @user.memberships.first
-    @cohort = @user_membership.cohort
-    @other_user_membership = @cohort.memberships.where.not(user_id: @user.id).first
-    @other_other_user_membership = @cohort.memberships.where.not(user_id: [@user.id, @other_user_membership.user.id]).first
-    @user_tag = @user_membership.tags.create(name: "hotdog")
-    @other_user_tag = @other_user_membership.tags.create(name: "hamburger")
-    @user.generate_api_token
+    @john = User.last
+    @john_membership = @john.memberships.first
+    @cohort = @john_membership.cohort
+    @jane_membership = @cohort.memberships.where.not(user_id: @john.id).first
+    @tarzan_user_membership = @cohort.memberships.where.not(user_id: [@john.id, @jane_membership.user.id]).first
+    @john_tag = @john_membership.tags.create(name: "hotdog")
+    @john_tag1 = @john_membership.tags.create(name: "hamburger")
+    @jane_tag = @jane_membership.taggings.create(tag: @john_tag)
+    @john.generate_api_token
   end
   let(:test_instructor) { User.create!(:username => 'test_instructor', :password => 'password') }
   let(:test_instructor2) { User.create!(:username => 'test_instructor2', :password => 'password') }
@@ -25,17 +26,20 @@ RSpec.feature "api spec", :type => :feature do
   end
 
   scenario "filter memberships by tag" do
-    visit api_cohort_memberships_path(@cohort, api_token: @user.api_token, tag: @other_user_tag.name)
-    expect(page).not_to have_content(@user.name)
-    expect(page).to have_content(@other_user_membership.user.name)
+    visit api_cohort_memberships_path(@cohort, api_token: @john.api_token, tag: @jane_tag.name)
+    expect(page).not_to have_content(@tarzan_user_membership.user.name)
+    expect(page).to have_content(@jane_membership.user.name)
   end
 
   scenario "filter members by multiple tags" do
-    tags = [@other_user_tag.name, @user_tag.name]
-    visit api_cohort_memberships_path(@cohort, api_token: @user.api_token, tag: "#{@other_user_tag.name}|#{@user_tag.name}")
-    expect(page).to have_content(@user.name)
-    expect(page).to have_content(@other_user_membership.user.name)
-    expect(page).not_to have_content(@other_other_user_membership.user.name)
+    tags = [@jane_tag.name, @john_tag.name]
+    visit api_cohort_memberships_path(@cohort, api_token: @john.api_token, tag: "#{@jane_tag.name}|#{@john_tag.name}")
+    expect(page).to have_content(@john.name)
+    expect(page).to have_content(@jane_membership.user.name)
+    expect(page).not_to have_content(@tarzan_user_membership.user.name)
+    @names = @cohort.memberships.filter_by_tag("#{@john_tag.name}|#{@john_tag1.name}")
+    binding.pry
+    expect(@names.length).to eq(@names.uniq.length)
   end
 
 
