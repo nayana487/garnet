@@ -48,7 +48,7 @@ class Membership < ActiveRecord::Base
     assoc = self.send(association)
     assoc = assoc.due if(association == :attendances)
     return nil if assoc.length == 0
-    ((assoc.where(status:status).length.to_f / assoc.length.to_f) * 100).round(0)
+    ((assoc.where(status:status).length.to_f / assoc.where.not(status:nil).length.to_f) * 100).round(0)
   end
 
   def average_observations
