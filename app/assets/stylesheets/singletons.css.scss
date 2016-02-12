@@ -60,7 +60,9 @@
 .github {
   background-image: image-url('GitHub-Mark-64px');
   background-repeat:  no-repeat;
-  background-position: center;
+  background-position: left 10px center;
+  background-size:contain;
+  padding-left: 56px !important;
 }
 
 

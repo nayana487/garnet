@@ -1,7 +1,7 @@
 <h2 class="pills"><%= link_to @cohort.name, @cohort %></h2>
 
 <% if @is_admin %>
-  <%= button_to "Manage Cohort", manage_cohort_path(@cohort), method: :get %>
+  <%= link_to "Manage Cohort", manage_cohort_path(@cohort), class: :button, method: :get %>
 <% end %>
 
 <section>

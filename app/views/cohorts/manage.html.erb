@@ -1,7 +1,7 @@
 <h2 class="pills"><%= link_to @cohort.name, @cohort %></h2>
 
 <h3 >Data Export</h3>
-<%= button_to "Export", cohort_path(@cohort, format: 'csv'), method: :get %>
+<%= link_to "Export", cohort_path(@cohort, format: 'csv'), class: :button, method: :get %>
 
 <h3 >Manage Memberships</h3>
 
