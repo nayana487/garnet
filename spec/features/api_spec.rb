@@ -24,8 +24,9 @@ RSpec.feature "api spec", :type => :feature do
 
   scenario "filter memberships by tag" do
     @user.generate_api_token
-    visit api_user_path + "?api_token=" + @user.api_token + "&tag=#{@other_user_tag.name}"
+    visit api_cohort_memberships_path(@cohort, api_token: @user.api_token, tag: @other_user_tag.name)
     expect(page).not_to have_content(@user.name)
+    expect(page).to have_content(@other_user_membership.user.name)
   end
 
 
