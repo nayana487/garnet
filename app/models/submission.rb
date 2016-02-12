@@ -32,7 +32,7 @@ class Submission < ActiveRecord::Base
     if self.assignment.base_score
       ((self.score.to_f / self.assignment.base_score) * 100).round.to_s + " %"
     else
-      "No Grade"
+      "N/A"
     end
   end
 
