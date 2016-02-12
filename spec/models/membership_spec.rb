@@ -11,6 +11,10 @@ RSpec.describe Membership do
     cohort.events.create!(title:"Some test event2", occurs_at: Time.now)
     @m.attendances.first.update(status:2)
     cohort.events.create!(title:"Some test event", occurs_at: Time.now + 3.hours)
+    cohort.assignments.create!(title: "Some test assignment")
+    cohort.assignments.create!(title: "Some test assignment #2")
+    @m.submissions.first.update(status: 2)
+
   end
 
   let(:ga_root_group) { Group.at_path("ga") }
@@ -47,6 +51,9 @@ RSpec.describe Membership do
   describe "percent from status" do
     it "should not include future attendances" do
       expect(@m.percent_from_status(:attendances, 2)).to eq(100)
+    end
+    it "should exclude n/a assignments" do
+      expect(@m.percent_from_status(:submissions, 2)).to eq(100)
     end
   end
 end
