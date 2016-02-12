@@ -118,14 +118,10 @@ section{
 
 
 .markdown{
-  padding:10px 0;
-  border-bottom:1px dashed #aaa;
-  margin-bottom:30px;
-
   p,
   h1,h2,h3,h4,h5,h6{
-    padding-top:0;
-    padding-bottom:0;
+    padding-top:10px;
+    padding-bottom:10px;
     border:0;
   }
   hr{
@@ -141,11 +137,13 @@ section{
 }
 
 .observation{
-  border-radius:5px;
+  padding:20px 10px;
+  border-top:1px solid #666;
 
-  .markdown &{
+  & .markdown{
     border:0;
     margin:0;
+    border-bottom:1px dotted #ddd;
   }
 }
 
