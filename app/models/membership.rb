@@ -56,4 +56,8 @@ class Membership < ActiveRecord::Base
     self.observations.any? ? average : nil
   end
 
+  def self.filter_by_tag tag
+    joins(:tags).where("tags.name = ?", tag)
+  end
+
 end

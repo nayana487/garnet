@@ -6,7 +6,7 @@ module Api
       if can? :list_cohort_members, @cohort
         @members = @cohort.memberships
         if params[:tag]
-          @members = @members.joins(:taggings).joins(:tags).where("tags.name = ?", params[:tag])
+          @members = @members.filter_by_tag(params[:tag])
         end
         @names = @members.map{|member| member.user.name}
         render json: @names, callback: params[:callback]

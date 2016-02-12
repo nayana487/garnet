@@ -9,6 +9,7 @@ RSpec.feature "api spec", :type => :feature do
     @other_user_membership = @cohort.memberships.where.not(user_id: @user.id).first
     @user_tag = @user_membership.tags.create(name: "hotdog")
     @other_user_tag = @other_user_membership.tags.create(name: "hamburger")
+    @user.generate_api_token
   end
   let(:test_instructor) { User.create!(:username => 'test_instructor', :password => 'password') }
   let(:test_instructor2) { User.create!(:username => 'test_instructor2', :password => 'password') }
@@ -23,10 +24,13 @@ RSpec.feature "api spec", :type => :feature do
   end
 
   scenario "filter memberships by tag" do
-    @user.generate_api_token
     visit api_cohort_memberships_path(@cohort, api_token: @user.api_token, tag: @other_user_tag.name)
     expect(page).not_to have_content(@user.name)
     expect(page).to have_content(@other_user_membership.user.name)
+  end
+
+  scenario "filter members by multiple tags" do
+    
   end
 
 
