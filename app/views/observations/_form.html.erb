@@ -5,7 +5,7 @@
   <% else %>
     <%= f.association :membership, as: :select, collection: user.memberships.map{|m| [m.cohort.name, m.id]} %>
   <% end %>
-  <%= f.select :status, Observation.statuses %>
+  <%= f.select :status, Observation.statuses.keys  %>
   <%= f.text_area :body, placeholder: "Write your observation." %>
   <%= f.submit "Submit new observation" %>
 <% end %>

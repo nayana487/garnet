@@ -1,9 +1,7 @@
 class ObservationsController < ApplicationController
 
   def create
-    parameters = observation_params
-    parameters[:status] = parameters[:status].to_i
-    observation = current_user.admin_observations.new(parameters)
+    observation = current_user.admin_observations.new(observation_params)
     if observation.save
       redirect_to observation.membership
     else
