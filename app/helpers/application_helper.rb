@@ -89,9 +89,9 @@ module ApplicationHelper
 
   def status_button record, status
     output = ""
-    id = "a#{record.id}_#{status}"
+    id = "#{dom_id(record)}_#{status}"
     checked = "checked" if record.status == status
-    output += "<input type='radio' name='a#{record.id}' id='#{id}' value='#{status}' #{checked} data-record-url='#{url_for record}' data-record-attribute='status' />"
+    output += "<input type='radio' name='#{dom_id(record)}' id='#{id}' value='#{status}' #{checked} data-record-url='#{url_for record}' data-record-attribute='status' />"
     output += "<label for='#{id}' class='status'>#{status}</label>"
     return output.html_safe
   end

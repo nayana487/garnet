@@ -6,8 +6,9 @@ class Submission < ActiveRecord::Base
   has_one :user, through: :membership
   belongs_to :admin, class_name: "User"
 
-  scope :due, -> { includes(:assignment).references(:assignment).where("assignments.due_date <= ?", DateTime.now)}
-  scope :todo, -> { due.unmarked }
+  scope :due, ->    { includes(:assignment).references(:assignment).where("assignments.due_date <= ?", DateTime.now)}
+  scope :active, -> { includes(:membership).references(:membership).where("memberships.status <= ?", Membership.statuses[:active])}
+  scope :todo, ->   { due.unmarked }
 
   enum status: [:unmarked, :missing, :incomplete, :complete]
 
