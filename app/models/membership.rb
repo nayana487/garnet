@@ -45,10 +45,13 @@ class Membership < ActiveRecord::Base
   end
 
   def percent_from_status( association, status)
-    assoc = self.send(association)
-    assoc = assoc.due if(association == :attendances)
-    return nil if assoc.length == 0
-    ((assoc.where(status:status).length.to_f / assoc.where.not(status: assoc.statuses[:unmarked]).length.to_f) * 100).round(0)
+    assoc = self.send(association).due
+
+    marked_by_status = assoc.where(status:status).length
+    total_marked     = assoc.where.not(status: assoc.statuses[:unmarked]).length
+
+    return nil if total_marked == 0
+    ((marked_by_status.to_f / total_marked.to_f) * 100).round(0)
   end
 
   def average_observations
