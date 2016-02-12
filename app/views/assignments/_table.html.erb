@@ -6,7 +6,7 @@
     <th>Total</th>
   </tr>
   <% assignments.each do |assignment| %>
-    <% submissions = assignment.submissions %>
+    <% submissions = assignment.submissions.active %>
     <tr>
       <td><%= link_to_if @is_admin, assignment.title, assignment_path(assignment, cohort: assignment.cohort) %></td>
       <td><%= assignment.due_date_s %></td>
