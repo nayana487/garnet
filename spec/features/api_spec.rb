@@ -7,6 +7,7 @@ RSpec.feature "api spec", :type => :feature do
     @user_membership = @user.memberships.first
     @cohort = @user_membership.cohort
     @other_user_membership = @cohort.memberships.where.not(user_id: @user.id).first
+    @other_other_user_membership = @cohort.memberships.where.not(user_id: [@user.id, @other_user_membership.user.id]).first
     @user_tag = @user_membership.tags.create(name: "hotdog")
     @other_user_tag = @other_user_membership.tags.create(name: "hamburger")
     @user.generate_api_token
@@ -30,7 +31,11 @@ RSpec.feature "api spec", :type => :feature do
   end
 
   scenario "filter members by multiple tags" do
-    
+    tags = [@other_user_tag.name, @user_tag.name]
+    visit api_cohort_memberships_path(@cohort, api_token: @user.api_token, tag: "#{@other_user_tag.name}|#{@user_tag.name}")
+    expect(page).to have_content(@user.name)
+    expect(page).to have_content(@other_user_membership.user.name)
+    expect(page).not_to have_content(@other_other_user_membership.user.name)
   end
 
 

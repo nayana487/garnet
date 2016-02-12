@@ -57,7 +57,8 @@ class Membership < ActiveRecord::Base
   end
 
   def self.filter_by_tag tag
-    joins(:tags).where("tags.name = ?", tag)
+    tags = URI.decode(tag).split("|")
+    joins(:tags).where("tags.name IN (?)", tags)
   end
 
 end
