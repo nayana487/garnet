@@ -3,6 +3,10 @@
   <h2 class='membership'><%= link_to @user.name, @user %> in <%= link_to @membership.cohort.name, @membership.cohort %></h2>
 </div>
 
+<% if can? :manage, @membership.cohort %>
+  <%= tag_list @membership %>
+<% end %>
+
 <% if @is_current_user  %>
   <% @current_attendances.each do |attendance| %>
     <%= form_tag self_take_attendance_path(attendance), method: :put do  %>
