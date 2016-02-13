@@ -8,8 +8,7 @@ module Api
         if params[:tag]
           @members = @members.filter_by_tag(params[:tag])
         end
-        @names = @members.map{|member| member.user.name}
-        render json: @names, callback: params[:callback]
+        render json: @members, callback: params[:callback]
       else
         return render json: {error: "Not Authorized"}, callback: params[:callback]
       end

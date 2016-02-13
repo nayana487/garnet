@@ -64,4 +64,10 @@ class Membership < ActiveRecord::Base
     joins(:tags).where("tags.name IN (?)", tags).uniq
   end
 
+  def as_json(options={})
+    super.as_json(options).merge({
+      name: self.user.name
+    })
+  end
+
 end
