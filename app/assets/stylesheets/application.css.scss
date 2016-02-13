@@ -12,17 +12,17 @@
  *
  *= require select2
  *= require jquery-ui
- *= require_tree .
- *= require_self
  *= require font-awesome
+ *= require_self
+ *= require dependencies
+ *= require theme
+ *= require singletons
  */
 
 *{
    margin:0;
    padding:0;
    border:0;
-   border-collapse:collapse;
-   border-spacing:0;
    font-size:inherit;
    font-style:inherit;
    font-weight:inherit;

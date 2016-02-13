@@ -7,17 +7,41 @@ $ga-red-dark: #be0201;
 $ga-yellow: #fbd334;
 $ga-yellow-light: #fdeba3;
 $ga-yellow-dark: #f49102;
-$button-shadow-size: 0 3px 0 0;
+$mobile: "(max-width:600px)";
+@mixin invisible{
+  display:block;
+  overflow:hidden;
+  position:absolute;
+  padding:0;
+  margin:0;
+  width:1px;
+  height:1px;
+  opacity:0.01;
+}
 
 html{
   font-family: $font-body;
   font-size:14px;
   background: #f6f6f6;
+  width:100%;
+  overflow-x:hidden;
+  overflow-y:scroll;
 }
 body{
   color:#444;
 }
 
+
+body{
+  display:flex;
+  flex-direction:column;
+  align-content:stretch;
+  justify-content:space-between;
+  min-height:100vh;
+}
+main{
+  flex-grow:2;
+}
 
 h1{
   color: $ga-red;
@@ -42,6 +66,10 @@ h4{
 }
 h5{
   text-decoration:underline;
+}
+a{
+  main &{ color:#369; }
+  main &:hover{ color:black; }
 }
 p{
   padding:10px 0;
@@ -96,6 +124,7 @@ header{
 }
 main{
   padding:0 10px;
+  margin-top:10px;
   box-sizing:border-box;
 }
 footer{
@@ -104,17 +133,6 @@ footer{
   color:#ccc;
   padding:10px 0;
   margin-top:50px;
-}
-
-
-main{
-  margin-top:10px;
-  a{
-    color:#369;
-  }
-  a:hover{
-    color:black;
-  }
 }
 section{
   margin:10px auto;
@@ -151,6 +169,14 @@ section{
   }
 }
 
+.status{
+  @media #{$mobile}{
+    font-size:0;
+    &:first-letter{
+      font-size:1rem;
+    }
+  }
+}
 .status_very_bad{
   background-color: #fee;
 }
@@ -177,72 +203,50 @@ section{
   background-color:#adf;
 }
 
-.button-size{
+$button-colors: (
+  null              : (#444, rgba(0,0,0,0.05), #a2a2a2),
+  ":hover"          : (#444, rgba(0,0,0,0.1), #a2a2a2),
+  ".important"      : (#444, $ga-yellow-light, $ga-yellow),
+  ".important:hover": (#444, $ga-yellow, $ga-yellow-dark),
+  ".danger"         : (#fff, $ga-red, $ga-red-dark),
+  ".danger:hover"   : (#fff, $ga-red-med, $ga-red-dark)
+);
+button, .button,
+input[type=radio]+label,
+input[type=checkbox]+label,
+input[type=submit],
+.pills a{
   display:inline-block;
   font-family:$font-sans;
   border-radius:3px;
   padding:10px 20px;
   margin:10px 10px 10px 0;
   transition: background-color 0.2s, box-shadow 0.2s;
-}
-.button-color-important{
-  color:#444;
-  background-color:$ga-yellow-light;
-  box-shadow: $button-shadow-size $ga-yellow;
-}
-.button-color-important-active{
-  color:#444;
-  background-color: $ga-yellow;
-  box-shadow: $button-shadow-size $ga-yellow-dark;
-}
-.button-color-normal{
-  color:#444;
-  background-color:rgba(0,0,0,0.05);
-  box-shadow: $button-shadow-size #a2a2a2;
-}
-.button-color-normal-active{
-  color:#444;
-  background-color:rgba(0,0,0,0.1);
-  box-shadow: $button-shadow-size #a2a2a2;
-}
-.button-color-danger{
-  color:#fff;
-  background-color:$ga-red;
-  box-shadow: $button-shadow-size $ga-red-dark;
-}
-.button-color-danger-active{
-  color:#fff;
-  background-color: $ga-red-med;
-  box-shadow: $button-shadow-size $ga-red-dark;
+  @each $state, $colors in $button-colors{
+    &#{$state}{
+      color: nth($colors, 1);
+      background-color: nth($colors, 2);
+      box-shadow: 0 3px 0 0 nth($colors, 3);
+    }
+  }
 }
 
-button, .button{
-  @extend .button-size;
-  @extend .button-color-normal;
-  &:hover{ @extend .button-color-normal-active; }
-}
 input[type=radio],
 input[type=checkbox]{
+  @include invisible;
   &+label{
-    display:inline-block;
     text-decoration:none;
-    @extend .button-size;
-    @extend .button-color-normal;
   }
   &+label:after{
     content:"?";
   }
   &:checked+label{
-    @extend .button-color-important;
+    @extend .button.important;
     &:after{ content:"!"; }
-  }
-  &:checked+label:hover{
-    @extend .button-color-important-active;
   }
 }
 .pills a{
-  @extend .button-size;
-  @extend .button-color-important-active;
+  @extend .button.important;
 }
 h2.pills a{
   font-family:$font-logo;
@@ -254,25 +258,10 @@ label{
   text-decoration:underline;
 }
 input[type=submit]{
-  display:block;
-  @extend .button-size;
-  @extend .button-color-important;
-  &:hover{ @extend .button-color-important-active; }
+  @extend .button.important;
 }
 a.button[data-method=delete]{
-  @extend .button-color-danger;
-  &:hover{ @extend .button-color-danger-active; }
-}
-input[type=radio],
-input[type=checkbox]{
-  display:block;
-  overflow:hidden;
-  position:absolute;
-  padding:0;
-  margin:0;
-  width:1px;
-  height:1px;
-  opacity:0.01;
+  @extend .button.danger;
 }
 
 textarea,
@@ -298,9 +287,6 @@ select,
 input[type=text],
 input[type=password]{
   padding:10px;
-  table &{
-    padding:5px 10px;
-  }
 }
 textarea{
   padding:10px;
@@ -309,9 +295,11 @@ select{
   height:38px;
 }
 .date select{
+  display:inline-block;
+  width:auto;
   border:0;
+  margin:0;
 }
-.date select,
 input[type=search]{
   display:inline-block;
   width:auto;
@@ -321,13 +309,20 @@ input[type=search]{
   border-radius:3px;
 }
 
-textarea.waiting,
-:not(textarea).waiting:after,
+.waiting,
 .waiting+label:after{
-  display:inline-block;
   content:"..." !important;
   animation: waiting 0.5s linear alternate infinite;
 }
+@keyframes waiting{
+  from {
+    opacity:0;
+  }
+  to {
+    opacity:1;
+  }
+}
+
 
 .js-tag{
   cursor:pointer;
@@ -340,15 +335,16 @@ textarea.waiting,
 }
 
 table{
-  width:100%;
+  position:relative;
+  border-spacing:0;
+  border-collapse:collapse;
   margin-bottom:10px;
   text-align:left;
   border-bottom:1px solid #ccc;
   clear:both;
-
-  th{
-    background-color:#eee;
-  }
+  left:-10px;
+  width:100vw;
+  border-right:20px solid transparent;
   tr{
     &:nth-child(odd){
       background-color:#fff;
@@ -361,15 +357,19 @@ table{
       text-align:right;
     }
   }
+  thead,
+  th{
+    background-color:#eee;
+  }
   th, td{
     padding:5px;
+    &:nth-child(1){
+      padding-left:10px;
+    }
     #submissions &{
      max-width: 8em;
      text-overflow: ellipsis;
      overflow: hidden;
-    }
-    &.form{
-      padding-left:0;
     }
     &:empty:after{
       content:"...";
@@ -377,6 +377,23 @@ table{
       display:block;
       height:18px;
     }
+    @media #{$mobile}{
+      max-width:50px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+  }
+  input[type=text]{
+    padding:5px 10px;
+    @media #{$mobile}{
+      padding:5px 2px;
+      text-align:center;
+    }
+  }
+  input[type="checkbox"]+label,
+  input[type="radio"]+label{
+    margin:0;
+    padding:10px;
   }
 }
 
@@ -409,11 +426,20 @@ table{
 }
 
 
-@keyframes waiting{
-  from {
-    opacity:0;
+.fold{
+  &:after{
+    display:inline-block;
+    transition:transform 0.2s;
+    transform:rotateZ(0deg);
+    content:"\025B8";
   }
-  to {
-    opacity:1;
+  &~div{
+    display:none;
+  }
+  &:target:after{
+    transform:rotateZ(90deg);
+  }
+  &:target~div{
+    display:block;
   }
 }
