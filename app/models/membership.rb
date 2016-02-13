@@ -50,7 +50,7 @@ class Membership < ActiveRecord::Base
     marked_by_status = assoc.where(status:status).length
     total_marked     = assoc.where.not(status: assoc.statuses[:unmarked]).length
 
-    ## return nil if total_marked == 0
+    return nil if total_marked == 0
     ((marked_by_status.to_f / total_marked.to_f) * 100).round(0)
   end
 
