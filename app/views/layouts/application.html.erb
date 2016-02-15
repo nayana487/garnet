@@ -8,18 +8,20 @@
   <%= favicon_link_tag 'favicon.png' %>
 </head>
 <body>
-  <header>
-    <h1><%= link_to root_path do %><span>GA</span>RNET<% end %></h1>
-    <nav>
+  <nav class="site-wide">
+    <header>
+      <h1><%= link_to root_path do %><span>GA</span>RNET<% end %></h1>
+    </header>
+    <ul>
       <% if signed_in? %>
-      <%= link_to current_user.username, user_path(current_user) %>
-      <%= link_to "sign out", sign_out_path %>
+      <li><%= link_to current_user.username, user_path(current_user) %></li>
+      <li><%= link_to "sign out", sign_out_path %></li>
       <% else %>
-      <%= link_to "sign up", new_user_path %>
-      <%= link_to "sign in", sign_in_path %>
+      <li><%= link_to "sign up", new_user_path %></li>
+      <li><%= link_to "sign in", sign_in_path %></li>
       <% end %>
-    </nav>
-  </header>
+    </ul>
+  </nav>
   <main>
     <% if flash.count > 0 %>
       <section class="errareHumanumEst">
