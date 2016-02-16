@@ -49,6 +49,10 @@ class Cohort < ActiveRecord::Base
     self.memberships.create!(user: user, is_admin: is_admin)
   end
 
+  def tags
+    self.memberships.map { |m| m.tags }.flatten.uniq
+  end
+
   def self.to_csv(memberships)
     CSV.generate({}) do |csv|
       csv << ["User Name", "Percent Present", "Percent Tardy", "Percent Absent", "Percent HW Complete", "Percent HW Incomplete","Percent HW Missing"]

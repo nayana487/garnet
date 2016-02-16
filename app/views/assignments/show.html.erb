@@ -13,6 +13,17 @@
 <% status_link_text = @show_na ? "Show All" : "Show only N/A" %>
 <% active_link_text = @show_inactive ? "Show only active students" : "Include inactive students" %>
 
+<div>
+  Issues by tag:
+  <ul>
+  <% @assignment.cohort.tags.each do |tag| %>
+    <li>
+      <a href="<%= @assignment.issues_url(tag.memberships.map{|m| m.user }) %>"><%= tag.name %></a>
+    </li>
+  <% end %>
+  </ul>
+</div>
+
 <p>
 <%= link_to status_link_text, assignment_path(@assignment, cohort: @cohort, show_na: !@show_na, show_inactive: @show_inactive) %>
 </p>
