@@ -25,7 +25,7 @@ class Submission < ActiveRecord::Base
   end
 
   def fork_url
-    return self.assignment.repo_url.sub(/ga-dc/, self.user.username)
+    return self.assignment.repo_url.sub(/(?<=github\.com\/)[\w-]+/, self.user.username)
   end
 
   def get_percentage_score
