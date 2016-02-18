@@ -6,6 +6,10 @@ class Assignment < ActiveRecord::Base
 
   after_create :create_submissions
   after_initialize :set_defaults
+  after_update do
+    # Trigger recalculating of averages
+    self.submissions.each{ |s| s.save }
+  end
 
   attr_accessor :issues
 

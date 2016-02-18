@@ -7,4 +7,8 @@ class Observation < ActiveRecord::Base
 
   enum status: [:red, :yellow, :green]
 
+  after_save do
+    self.membership.update_average_observations
+  end
+
 end
