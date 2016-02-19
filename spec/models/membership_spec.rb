@@ -54,5 +54,9 @@ RSpec.describe Membership do
     it "should exclude n/a assignments" do
       expect(@m.percent_from_status(:submissions, Submission.statuses[:complete])).to eq(100)
     end
+    it "should not throw when divisor is 0" do
+      @m.submissions.destroy_all
+      expect(@m.percent_from_status(:submissions, Submission.statuses[:complete])).to eq(nil)
+    end
   end
 end
