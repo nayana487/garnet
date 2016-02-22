@@ -24,7 +24,7 @@
 <table id='submissions'>
   <% @submissions.each do |submission| %>
     <tr id="<%= submission.id %>" class='submission'>
-      <td><%= link_to submission.user.name, user_path(submission.user) %></td>
+      <td><%= link_to submission.user.name, membership_path(submission.membership) %></td>
       <td><%= link_to submission.user.username, submission.fork_url %></td>
       <td>
         <% if @assignment.repo_url && !@assignment.repo_url.strip.blank? %>
