@@ -1,16 +1,21 @@
 class Mantra
   @@all = []
+  cattr_accessor :last_updated
 
   def self.reload
     begin
-      @@all = JSON.parse(File.read(Rails.root + "public/mantras.json"))
+      raw =  HTTParty.get("https://raw.githubusercontent.com/ga-wdi-lessons/wdi-mantras/master/readme.md")
+      @@all = raw.gsub(/^-\s*/, "").split(/[\n\r]/)
+      @@last_updated = Time.now
     rescue
       @@all = ["Is your blue elephant running?"];
     end
   end
 
   def self.all
-    Mantra.reload if @@all.empty?
+    if @@all.empty? || (Time.now - 1.hour > @@last_updated)
+      Mantra.reload
+    end
     return @@all
   end
 end
