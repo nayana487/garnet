@@ -14,6 +14,7 @@ gem 'coderay'
 gem 'coffee-rails', '~> 4.1.0' # Use CoffeeScript for .coffee assets and views
 gem 'figaro'
 gem 'font-awesome-rails'
+gem 'has_secure_token'
 gem 'httparty'
 gem 'jbuilder', '~> 2.0' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jquery-rails' # Use jquery as the JavaScript library

@@ -87,8 +87,8 @@ class UsersController < ApplicationController
     redirect_to user_path(@user)
   end
 
-  def generate_api_token
-    current_user.generate_api_token
+  def regenerate_api_token
+    current_user.regenerate_api_token
     redirect_to :back
   end
 
