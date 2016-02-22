@@ -18,13 +18,15 @@ class SessionsController < ApplicationController
       @user = current_user
     elsif params[:username]
       if !User.exists?(username: params[:username])
-        raise "That user doesn't seem to exist!"
+        flash[:notice] = "That user doesn't seem to exist!"
+        return redirect_to root_path
       else
         @user = User.find_by(username: params[:username])
         if @user.github_id
           return gh_authorize
         elsif !@user.password_ok?(params[:password])
-          raise "Something went wrong! Is your password right?"
+          flash[:notice] = "Something went wrong! Is your password right?"
+          return redirect_to root_path
         end
       end
     end

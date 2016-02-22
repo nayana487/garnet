@@ -6,8 +6,9 @@ class Submission < ActiveRecord::Base
   has_one :user, through: :membership
   belongs_to :admin, class_name: "User"
 
-  scope :due, -> { includes(:assignment).references(:assignment).where("assignments.due_date <= ?", DateTime.now)}
-  scope :todo, -> { due.unmarked }
+  scope :due, ->    { includes(:assignment).references(:assignment).where("assignments.due_date <= ?", DateTime.now)}
+  scope :active, -> { includes(:membership).references(:membership).where("memberships.status <= ?", Membership.statuses[:active])}
+  scope :todo, ->   { due.unmarked.active }
 
   enum status: [:unmarked, :missing, :incomplete, :complete]
 
@@ -24,14 +25,14 @@ class Submission < ActiveRecord::Base
   end
 
   def fork_url
-    return self.assignment.repo_url.sub(/ga-dc/, self.user.username)
+    return self.assignment.repo_url.sub(/(?<=github\.com\/)[\w-]+/, self.user.username)
   end
 
   def get_percentage_score
     if self.assignment.base_score
       ((self.score.to_f / self.assignment.base_score) * 100).round.to_s + " %"
     else
-      "No Grade"
+      "N/A"
     end
   end
 

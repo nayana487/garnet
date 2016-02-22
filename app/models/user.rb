@@ -122,7 +122,8 @@ class User < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super.as_json(except: :password_digest)
+    options.reverse_merge! except: [:password_digest, :api_token]
+    super.as_json(except: options)
   end
 
   private

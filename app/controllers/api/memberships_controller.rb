@@ -4,13 +4,15 @@ module Api
     def index
       @cohort = Cohort.find(params[:cohort_id])
       if can? :list_cohort_members, @cohort
-        @names = @cohort.memberships.map do |member|
-          member.user.name
+        @members = @cohort.memberships
+        if params[:tag]
+          @members = @members.filter_by_tag(params[:tag])
         end
-        render json: @names, callback: params[:callback]
+        render json: @members, callback: params[:callback]
       else
         return render json: {error: "Not Authorized"}, callback: params[:callback]
       end
     end
+
   end
 end
