@@ -24,7 +24,9 @@ class AssignmentsController < ApplicationController
     if @show_na
       @submissions = @submissions.unmarked
     end
-    @submissions.to_a.sort_by!{|s| s.user.last_name}
+
+    # major DRYness needed
+    @submissions.to_a.sort_by!{|s| s.user.first_name}
   end
 
   def create

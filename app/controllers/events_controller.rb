@@ -30,7 +30,8 @@ class EventsController < ApplicationController
       @attendances = @attendances.unmarked
     end
 
-    @attendances.to_a.sort_by!{|a| a.user.last_name}
+    # seems like we can DRY this action up
+    @attendances.to_a.sort_by!{|a| a.user.first_name}
   end
 
   def update
