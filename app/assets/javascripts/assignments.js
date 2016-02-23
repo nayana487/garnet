@@ -31,8 +31,8 @@ function loadIssues(url, callback){
 
   function parseIssue(issue){
     var userID, state;
-    userID = issue[8][1][1][1];
-    state = issue[10][1];
+    userID = issue[9][1][1][1];
+    state = issue[11][1];
     if(!summaries[userID]) summaries[userID] = {}
     if(!summaries[userID][state]) summaries[userID][state] = 0;
     summaries[userID][state]++
