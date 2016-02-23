@@ -50,7 +50,7 @@ class SessionsController < ApplicationController
     @gh_user = User.find_by(github_id: gh_user_info[:github_id])
     if @gh_user
       if signed_in? && @gh_user.id != current_user.id
-        raise "The username #{gh_user_info[:username]} is taken!"
+        flash[:notice] = "The username #{gh_user_info[:username]} is taken!"
       end
     else
       @gh_user = User.new

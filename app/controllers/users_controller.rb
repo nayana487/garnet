@@ -9,7 +9,7 @@ class UsersController < ApplicationController
       if User.exists?(username: params[:user])
         @user = User.find_by(username: params[:user])
       else
-        raise "User #{params[:user]} not found!"
+        flash[:notice] = "User #{params[:user]} not found!"
       end
     elsif signed_in?
       @user = current_user
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
 
   def update
     if params[:form_user][:password_confirmation] != params[:form_user][:password]
-      raise "Your passwords don't match!"
+      flash[:notice] = "Your passwords don't match!"
     else
       @user = current_user
       if @user && @user.update!(user_params)
@@ -65,13 +65,14 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     @user.invite_code = session[:invite_code]
     if params[:password_confirmation] != params[:password]
-      raise "Your passwords don't match!"
+      flash[:notice] = "Your passwords don't match!"
     elsif @user.save!
       flash[:notice] = "You've signed up!"
       set_current_user @user
       redirect_to @user
     else
-      raise "Your account couldn't be created. Did you enter a unique username and password?"
+      flash[:notice] = "Your account couldn't be created. Did you enter a unique username and password?"
+      redirect_to sign_in_path
     end
   end
 
