@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   end
 
   scope :mantras do
+    get "/",        to: "mantras#index"
+    get "/random",  to: "mantras#random"
     get "/refresh", to: "mantras#refresh"
   end
 

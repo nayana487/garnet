@@ -3,7 +3,15 @@ class MantrasController < ApplicationController
 
   def refresh
     Mantra.reload
-    redirect_to :root
+    index
+  end
+
+  def random
+    render json: {success: true, message: Mantra.all.sample}
+  end
+
+  def index
+    render json: Mantra.all
   end
 
 end
