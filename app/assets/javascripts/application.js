@@ -60,3 +60,24 @@ new KonamiListener(window, function(){
   document.querySelector("h1").style.color = "green";
   document.querySelector("h1 a").innerHTML = "<span>GA</span>rnett: Anything is possible";
 });
+
+$("[data-autosave] input, [data-autosave] textarea, [data-autosave] select").on("change", autoSave);
+
+function autoSave(evt){
+  evt.preventDefault();
+  var trigger = $(this);
+  var form    = trigger.closest("form");
+  var data    = form.serializeArray();
+  var url     = form.attr("action");
+  trigger.addClass("waiting");
+  $.ajax({
+    url:      url,
+    type:     "post",
+    dataType: "json",
+    data:     data
+  }).fail(function(response){
+    console.log("That didn't work.");
+  }).always(function(response){
+    trigger.removeClass("waiting");
+  });
+}
