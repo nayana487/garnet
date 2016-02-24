@@ -39,6 +39,10 @@
  a[href], button, label, input[type=submit], label{
    cursor:pointer;
  }
- *[title]{
-   cursor:help;
+ .fa{
+   font-size:0;
+ }
+ .fa:before{
+   font-size:1rem;
+   padding-right:5px;
  }

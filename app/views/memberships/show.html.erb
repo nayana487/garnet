@@ -43,19 +43,12 @@
   <section>
     <h3 class="fold" id="submissions"><a href="#submissions"><%= @user.first_name %>'s Homework Submissions</a></h3>
     <p>Percent Complete: <%= percent_of(@submissions, "complete") %>%</p>
-    <div>
-      <%= render partial: "submissions/table", locals: {submissions: @submissions} %>
-    </div>
-
-    <section>
-      <h4>Instructor Notes on Submissions</h4>
-      <% @submissions_with_notes.each do |submission| %>
-        <section>
-          <h5><%= submission.assignment.title %></h5>
-          <%= markdown(submission.grader_notes) %>
-        </section>
+    <table>
+      <%= render partial: "submissions/thead", locals: {submissions: @submissions} %>
+      <% @submissions.each do |submission| %>
+        <%= render partial: "submissions/tr", locals: {submission: submission } %>
       <% end %>
-    </section>
+    </table>
   </section>
 <% end %>
 

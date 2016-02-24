@@ -9,7 +9,7 @@ class SubmissionsController < ApplicationController
 
   def update
     @submission = Submission.find(params[:id])
-    @submission.update!(submission_params(request.format))
+    @submission.update!(submission_params)
     respond_to do |format|
       format.json { render json: @submission }
       format.html { redirect_to assignment_path(@submission.assignment, anchor: @submission.id) }
@@ -24,8 +24,7 @@ class SubmissionsController < ApplicationController
   end
 
   private
-  def submission_params format = :html
-    params[:submission] = params if format == :json
+  def submission_params
     params.require(:submission).permit(:status, :grader_notes, :score)
   end
 

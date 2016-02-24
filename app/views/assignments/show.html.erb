@@ -8,7 +8,6 @@
 <% if @assignment.repo_url && !@assignment.repo_url.strip.blank? %>
   <button class="js-count-assignment-issues" data-issues-url="<%= assignment_issues_path(@assignment) %>">Count issues</button>
 <% end %>
-  <button class="js-toggle-notes">Hide Notes</button>
 
 <% status_link_text = @show_na ? "Show All" : "Show only N/A" %>
 <% active_link_text = @show_inactive ? "Show only active students" : "Include inactive students" %>
@@ -32,31 +31,10 @@
 <%= link_to active_link_text, assignment_path(@assignment, cohort: @cohort, show_na: @show_na,  show_inactive: !@show_inactive) %>
 </p>
 
-<table id='submissions'>
+<table>
+  <%= render partial: "submissions/thead", locals: {submissions: @submissions} %>
   <% @submissions.each do |submission| %>
-    <tr id="<%= submission.id %>" class='submission'>
-      <td><%= link_to submission.user.name, membership_path(submission.membership) %></td>
-      <td><%= link_to submission.user.username, submission.fork_url %></td>
-      <td>
-        <% if @assignment.repo_url && !@assignment.repo_url.strip.blank? %>
-          <a href="<%= submission.issues_url %>" target="_blank" data-gh-issues="<%= submission.user.github_id %>">Issues</a>
-        <% end %>
-      </td>
-      <% Submission.statuses.keys.each do |status| %>
-        <td><%= status_button(submission, status) %></td>
-      <% end %>
-      <td><form class="js-score-update-form"><input class="submission-score" submission-id="<%=submission.id%>" type="text" value="<%=submission.score%>"></form></td>
-      <td><%= link_to "x", submission, method: :delete, data: {confirm: "Delete the submission for #{submission.user.name}?"} %></td>
-    </tr>
-    <tr class="submission-note">
-      <td colspan="8" class="form">
-        <%= form_for submission do |f| %>
-          <%= f.text_area :grader_notes, spellcheck: false, placeholder: "Notes" %>
-          <%= f.submit "Save notes", class: "secondary" %>
-          <div><%= markdown(submission.grader_notes) %></div>
-        <% end %>
-      </td>
-    </tr>
+    <%= render partial: "submissions/tr", locals: {submission: submission } %>
   <% end %>
 </table>
 
