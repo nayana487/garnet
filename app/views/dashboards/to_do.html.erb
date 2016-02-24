@@ -10,20 +10,14 @@
     <section>
       <h4>Submissions</h4>
       <table>
-        <%= render partial: "submissions/thead", locals: {submissions: items[:submissions]} %>
-        <% items[:submissions].each do |submission| %>
-          <%= render partial: "submissions/tr", locals: {submission: submission} %>
-        <% end %>
+        <%= render partial: "components/todo_table", locals: {collection: items[:submissions]} %>
       </table>
     </section>
 
     <section>
       <h4>Attendance</h4>
       <table>
-        <%= render partial: "attendances/thead", locals: {attendances: items[:attendances]} %>
-        <% items[:attendances].each do |attendance| %>
-          <%= render partial: "attendances/tr", locals: {attendance: attendance} %>
-        <% end %>
+        <%= render partial: "components/todo_table", locals: {collection: items[:attendances]} %>
       </table>
     </section>
 

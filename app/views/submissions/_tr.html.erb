@@ -18,21 +18,6 @@
   <td>
     <% if admin %>
       <%= form_for submission, html:{id: nil}, data:{autosave: true} do |f| %>
-        <div class="buttons">
-          <% Submission.statuses.keys.each do |status| %>
-            <% id = "#{submission.id}-status-#{status}" %>
-            <%= f.radio_button :status, status, id: id %>
-            <%= f.label :status, status, for: id %>
-          <% end %>
-        </div>
-      <% end %>
-    <% else %>
-      <%= submission.status %>
-    <% end %>
-  </td>
-  <td>
-    <% if admin %>
-      <%= form_for submission, html:{id: nil}, data:{autosave: true} do |f| %>
         <%= f.text_field :score, class: "sm", id: nil %><%= out_of_score %>
       <% end %>
     <% else %>
@@ -41,9 +26,14 @@
   </td>
   <td>
     <% if admin %>
-      <%= link_to "Delete", submission, method: :delete, class: "fa fa-close", data: {
-        confirm: "Delete the submission for #{user.name}?"
-      } %>
+      <%= render partial: "components/status_buttons", locals: {record: submission} %>
+    <% else %>
+      <%= submission.status %>
+    <% end %>
+  </td>
+  <td>
+    <% if admin %>
+      <%= render partial: "components/delete_button", locals: {record: submission} %>
     <% end %>
   </td>
 </tr>

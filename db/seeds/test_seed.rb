@@ -2,8 +2,8 @@ load "#{Rails.root}/db/seeds/common.rb"
 # ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 test_user = FactoryGirl.create(:user, username: "TestWDIDCStudent", github_id: 13137527)
-jane      = FactoryGirl.create(:user, username: "jane"  , password: "foo")
-john      = FactoryGirl.create(:user, username: "john"  , password: "foo")
+jane      = FactoryGirl.create(:user, username: "jane"  , password: "foo", name: "Jane")
+john      = FactoryGirl.create(:user, username: "john"  , password: "foo", name: "John")
 alice     = FactoryGirl.create(:user, username: "alice" , password: "foo")
 bob       = FactoryGirl.create(:user, username: "bob"   , password: "foo")
 carol     = FactoryGirl.create(:user, username: "carol" , password: "foo")

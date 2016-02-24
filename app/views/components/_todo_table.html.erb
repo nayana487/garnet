@@ -1,0 +1,9 @@
+<% class_name   = collection.model_name %>
+<%= render partial: "#{class_name.plural}/thead" %>
+<% collection.each do |record| %>
+  <%= render partial: "#{class_name.plural}/tr", locals: {
+    :"#{class_name.singular}"   => record,
+    :user                       => record.user,
+    :admin                      => (can? :manage, record)
+  } %>
+<% end %>

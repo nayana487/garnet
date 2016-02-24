@@ -1,6 +1,4 @@
-<% user  = attendance.user %>
 <% event = attendance.event %>
-<% admin = (can? :manage, attendance) %>
 <tr>
   <td>
     <%= link_to "#{user.first_name} #{user.last_name[0]}.", membership_path(attendance.membership) %>
@@ -16,24 +14,14 @@
   </td>
   <td>
     <% if admin %>
-      <%= form_for attendance, html:{id: nil}, data:{autosave: true} do |f| %>
-        <div class="buttons">
-          <% Attendance.statuses.keys.each do |status| %>
-            <% id = "#{attendance.id}-status-#{status}" %>
-            <%= f.radio_button :status, status, id: id %>
-            <%= f.label :status, status, for: id %>
-          <% end %>
-        </div>
-      <% end %>
+      <%= render partial: "components/status_buttons", locals: {record: attendance} %>
     <% else %>
       <%= attendance.status %>
     <% end %>
   </td>
   <td>
     <% if admin %>
-      <%= link_to "Delete", attendance, method: :delete, class: "fa fa-close", data: {
-        confirm: "Delete the attendance for #{user.name}?"
-      } %>
+      <%= render partial: "components/delete_button", locals: {record: attendance} %>
     <% end %>
   </td>
 </tr>

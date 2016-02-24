@@ -14,10 +14,7 @@
 </p>
 
 <table>
-  <%= render partial: "attendances/thead", locals: {attendances: @attendances} %>
-  <% @attendances.each do |attendance| %>
-    <%= render partial: "attendances/tr", locals: {attendance: attendance} %>
-  <% end %>
+  <%= render partial: "components/todo_table", locals: {collection: @attendances} %>
 </table>
 
 <section id="new_event">
