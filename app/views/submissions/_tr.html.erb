@@ -3,10 +3,13 @@
 <% admin = (can? :manage, submission) %>
 <tr>
   <td rowspan="2">
-    <%= link_to submission.assignment.title, submission.assignment %>
+    <%= link_to "#{user.first_name} #{user.last_name[0]}.", membership_path(submission.membership) %>
   </td>
   <td rowspan="2">
-    <%= link_to "#{user.first_name} #{user.last_name[0]}.", membership_path(submission.membership) %>
+    <%= avatar(user) %>
+  </td>
+  <td rowspan="2">
+    <%= link_to submission.assignment.title, submission.assignment %>
   </td>
   <td rowspan="2">
     <% if assignment.repo_url && !assignment.repo_url.strip.blank? %>
