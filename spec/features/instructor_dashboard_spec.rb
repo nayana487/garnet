@@ -38,20 +38,20 @@ RSpec.feature 'Instructor Dashboard' do
   scenario 'viewing todos for events' do
     login_user(test_instructor)
     visit(root_path)
-    expect(page).to have_content "jane"
+    expect(page).to have_content "Jane"
     expect(page).to have_content "Test Event"
   end
 
   scenario 'viewing todos for assignments' do
     login_user(test_instructor)
     visit(root_path)
-    expect(page).to have_content "jane"
+    expect(page).to have_content "Jane"
     expect(page).to have_content "Test Assignment"
   end
 
   scenario 'inactive students are not shown on todos' do
     login_user(test_instructor)
     visit(root_path)
-    expect(page).to_not have_content "john"
+    expect(page).to_not have_content "John"
   end
 end

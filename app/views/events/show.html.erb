@@ -14,15 +14,9 @@
 </p>
 
 <table>
+  <%= render partial: "attendances/thead", locals: {attendances: @attendances} %>
   <% @attendances.each do |attendance| %>
-  <tr data-attendee="<%= attendance.user.username %>">
-    <td><%= avatar(attendance.user) %></td>
-    <td><%= link_to attendance.user.name, attendance.user %></td>
-    <% Attendance.statuses.keys.each do |status| %>
-      <td><%= status_button(attendance, status) %></td>
-    <% end %>
-    <td><%= link_to "x", attendance, method: :delete, data: {confirm: "Delete the attendance for #{attendance.user.name}?"} %></td>
-  </tr>
+    <%= render partial: "attendances/tr", locals: {attendance: attendance} %>
   <% end %>
 </table>
 
