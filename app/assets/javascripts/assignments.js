@@ -48,9 +48,9 @@ function loadIssues(url, callback){
       }
     }
     if(!id || output.length < 1){
-      output = ["missing"]
+      output = ["?"]
     }
-    return output.join(", ");
+    return "(" + output.join(", ") + ")";
   }
 }
 

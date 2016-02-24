@@ -215,6 +215,9 @@ $button-colors: (
   ".danger"         : (#fff, $ga-red, $ga-red-dark),
   ".danger:hover"   : (#fff, $ga-red-med, $ga-red-dark)
 );
+.buttons{
+  display:flex;
+}
 button, .button,
 input[type=radio]+label,
 input[type=checkbox]+label,
@@ -225,12 +228,31 @@ input[type=submit],
   border-radius:3px;
   padding:10px 20px;
   margin:10px 10px 10px 0;
+  min-width:10px;
+  text-align:center;
   transition: background-color 0.2s, box-shadow 0.2s;
   @each $state, $colors in $button-colors{
     &#{$state}{
       color: nth($colors, 1);
       background-color: nth($colors, 2);
       box-shadow: 0 3px 0 0 nth($colors, 3);
+    }
+  }
+  .buttons &{
+    flex-grow:1;
+    border-radius:0;
+    border-left:1px solid rgba(0,0,0,0.05);
+    &:nth-of-type(1){
+      border-radius:3px 0px 0px 3px;
+    }
+    &:last-of-type{
+      border-radius:0px 3px 3px 0px;
+    }
+    @media #{$mobile}{
+      font-size:0;
+      &:first-letter{
+        font-size:1rem;
+      }
     }
   }
 }
@@ -241,12 +263,8 @@ input[type=checkbox]{
   &+label{
     text-decoration:none;
   }
-  &+label:after{
-    content:"?";
-  }
   &:checked+label{
     @extend .button.important;
-    &:after{ content:"!"; }
   }
 }
 .pills a{
@@ -291,6 +309,9 @@ select,
 input[type=text],
 input[type=password]{
   padding:10px;
+}
+input[type=text].sm{
+  width:40px;
 }
 textarea{
   padding:10px;
@@ -348,31 +369,15 @@ table{
   left:-10px;
   width:100vw;
   border-right:20px solid transparent;
-  tr{
-    &:nth-child(odd){
-      background-color:#fff;
-      input[type=text],
-      textarea{
-        background-color:#f6f6f6;
-      }
-    }
-    &>.number{
-      text-align:right;
-    }
-  }
   thead,
   th{
     background-color:#eee;
   }
   th, td{
     padding:5px;
-    &:nth-child(1){
+    border-bottom:1px solid #e0e0e0;
+    &:not(.offset):nth-child(1){
       padding-left:10px;
-    }
-    #submissions &{
-     max-width: 8em;
-     text-overflow: ellipsis;
-     overflow: hidden;
     }
     &:empty:after{
       content:"...";
@@ -380,14 +385,17 @@ table{
       display:block;
       height:18px;
     }
-    @media #{$mobile}{
-      max-width:50px;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
   }
+  textarea,
   input[type=text]{
+    display:inline-block;
+    height:28px;
     padding:5px 10px;
+    margin:5px 0;
+    background-color:#fcfcfc;
+    resize:vertical;
+    overflow:hidden;
+    max-width:none;
     @media #{$mobile}{
       padding:5px 2px;
       text-align:center;
@@ -397,6 +405,9 @@ table{
   input[type="radio"]+label{
     margin:0;
     padding:10px;
+  }
+  p{
+    font-size:12px;
   }
 }
 
