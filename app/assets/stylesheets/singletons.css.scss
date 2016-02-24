@@ -7,7 +7,7 @@
   color:#f00;
 }
 
-.mantra p:after{
+#mantra:after{
   display:inline-block;
   content:"";
   background-image:asset-url("duck.png");

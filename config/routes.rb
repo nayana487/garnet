@@ -13,6 +13,12 @@ Rails.application.routes.draw do
     get "/authenticate",  to: "sessions#gh_authenticate",  as: :gh_authenticate
   end
 
+  scope :mantras do
+    get "/",        to: "mantras#index"
+    get "/random",  to: "mantras#random"
+    get "/refresh", to: "mantras#refresh"
+  end
+
   resources :cohorts do
     member do
       get 'gh_refresh'

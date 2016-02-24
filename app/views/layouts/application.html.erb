@@ -33,9 +33,7 @@
     <%= yield %>
   </main>
   <footer>
-    <div class="mantra">
-      <p><%= Mantra.all.sample.html_safe %></p>
-    </div>
+    <div><p id="mantra"></p></div>
     <div class="links">
       <a class="fa fa-code-fork" href="https://github.com/ga-dc/garnet" target="_blank">GitHub</a>
     </div>
