@@ -10,7 +10,7 @@ class AttendancesController < ApplicationController
 
   def update
     @attendance = Attendance.find(params[:id])
-    @attendance.update!(status: params[:status])
+    @attendance.update!(attendance_params)
     render json: @attendance
   end
 
@@ -35,6 +35,9 @@ class AttendancesController < ApplicationController
   end
 
   private
+  def attendance_params
+    params.require(:attendance).permit(:status)
+  end
   def self_take_params
     return {status: @attendance.calculate_status,
             self_taken: true,

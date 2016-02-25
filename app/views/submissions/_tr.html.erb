@@ -3,31 +3,19 @@
 <% admin = (can? :manage, submission) %>
 <tr>
   <td rowspan="2">
-    <%= link_to submission.assignment.title, submission.assignment %>
+    <%= link_to "#{user.first_name} #{user.last_name[0]}.", membership_path(submission.membership) %>
   </td>
   <td rowspan="2">
-    <%= link_to "#{user.first_name} #{user.last_name[0]}.", membership_path(submission.membership) %>
+    <%= avatar(user) %>
+  </td>
+  <td rowspan="2">
+    <%= link_to submission.assignment.title, submission.assignment %>
   </td>
   <td rowspan="2">
     <% if assignment.repo_url && !assignment.repo_url.strip.blank? %>
       <%= link_to "Issues", submission.issues_url, {class: "fa fa-github-alt"} %>
       <span data-gh-issues="<%= user.github_id %>"></span>
       <%= link_to "Fork", submission.fork_url, {class: "fa fa-code-fork"} %>
-    <% end %>
-  </td>
-  <td>
-    <% if admin %>
-      <%= form_for submission, html:{id: nil}, data:{autosave: true} do |f| %>
-        <div class="buttons">
-          <% Submission.statuses.keys.each do |status| %>
-            <% id = "#{submission.id}-status-#{status}" %>
-            <%= f.radio_button :status, status, id: id %>
-            <%= f.label :status, status, for: id %>
-          <% end %>
-        </div>
-      <% end %>
-    <% else %>
-      <%= submission.status %>
     <% end %>
   </td>
   <td>
@@ -41,9 +29,14 @@
   </td>
   <td>
     <% if admin %>
-      <%= link_to "Delete", submission, method: :delete, class: "fa fa-close", data: {
-        confirm: "Delete the submission for #{user.name}?"
-      } %>
+      <%= render partial: "components/status_buttons", locals: {record: submission} %>
+    <% else %>
+      <%= submission.status %>
+    <% end %>
+  </td>
+  <td>
+    <% if admin %>
+      <%= render partial: "components/delete_button", locals: {record: submission} %>
     <% end %>
   </td>
 </tr>
