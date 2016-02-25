@@ -1,0 +1,27 @@
+<% event = attendance.event %>
+<tr>
+  <td>
+    <%= link_to "#{user.first_name} #{user.last_name[0]}.", membership_path(attendance.membership) %>
+  </td>
+  <td>
+    <%= avatar(user) %>
+  </td>
+  <td>
+    <%= link_to event.title, event %>
+  </td>
+  <td>
+    <%= link_to event.occurs_at_s, event %>
+  </td>
+  <td>
+    <% if admin %>
+      <%= render partial: "components/status_buttons", locals: {record: attendance} %>
+    <% else %>
+      <%= attendance.status %>
+    <% end %>
+  </td>
+  <td>
+    <% if admin %>
+      <%= render partial: "components/delete_button", locals: {record: attendance} %>
+    <% end %>
+  </td>
+</tr>

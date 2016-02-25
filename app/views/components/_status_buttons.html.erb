@@ -1,0 +1,10 @@
+<% klazz = record.model_name.to_s.classify.constantize %>
+<%= form_for record, html:{id: nil}, data:{autosave: true} do |f| %>
+  <div class="buttons">
+    <% klazz.statuses.keys.each do |status| %>
+      <% id = "#{record.id}-status-#{status}" %>
+      <%= f.radio_button :status, status, id: id %>
+      <%= f.label :status, status, for: id %>
+    <% end %>
+  </div>
+<% end %>

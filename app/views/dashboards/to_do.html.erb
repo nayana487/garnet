@@ -10,39 +10,14 @@
     <section>
       <h4>Submissions</h4>
       <table>
-        <%= render partial: "submissions/thead", locals: {submissions: items[:submissions]} %>
-        <% items[:submissions].each do |submission| %>
-          <%= render partial: "submissions/tr", locals: {submission: submission} %>
-        <% end %>
+        <%= render partial: "components/todo_table", locals: {collection: items[:submissions]} %>
       </table>
     </section>
 
     <section>
       <h4>Attendance</h4>
-      <table class="js-dataTable attendances stripe">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Event Title</th>
-            <th>Event Date</th>
-            <th class="no-sort"></th>
-            <th class="no-sort"></th>
-            <th class="no-sort"></th>
-            <th class="no-sort"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% items[:attendances] && items[:attendances].each do |attendance| %>
-            <tr>
-              <td><%= link_to attendance.user.name, attendance.user %></td>
-              <td><%= attendance.event.title %></td>
-              <td><%= link_to attendance.event.occurs_at_s, attendance.event %></td>
-              <% Attendance.statuses.keys.each do |status| %>
-                <td><%= status_button(attendance, status) %></td>
-              <% end %>
-            </tr>
-          <% end %>
-        </tbody>
+      <table>
+        <%= render partial: "components/todo_table", locals: {collection: items[:attendances]} %>
       </table>
     </section>
 

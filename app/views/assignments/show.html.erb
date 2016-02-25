@@ -32,10 +32,7 @@
 </p>
 
 <table>
-  <%= render partial: "submissions/thead", locals: {submissions: @submissions} %>
-  <% @submissions.each do |submission| %>
-    <%= render partial: "submissions/tr", locals: {submission: submission } %>
-  <% end %>
+  <%= render partial: "components/todo_table", locals: {collection: @submissions} %>
 </table>
 
 <section>
