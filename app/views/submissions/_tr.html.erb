@@ -13,9 +13,9 @@
   </td>
   <td rowspan="2">
     <% if assignment.repo_url && !assignment.repo_url.strip.blank? %>
-      <%= link_to "Issues", submission.issues_url, {class: "fa fa-github-alt"} %>
+      <%= link_to "Issues", submission.issues_url, {class: "notext fa fa-github-alt"} %>
       <span data-gh-issues="<%= user.github_id %>"></span>
-      <%= link_to "Fork", submission.fork_url, {class: "fa fa-code-fork"} %>
+      <%= link_to "Fork", submission.fork_url, {class: "notext fa fa-code-fork"} %>
     <% end %>
   </td>
   <td>
