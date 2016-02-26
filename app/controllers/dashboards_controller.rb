@@ -13,6 +13,6 @@ class DashboardsController < ApplicationController
     end
 
     active_cohort_ids = active_cohorts.map{|cohort| cohort.id}
-    @observations = Observation.joins(:membership).where("memberships.cohort_id IN (?)", active_cohort_ids)
+    @observations = Observation.joins(:membership).where("memberships.cohort_id IN (?)", active_cohort_ids).order(created_at: :desc).limit(10)
   end
 end
