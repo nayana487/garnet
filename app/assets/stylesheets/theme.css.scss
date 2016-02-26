@@ -7,6 +7,8 @@ $ga-red-dark: #be0201;
 $ga-yellow: #fbd334;
 $ga-yellow-light: #fdeba3;
 $ga-yellow-dark: #f49102;
+$ga-teal: #18bfbc;
+$ga-teal-light: #65e2c5;
 $mobile: "(max-width:600px)";
 @mixin invisible{
   display:block;
@@ -17,6 +19,26 @@ $mobile: "(max-width:600px)";
   width:1px;
   height:1px;
   opacity:0.01;
+}
+
+.waiting,
+.waiting+label{
+  animation: pulse 0.5s linear alternate infinite;
+}
+.dirty,
+.dirty+label{
+  animation: flash 1s;
+}
+@keyframes pulse{
+  to{
+    opacity:0;
+  }
+}
+@keyframes flash{
+  from{
+    background-color: $ga-teal-light;
+    border-color: $ga-teal;
+  }
 }
 
 html{
@@ -230,18 +252,25 @@ input[type=submit],
   margin:10px 10px 10px 0;
   min-width:10px;
   text-align:center;
-  transition: background-color 0.2s, box-shadow 0.2s;
+  transition: background-color 0.2s, border-color 0.2s;
+  border-radius:3px;
+  border-style:solid;
+  border-top-width:0px;
+  border-bottom-width:3px;
   @each $state, $colors in $button-colors{
     &#{$state}{
       color: nth($colors, 1);
       background-color: nth($colors, 2);
-      box-shadow: 0 3px 0 0 nth($colors, 3);
+      border-color:nth($colors, 3);
     }
+  }
+  &:active{
+    border-top-width:3px;
+    border-bottom-width:0px;
   }
   .buttons &{
     flex-grow:1;
     border-radius:0;
-    border-left:1px solid rgba(0,0,0,0.05);
     &:nth-of-type(1){
       border-radius:3px 0px 0px 3px;
     }
@@ -265,6 +294,9 @@ input[type=checkbox]{
   }
   &:checked+label{
     @extend .button.important;
+  }
+  &.waiting{
+    animation:none !important;
   }
 }
 .pills a{
@@ -333,20 +365,6 @@ input[type=search]{
   margin-left:1em;
   border-radius:3px;
 }
-
-.waiting,
-.waiting+label:after{
-  animation: waiting 0.5s linear alternate infinite;
-}
-@keyframes waiting{
-  from {
-    opacity:0;
-  }
-  to {
-    opacity:1;
-  }
-}
-
 
 .js-tag{
   cursor:pointer;
