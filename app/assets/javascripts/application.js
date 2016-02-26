@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require select2
 //= require jquery.dataTables.min
+//= require jquery.stickytableheaders.min
+
 //= require_tree .
 
 $("[data-record-url]").on("change", function(){
@@ -104,3 +106,5 @@ function autoSave(evt){
     trigger.addClass("dirty");
   });
 }
+
+$(".js-sticky-table-header").stickyTableHeaders();
