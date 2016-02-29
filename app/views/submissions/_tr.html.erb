@@ -1,6 +1,7 @@
-<% user = submission.user; assignment = submission.assignment %>
+<% user         = submission.user %>
+<% assignment   = submission.assignment %>
 <% out_of_score = ((score = assignment.base_score) ? " / #{score}" : "") %>
-<% admin = (can? :manage, submission) %>
+<% admin        = (can? :manage, submission) %>
 <tr>
   <td rowspan="2">
     <%= link_to "#{user.first_name} #{user.last_name[0]}.", membership_path(submission.membership) %>

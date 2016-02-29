@@ -26,8 +26,7 @@ class MembershipsController < ApplicationController
     @is_editable = @is_current_user && !@user.github_id
 
     @attendances = @membership.attendances.joins(:event).order("events.occurs_at")
-    @submissions = @membership.submissions.sort_by{|a| a.assignment.due_date}
-    @submissions_with_notes = @submissions.select(&:grader_notes)
+    @submissions = @membership.submissions.includes(:assignment).order("assignments.due_date")
 
     if @is_current_user
       @current_attendances = @membership.attendances.self_takeable

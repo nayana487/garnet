@@ -33,9 +33,9 @@
   <section>
     <h3 class="fold" id="attendances"><a href="#attendances"><%= @user.first_name %>'s Attendance</a></h3>
     <p>Present: <%= @attendances.present.count %>, Tardy: <%= @attendances.tardy.count %>, Absent: <%= @attendances.absent.count %></p>
-    <div>
-        <%= render partial: "attendances/table", locals: {attendances: @attendances} %>
-    </div>
+    <table>
+      <%= render partial: "components/todo_table", locals: {collection: @attendances} %>
+    </table>
   </section>
 <% end %>
 
@@ -44,10 +44,7 @@
     <h3 class="fold" id="submissions"><a href="#submissions"><%= @user.first_name %>'s Homework Submissions</a></h3>
     <p>Percent Complete: <%= percent_of(@submissions, "complete") %>%</p>
     <table>
-      <%= render partial: "submissions/thead", locals: {submissions: @submissions} %>
-      <% @submissions.each do |submission| %>
-        <%= render partial: "submissions/tr", locals: {submission: submission } %>
-      <% end %>
+      <%= render partial: "components/todo_table", locals: {collection: @submissions} %>
     </table>
   </section>
 <% end %>

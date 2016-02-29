@@ -1,4 +1,6 @@
-<% event = attendance.event %>
+<% event  = attendance.event %>
+<% user   = attendance.user %>
+<% admin  = (can? :manage, attendance) %>
 <tr>
   <td>
     <%= link_to "#{user.first_name} #{user.last_name[0]}.", membership_path(attendance.membership) %>
