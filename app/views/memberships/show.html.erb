@@ -31,7 +31,7 @@
 
 <% if @attendances.count > 0 %>
   <section>
-    <h3 class="fold" id="attendances"><a href="#attendances"><%= @user.first_name %>'s Attendance</a></h3>
+    <h3 id="attendances"><a href="#attendances"><%= @user.first_name %>'s Attendance</a></h3>
     <p>Present: <%= @attendances.present.count %>, Tardy: <%= @attendances.tardy.count %>, Absent: <%= @attendances.absent.count %></p>
     <table>
       <%= render partial: "components/todo_table", locals: {collection: @attendances} %>
@@ -41,7 +41,7 @@
 
 <% if @submissions.count > 0 %>
   <section>
-    <h3 class="fold" id="submissions"><a href="#submissions"><%= @user.first_name %>'s Homework Submissions</a></h3>
+    <h3 id="submissions"><a href="#submissions"><%= @user.first_name %>'s Homework Submissions</a></h3>
     <p>Percent Complete: <%= percent_of(@submissions, "complete") %>%</p>
     <table>
       <%= render partial: "components/todo_table", locals: {collection: @submissions} %>

@@ -5,7 +5,7 @@
 <% end %>
 
 <section>
-  <h3 class="fold" id="members"><a href="#members">Members</a></h3>
+  <h3 id="members"><a href="#members">Members</a></h3>
   <div>
     <h4>Roster</h4>
 
@@ -36,7 +36,7 @@
 </section>
 
 <section>
-  <h3 class="fold" id="attendance"><a href="#attendance">Attendance</a></h3>
+  <h3 id="attendance"><a href="#attendance">Attendance</a></h3>
   <div>
     <% cache cache_key_for_cohort(@cohort, @events, @is_admin) do %>
       <%= render partial: "events/table", locals: {events: @events}%>
@@ -52,7 +52,7 @@
 </section>
 
 <section>
-  <h3 class="fold" id="assignments"><a href="#assignments">Assignments</a></h3>
+  <h3 id="assignments"><a href="#assignments">Assignments</a></h3>
   <div>
     <% cache cache_key_for_cohort(@cohort, @assignments, @is_admin) do %>
       <%= render partial: "assignments/table", locals: {assignments: @assignments} %>
