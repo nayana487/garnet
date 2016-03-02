@@ -9,27 +9,35 @@
 </head>
 <body>
   <nav class="site-wide">
-    <header>
-      <h1><%= link_to root_path do %><span>GA</span>RNET<% end %></h1>
-    </header>
-    <ul>
-      <% if signed_in? %>
-      <li><%= link_to current_user.username, user_path(current_user) %></li>
-      <li><%= link_to "sign out", sign_out_path %></li>
-      <% else %>
-      <li><%= link_to "sign up", new_user_path %></li>
-      <li><%= link_to "sign in", sign_in_path %></li>
-      <% end %>
-    </ul>
+    <h1><%= link_to root_path do %><span class="logo">GA</span>RNET<% end %></h1>
+    <span class="separate"></span>
+    <% if signed_in? %>
+      <%= link_to current_user.username, user_path(current_user) %></li>
+      <%= link_to "sign out", sign_out_path %></li>
+    <% else %>
+      <%= link_to "sign up", new_user_path %>
+      <%= link_to "sign in", sign_in_path %>
+    <% end %>
+  </nav>
+  <nav class="sub">
+    <% if defined? @user %>
+      <%= avatar(@user, "avatar t") %>
+      <%= link_to "User: #{@user.first_name} #{@user.last_name[0]}", @user %>
+    <% end %>
+    <% if defined? @cohort %>
+      <%= link_to "Cohort: #{@cohort.name}", @cohort %>
+    <% end %>
+    <% if defined? @assignment %>
+      <%= link_to "Assignment: #{@assignment.title}", @assignment %>
+    <% end %>
+    <% if defined? @event %>
+      <%= link_to "Event: #{@event.title}, #{@event.occurs_at_s}", @event %>
+    <% end %>
+    <% flash.each do |key, value| %>
+      <a class="separate"><%= value %></a>
+    <% end %>
   </nav>
   <main>
-    <% if flash.count > 0 %>
-      <section class="errareHumanumEst">
-      <% flash.each do |key, value| %>
-        <p><%= simple_format(value) %></p>
-      <% end %>
-      </section>
-    <% end %>
     <%= yield %>
   </main>
   <footer>

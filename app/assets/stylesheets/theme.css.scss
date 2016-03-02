@@ -21,6 +21,9 @@ $mobile: "(max-width:600px)";
   opacity:0.01;
 }
 
+.logo{
+  color: $ga-red;
+}
 .waiting,
 .waiting+label{
   animation: pulse 0.5s linear alternate infinite;
@@ -65,10 +68,6 @@ main{
   flex-grow:2;
 }
 
-h1{
-  color: $ga-red;
-  span{ color:#fff; }
-}
 h1, h2{
   text-transform:uppercase;
   font-size:36px;
@@ -116,34 +115,37 @@ kbd{
 
 nav{
   display:flex;
-  header{
-    float:left;
-    padding-left:10px;
-  }
-  li{
-    float:right;
+  .separate{
+    flex-grow:1;
   }
   a{
-    display:block;
-    line-height:36px;
-    padding-top:10px;
-    padding-bottom:10px;
-  }
-  ul{
-    flex-grow:2;
-    a{
-      padding-left:25px;
-      padding-right:25px;
+    display:inline-block;
+    line-height:50px;
+    padding-left:10px;
+    padding-right:10px;
+    &.avatar{
+      padding:0;
+      margin-left:10px;
     }
   }
 }
-.site-wide{
+nav.sub{
+  background-color:$ga-yellow-light;
+  a{
+    border-right:1px dashed $ga-yellow;
+    &[href]:hover{
+      background-color:$ga-yellow;
+    }
+  }
+}
+nav.site-wide{
   background-color:#222;
-  ul a{
-    color:#fff;
+  a{
+    border:0;
+    color: #fff;
     &:hover{
-      background-color:#fff;
       color:$ga-red;
+      background-color:#fff;
     }
   }
 }
