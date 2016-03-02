@@ -202,27 +202,18 @@ section{
       font-size:1rem;
     }
   }
-}
-.status_very_bad{
-  background-color: #fee;
-}
-.status_bad{
-  background-color: #fed;
-}
-.status_mediocre{
-  background-color: #ffe;
-}
-.status_good{
-  background-color: #dfd;
-}
-
-.yes{
-  opacity:1;
-  &:after{ content:"!"; }
-}
-.no{
-  opacity:0.5;
-  &:after{ content:"?"; }
+  &_very_bad{
+    background-color: #fee;
+  }
+  &_bad{
+    background-color: #fed;
+  }
+  &_mediocre{
+    background-color: #ffe;
+  }
+  &_good{
+    background-color: #dfd;
+  }
 }
 
 .today{
