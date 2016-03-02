@@ -19,13 +19,12 @@
       <%= link_to "sign in", sign_in_path %>
     <% end %>
   </nav>
-  <nav class="sub">
-    <% if defined? @user %>
-      <%= avatar(@user, "avatar t") %>
-      <%= link_to "User: #{@user.first_name} #{@user.last_name[0]}", @user %>
-    <% end %>
+  <nav class="breadcrumbs">
     <% if defined? @cohort %>
-      <%= link_to "Cohort: #{@cohort.name}", @cohort %>
+      <%= link_to @cohort.name, @cohort %>
+    <% end %>
+    <% if defined? @user %>
+      <%= link_to "User: #{@user.first_name} #{@user.last_name[0]}", @user %>
     <% end %>
     <% if defined? @assignment %>
       <%= link_to "Assignment: #{@assignment.title}", @assignment %>
@@ -33,8 +32,13 @@
     <% if defined? @event %>
       <%= link_to "Event: #{@event.title}, #{@event.occurs_at_s}", @event %>
     <% end %>
-    <% flash.each do |key, value| %>
-      <a class="separate"><%= value %></a>
+    <a class="separate">
+      <% flash.each do |key, value| %>
+        <span><%= value %></span>
+      <% end %>
+    </a>
+    <% if defined? @user %>
+      <%= avatar(@user, "avatar t r") %>
     <% end %>
   </nav>
   <main>

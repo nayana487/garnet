@@ -117,8 +117,10 @@ nav{
   display:flex;
   .separate{
     flex-grow:1;
+    text-align:center;
   }
   a{
+    box-sizing:border-box;
     display:inline-block;
     line-height:50px;
     padding-left:10px;
@@ -126,15 +128,32 @@ nav{
     &.avatar{
       padding:0;
       margin-left:10px;
+      flex-shrink:0;
+      order:1;
     }
   }
 }
-nav.sub{
-  background-color:$ga-yellow-light;
+nav.breadcrumbs{
+  background-color:$ga-yellow;
+  @media #{$mobile}{
+    display:block;
+  }
   a{
-    border-right:1px dashed $ga-yellow;
-    &[href]:hover{
-      background-color:$ga-yellow;
+    position:relative;
+    @media #{$mobile}{
+      display:block;
+    }
+    &[href]{
+      font-family:$font-logo;
+      font-size:36px;
+      text-transform:uppercase;
+      border-right:1px dashed #fff;
+      @media #{$mobile}{
+        border-right:0;
+      }
+      &:hover{
+        background-color:$ga-yellow-light;
+      }
     }
   }
 }
