@@ -11,9 +11,9 @@ module ApplicationHelper
     return ["cohort-#{cohort.id}/events", association.maximum(:updated_at), *opt]
   end
 
-  def avatar user
+  def avatar user, cssClass = "avatar"
     if user.image_url && !user.image_url.strip.blank?
-      return link_to image_tag(user.image_url), user_path(user), class: :avatar
+      return link_to image_tag(user.image_url), user_path(user), class: cssClass
     end
   end
 

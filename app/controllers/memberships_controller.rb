@@ -19,6 +19,7 @@ class MembershipsController < ApplicationController
     authorize! :read, @membership
 
     @user = @membership.user
+    @cohort = @membership.cohort
 
     @is_current_user = (@user == current_user)
     @is_adminned_by_current_user = (@user.cohorts_adminned_by(current_user).count > 0)
