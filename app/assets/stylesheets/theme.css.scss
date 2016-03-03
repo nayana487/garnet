@@ -134,7 +134,7 @@ nav{
   }
 }
 nav.breadcrumbs{
-  background-color:$ga-yellow;
+  background-color:#ccc;
   @media #{$mobile}{
     display:block;
   }
@@ -147,12 +147,13 @@ nav.breadcrumbs{
       font-family:$font-logo;
       font-size:36px;
       text-transform:uppercase;
-      border-right:1px dashed #fff;
+      border-right:1px dotted #aaa;
+      text-shadow:0px -1px 0px #eee;
       @media #{$mobile}{
         border-right:0;
       }
       &:hover{
-        background-color:$ga-yellow-light;
+        background-color:#bbb;
       }
     }
   }
