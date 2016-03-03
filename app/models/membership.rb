@@ -54,6 +54,15 @@ class Membership < ActiveRecord::Base
     ((marked_by_status.to_f / total_marked.to_f) * 100).round(0)
   end
 
+  def last_observation
+    time = self.observations.maximum(:created_at)
+    if time
+      return time.strftime("%y/%m/%d")
+    else
+      return "N/A"
+    end
+  end
+
   def average_observations
     average = self.observations.average(:status).to_f.round(2)
     self.observations.any? ? average : nil
