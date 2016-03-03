@@ -1,5 +1,4 @@
-<% data = { present:     { value: membership.percent_from_status(:attendances, Attendance.statuses[:present]), type: :good},
-            tardy:       { value: membership.percent_from_status(:attendances, Attendance.statuses[:tardy]), type: :bad },
+<% data = { tardy:       { value: membership.percent_from_status(:attendances, Attendance.statuses[:tardy]), type: :bad },
             absent:      { value: membership.percent_from_status(:attendances, Attendance.statuses[:absent]), type: :bad },
             hw_complete: { value: membership.percent_from_status(:submissions, Submission.statuses[:complete]), type: :good }} %>
 
