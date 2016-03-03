@@ -38,7 +38,8 @@ Location.all.sample(NUM_LOCATIONS).each do |loc|
                     start_date: start_date,
                     end_date: start_date + 3.months,
                     location: loc,
-                    course: course
+                    course: course,
+                    number_at_location: i
       )
 
     end
