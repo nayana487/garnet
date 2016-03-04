@@ -12,8 +12,8 @@
     <h1><%= link_to root_path do %><span class="logo">GA</span>RNET<% end %></h1>
     <span class="separate"></span>
     <% if signed_in? %>
-      <%= link_to current_user.username, user_path(current_user) %></li>
-      <%= link_to "sign out", sign_out_path %></li>
+      <%= link_to current_user.username, user_path(current_user) %>
+      <%= link_to "sign out", sign_out_path %>
     <% else %>
       <%= link_to "sign up", new_user_path %>
       <%= link_to "sign in", sign_in_path %>
