@@ -1,17 +1,17 @@
-<table>
+<table data-sortable>
   <tr>
-    <th>Title</th>
-    <th>Due</th>
-    <th>Class Completion</th>
-    <th>Total</th>
+    <th data-sort-trigger="title">Title</th>
+    <th data-sort-trigger="due">Due</th>
+    <th data-sort-trigger="completion">Class Completion</th>
+    <th data-sort-trigger="total">Total</th>
   </tr>
   <% assignments.each do |assignment| %>
     <% submissions = assignment.submissions.active %>
-    <tr>
-      <td><%= link_to_if @is_admin, assignment.title, assignment_path(assignment, cohort: assignment.cohort) %></td>
-      <td><%= assignment.due_date_s %></td>
-      <td><%= percent_of(submissions, "complete") %>%</td>
-      <td><%= submissions.count %></td>
+    <tr data-record>
+      <td data-sort-field="title"><%= link_to_if @is_admin, assignment.title, assignment_path(assignment, cohort: assignment.cohort) %></td>
+      <td data-sort-field="due"><%= assignment.due_date_s %></td>
+      <td data-sort-field="completion"><%= percent_of(submissions, "complete") %>%</td>
+      <td data-sort-field="total"><%= submissions.count %></td>
     </tr>
   <% end %>
 </table>

@@ -1,17 +1,17 @@
-<table>
+<table data-sortable>
   <tr>
-    <th>Date</th>
-    <th>Title</th>
-    <th>Present</th>
-    <th>Total</th>
+    <th data-sort-trigger="date">Date</th>
+    <th data-sort-trigger="title">Title</th>
+    <th data-sort-trigger="present">Present</th>
+    <th data-sort-trigger="total">Total</th>
   </tr>
   <% events.each do |event| %>
     <% attendances = event.attendances.active %>
-    <tr class="<%= "today" if event.occurs_at.today? %>">
-      <td><%= link_to_if @is_admin, event.occurs_at_s, event_path(event, cohort: event.cohort, show_na: true) %></td>
-      <td><%= link_to_if @is_admin, event.title, event_path(event, cohort: event.cohort, show_na: true) %></td>
-      <td><%= percent_of(attendances, "present") %>%</td>
-      <td><%= attendances.count %></td>
+    <tr data-record class="<%= "today" if event.occurs_at.today? %>">
+      <td data-sort-field="date"><%= link_to_if @is_admin, event.occurs_at_s, event_path(event, cohort: event.cohort, show_na: true) %></td>
+      <td data-sort-field="title"><%= link_to_if @is_admin, event.title, event_path(event, cohort: event.cohort, show_na: true) %></td>
+      <td data-sort-field="present"><%= percent_of(attendances, "present") %>%</td>
+      <td data-sort-field="total"><%= attendances.count %></td>
     </tr>
   <% end %>
 </table>
