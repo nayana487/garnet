@@ -12,6 +12,10 @@ class Attendance < ActiveRecord::Base
 
   enum status: [:unmarked, :absent, :tardy, :present]
 
+  after_save do
+    self.membership.update_percents_of("attendance")
+  end
+
   def date
     self.event.occurs_at.strftime("%a, %m/%d/%y")
   end

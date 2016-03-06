@@ -1,4 +1,5 @@
 class Membership < ActiveRecord::Base
+  include ModelHelpers
   enum status: [ :active, :inactive ]
 
   belongs_to :cohort
@@ -12,7 +13,9 @@ class Membership < ActiveRecord::Base
 
   has_many :observations
   has_many :attendances
+  serialize :percent_attendances, JSON
   has_many :submissions
+  serialize :percent_submissions, JSON
 
   validate :is_unique_in_cohort, on: :create
   before_save :convert_nil_to_false
@@ -45,13 +48,31 @@ class Membership < ActiveRecord::Base
   end
 
   def percent_from_status( association, status)
-    assoc = self.send(association).due
+    percents = (self.send("percent_#{association}") || update_percents_of(association))
+    return percents[status.to_s]
+  end
 
-    marked_by_status = assoc.where(status:status).length
-    total_marked     = assoc.where.not(status: assoc.statuses[:unmarked]).length
-
-    return nil if total_marked == 0
-    ((marked_by_status.to_f / total_marked.to_f) * 100).round(0)
+  def update_percents_of klass
+    percents_json     = {}
+    klass             = class_from_string(klass)
+    # = Submission
+    klass_plural_name = class_plural_name(klass)
+    # = submissions
+    related_records   = self.send(klass_plural_name).due
+    # = self.submissions.due
+    unmarked_records  = related_records.where.not(status: klass.statuses[:unmarked])
+    klass.statuses.each do |status_name, status|
+      # Submission.statuses.each do...
+      if unmarked_records.length > 0
+        percent = (related_records.where(status: status).count / unmarked_records.count.to_f)
+      else
+        percent = 0
+      end
+      percents_json[status_name] = (percent * 100).round(0)
+    end
+    self.update!(:"percent_#{klass_plural_name}" => percents_json)
+    # percent_submissions: {missing: 10, incomplete: 33, complete: 57}
+    return percents_json
   end
 
   def last_observation
@@ -64,8 +85,13 @@ class Membership < ActiveRecord::Base
   end
 
   def average_observations
+    return (self.read_attribute("average_observations") || update_average_observations)
+  end
+
+  def update_average_observations
     average = self.observations.average(:status).to_f.round(2)
-    self.observations.any? ? average : nil
+    self.update!(average_observations: self.observations.any? ? average : nil)
+    return average
   end
 
   def self.filter_by_tag tag

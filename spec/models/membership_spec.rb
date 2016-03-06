@@ -43,16 +43,46 @@ RSpec.describe Membership do
     it "has a default value if no observations" do
       cohort = Cohort.first
       @t = cohort.memberships.create()
-      expect(@t.average_observations).to be(nil)
+      expect(@t.average_observations).to be(0.0)
     end
   end
 
   describe "percent from status" do
     it "should not include future attendances" do
-      expect(@m.percent_from_status(:attendances, Attendance.statuses[:present])).to eq(100)
+      expect(@m.percent_from_status(:attendances, :present)).to eq(100)
     end
     it "should exclude n/a assignments" do
-      expect(@m.percent_from_status(:submissions, Submission.statuses[:complete])).to eq(100)
+      expect(@m.percent_from_status(:submissions, :complete)).to eq(100)
+    end
+  end
+
+  describe "#update_percents_of" do
+    before(:all) do
+      @cohort = Cohort.create!(name: "Test")
+      @member = @cohort.add_member(User.last)
+      @event = @cohort.events.create!(title: "Test", occurs_at: Time.now)
+      @event.attendances.last.update!(status: 3)
+    end
+    before(:each) do
+      @event.update!(occurs_at: Date.yesterday - 100)
+      @member.reload
+      @percents = @member.percent_attendances
+    end
+    it "should return averages for all possible statuses" do
+      expect(@percents.keys).to match_array(Attendance.statuses.keys)
+    end
+    it "should be calculated when an event/assignment is created" do
+      expect(@percents).to be_instance_of(Hash)
+    end
+    it "should be recalculated when an event/assignment is updated" do
+      @event.update!(occurs_at: Date.tomorrow)
+      @member.reload
+      expect(@member.percent_attendances).to_not eq(@percents)
+    end
+    it "should be recalculated when an attendance/submission is updated" do
+      @event.attendances.last.update!(status: 0)
+      @member.reload
+      expect(@member.percent_attendances).to_not eq(@percents)
     end
     it "should not throw when divisor is 0" do
       @m.submissions.destroy_all
