@@ -89,7 +89,7 @@ class Membership < ActiveRecord::Base
   end
 
   def update_average_observations
-    average = self.observations.average(:status).to_f.round(2)
+    average = self.observations.where.not(status:3).average(:status).to_f.round(2)
     self.update!(average_observations: self.observations.any? ? average : nil)
     return average
   end
