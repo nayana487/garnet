@@ -4,7 +4,7 @@ function Sortable(container){
   var I = this;                           // I for "Instance"
   I.container     = container;
   I.$container    = $(container);
-  I.$cachedEls    = {}
+  I.$cachedEls    = {};
   I.isAscending   = true;
   I.attrs         = {
     record        : "data-record",        // input
@@ -19,7 +19,7 @@ function Sortable(container){
     filterInput   : "data-filter-input",  // input
     hidden        : "data-hidden",        // output
     isAscending   : "data-is-ascending"   // output
-  }
+  };
 }
 Sortable.prototype = (function setPrototype(){
   var InstanceMethods = {};
@@ -37,7 +37,7 @@ Sortable.prototype = (function setPrototype(){
       I.findAndCache("filterTrigger").on("click", filterTrigger.bind(I));
     }
     I.numberRecords();
-  }
+  };
 
   InstanceMethods.filterOn = function(value){
     var I = this;
@@ -53,7 +53,7 @@ Sortable.prototype = (function setPrototype(){
       }
     });
     I.numberRecords();
-  }
+  };
 
   InstanceMethods.filterOff = function(){
     var I = this;
@@ -63,7 +63,7 @@ Sortable.prototype = (function setPrototype(){
       record.el.removeAttribute(I.attrs.hidden);
     });
     I.numberRecords();
-  }
+  };
 
   InstanceMethods.findAndCache = function(selector){
     var I = this, el;
@@ -71,7 +71,7 @@ Sortable.prototype = (function setPrototype(){
       I.$cachedEls[selector] = I.$container.find(I.attrs._[selector]);
     }
     return I.$cachedEls[selector];
-  }
+  };
 
   InstanceMethods.loadRecords = function(){
     var I = this;
@@ -82,7 +82,7 @@ Sortable.prototype = (function setPrototype(){
       var record  = {
         el:     el,
         text:   "",
-        fields: []
+        fields: {}
       };
       $el.find(I.attrs._.filterable).each(function(i, el){
         record.text += el.textContent.trim();   // += text of filterable records
@@ -93,7 +93,7 @@ Sortable.prototype = (function setPrototype(){
       });
       I.records.push(record);
     });
-  }
+  };
 
   InstanceMethods.numberRecords = function(){
     var I = this;
@@ -110,19 +110,18 @@ Sortable.prototype = (function setPrototype(){
 
   InstanceMethods.sortOn = function(field){
     var I = this;
-    var parent = I.records[0].el.parentElement;
+    var $parent = $(I.records[0].el.parentElement);
     I.isAscending = !(I.isAscending);
     I.container.setAttribute(I.attrs.isAscending, I.isAscending);
     I.records.sort(function(recordA, recordB){
-      var data = [recordA.fields[field], recordB.fields[field]];
-      $.each(data, function(index, datum){
-        data[index] = getSortableData(datum);
-      });
-      return compareData(data, I.isAscending);
+      var a = getSortableData(recordA.fields[field]);
+      var b = getSortableData(recordB.fields[field]);
+      return compareData(a, b);
     });
     $.each(I.records, function(index, record){
       $(record.el).detach();
-      $(parent).append(record.el);
+      if(I.isAscending) $parent.prepend(record.el);
+      else $parent.append(record.el);
     });
     I.numberRecords();
   }
@@ -162,12 +161,14 @@ Sortable.prototype = (function setPrototype(){
     else return num;
   }
 
-  function compareData(data, ascending){
-    var out;                                 // Text should come before non-text
-    if(isNaN(data[0]) && !isNaN(data[1])) out = -1;
-    else if(!isNaN(data[0]) && isNaN(data[1])) out = 1;
-    else out = (data[0] > data[1]) ? 1 : -1;
-    return (ascending ? out : 0 - out);
+  function compareData(a, b){                // Text should come before non-text
+    if(!isNaN(a) && !isNaN(b)) return (a - b);
+    else{
+      if(a == b) return 0;
+      else if(isNaN(a) && !isNaN(b)) return -1;
+      else if(!isNaN(a) && isNaN(b)) return 1;
+      else return ((a > b) ? 1 : -1);
+    }
   }
 
   return InstanceMethods;
