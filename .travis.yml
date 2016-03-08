@@ -15,16 +15,17 @@ after_failure:
 - echo $RAILS_ENV
 - bundle exec rake --version
 after_success:
-  - chmod 600 travis_rsa
-  - mv travis_rsa ~/.ssh/id_rsa
-  - git remote add production ssh://git@garnet.wdidc.org/home/git/garnet.git
-  - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && git push production master
+- chmod 600 travis_rsa
+- mv travis_rsa ~/.ssh/id_rsa
+- git remote add production ssh://git@garnet.wdidc.org/home/git/garnet.git
+- test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && git push
+  production master
 before_install:
 - echo -e "Host garnet.wdidc.org\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - openssl aes-256-cbc -K $encrypted_91297e33cb51_key -iv $encrypted_91297e33cb51_iv
   -in travis_rsa.enc -out travis_rsa -d
-# to support running ubuntu trusty on travis
-# this in turn allows us to use phantomjs2 on travis
-# required to support Function.prototype.bind()
 sudo: required
 dist: trusty
+notifications:
+  slack:
+    secure: RThtvlNJSgF8q8rPM4YPC5P17kXH3gNwcePiVuT1ZR3eGLgvDwJhs8lWOVK80CMlWGwFnq8MQT6gHBayW2eIaT9P6P3L3azN6Zpx2uZhy7SJTwL0+yHq70d/AwtzWObuaUgwTBlpezrLMTtnyJoDXmCFQ7lYh4Cb7eHkdAO9YGk/+Em1vZI6/zxqnYTmit0Ol2G4I/CCETslq/ge61aB9oTVUUQhbcX+5fcyRlL11ZuMniqfBjMXmLuizB0BIi5VV+/NjHjhde8vUwR4v9A/HySwlOQ0mH9VZBg7OouVnD5ioz7WrZeV+SiBwg964ulLYh4wR9dX75sA69UMp7wBGmQ99Fpbx0YIJL9mSSCkMeeLBTJziZ7ttFv5vTfoNeKrL85fNRuv5jDCt9yXIOEGir3P/RYv7BeolImPhmsCY922R7mQHpgww5opJQx9yADMm1Ad+5k6xLjeY+GmoFKAUNuwvnyFtbQvZx/q+Uurq7KMK7/a6cTAT9fyW468iRDxlxzzI47a/bWEIFAxk8IjdQDPgrPsnGQ2FYFj1WkoGryEwyJToLvq3DWAPkAre919hPUXA/WUjiXbvNpibxAw1fZMswoc2SSQWm/DMPQLl735c9pRKT0HQ+ye+R9ObjBoxhhkNeK8VxZf+ZSYBhOHU3kAO+tho7C0OtTYBDtUYkg=
