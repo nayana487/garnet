@@ -118,10 +118,10 @@ Sortable.prototype = (function setPrototype(){
       var b = getSortableData(recordB.fields[field]);
       return compareData(a, b);
     });
+    if(I.isAscending) I.records.reverse();
     $.each(I.records, function(index, record){
       $(record.el).detach();
-      if(I.isAscending) $parent.prepend(record.el);
-      else $parent.append(record.el);
+      $parent.append(record.el);
     });
     I.numberRecords();
   }
