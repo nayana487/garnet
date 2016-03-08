@@ -26,3 +26,18 @@ $(".fold").on("click", function(e){
     window.location.hash = '#';
   }
 });
+
+$(".js-fold-without-anchor").on("click", function(e){
+  e.preventDefault();
+  $(this).siblings("div").show()
+});
+
+var hash = window.location.hash
+if(hash){
+  hash = hash.split("-")
+  if(hash[0]){
+    hash = hash[0]
+    $(hash).siblings("div").show();
+    $('html, body').scrollTop($(""+ window.location.hash + "").offset().top);
+  }
+}

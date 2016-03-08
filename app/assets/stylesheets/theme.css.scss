@@ -442,7 +442,7 @@ table{
   }
 }
 
-.fold{
+.fold, .fold-without-anchor{
   &:after{
     display:inline-block;
     transition:transform 0.2s;
