@@ -13,7 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require select2
-//= require jquery.dataTables.min
 //= require jquery.stickytableheaders.min
 
 //= require_tree .

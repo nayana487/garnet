@@ -1,28 +1,11 @@
 (function(){
   $('.js-select2').select2();
   $('.js-select2.tag_select').select2({tags: true});
-  $('.js-remove-tagging').click(removeTag);
-  $('.js-tag').on("click", filterByTag);
   $(".js-sticky-table-header").stickyTableHeaders();
+  $('[data-remove-tagging-path]').click(removeTag);
 
-  var membershipsDataTable = $(".js-dataTable.memberships").DataTable({
-      paging: false,
-      "aoColumnDefs" : [
-        {
-          "bSearchable": true,
-          "aTargets": [0,1]
-        }
-      ]
-  });
-
-  var todosDataTable = $(".js-dataTable.submissions, .js-dataTable.attendances").DataTable({
-      paging: false,
-      "aoColumnDefs" : [
-        {
-          "bSortable" : false,
-          "aTargets" : [ "no-sort" ]
-        }
-      ]
+  $("[data-sortable]").each(function(index, el){
+    new Sortable(el).activate();
   });
 
   function removeTag(event) {
@@ -34,12 +17,5 @@
     }).then(function() {
       el.closest("li").fadeOut();
     });
-  }
-
-  function filterByTag(event){
-    var target = $(event.target)
-    if(target.hasClass("js-tag")){
-      membershipsDataTable.search(event.target.firstChild.textContent).draw();
-    }
   }
 })();

@@ -26,7 +26,7 @@
 <%= link_to active_link_text, assignment_path(@assignment, cohort: @cohort, show_na: @show_na,  show_inactive: !@show_inactive) %>
 </p>
 
-<table>
+<table data-sortable>
   <%= render partial: "components/todo_table", locals: {collection: @submissions} %>
 </table>
 
