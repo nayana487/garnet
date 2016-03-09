@@ -7,7 +7,7 @@ if(typeof todoData != "undefined" ){
   })
   var scale = d3.scale.linear()
                 .domain([0,max])
-                .range([0,100]);
+                .range([33,100]);
   d3.select(".chart")
     .selectAll("div")
     .data(todoData)
