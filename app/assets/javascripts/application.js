@@ -15,6 +15,7 @@
 //= require select2
 //= require jquery.dataTables.min
 //= require jquery.stickytableheaders.min
+//= require d3.min
 
 //= require_tree .
 

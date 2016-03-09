@@ -1,26 +1,5 @@
 <h2>Number Assignments ungraded</h2>
 <div class='chart todos-chart'></div>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js"></script>
-<script>
-  var data = <%= @todos.to_json.html_safe %>
-  data.sort(function(a,b){
-    return a.ungraded - b.ungraded;
-  })
-  var max = d3.max(data, function(d){
-    return d.ungraded
-  })
-  var scale = d3.scale.linear()
-                .domain([0,max])
-                .range([0,100]);
-  d3.select(".chart")
-    .selectAll("div")
-    .data(data)
-    .enter()
-    .append("div")
-    .style("width", function(d){
-      return scale(d.ungraded) + "%"
-    })
-    .text(function(d){
-      return d.user + ": " + d.ungraded
-    })
-</script>
+<%= javascript_tag do %>
+  todoData = <%= @todos.to_json.html_safe %>;
+<% end %>
