@@ -1,13 +1,12 @@
-<% data = { tardy:       { value: membership.percent_from_status(:attendances, :tardy), type: :bad },
-            absent:      { value: membership.percent_from_status(:attendances, :absent), type: :bad },
-            hw_complete: { value: membership.percent_from_status(:submissions, :complete), type: :good }} %>
-
-<% data.each do |name, datum| %>
-  <td data-sort-field="<%= name %>" class="<%= color_of_percent(datum[:value], datum[:type]) %>">
-    <% if datum[:value] %>
-      <%= datum[:value] %>%
-    <% else %>
-      N/A
-    <% end %>
-  </td>
-<% end  %>
+<% present = membership.percent_from_status(:attendances, :present) + membership.percent_from_status(:attendances, :tardy) %>
+<% tardy = membership.attendances.where(status: Attendance.statuses[:tardy]).count %>
+<% hw_complete = membership.percent_from_status(:submissions, :complete) %>
+<td data-sort-field="tardy">
+  <%= tardy %>
+</td>
+<td data-sort-field="present" class="<%= color_of_percent(present, :good) %>">
+  <%= "#{present}%" || "N/A" %>
+</td>
+<td data-sort-field="hw_complete" class="<%= color_of_percent(hw_complete, :bad) %>">
+  <%= "#{hw_complete}%" || "N/A" %>
+</td>
