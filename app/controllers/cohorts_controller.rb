@@ -1,6 +1,6 @@
 class CohortsController < ApplicationController
   before_action :set_cohort, only: [:show, :edit, :update, :destroy,
-                                    :manage, :gh_refresh]
+                                    :manage, :gh_refresh, :observations]
 
   def index
     @cohorts = Cohort.all
@@ -90,6 +90,9 @@ class CohortsController < ApplicationController
     redirect_to :back
   end
 
+  def observations
+    @observations = Observation.joins(:membership).where("memberships.cohort_id = ?", @cohort.id).order(created_at: :desc).limit(10)
+  end
   private
   def set_cohort
     @cohort = Cohort.find(params[:id])

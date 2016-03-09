@@ -32,8 +32,6 @@ RSpec.feature 'Instructor Dashboard' do
     cohort1.assignments.create(title: "Test Assignment", due_date: 2.days.ago)
 
     john_membership.inactive!
-
-    jane_membership.observations.create(status: 1, body: "jane test observation", admin: test_instructor)
   }
 
   scenario 'when signed in' do
@@ -59,12 +57,5 @@ RSpec.feature 'Instructor Dashboard' do
     login_user(test_instructor)
     visit(root_path)
     expect(page).to_not have_content "John"
-  end
-
-  scenario 'can see 10 most recent observations from cohorts you admin' do
-    login_user(test_instructor)
-    visit(root_path)
-    expect(page).to have_content "jane test observation"
-    expect(page).to_not have_content "john test observation"
   end
 end
