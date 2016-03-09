@@ -1,21 +1,24 @@
-<% user = submission.user; assignment = submission.assignment %>
+<% user         = submission.user %>
+<% assignment   = submission.assignment %>
 <% out_of_score = ((score = assignment.base_score) ? " / #{score}" : "") %>
-<% admin = (can? :manage, submission) %>
+<% admin        = (can? :manage, submission) %>
+<tbody data-record>
 <tr>
-  <td rowspan="2">
+  <td rowspan="2" data-record-number></td>
+  <td rowspan="2" data-sort-field="name" data-filterable>
     <%= link_to "#{user.first_name} #{user.last_name[0]}.", membership_path(submission.membership) %>
   </td>
   <td rowspan="2">
     <%= avatar(user) %>
   </td>
-  <td rowspan="2">
+  <td rowspan="2" data-sort-field="title" data-filterable>
     <%= link_to submission.assignment.title, submission.assignment %>
   </td>
   <td rowspan="2">
     <% if assignment.repo_url && !assignment.repo_url.strip.blank? %>
-      <%= link_to "Issues", submission.issues_url, {class: "fa fa-github-alt"} %>
+      <%= link_to "Issues", submission.issues_url, {class: "notext fa fa-github-alt"} %>
       <span data-gh-issues="<%= user.github_id %>"></span>
-      <%= link_to "Fork", submission.fork_url, {class: "fa fa-code-fork"} %>
+      <%= link_to "Fork", submission.fork_url, {class: "notext fa fa-code-fork"} %>
     <% end %>
   </td>
   <td>
@@ -51,3 +54,4 @@
     <% end %>
   </td>
 </tr>
+</tbody>

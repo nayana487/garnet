@@ -12,6 +12,10 @@ class Submission < ActiveRecord::Base
 
   enum status: [:unmarked, :missing, :incomplete, :complete]
 
+  after_save do
+    self.membership.update_percents_of("submissions")
+  end
+
   def due_date
     self.assignment.due_date.strftime("%a, %m/%d/%y")
   end

@@ -16,6 +16,10 @@ class Event < ActiveRecord::Base
   validate :avoid_duplicate_events, on: :create
 
   after_create :create_attendances
+  after_save do
+    # Trigger recalculating of averages
+    self.attendances.each{ |a| a.save }
+  end
 
   def self.duplicate_date_delta
     1.second

@@ -1,8 +1,13 @@
-<div class="observation <%= color_of_status(observation.status) %>">
+<div class="observation <%= color_of_status(observation.status) %>" id="observations-<%= observation.id %>">
   <%= markdown(observation.body) %>
   <p><small><%= link_to observation.membership.user.name, observation.membership %> By
     <%= link_to observation.admin.username, user_path(observation.admin) %> for
     <%= link_to observation.cohort.name, cohort_path(observation.cohort) %>,
+    <%= link_to "#observations-#{observation.id}" do %>
     <span title="<%= observation.created_at.strftime("%a %m/%d/%y %r") %>">
-    <%= time_ago_in_words(observation.created_at) %> ago</span> <%= link_to "(x)", observation, method: :delete, data: {confirm: "Are you sure?"} %></small></p>
+      <%= time_ago_in_words(observation.created_at) %> ago
+    </span>
+    <% end %>
+      <%= link_to "(x)", observation, method: :delete, data: {confirm: "Are you sure?"} %>
+    </small></p>
 </div>

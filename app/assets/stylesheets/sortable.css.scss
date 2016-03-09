@@ -1,0 +1,33 @@
+input[type=text][data-filter-input]{
+  display:inline-block;
+  width:auto;
+  text-align:right;
+  float:right;
+  transition:background-color 0.2s;
+}
+[data-is-filtering] [data-filter-input]{
+  background-color:#efe;
+}
+[data-sort-trigger]{
+  cursor:pointer;
+}
+[data-hidden]{
+  display:none;
+}
+[data-is-ascending="true"] [data-is-sorting]{
+  cursor:n-resize !important;
+  &:after{ content: "a-z"; }
+}
+[data-is-ascending="false"] [data-is-sorting]{
+  cursor:s-resize !important;
+  &:after{ content: "z-a"; }
+}
+[data-is-sorting]{
+  background-color:#ddd;
+  &:after{
+    display:inline-block;
+    font-weight:normal;
+    color:#999;
+    padding-left:5px;
+  }
+}

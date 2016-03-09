@@ -1,10 +1,5 @@
-<div class="intro">
-  <%= avatar(@user) %>
-  <h2 class='membership'><%= link_to @user.name, @user %> in <%= link_to @membership.cohort.name, @membership.cohort %></h2>
-</div>
-
-<% if can? :manage, @membership.cohort %>
-  <%= tag_list @membership %>
+<% if can? :manage, @cohort %>
+  <%= render partial: "components/tag_list", locals: {membership: @membership} %>
 <% end %>
 
 <% if @is_current_user  %>
@@ -18,7 +13,7 @@
 
 <% if @observations %>
   <section>
-    <h3 class="fold" id="observations"><a href="#observations"><%= @user.first_name %>'s Observations</a></h3>
+    <h3 class="fold-without-anchor js-fold-without-anchor" id="observations"><a href="#observations"><%= @user.first_name %>'s Observations</a></h3>
     <div>
       <%= render @observations %>
       <section>
@@ -31,29 +26,26 @@
 
 <% if @attendances.count > 0 %>
   <section>
-    <h3 class="fold" id="attendances"><a href="#attendances"><%= @user.first_name %>'s Attendance</a></h3>
+    <h3 id="attendances"><a href="#attendances"><%= @user.first_name %>'s Attendance</a></h3>
     <p>Present: <%= @attendances.present.count %>, Tardy: <%= @attendances.tardy.count %>, Absent: <%= @attendances.absent.count %></p>
-    <div>
-        <%= render partial: "attendances/table", locals: {attendances: @attendances} %>
-    </div>
+    <table data-sortable>
+      <%= render partial: "components/todo_table", locals: {collection: @attendances} %>
+    </table>
   </section>
 <% end %>
 
 <% if @submissions.count > 0 %>
   <section>
-    <h3 class="fold" id="submissions"><a href="#submissions"><%= @user.first_name %>'s Homework Submissions</a></h3>
+    <h3 id="submissions"><a href="#submissions"><%= @user.first_name %>'s Homework Submissions</a></h3>
     <p>Percent Complete: <%= percent_of(@submissions, "complete") %>%</p>
-    <table>
-      <%= render partial: "submissions/thead", locals: {submissions: @submissions} %>
-      <% @submissions.each do |submission| %>
-        <%= render partial: "submissions/tr", locals: {submission: submission } %>
-      <% end %>
+    <table data-sortable>
+      <%= render partial: "components/todo_table", locals: {collection: @submissions} %>
     </table>
   </section>
 <% end %>
 
 
-<section>
+<section class="membership">
   <h3>Profile</h3>
   <%= render partial: "users/form" %>
   <% if @user.github_id %>

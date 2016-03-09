@@ -16,6 +16,7 @@
  *= require dependencies
  *= require theme
  *= require singletons
+ *= require_tree .
  */
 
 *{
@@ -39,10 +40,9 @@
  a[href], button, label, input[type=submit], label{
    cursor:pointer;
  }
- .fa{
+ .notext{
    font-size:0;
  }
  .fa:before{
-   font-size:1rem;
-   padding-right:5px;
+   font-size:1rem !important;
  }

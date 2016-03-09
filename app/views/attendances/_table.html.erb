@@ -1,8 +1,0 @@
-<table>
-  <% attendances.each do |attendance| %>
-      <tr>
-        <td><%= link_to_if @is_adminned_by_current_user, attendance.date, attendance.event %></td>
-        <td><%= attendance.status %></td>
-      </tr>
-  <% end %>
-</table>

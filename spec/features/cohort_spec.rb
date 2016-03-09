@@ -15,6 +15,6 @@ RSpec.feature 'Cohort Show Page', js: true do
     # visit cohort show, with expanded Attendance section
     visit cohort_path(cohort_under_test, anchor: 'members')
 
-    expect(page).to have_css("th", text: /^Average Observations/)
+    expect(page).to have_css("th", text: /^Avg Ob/)
   end
 end

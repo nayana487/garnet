@@ -1,8 +1,3 @@
-<h2>
-  <%= "#{@assignment.title || "Assignment"}, #{@assignment.due_date_s}"  %>
-  ,
-  <%= link_to("Issues", @assignment.issues_url(@cohort.nonadmins), target: '_blank') %>
-</h2>
 <h3>Base Score: <%=@assignment.base_score ? @assignment.base_score : "No Score" %></h3>
 <p><%= percent_of(@submissions, "complete") %>% complete</p>
 <% if @assignment.repo_url && !@assignment.repo_url.strip.blank? %>
@@ -31,7 +26,7 @@
 <%= link_to active_link_text, assignment_path(@assignment, cohort: @cohort, show_na: @show_na,  show_inactive: !@show_inactive) %>
 </p>
 
-<table>
+<table data-sortable>
   <%= render partial: "components/todo_table", locals: {collection: @submissions} %>
 </table>
 
