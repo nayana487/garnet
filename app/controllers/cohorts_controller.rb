@@ -1,6 +1,6 @@
 class CohortsController < ApplicationController
   before_action :set_cohort, only: [:show, :edit, :update, :destroy,
-                                    :manage, :gh_refresh]
+                                    :manage, :gh_refresh, :todos]
 
   def index
     @cohorts = Cohort.all
@@ -88,6 +88,16 @@ class CohortsController < ApplicationController
     authorize! :manage, @cohort
     @cohort.update(invite_code: Digest::MD5.hexdigest(@cohort.name + Time.now.to_s))
     redirect_to :back
+  end
+
+  def todos
+    users = @cohort.memberships.admin.select{|m| m.tags.length > 0 }.map{|m| m.user }
+    @todos = users.map do |u|
+      {
+        user: u.name,
+        ungraded: u.get_todo(Submission, @cohort).count
+      }
+    end
   end
 
   private
