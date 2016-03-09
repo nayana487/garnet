@@ -1,12 +1,12 @@
-<% present = membership.percent_from_status(:attendances, :present) + membership.percent_from_status(:attendances, :tardy) %>
-<% tardy = membership.attendances.where(status: Attendance.statuses[:tardy]).count %>
-<% hw_complete = membership.percent_from_status(:submissions, :complete) %>
+<% present      = membership.percent_from_status(:attendances, :present) + membership.percent_from_status(:attendances, :tardy) %>
+<% tardy        = membership.attendances.where(status: Attendance.statuses[:tardy]).count %>
+<% hw_complete  = membership.percent_from_status(:submissions, :complete) %>
 <td data-sort-field="tardy">
   <%= tardy %>
 </td>
 <td data-sort-field="present" class="<%= color_of_percent(present, :good) %>">
   <%= "#{present}%" || "N/A" %>
 </td>
-<td data-sort-field="hw_complete" class="<%= color_of_percent(hw_complete, :bad) %>">
+<td data-sort-field="hw_complete" class="<%= color_of_percent(hw_complete, :good) %>">
   <%= "#{hw_complete}%" || "N/A" %>
 </td>
