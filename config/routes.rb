@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       get 'gh_refresh'
       get 'manage'
       get 'observations'
+      get 'todos'
       post 'generate_invite_code'
     end
     resources :events,      only: [:create]

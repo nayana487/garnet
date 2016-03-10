@@ -1,0 +1,5 @@
+<h2>Number Assignments ungraded</h2>
+<div class='chart todos-chart'></div>
+<%= javascript_tag do %>
+  todoData = <%= @todos.to_json.html_safe %>;
+<% end %>

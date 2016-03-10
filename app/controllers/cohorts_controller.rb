@@ -1,6 +1,10 @@
 class CohortsController < ApplicationController
   before_action :set_cohort, only: [:show, :edit, :update, :destroy,
+<<<<<<< HEAD
                                     :manage, :gh_refresh, :observations]
+=======
+                                    :manage, :gh_refresh, :todos]
+>>>>>>> e87655be2e701e92242c2e740b0ae9b399bf50ea
 
   def index
     @cohorts = Cohort.all
@@ -90,9 +94,22 @@ class CohortsController < ApplicationController
     redirect_to :back
   end
 
+<<<<<<< HEAD
   def observations
     @observations = Observation.joins(:membership).where("memberships.cohort_id = ?", @cohort.id).order(created_at: :desc).limit(10)
   end
+=======
+  def todos
+    users = @cohort.memberships.admin.select{|m| m.tags.length > 0 }.map{|m| m.user }
+    @todos = users.map do |u|
+      {
+        user: u.name,
+        ungraded: u.get_todo(Submission, @cohort).count
+      }
+    end
+  end
+
+>>>>>>> e87655be2e701e92242c2e740b0ae9b399bf50ea
   private
   def set_cohort
     @cohort = Cohort.find(params[:id])
