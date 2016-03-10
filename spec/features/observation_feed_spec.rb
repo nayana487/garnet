@@ -1,10 +1,3 @@
-# scenario 'can see 10 most recent observations from cohorts you admin' do
-#   login_user(test_instructor)
-#   visit(root_path)
-#   expect(page).to have_content "jane test observation"
-#   expect(page).to_not have_content "john test observation"
-# end
-
 require 'rails_helper'
 
 RSpec.feature 'Observation Feed' do
@@ -59,23 +52,4 @@ RSpec.feature 'Observation Feed' do
     expect(page).to_not have_content "johns obs from other test instructor"
 
   end
-  # scenario 'viewing todos for events' do
-  #   login_user(test_instructor)
-  #   visit(root_path)
-  #   expect(page).to have_content "Jane"
-  #   expect(page).to have_content "Test Event"
-  # end
-  #
-  # scenario 'viewing todos for assignments' do
-  #   login_user(test_instructor)
-  #   visit(root_path)
-  #   expect(page).to have_content "Jane"
-  #   expect(page).to have_content "Test Assignment"
-  # end
-  #
-  # scenario 'inactive students are not shown on todos' do
-  #   login_user(test_instructor)
-  #   visit(root_path)
-  #   expect(page).to_not have_content "John"
-  # end
 end
