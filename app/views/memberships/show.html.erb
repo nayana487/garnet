@@ -52,3 +52,11 @@
     <%= link_to "Refresh Github info", gh_refresh_user_path(@user), class: "button" %>
   <% end %>
 </section>
+
+<% if can? :manage, @cohort %>
+  <%= form_for @membership do |f| %>
+    <%= f.label :outcomes_id %>
+    <%= f.text_field :outcomes_id %>
+    <%= f.submit %>
+  <% end %>
+<% end %>
