@@ -11,11 +11,11 @@ ASSIGNMENT_CATEGORIES = ["outcomes", "homework", "project"]
 REPO_NAMES = ["pixart_js", "wdi_radio", "puppy_db", "tunr", "trillo", "stock-tracker", "spotify-me"]
 TAG_NAMES = ["Squad A", "Squad B", "Squad C", "Squad D", "Squad E", "Lightning Bears", "Fire Goldfish", "Water Monkeys"]
 
-NUM_USERS = 100
-NUM_LOCATIONS = 3
-NUM_COURSES = 3
-NUM_COHORTS_PER_COURSE = 4
-
+NUM_USERS = 15
+NUM_LOCATIONS = 2
+NUM_COURSES = 2
+NUM_COHORTS_PER_COURSE = 2
+NUM_MISC_OBJECTS = 10
 # ensure a demo user is available
 User.create!(name: "Demo McDemoton", username: "demo", password: "demo", email:FFaker::Internet.safe_email)
 
@@ -30,9 +30,10 @@ end
 TAG_NAMES.each { |tag| Tag.create!(name: tag) }
 
 # Creates cohorts based on course and locations
-Location.all.sample(NUM_LOCATIONS).each do |loc|
+Location.all.sample(NUM_LOCATIONS).each_with_index do |loc, i|
+  puts "creating location: #{i}"
   Course.all.sample(NUM_COURSES).each do |course|
-    rand(NUM_COHORTS_PER_COURSE).times do |i|
+      NUM_COHORTS_PER_COURSE.times do |i|
       start_date = rand_time
       Cohort.create(name: "#{loc.short_name} #{course.short_name} #{i}",
                     start_date: start_date,
@@ -48,7 +49,7 @@ end
 
 Cohort.all.each_with_index do |cohort, i|
   puts "iteration #{i} cohort #{cohort.name} stuff generating"
-  students = User.all.sample(rand(5..75))
+  students = User.all.sample(rand(5..NUM_USERS))
   instructors = (User.all - students).sample(rand(1..5))
   # For each cohort, adds some members and admins
   students.each_with_index do |student, i|
@@ -69,7 +70,7 @@ Cohort.all.each_with_index do |cohort, i|
   students.each do |student|
     membership = Membership.find_by(cohort: cohort, user: student)
     inst_memberships = Membership.where(cohort: cohort, user: instructors)
-    rand(0..20).times do |i|
+    rand(0..NUM_MISC_OBJECTS).times do |i|
       Observation.create!(
         membership: membership,
         admin: inst_memberships.sample.user,
@@ -79,7 +80,7 @@ Cohort.all.each_with_index do |cohort, i|
     end
   end
   # creates events for cohort, which auto generates attendance
-  rand(0..30).times do |i|
+  rand(0..NUM_MISC_OBJECTS).times do |i|
     event_time = rand_time(cohort.start_date.to_time, cohort.end_date.to_time)
     event = cohort.events.create!(
       occurs_at: event_time,
@@ -98,7 +99,7 @@ Cohort.all.each_with_index do |cohort, i|
 
   end
   # creates assignments for cohort, which auto generates submissions
-  rand(0..30).times do |i|
+  rand(0..NUM_MISC_OBJECTS).times do |i|
     due_date = rand_time(cohort.start_date.to_time, cohort.end_date.to_time)
     assignment = cohort.assignments.create!(
       due_date: due_date,

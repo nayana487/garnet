@@ -10,7 +10,7 @@ Location.destroy_all
 Course.destroy_all
 Tagging.destroy_all
 Tag.destroy_all
-
+puts "destroyed EVERYTTHING"
 Course.create!([
   { name: 'Web Development Immersive',        short_name: 'WDI',  format: 'Immersive' },
   { name: 'User Experience Design Immersive', short_name: 'UXDI', format: 'Immersive' },
