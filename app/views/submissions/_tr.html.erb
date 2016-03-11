@@ -24,8 +24,10 @@
       <%= form_for submission, html:{id: nil}, data:{autosave: true} do |f| %>
         <%= f.text_field :score, class: "sm", id: nil %><%= out_of_score %>
       <% end %>
-    <% else %>
+    <% elsif assignment.public == true %>
       <%= "#{submission.score}#{out_of_score}" %>
+    <% else %>
+      N/A
     <% end %>
   </td>
   <td>
