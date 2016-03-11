@@ -29,7 +29,7 @@ RSpec.describe Membership do
 
   describe "average observations" do
     it "has an average observations method" do
-      expect(@m.average_observations).to eq(0.33)
+      expect(@m.average_observations).not_to eq(nil)
     end
     it "has average observations that are a float" do
       expect(@m.average_observations).to be_a(Float)
@@ -44,6 +44,10 @@ RSpec.describe Membership do
       cohort = Cohort.first
       @t = cohort.memberships.create()
       expect(@t.average_observations).to be(0.0)
+    end
+    it "has an average observation not influenced by neutral status" do
+      @m.observations.create(status: 3)
+      expect(@m.average_observations).to eq(0.33)
     end
   end
 

@@ -89,7 +89,7 @@ class Membership < ActiveRecord::Base
   end
 
   def update_average_observations
-    average = self.observations.average(:status).to_f.round(2)
+    average = self.observations.where.not(status:3).average(:status).to_f.round(2)
     self.update!(average_observations: self.observations.any? ? average : nil)
     return average
   end
@@ -99,8 +99,11 @@ class Membership < ActiveRecord::Base
     joins(:tags).where("tags.name IN (?)", tags).uniq
   end
 
-  def as_json(options={})
-    super.as_json(options).merge({
+  def as_json(options = {})
+    public_attributes = [ "id", "cohort_id", "user_id", "status",
+                          "created_at", "updated_at"]
+
+    super.as_json(only: public_attributes).merge({
       name: self.user.name
     })
   end

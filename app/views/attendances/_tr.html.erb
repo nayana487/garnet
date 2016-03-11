@@ -1,17 +1,17 @@
 <% event  = attendance.event %>
 <% user   = attendance.user %>
 <% admin  = (can? :manage, attendance) %>
-<tr>
-  <td>
+<tr data-record>
+  <td data-sort-field="name">
     <%= link_to "#{user.first_name} #{user.last_name[0]}.", membership_path(attendance.membership) %>
   </td>
   <td>
     <%= avatar(user) %>
   </td>
-  <td>
+  <td data-sort-field="title">
     <%= link_to event.title, event %>
   </td>
-  <td>
+  <td data-sort-field="date">
     <%= link_to event.occurs_at_s, event %>
   </td>
   <td>

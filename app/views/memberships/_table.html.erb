@@ -1,25 +1,28 @@
 <% if memberships.any? %>
+  <div data-sortable>
   <h5><%= "#{header} (#{memberships.count})" %></h5>
-  <table class="js-dataTable memberships stripe js-sticky-table-header" >
+  <input type="text" data-filter-input placeholder="Filter on..." />
+  <table class="js-sticky-table-header" >
     <thead>
       <tr>
-        <th>Name</th> <!-- name / cohort name -->
+        <th data-records-total></th>
+        <th data-filterable data-sort-trigger="name">Name</th> <!-- name / cohort name -->
         <th></th> <!-- image -->
         <% if current_user.is_admin_of_anything? %>
-          <th>Tags</th>
-          <th>% Tardy</th>
-          <th>% Absent</th>
-          <th>% HW Complete</th>
-          <th>Avg Ob</th>
-          <th>Last Ob (ymd)</th>
+          <th data-filterable>Tags</th>
+          <th data-sort-trigger="tardy"># Tardy</th>
+          <th data-sort-trigger="present">% Present</th>
+          <th data-sort-trigger="hw_complete">% HW Complete</th>
+          <th data-sort-trigger="avg_ob">Avg Ob</th>
+          <th data-sort-trigger="last_ob">Last Ob (ymd)</th>
         <% end %>
       </tr>
     </thead>
     <tbody>
       <% memberships.each do |membership| %>
-        <%= render partial: "memberships/row", locals: {membership: membership, row_header: row_header} %>
+        <%= render partial: "memberships/row", locals: {membership: membership} %>
       <% end %>
     </tbody>
   </table>
-<% else %>
+  </div>
 <% end  %>

@@ -2,14 +2,16 @@
 <% assignment   = submission.assignment %>
 <% out_of_score = ((score = assignment.base_score) ? " / #{score}" : "") %>
 <% admin        = (can? :manage, submission) %>
+<tbody data-record>
 <tr data-submission-id="<%= submission.id %>">
-  <td rowspan="2">
+  <td rowspan="2" data-record-number></td>
+  <td rowspan="2" data-sort-field="name" data-filterable>
     <%= link_to "#{user.first_name} #{user.last_name[0]}.", membership_path(submission.membership) %>
   </td>
   <td rowspan="2">
     <%= avatar(user) %>
   </td>
-  <td rowspan="2">
+  <td rowspan="2" data-sort-field="title" data-filterable>
     <%= link_to submission.assignment.title, submission.assignment %>
   </td>
   <td rowspan="2">
@@ -54,3 +56,4 @@
     <% end %>
   </td>
 </tr>
+</tbody>

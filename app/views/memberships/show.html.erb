@@ -1,5 +1,5 @@
 <% if can? :manage, @cohort %>
-  <%= tag_list @membership %>
+  <%= render partial: "components/tag_list", locals: {membership: @membership} %>
 <% end %>
 
 <% if @is_current_user  %>
@@ -13,7 +13,7 @@
 
 <% if @observations %>
   <section>
-    <h3 class="fold" id="observations"><a href="#observations"><%= @user.first_name %>'s Observations</a></h3>
+    <h3 class="fold-without-anchor js-fold-without-anchor" id="observations"><a href="#observations"><%= @user.first_name %>'s Observations</a></h3>
     <div>
       <%= render @observations %>
       <section>
@@ -28,7 +28,7 @@
   <section>
     <h3 id="attendances"><a href="#attendances"><%= @user.first_name %>'s Attendance</a></h3>
     <p>Present: <%= @attendances.present.count %>, Tardy: <%= @attendances.tardy.count %>, Absent: <%= @attendances.absent.count %></p>
-    <table>
+    <table data-sortable>
       <%= render partial: "components/todo_table", locals: {collection: @attendances} %>
     </table>
   </section>
@@ -38,7 +38,7 @@
   <section>
     <h3 id="submissions"><a href="#submissions"><%= @user.first_name %>'s Homework Submissions</a></h3>
     <p>Percent Complete: <%= percent_of(@submissions, "complete") %>%</p>
-    <table>
+    <table data-sortable>
       <%= render partial: "components/todo_table", locals: {collection: @submissions} %>
     </table>
   </section>

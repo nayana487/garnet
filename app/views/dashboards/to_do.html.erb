@@ -9,14 +9,14 @@
     <h3><%= link_to cohort.name, cohort %></h3>
     <section>
       <h4>Submissions</h4>
-      <table>
+      <table data-sortable>
         <%= render partial: "components/todo_table", locals: {collection: items[:submissions]} %>
       </table>
     </section>
 
     <section>
       <h4>Attendance</h4>
-      <table>
+      <table data-sortable>
         <%= render partial: "components/todo_table", locals: {collection: items[:attendances]} %>
       </table>
     </section>

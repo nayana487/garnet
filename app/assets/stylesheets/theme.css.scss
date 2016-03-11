@@ -379,12 +379,12 @@ input[type=search]{
   border-radius:3px;
 }
 
-.js-tag{
+.tag{
   cursor:pointer;
   color:#999;
   &:hover{ color:$ga-yellow; }
 }
-.js-remove-tagging{
+.tag-remove{
   color:#999;
   &:hover{ color:$ga-red; }
 }
@@ -442,36 +442,7 @@ table{
   }
 }
 
-.dataTables_wrapper{
-  .dataTables_filter{
-    float:right;
-    padding:5px 0;
-  }
-  .sorting{
-    cursor:pointer;
-  }
-  .sorting_asc{
-    cursor:n-resize;
-    &:after{ content: "a-z"; }
-  }
-  .sorting_desc{
-    cursor:s-resize;
-    &:after{ content: "z-a"; }
-  }
-  .sorting_asc,
-  .sorting_desc{
-    background-color:#ddd;
-    &:after{
-      display:inline-block;
-      font-weight:normal;
-      color:#999;
-      padding-left:5px;
-    }
-  }
-}
-
-
-.fold{
+.fold, .fold-without-anchor{
   &:after{
     display:inline-block;
     transition:transform 0.2s;

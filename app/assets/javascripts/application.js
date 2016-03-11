@@ -13,8 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require select2
-//= require jquery.dataTables.min
 //= require jquery.stickytableheaders.min
+//= require d3.min
 
 //= require_tree .
 
@@ -27,3 +27,18 @@ $(".fold").on("click", function(e){
     window.location.hash = '#';
   }
 });
+
+$(".js-fold-without-anchor").on("click", function(e){
+  e.preventDefault();
+  $(this).siblings("div").show()
+});
+
+var hash = window.location.hash
+if(hash){
+  hash = hash.split("-")
+  if(hash[0]){
+    hash = hash[0]
+    $(hash).siblings("div").show();
+    $('html, body').scrollTop($(""+ window.location.hash + "").offset().top);
+  }
+}

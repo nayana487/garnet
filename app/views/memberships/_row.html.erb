@@ -1,20 +1,22 @@
 <% cache [membership, (can? :see_performance, membership), (can? :see_observations, membership)] do %>
-  <tr>
+  <tr data-record>
     <% user = membership.user %>
-    <td><%= link_to user.name, membership %></td>
+    <td><span data-record-number></span></td>
+    <td data-sort-field="name" data-filterable><%= link_to user.name, membership %></td>
     <td><%= avatar(user) if user.image_url && !user.image_url.strip.blank? %></td>
-
     <% if can? :see_performance, membership %>
-    <td><%= tag_list(membership)%></td>
+    <td data-filterable>
+      <%= render partial: "components/tag_list", locals: {membership: membership} %>
+    </td>
     <%= render partial: "memberships/row_performance_cells", locals: {membership: membership} %>
     <% end %>
     <% if can? :see_observations, membership %>
       <% if membership.average_observations %>
-        <td class="<%= color_of_percent((membership.average_observations/2) * 100 )%>"><%= membership.average_observations %></td>
+        <td data-sort-field="avg_ob" class="<%= color_of_percent((membership.average_observations/2) * 100 )%>"><%= membership.average_observations %></td>
       <% else %>
         <td>N/A</td>
       <% end %>
-      <td><%= membership.last_observation %></td>
+      <td data-sort-field="last_ob"><%= membership.last_observation %></td>
     <% end %>
   </tr>
 <% end %>
