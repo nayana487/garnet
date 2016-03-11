@@ -46,10 +46,10 @@ group :development, :test do
   gem 'quiet_assets'
   gem 'rspec-rails', '~> 3.0'
   gem 'selenium-webdriver'
-  gem 'web-console', '~> 2.0' # Access an IRB console on exception pages or by using <%= console %> in views
 end
 
 group :development do
+  gem 'web-console', '~> 2.0' # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'sdoc', '~> 0.4.0', group: :doc   # bundle exec rake doc:rails generates the API under doc/api.
   # gem 'spring'
 end
