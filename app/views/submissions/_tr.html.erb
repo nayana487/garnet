@@ -2,7 +2,7 @@
 <% assignment   = submission.assignment %>
 <% out_of_score = ((score = assignment.base_score) ? " / #{score}" : "") %>
 <% admin        = (can? :manage, submission) %>
-<tr>
+<tr data-submission-id="<%= submission.id %>">
   <td rowspan="2">
     <%= link_to "#{user.first_name} #{user.last_name[0]}.", membership_path(submission.membership) %>
   </td>
@@ -19,7 +19,7 @@
       <%= link_to "Fork", submission.fork_url, {class: "notext fa fa-code-fork"} %>
     <% end %>
   </td>
-  <td>
+  <td class="score">
     <% if admin %>
       <%= form_for submission, html:{id: nil}, data:{autosave: true} do |f| %>
         <%= f.text_field :score, class: "sm", id: nil %><%= out_of_score %>
