@@ -73,19 +73,20 @@ class Cohort < ActiveRecord::Base
   # TODO: attendance_event
   def generate_events start_time
     days_in_cohort = (end_date - start_date).to_i
-    current_day = start_date.change({hour: start_time})
+    # have to offset to accomodate for UTC, config timezone doesn't set "server time", rails always stores dates in UTC in the database
+    current_day_time = start_date.to_datetime.change({hour: start_time, offset: "-0400"})
     # TODO: refactor using business_time gem to stream line all of this using matt's psuedocode
     # gather workdays between start/end date
     # reject dates that have existing events
     # loop thru remaining dates, create events based on those dates
     days_in_cohort.times do |i|
-      current_day += 1
+      current_day_time += 1.day
       # if current day is a weekday .wday will return a number between 1-5
-      if current_day.wday < 6 && current_day.wday > 0
+      if current_day_time.wday < 6 && current_day_time.wday > 0
         # sees if there's an event that has the same day and month as the current day
         # TODO: to_date
-        if !self.events.any?{|event| event.occurs_at.to_date == current_day.to_date}
-          self.events.create(occurs_at: current_day, title: current_day.strftime("%B %d, %Y"))
+        if !self.events.any?{|event| event.occurs_at.to_date == current_day_time.to_date}
+          self.events.create(occurs_at: current_day_time, title: current_day_time.strftime("%B %d, %Y"))
         end
       end
     end
