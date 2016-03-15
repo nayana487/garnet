@@ -89,6 +89,7 @@ class Cohort < ActiveRecord::Base
         end
       end
     end
+    return self.events
   end
 
 end
