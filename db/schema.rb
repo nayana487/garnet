@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20160306220325) do
   end
 
   create_table "attendances", force: :cascade do |t|
-    t.integer  "status",        default: 0
+    t.integer  "status"
     t.integer  "event_id"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
@@ -71,14 +71,6 @@ ActiveRecord::Schema.define(version: 20160306220325) do
     t.string   "title"
     t.boolean  "required"
     t.integer  "cohort_id"
-  end
-
-  create_table "groups", force: :cascade do |t|
-    t.string   "title"
-    t.string   "category"
-    t.integer  "parent_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "locations", force: :cascade do |t|
