@@ -12,7 +12,7 @@ class UsersController < ApplicationController
         flash[:notice] = "User #{params[:user]} not found!"
       end
     elsif signed_in?
-      @user = current_user
+      @user = User.find_by(username: params[:user])
     else
       redirect_to sign_in_path
     end
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
 
     redirect_to current_user unless is_current_user || @is_adminned_by_current_user
 
-    @is_editable = is_current_user && !@user.github_id
+    @is_editable = (is_current_user && !@user.github_id) || @is_adminned_by_current_user
 
     memberships = @user.memberships.includes(:cohort).order("cohorts.name")
     @admin_memberships = memberships.admin
@@ -33,9 +33,8 @@ class UsersController < ApplicationController
     if params[:form_user][:password_confirmation] != params[:form_user][:password]
       flash[:notice] = "Your passwords don't match!"
     else
-      @user = current_user
+      @user = User.named(params[:user])
       if @user && @user.update!(user_params)
-        set_current_user(@user)
         flash[:notice] = "Account updated!"
       else
         flash[:notice] = "Since you're using Github, you'll need to make all your changes there."

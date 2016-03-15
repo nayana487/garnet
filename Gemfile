@@ -23,6 +23,7 @@ gem 'octokit'
 gem 'redcarpet' # use redcarpet for markdown support
 gem 'sass-rails', '~> 5.0' # Use SCSS for stylesheets
 gem 'select2-rails'
+gem 'thin'
 gem 'uglifier', '>= 1.3.0' # Use Uglifier as compressor for JavaScript assets
 gem 'simple_form'
 gem 'whenever', :require => false
