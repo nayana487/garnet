@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(version: 20160316162629) do
     t.string   "percent_submissions"
     t.string   "percent_attendances"
     t.float    "average_observations"
+    t.integer  "outcomes_id"
   end
 
   create_table "observations", force: :cascade do |t|

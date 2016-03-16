@@ -101,7 +101,7 @@ class Membership < ActiveRecord::Base
 
   def as_json(options = {})
     public_attributes = [ "id", "cohort_id", "user_id", "status",
-                          "created_at", "updated_at"]
+                          "created_at", "updated_at", "is_admin","is_active"]
 
     super.as_json(only: public_attributes).merge({
       name: self.user.name
