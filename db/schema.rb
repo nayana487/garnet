@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160306220325) do
+ActiveRecord::Schema.define(version: 20160310161019) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,8 +45,8 @@ ActiveRecord::Schema.define(version: 20160306220325) do
     t.date     "end_date"
     t.integer  "course_id"
     t.integer  "location_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.string   "invite_code"
     t.integer  "number_at_location"
   end
@@ -87,14 +87,15 @@ ActiveRecord::Schema.define(version: 20160306220325) do
 
   create_table "memberships", force: :cascade do |t|
     t.integer  "user_id"
-    t.boolean  "is_admin",               null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "status",     default: 0
+    t.boolean  "is_admin",                         null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.integer  "status",               default: 0
     t.integer  "cohort_id"
     t.string   "percent_submissions"
     t.string   "percent_attendances"
     t.float    "average_observations"
+    t.integer  "outcomes_id"
   end
 
   create_table "observations", force: :cascade do |t|
