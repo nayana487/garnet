@@ -7,6 +7,10 @@ class Observation < ActiveRecord::Base
 
   enum status: [:neutral, :red, :yellow, :green]
 
+  before_save do
+    self.status = 0 if self.status.nil?
+  end
+
   after_save do
     self.membership.update_average_observations
   end
