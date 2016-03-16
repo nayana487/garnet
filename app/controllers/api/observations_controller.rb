@@ -1,7 +1,6 @@
 module Api
   class ObservationsController < ApplicationController
     before_filter :allow_cors, only: [:from_outcomes]
-    skip_before_action :authenticate
 
     def from_outcomes
       membership = Membership.find_by(outcomes_id: params[:id])
