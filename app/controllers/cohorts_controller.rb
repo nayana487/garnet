@@ -91,6 +91,7 @@ class CohortsController < ApplicationController
   end
 
   def observations
+    authorize! :manage, @cohort
     @observations = Observation.joins(:membership).where("memberships.cohort_id = ?", @cohort.id).order(created_at: :desc).limit(10)
   end
 
