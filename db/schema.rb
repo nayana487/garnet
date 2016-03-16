@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160311152448) do
+ActiveRecord::Schema.define(version: 20160316162629) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20160311152448) do
     t.boolean  "required"
     t.integer  "cohort_id"
     t.integer  "base_score"
-    t.boolean  "public"
+    t.boolean  "public",     default: false
   end
 
   create_table "attendances", force: :cascade do |t|
