@@ -53,7 +53,7 @@
   <% end %>
 </section>
 
-<% if can? :manage, @cohort %>
+<% if can? :manage, @membership %>
   <%= form_for @membership do |f| %>
     <%= f.label :outcomes_id %>
     <%= f.text_field :outcomes_id %>
