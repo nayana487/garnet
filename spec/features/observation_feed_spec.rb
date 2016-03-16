@@ -12,7 +12,7 @@ RSpec.feature 'Observation Feed' do
 
   let(:john) { User.find_by(username: 'john') }
   let(:jane) { User.find_by(username: 'jane') }
-  let(:dave) { User.find_by(username: 'jane') }
+  let(:carol) { User.find_by(username: 'carol') }
 
   before(:each) {
     cohort1.add_admin(test_instructor)
@@ -21,15 +21,15 @@ RSpec.feature 'Observation Feed' do
     cohort1.add_member(jane)
 
     cohort2.add_admin(other_instructor)
-    cohort2.add_member(dave)
+    cohort2.add_member(carol)
 
     john_cohort1 = john.memberships.find_by(cohort: cohort1)
     jane_cohort1 = jane.memberships.find_by(cohort: cohort1)
-    dave_cohort2 = dave.memberships.find_by(cohort: cohort2)
+    carol_cohort2 = carol.memberships.find_by(cohort: cohort2)
 
     @allowed_obs1 = john_cohort1.observations.create(status: 1, body: "john in cohort1", admin_id: test_instructor.id)
     @allowed_obs2 = jane_cohort1.observations.create(status: 1, body: "jane in cohort1", admin_id: other_instructor.id)
-    @denied_obs1  = dave_cohort2.observations.create(status: 1, body: "dave in cohort2", admin_id: other_instructor.id)
+    @denied_obs1  = carol_cohort2.observations.create(status: 1, body: "carol in cohort2", admin_id: other_instructor.id)
   }
 
   scenario 'should see feed header' do
