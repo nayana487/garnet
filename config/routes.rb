@@ -65,7 +65,7 @@ Rails.application.routes.draw do
   namespace :api do
     resource :user, only: [:show]
     get 'send_api_token'
-    match 'observations/from_outcomes' => 'observations/from_outcomes', :via => :post
+    post 'observations/from_outcomes'
     resources :cohorts do
       resources :memberships, only: [:index]
     end
