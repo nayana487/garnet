@@ -4,6 +4,7 @@ module Api
 
     def from_outcomes
       membership = Membership.find_by(outcomes_id: params[:id])
+      authorize! :manage, membership
       body = membership.observations.create(body: params[:body], admin_id: current_user.id)
       render json: body
     end
