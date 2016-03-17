@@ -30,8 +30,8 @@ end
 TAG_NAMES.each { |tag| Tag.create!(name: tag) }
 
 # Creates cohorts based on course and locations
-Location.all.sample(NUM_LOCATIONS).each_with_index do |loc, i|
-  puts "creating location: #{i}"
+puts "Creating #{NUM_LOCATIONS * NUM_COURSES * NUM_COHORTS_PER_COURSE} Cohorts..."
+Location.all.sample(NUM_LOCATIONS).each do |loc|
   Course.all.sample(NUM_COURSES).each do |course|
       NUM_COHORTS_PER_COURSE.times do |i|
       start_date = rand_time
@@ -48,7 +48,7 @@ Location.all.sample(NUM_LOCATIONS).each_with_index do |loc, i|
 end
 
 Cohort.all.each_with_index do |cohort, i|
-  puts "iteration #{i} cohort #{cohort.name} stuff generating"
+  puts "Iteration #{i} cohort #{cohort.name} stuff generating..."
   students = User.all.sample(rand(5..NUM_USERS))
   instructors = (User.all - students).sample(rand(1..5))
   # For each cohort, adds some members and admins

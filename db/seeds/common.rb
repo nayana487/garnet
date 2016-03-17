@@ -1,16 +1,5 @@
-Assignment.destroy_all
-Attendance.destroy_all
-Event.destroy_all
-Cohort.destroy_all
-Membership.destroy_all
-Observation.destroy_all
-Submission.destroy_all
-User.destroy_all
-Location.destroy_all
-Course.destroy_all
-Tagging.destroy_all
-Tag.destroy_all
-puts "destroyed EVERYTTHING"
+DatabaseCleaner.clean_with(:truncation)
+
 Course.create!([
   { name: 'Web Development Immersive',        short_name: 'WDI',  format: 'Immersive' },
   { name: 'User Experience Design Immersive', short_name: 'UXDI', format: 'Immersive' },
