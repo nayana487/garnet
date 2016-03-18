@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160316162629) do
+ActiveRecord::Schema.define(version: 20160318191715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,8 +21,8 @@ ActiveRecord::Schema.define(version: 20160316162629) do
     t.string   "repo_url"
     t.string   "title"
     t.datetime "due_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.boolean  "required"
     t.integer  "cohort_id"
     t.integer  "base_score"
@@ -50,6 +50,9 @@ ActiveRecord::Schema.define(version: 20160316162629) do
     t.datetime "updated_at",         null: false
     t.string   "invite_code"
     t.integer  "number_at_location"
+    t.integer  "core_id"
+    t.integer  "duration_in_weeks"
+    t.integer  "day_of_week"
   end
 
   create_table "courses", force: :cascade do |t|
