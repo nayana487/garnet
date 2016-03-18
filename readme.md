@@ -81,6 +81,16 @@ unicorn, the application server.
 
 # Troubleshooting
 
+## Metrics
+
+- `rake -T metrics`
+- cron job updates nightly, see config/schedule.rb
+
+### Sandi Metz rules
+
+- sandi_meter outputs to "/metrics/sandi_meter"
+- https://github.com/makaroni4/sandi_meter
+
 ## NewRelic
 
 New Relic monitors the app and provides metrics.  They are available in development mode (/newrelic) and production (rpm.newrelic.com).  It is recommended that you [install newrelic-sysmond on the servers](https://rpm.newrelic.com/accounts/1130222/servers/get_started).

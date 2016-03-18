@@ -15,14 +15,23 @@ namespace :metrics do
   end
 
   namespace :sandi_meter do
-    desc "Generates/updates html pages at /metrics/sandi_meter"
+    sandi_pages_path = Rails.root.join('public/metrics/sandi_meter')
+
+    desc "Generates/updates html pages for /metrics/sandi_meter"
     task :generate do
       # mms: using CLI because I could not find easy way to access anaylzer, for rails -> html, via code
-      output_path = Rails.root.join('public/metrics/sandi_meter')
-      message = "Generating sandi_meter metrics at #{output_path}"
+      message = "Generating sandi_meter metrics at #{sandi_pages_path}"
       logger.info message
-      puts message
-      `sandi_meter --graph -q --output-path "#{output_path}"`
+      # puts message
+      `sandi_meter --graph --quiet --output-path "#{sandi_pages_path}"`
+    end
+
+    desc "Clean html pages at #{sandi_pages_path}"
+    task :clean do
+      message = "Removing sandi_meter pages #{sandi_pages_path}"
+      logger.info message
+      # puts message
+      FileUtils.rm_rf(sandi_pages_path)
     end
   end
 end
