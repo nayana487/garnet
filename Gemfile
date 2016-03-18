@@ -34,19 +34,20 @@ group :production do
 end
 
 group :development, :test do
-  gem 'ffaker'
-  gem 'shoulda'
   gem 'awesome_print'
   gem 'capybara'
   gem 'database_cleaner'
-  gem 'launchy' # for capybara, save_and_open_page
+  gem 'ffaker'
   gem "factory_girl_rails" # for generating sample data for tests
+  gem 'launchy' # for capybara, save_and_open_page
   gem 'newrelic_rpm' # http://newrelic.com/ruby
   gem 'poltergeist' # for headless browser tests via capybara
   gem 'pry-byebug' # Call 'binding.pry', 'debugger', or 'byebug' to debug
   gem 'quiet_assets'
   gem 'rspec-rails', '~> 3.0'
+  gem 'sandi_meter'
   gem 'selenium-webdriver'
+  gem 'shoulda'
 end
 
 group :development do

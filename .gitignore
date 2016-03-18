@@ -21,3 +21,5 @@
 /config/application.yml
 /public/assets
 
+# generated metrics
+/public/metrics
