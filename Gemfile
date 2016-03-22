@@ -4,7 +4,6 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.4'
 # Use postgresql as the database for Active Record
 gem 'pg'
-gem 'thin'
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>
 # remaining gems are sorted alphabetically
@@ -47,6 +46,7 @@ group :development, :test do
   gem 'quiet_assets'
   gem 'rspec-rails', '~> 3.0'
   gem 'selenium-webdriver'
+  gem 'thin'
 end
 
 group :development do
