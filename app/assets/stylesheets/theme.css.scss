@@ -379,6 +379,9 @@ input[type=search]{
   margin-left:1em;
   border-radius:3px;
 }
+input[type=number]{
+  @extend input[type=text];
+}
 
 .tag{
   cursor:pointer;
