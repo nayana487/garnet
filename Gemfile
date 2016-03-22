@@ -23,7 +23,6 @@ gem 'octokit'
 gem 'redcarpet' # use redcarpet for markdown support
 gem 'sass-rails', '~> 5.0' # Use SCSS for stylesheets
 gem 'select2-rails'
-gem 'thin'
 gem 'uglifier', '>= 1.3.0' # Use Uglifier as compressor for JavaScript assets
 gem 'simple_form'
 gem 'whenever', :require => false
@@ -47,10 +46,11 @@ group :development, :test do
   gem 'quiet_assets'
   gem 'rspec-rails', '~> 3.0'
   gem 'selenium-webdriver'
-  gem 'web-console', '~> 2.0' # Access an IRB console on exception pages or by using <%= console %> in views
+  gem 'thin'
 end
 
 group :development do
+  gem 'web-console', '~> 2.0' # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'sdoc', '~> 0.4.0', group: :doc   # bundle exec rake doc:rails generates the API under doc/api.
   # gem 'spring'
 end
