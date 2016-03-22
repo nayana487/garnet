@@ -68,5 +68,11 @@ class Ability
     can :read, Cohort do |cohort|
       cohort.has_admin?(user) || cohort.students.include?(user)
     end
+    can :edit, User do |u|
+      is_current_user = user == u
+      is_editable = is_current_user && !u.github_id
+      is_editable = true if u.cohorts_adminned_by(user).count > 0
+      is_editable
+    end
   end
 end

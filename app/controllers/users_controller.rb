@@ -22,9 +22,6 @@ class UsersController < ApplicationController
 
     redirect_to current_user unless is_current_user || @is_adminned_by_current_user
 
-    @is_editable = (is_current_user && !@user.github_id)
-    @is_editable = true if @is_adminned_by_current_user
-
     memberships = @user.memberships.includes(:cohort).order("cohorts.name")
     @admin_memberships = memberships.admin
     @student_memberships = memberships.student
