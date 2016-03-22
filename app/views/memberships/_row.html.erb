@@ -12,7 +12,7 @@
     <% end %>
     <% if can? :see_observations, membership %>
       <% if membership.average_observations %>
-        <td data-sort-field="avg_ob" <%= color_of(membership.average_observations, {green: 2, red: 0})%>>
+        <td data-sort-field="avg_ob" <%= color_of(membership.average_observations, {green: 3, red: 1})%>>
           <%= membership.average_observations %></td>
       <% else %>
         <td>N/A</td>
