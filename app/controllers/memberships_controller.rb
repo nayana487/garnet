@@ -12,7 +12,7 @@ class MembershipsController < ApplicationController
       @cohort.memberships.create!(user_id: user_id, is_admin: @is_admin)
     end
 
-    redirect_to @cohort
+    redirect_to manage_cohort_path(@cohort)
   end
 
   def show

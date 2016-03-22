@@ -4,7 +4,6 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.4'
 # Use postgresql as the database for Active Record
 gem 'pg'
-gem 'thin'
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>
 # remaining gems are sorted alphabetically
@@ -48,6 +47,7 @@ group :development, :test do
   gem 'sandi_meter'
   gem 'selenium-webdriver'
   gem 'shoulda'
+  gem 'thin'
 end
 
 group :development do
