@@ -12,7 +12,8 @@
     <% end %>
     <% if can? :see_observations, membership %>
       <% if membership.average_observations %>
-        <td data-sort-field="avg_ob" class="<%= color_of_percent((membership.average_observations/2) * 100 )%>"><%= membership.average_observations %></td>
+        <td data-sort-field="avg_ob" <%= color_of(membership.average_observations, {green: 2, red: 0})%>>
+          <%= membership.average_observations %></td>
       <% else %>
         <td>N/A</td>
       <% end %>
