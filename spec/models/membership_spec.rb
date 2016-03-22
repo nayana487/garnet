@@ -5,9 +5,6 @@ RSpec.describe Membership do
     load "#{Rails.root}/db/seeds/test_seed.rb"
     cohort = Cohort.last
     @m = cohort.memberships.create()
-    @m.observations.create(status: 0)
-    @m.observations.create(status: 0)
-    @m.observations.create(status: 1)
     cohort.events.create!(title:"Some test event2", occurs_at: Time.now)
     @m.attendances.first.present!
     cohort.events.create!(title:"Some test event", occurs_at: Time.now + 3.hours)
@@ -28,26 +25,29 @@ RSpec.describe Membership do
   end
 
   describe "average observations" do
-    it "has an average observations method" do
-      expect(@m.average_observations).not_to eq(nil)
+    before(:all) do
+      @m.observations.create!(status: Observation.statuses[:red])
+      @m.observations.create!(status: Observation.statuses[:yellow])
+      @m.observations.create!(status: Observation.statuses[:green])
+      @original_average = @m.average_observations
     end
-    it "has average observations that are a float" do
-      expect(@m.average_observations).to be_a(Float)
+    it "returns a Float of the average numbers of the member's observations" do
+      expect(@original_average).to be(Observation.statuses[:yellow].to_f)
     end
-    it "'s for a member with one red observation is the float 0.0" do
+    it "returns 0 if no observations" do
       cohort = Cohort.first
       @t = cohort.memberships.create()
-      @t.observations.create(status: 0)
-      expect(@t.average_observations).to be(0.0)
+      expect(@t.average_observations).to eq(0)
     end
-    it "has a default value if no observations" do
+    it "returns red status for a member with one red observation" do
       cohort = Cohort.first
       @t = cohort.memberships.create()
-      expect(@t.average_observations).to be(0.0)
+      @t.observations.create(status: Observation.statuses[:red])
+      expect(@t.average_observations).to be(Observation.statuses[:red].to_f)
     end
-    it "has an average observation not influenced by neutral status" do
-      @m.observations.create(status: 3)
-      expect(@m.average_observations).to eq(0.33)
+    it "is not influenced by neutral status" do
+      @m.observations.create(status: Observation.statuses[:neutral])
+      expect(@m.average_observations).to eq(@original_average)
     end
   end
 
@@ -65,7 +65,7 @@ RSpec.describe Membership do
       @cohort = Cohort.create!(name: "Test")
       @member = @cohort.add_member(User.last)
       @event = @cohort.events.create!(title: "Test", occurs_at: Time.now)
-      @event.attendances.last.update!(status: 3)
+      @event.attendances.last.update!(status: Attendance.statuses[:present])
     end
     before(:each) do
       @event.update!(occurs_at: Date.yesterday - 100)
@@ -84,7 +84,7 @@ RSpec.describe Membership do
       expect(@member.percent_attendances).to_not eq(@percents)
     end
     it "should be recalculated when an attendance/submission is updated" do
-      @event.attendances.last.update!(status: 0)
+      @event.attendances.last.update!(status: Attendance.statuses[:absent])
       @member.reload
       expect(@member.percent_attendances).to_not eq(@percents)
     end
