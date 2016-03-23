@@ -1,4 +1,8 @@
-<% is_editable = can? :edit, @user %>
+<% if current_user %>
+  <% is_editable = can? :edit, @user %>
+<% else %>
+  <% is_editable = true %>
+<% end %>
 <%= form_for @user, as: :form_user do |f| %>
 <div data-is-editable="<%= is_editable %>" >
   <% if is_editable %>
