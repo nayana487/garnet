@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     resources :memberships, only: [:create]
   end
 
-  resources :memberships, only: [:show, :destroy] do
+  resources :memberships, only: [:show, :destroy, :update] do
     post :toggle_active, on: :member
     post :toggle_admin, on: :member
   end
@@ -62,10 +62,12 @@ Rails.application.routes.draw do
   end
   resources :observations,  only: [:create, :destroy]
 
+
   namespace :api do
     resource :user, only: [:show]
     get 'send_api_token'
-    resources :cohorts do
+    post 'observations/from_outcomes'
+    resources :cohorts, only: [:index, :show] do
       resources :memberships, only: [:index]
     end
   end

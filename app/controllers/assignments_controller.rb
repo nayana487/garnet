@@ -56,6 +56,6 @@ class AssignmentsController < ApplicationController
 
   private
     def assignment_params
-      params.require(:assignment).permit(:title, :category, :repo_url, :due_date, :base_score)
+      params.require(:assignment).permit(:title, :category, :repo_url, :due_date, :base_score, :public)
     end
 end

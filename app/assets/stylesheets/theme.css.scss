@@ -270,6 +270,7 @@ input[type=submit],
   border-style:solid;
   border-top-width:0px;
   border-bottom-width:3px;
+  vertical-align:top;
   @each $state, $colors in $button-colors{
     &#{$state}{
       color: nth($colors, 1);
@@ -377,6 +378,9 @@ input[type=search]{
   padding:5px;
   margin-left:1em;
   border-radius:3px;
+}
+input[type=number]{
+  @extend input[type=text];
 }
 
 .tag{

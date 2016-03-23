@@ -1,6 +1,6 @@
 class MembershipsController < ApplicationController
   before_action :set_membership, only: [:show, :destroy,
-                                        :toggle_active, :toggle_admin]
+                                        :toggle_active, :toggle_admin, :update]
 
   def create
     @cohort = Cohort.find(params[:cohort_id])
@@ -12,7 +12,7 @@ class MembershipsController < ApplicationController
       @cohort.memberships.create!(user_id: user_id, is_admin: @is_admin)
     end
 
-    redirect_to @cohort
+    redirect_to manage_cohort_path(@cohort)
   end
 
   def show
@@ -45,6 +45,12 @@ class MembershipsController < ApplicationController
     redirect_to :back
   end
 
+  def update
+    authorize! :manage, @membership
+    @membership.update(membership_params)
+    redirect_to @membership
+  end
+
   def toggle_active
     authorize! :manage, @membership
     @membership.toggle_active!
@@ -64,6 +70,6 @@ class MembershipsController < ApplicationController
     end
 
     def membership_params
-      params.require(:membership).permit(:user_id, :is_admin)
+      params.require(:membership).permit(:user_id, :is_admin, :outcomes_id)
     end
 end
