@@ -102,7 +102,9 @@ class CohortsController < ApplicationController
 
   def generate_events
     authorize! :manage, @cohort
-    @cohort.generate_events params[:start_time].to_i
+    start_time = params[:"start_time(4i)"].to_i
+    zone = params[:time_zone]
+    @cohort.generate_events start_time, zone
     redirect_to @cohort
   end
 

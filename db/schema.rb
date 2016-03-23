@@ -77,14 +77,6 @@ ActiveRecord::Schema.define(version: 20160322171539) do
     t.integer  "cohort_id"
   end
 
-  create_table "groups", force: :cascade do |t|
-    t.string   "title"
-    t.string   "category"
-    t.integer  "parent_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "locations", force: :cascade do |t|
     t.string   "name"
     t.string   "short_name"
