@@ -1,6 +1,6 @@
 class CohortsController < ApplicationController
   before_action :set_cohort, only: [:show, :edit, :update, :destroy,
-                                    :manage, :gh_refresh, :todos]
+                                    :manage, :gh_refresh, :todos, :generate_events]
 
   def index
     @cohorts = Cohort.all
@@ -98,6 +98,14 @@ class CohortsController < ApplicationController
         ungraded: u.get_todo(Submission, @cohort).count
       }
     end
+  end
+
+  def generate_events
+    authorize! :manage, @cohort
+    start_time = params[:"start_time(4i)"].to_i
+    zone = params[:time_zone]
+    @cohort.generate_events start_time, zone
+    redirect_to @cohort
   end
 
   private

@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       get 'manage'
       get 'todos'
       post 'generate_invite_code'
+      post 'generate_events'
     end
     resources :events,      only: [:create]
     resources :assignments, only: [:create]
