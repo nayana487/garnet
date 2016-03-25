@@ -24,6 +24,15 @@ namespace :metrics do
       logger.info message
       # puts message
       `sandi_meter --graph --quiet --output-path "#{sandi_pages_path}"`
+
+      # update assets for rails public dir
+      index_file = sandi_pages_path.join('index.html')
+      text = File.read(index_file)
+      # add leading slash
+      new_contents = text.gsub(/href="assets/, 'href="/assets')
+      new_contents = new_contents.gsub(/src="assets/, 'src="/assets')
+      # write changes to index.html
+      File.open(index_file, "w") {|file| file.puts new_contents }
     end
 
     desc "Clean html pages at #{sandi_pages_path}"
