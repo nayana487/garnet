@@ -214,7 +214,7 @@ nav.site-wide{
   top: 0;
   border-bottom: 1.5px solid #ccc;
   ul {
-    padding-left: 10px;
+    padding-left: 10px; // compensate for padding on main
   }
 }
 .navbar-relative {
@@ -225,7 +225,7 @@ nav.site-wide{
 .nav-spacer {
   display: none;
   width: 100vw;
-  height: 60px;
+  height: 60px; // navHeight + .navbar-relative margin-bottom
 }
 
 // ==========
