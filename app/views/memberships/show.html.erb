@@ -1,3 +1,25 @@
+<nav class="page-nav navbar-relative">
+  <ul>
+    <li><a href="#top">Top</a></li>
+    <% if @is_current_user  %>
+      <li><a href="#"></a></li>
+    <% end %>
+    <% if @observations %>
+      <li><a href="#observations">Observations</a></li>
+    <% end %>
+    <% if @attendances.count > 0 %>
+      <li><a href="#attendances">Attendances</a></li>
+    <% end %>
+    <% if @submissions.count > 0 %>
+      <li><a href="#submissions">Submissions</a></li>
+    <% end %>
+    <li><a href="#membership">Membership</a></li>
+    <% if can? :manage, @membership %>
+      <li><a href="#outcomes">Outcomes</a></li>
+    <% end %>
+  </ul>
+</nav>
+
 <% if can? :manage, @cohort %>
   <%= render partial: "components/tag_list", locals: {membership: @membership} %>
 <% end %>
@@ -45,7 +67,7 @@
 <% end %>
 
 
-<section class="membership">
+<section id="membership" class="membership">
   <h3>Profile</h3>
   <%= render partial: "users/form" %>
   <% if @user.github_id %>
@@ -54,7 +76,7 @@
 </section>
 
 <% if can? :manage, @membership %>
-  <%= form_for @membership do |f| %>
+  <%= form_for @membership, :html => {:id => "outcomes"} do |f| %>
     <%= f.label :outcomes_id %>
     <%= f.text_field :outcomes_id %>
     <%= f.submit %>
