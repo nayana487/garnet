@@ -1,45 +1,31 @@
 $(function() {
 
   var timer; //helps to slightly throttle the scroll event
-  var aArray = []; //empty array for getNavHrefs
   var navHeight = 40;
 
-  function getNavHrefs() {
-    var aChildren = $(".page-nav li").children();
-    for (var i=0; i < aChildren.length; i++) {
-      var aChild = aChildren[i];
-      var ahref = $(aChild).attr('href');
-      aArray.push(ahref);
+  function scrollNav(contentStart) {
+    if ($(window).scrollTop() > (contentStart)) {
+      $('.page-nav').addClass('navbar-fixed');
+      $('.page-nav').removeClass('navbar-relative');
+      $('.nav-spacer').show();
+    }
+    if ($(window).scrollTop() < (contentStart - 1)) {
+      $('.page-nav').removeClass('navbar-fixed');
+      $('.page-nav').addClass('navbar-relative');
+      $('.nav-spacer').hide();
     }
   };
-  getNavHrefs();
 
   $(window).scroll(function () {
-    var scrollPos = $(window).scrollTop(); // get current vertical position
-    var winHeight = $(window).height(); // get window height
-    var docHeight = $(document).height(); // get doc height for last child
-    var contentStart = $('main').position().top;
+    var marginOfMain = 10;
+    var contentStart = $('main').position().top + marginOfMain;
 
     // starts new timeout if new scroll triggered before first timeout finishes
     if (timer) {
       window.clearTimeout(timer);
     }
 
-    timer = window.setTimeout(function() {
-
-      function scrollNav() {
-        if ($(window).scrollTop() > (contentStart)) {
-          $('.page-nav').addClass('navbar-fixed');
-          $('.page-nav').removeClass('navbar-relative');
-        }
-        if ($(window).scrollTop() < (contentStart - 1)) {
-          $('.page-nav').removeClass('navbar-fixed');
-          $('.page-nav').addClass('navbar-relative');
-        }
-      };
-      scrollNav();
-
-    }, 15); //delay of 10 ms
+    timer = window.setTimeout(scrollNav(contentStart), 15); //delay of 15 ms
   });
 
   // Smooth scroll

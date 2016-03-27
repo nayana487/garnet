@@ -19,6 +19,7 @@
     <% end %>
   </ul>
 </nav>
+<div class="nav-spacer">&nbsp;</div>
 
 <% if can? :manage, @cohort %>
   <%= render partial: "components/tag_list", locals: {membership: @membership} %>
