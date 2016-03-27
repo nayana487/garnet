@@ -1,9 +1,13 @@
 $(function() {
 
-  var timer; //helps to slightly throttle the scroll event
+  var timer; //helps to slightly debounce/throttle the scroll event
   var navHeight = 40;
+  var marginOfMain = 10;
+  var contentStart = $('main').position().top + marginOfMain;
 
-  function scrollNav(contentStart) {
+  scrollNav()
+
+  function scrollNav() {
     if ($(window).scrollTop() > (contentStart)) {
       $('.page-nav').addClass('navbar-fixed');
       $('.page-nav').removeClass('navbar-relative');
@@ -17,15 +21,13 @@ $(function() {
   };
 
   $(window).scroll(function () {
-    var marginOfMain = 10;
-    var contentStart = $('main').position().top + marginOfMain;
 
     // starts new timeout if new scroll triggered before first timeout finishes
     if (timer) {
       window.clearTimeout(timer);
     }
 
-    timer = window.setTimeout(scrollNav(contentStart), 15); //delay of 15 ms
+    timer = window.setTimeout(scrollNav(), 15); //delay of 15 ms
   });
 
   // Smooth scroll
@@ -40,6 +42,6 @@ $(function() {
       }, 500);
     }
     return false;
-});
+  });
 
 });
