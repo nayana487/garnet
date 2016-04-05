@@ -1,6 +1,7 @@
 <table data-sortable>
   <tr>
     <th data-sort-trigger="title">Title</th>
+    <th data-sort-trigger="category">Due</th>
     <th data-sort-trigger="due">Due</th>
     <th data-sort-trigger="completion">Class Completion</th>
     <th data-sort-trigger="total">Total</th>
@@ -9,6 +10,7 @@
     <% submissions = assignment.submissions.active %>
     <tr data-record>
       <td data-sort-field="title"><%= link_to_if @is_admin, assignment.title, assignment_path(assignment, cohort: assignment.cohort) %></td>
+      <td data-sort-trigger="category"><%= assignment.category %></td>
       <td data-sort-field="due"><%= assignment.due_date_s %></td>
       <td data-sort-field="completion"><%= percent_of(submissions, "complete") %>%</td>
       <td data-sort-field="total"><%= submissions.count %></td>
