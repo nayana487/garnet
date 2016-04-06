@@ -48,7 +48,10 @@ class Membership < ActiveRecord::Base
   end
 
   def percent_from_status( association, status)
-    percents = (self.send("percent_#{association}") || update_percents_of(association))
+    percents = self.send("percent_#{association}")
+    if percents[status.to_s] == 0
+      percents = update_percents_of(association)
+    end
     return percents[status.to_s]
   end
 
