@@ -21,8 +21,8 @@ class Assignment < ActiveRecord::Base
   ]
 
   def create_submissions
-    self.cohort.memberships.where(is_admin: false).each do |membership|
-      membership.submissions.unmarked.create(assignment_id: self.id)
+    self.cohort.memberships.student.active.each do |membership|
+      membership.submissions.create(assignment_id: self.id, status: Submission.statuses[:unmarked])
     end
   end
 
