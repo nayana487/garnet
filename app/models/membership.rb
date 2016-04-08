@@ -60,11 +60,11 @@ class Membership < ActiveRecord::Base
     # = submissions
     related_records   = self.send(klass_plural_name).due
     # = self.submissions.due
-    unmarked_records  = related_records.where.not(status: klass.statuses[:unmarked])
+    marked_records  = related_records.where.not(status: klass.statuses[:unmarked])
     klass.statuses.each do |status_name, status|
       # Submission.statuses.each do...
-      if unmarked_records.length > 0
-        percent = (related_records.where(status: status).count / unmarked_records.count.to_f)
+      if marked_records.length > 0
+        percent = (related_records.where(status: status).count / marked_records.count.to_f)
       else
         percent = 0
       end
