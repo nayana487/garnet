@@ -22,6 +22,9 @@ class Assignment < ActiveRecord::Base
 
   def create_submissions
     self.cohort.memberships.student.active.each do |membership|
+      # not using a scope here (membership.submissions.unmarked.create(...))
+      # because that will scope membership.submissions as unmarked for
+      # subsequent calls in the current request
       membership.submissions.create(assignment_id: self.id, status: Submission.statuses[:unmarked])
     end
   end
