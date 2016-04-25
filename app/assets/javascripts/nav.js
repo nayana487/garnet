@@ -19,7 +19,7 @@ $(function() {
     }
 
     // scolled above the default navbar position (top of page)
-    if (scrollCurrent <= (contentStart)) {
+    if (scrollCurrent <= contentStart) {
       $('.page-nav')
         .addClass('navbar-relative')
         .removeClass('navbar-fixed');
