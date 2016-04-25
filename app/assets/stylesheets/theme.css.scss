@@ -201,6 +201,7 @@ nav.site-wide{
   z-index: 1000;
   width: 100vw;
   background-color: #f6f6f6;
+  transition: all 0.2s ease-in-out;
   a {
     line-height: 40px; // navHeight
   }
@@ -208,7 +209,12 @@ nav.site-wide{
     display: inline-block;
   }
 }
+.navbar-relative {
+  position: relative;
+  margin-bottom: 20px;
+}
 .navbar-fixed {
+  transition: all 0.2s ease-in-out;
   position: fixed;
   left: 0;
   top: 0;
@@ -217,15 +223,15 @@ nav.site-wide{
     padding-left: 10px; // compensate for padding on main
   }
 }
-.navbar-relative {
-  position: relative;
-  margin-bottom: 20px;
+.navbar-fixed-hide {
+  @extend .navbar-fixed;
+  top: -40px;
 }
 
 .nav-spacer {
   display: none;
   width: 100vw;
-  height: 60px; // navHeight + .navbar-relative margin-bottom
+  height: 40px; // navHeight + .navbar-relative margin-bottom
 }
 
 // ==========
