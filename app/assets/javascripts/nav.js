@@ -6,7 +6,6 @@ $(function() {
   var contentStart  = $('main').position().top + marginOfMain;
   var scrollCurrent = 0;
   var scrollBefore  = 0;
-  var scrollDiff    = 0;
   var delta         = 5;
 
   scrollNav() // call function once on page load
@@ -19,54 +18,22 @@ $(function() {
       return;
     }
 
-    // scrollCurrent > scrollBefore -> scrolling down
-
     // scolled above the default navbar position (top of page)
-    if (scrollCurrent <= contentStart) {
+    if (scrollCurrent <= (contentStart)) {
       $('.page-nav')
         .addClass('navbar-relative')
-        .removeClass('navbar-fixed')
-        .removeClass('navbar-fixed-hide');
+        .removeClass('navbar-fixed');
       $('.nav-spacer').hide();
     }
-    // scrolled past the start of the navbar & scrolling up
-    else if (scrollCurrent > contentStart && scrollCurrent < scrollBefore) {
-      $('.page-nav')
-      .addClass('navbar-fixed-hide')
-      .removeClass('navbar-relative')
-      .removeClass('navbar-fixed');
-      $('.nav-spacer').show();
-    }
-    // scrolled past the start of the navbar & scrolling down
-    else if (scrollCurrent > contentStart && scrollCurrent > scrollBefore) {
+    // scrolled past the start of the navbar
+    else if (scrollCurrent > contentStart) {
       $('.page-nav')
         .addClass('navbar-fixed')
-        .removeClass('navbar-relative')
-        .removeClass('navbar-fixed-hide');
+        .removeClass('navbar-relative');
       $('.nav-spacer').show();
     }
 
-      // if (scrollCurrent > scrollBefore) {
-      //   console.log("scrolling down");
-      //   $('.page-nav').addClass('navbar-fixed').removeClass('navbar-fixed-hide');
-      // } // scrolling up
-      // else {
-      //   console.log("scrolling up");
-      //   $('.page-nav').removeClass('navbar-fixed').addClass('navbar-fixed-hide');
-      // }
-
     scrollBefore = scrollCurrent;
-
-    // // scolled above the default navbar position (top of page)
-    // if (scrollCurrent <= (contentStart)) {
-    //   $('.page-nav').removeClass('navbar-fixed').addClass('navbar-relative');
-    //   $('.nav-spacer').hide();
-    // }
-    // // scrolled past the start of the navbar
-    // else (scrollCurrent > contentStart) {
-    //   $('.page-nav').addClass('navbar-fixed').removeClass('navbar-relative');
-    //   $('.nav-spacer').show();
-    // }
   };
 
   $(window).scroll(function () {
@@ -76,7 +43,7 @@ $(function() {
       window.clearTimeout(timer);
     }
 
-    timer = window.setTimeout(scrollNav(), 1500); //delay of 15 ms
+    timer = window.setTimeout(scrollNav(), 15); //delay of 15 ms
   });
 
   // Smooth scroll
