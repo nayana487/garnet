@@ -20,7 +20,7 @@
     <h4>Existing Members</h4>
     <table>
       <% @cohort.memberships.sort_by{|m| m.user.name}.each do |membership| %>
-        <tr>
+        <tr data-membership-id="<%= membership.id %>">
           <td>
             <%= membership.user.name %>
           </td>
