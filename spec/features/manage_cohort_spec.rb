@@ -25,12 +25,17 @@ RSpec.feature 'Manage Cohort' do
   end
 
   scenario 'can make exisiting members admin' do
-    other_instrutor_membership_id = other_instructor.memberships.first.id
+    other_instructor_membership = other_instructor.memberships.first
     login_user(test_instructor)
     visit manage_cohort_path(test_instructor.cohorts.first)
-    expect(page).to have_selector("tr[data-membership-id='#{other_instrutor_membership_id}']")
-    page.find("tr[data-membership-id='#{other_instrutor_membership_id}']").click_link("Remove")
-    expect(page).not_to have_selector("tr[data-membership-id='#{other_instrutor_membership_id}']")
 
+    within("tr[data-membership-id='#{other_instructor_membership.id}']") do
+      expect(page).to have_content("make admin")
+      click_link("make admin")
+    end
+    # repeated for page refresh
+    within("tr[data-membership-id='#{other_instructor_membership.id}']") do
+      expect(page).to have_content("remove as admin")
+    end
   end
 end
