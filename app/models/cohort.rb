@@ -24,11 +24,11 @@ class Cohort < ActiveRecord::Base
   end
 
   def student_memberships
-    self.memberships.where(is_admin: false)
+    self.memberships.where(is_admin: false).includes(:user)
   end
 
   def admin_memberships
-    self.memberships.where(is_admin: true)
+    self.memberships.where(is_admin: true).includes(:user)
   end
 
   def students

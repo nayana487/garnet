@@ -11,14 +11,14 @@ class CohortsController < ApplicationController
 
     @is_admin = @cohort.has_admin?(current_user)
 
-    student_memberships = @cohort.student_memberships.includes(:user).includes(:attendances).includes(:submissions).includes(:cohort)
+    student_memberships = @cohort.student_memberships
     @active_memberships    = student_memberships.where(status: Membership.statuses[:active])
     @inactive_memberships  = student_memberships.where(status: Membership.statuses[:inactive])
 
     @admins = @cohort.admins
 
     @assignments = @cohort.assignments.includes(:submissions)
-    @events = @cohort.events.includes(:attendances).order(occurs_at: :desc)
+    @events = @cohort.events.order(occurs_at: :desc)
 
     @event_for_today_already_exists = @events.on_date(Date.today).any?
 
