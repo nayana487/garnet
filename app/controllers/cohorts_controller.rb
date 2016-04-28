@@ -38,6 +38,7 @@ class CohortsController < ApplicationController
 
   def manage
     authorize! :manage, @cohort
+    @memberships = @cohort.memberships.includes(:user).sort_by{|m| m.user.name}
     @existing_tags = @cohort.existing_tags
   end
 

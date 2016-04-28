@@ -19,7 +19,7 @@
   <section class="col column-6">
     <h4>Existing Members</h4>
     <table>
-      <% @cohort.memberships.sort_by{|m| m.user.name}.each do |membership| %>
+      <% @memberships.each do |membership| %>
         <tr>
           <td>
             <%= membership.user.name %>
