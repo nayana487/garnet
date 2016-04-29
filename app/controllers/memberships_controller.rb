@@ -35,7 +35,7 @@ class MembershipsController < ApplicationController
 
     # Looking at someone you admin
     if can? :see_observations, @membership
-      @observations = @membership.observations.order(:created_at)
+      @observations = @membership.observations.includes(:admin, :cohort).order(:created_at)
     end
   end
 

@@ -3,7 +3,7 @@ class CohortsController < ApplicationController
                                     :manage, :gh_refresh, :todos, :generate_events]
 
   def index
-    @cohorts = Cohort.all
+    @cohorts = Cohort.all.includes(:location, :course)
   end
 
   def show
@@ -17,7 +17,7 @@ class CohortsController < ApplicationController
 
     @admins = @cohort.admins
 
-    @assignments = @cohort.assignments.includes(:submissions)
+    @assignments = @cohort.assignments
     @events = @cohort.events.order(occurs_at: :desc)
 
     @event_for_today_already_exists = @events.on_date(Date.today).any?
@@ -92,7 +92,7 @@ class CohortsController < ApplicationController
   end
 
   def todos
-    users = @cohort.memberships.admin.select{|m| m.tags.length > 0 }.map{|m| m.user }
+    users = @cohort.memberships.includes(:tags, :user).admin.select{|m| m.tags.length > 0 }.map{|m| m.user }
     @todos = users.map do |u|
       {
         user: u.name,
