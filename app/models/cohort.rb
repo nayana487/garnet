@@ -50,7 +50,7 @@ class Cohort < ActiveRecord::Base
   end
 
   def tags
-    self.memberships.map { |m| m.tags }.flatten.uniq
+    self.memberships.includes(:tags).map { |m| m.tags }.flatten.uniq
   end
 
   def self.to_csv(memberships)
