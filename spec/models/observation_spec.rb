@@ -15,4 +15,9 @@ RSpec.describe Observation do
     o.update(status: nil)
     expect(o.read_attribute("status")).to be(0)
   end
+  it "updates observation_average when observation is deleted" do
+    o = @membership.observations.create(body:"test", status: 3)
+    o.destroy!
+    expect(o.membership.average_observations).to eq(0)
+  end
 end
