@@ -1,5 +1,9 @@
+<% tz = (defined? cohort) ? cohort.time_zone : event.cohort.time_zone %>
 <%= form_for ((defined? cohort) ? [cohort, event] : event) do |f| %>
   <%= f.text_field :title, placeholder: "Title" %>
-  <div class="date"><%= f.datetime_select :occurs_at, minute_step: 15 %></div>
+  <% Time.use_zone(tz) do %>
+    <%= tz %>
+    <div class="date"><%= f.datetime_select :occurs_at, minute_step: 15 %></div>
+  <% end %>
   <%= f.submit "Save event" %>
 <% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160322171539) do
+ActiveRecord::Schema.define(version: 20160504194517) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,13 +46,14 @@ ActiveRecord::Schema.define(version: 20160322171539) do
     t.date     "end_date"
     t.integer  "course_id"
     t.integer  "location_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.string   "invite_code"
     t.integer  "number_at_location"
     t.integer  "core_id"
     t.integer  "duration_in_weeks"
     t.integer  "day_of_week"
+    t.string   "time_zone",          default: "UTC"
   end
 
   create_table "courses", force: :cascade do |t|

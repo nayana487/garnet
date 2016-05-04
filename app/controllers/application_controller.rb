@@ -5,6 +5,9 @@ class ApplicationController < ActionController::Base
   before_action :authenticate
   helper_method :current_user, :signed_in?
 
+  # executes a block for the lifecycle of a request
+  around_action :set_time_zone, if: :set_current_cohort
+
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to :back, :notice => exception.message
   end
@@ -15,9 +18,21 @@ class ApplicationController < ActionController::Base
   end
 
   private
+    def set_time_zone(&block)
+      # Sets the server's time_zone for the duration of a request
+      Time.use_zone(@current_cohort.time_zone, &block)
+    end
+
+    def set_current_cohort
+      # WIP: need to account for routes w/out cohort_id as a param
+      id = params[:id] || params[:cohort_id] || params[:cohort]
+      @current_cohort = Cohort.find(id)
+    end
+
     def record_not_found
       render 'errors/not_found', status: 404
     end
+
     def authenticate
       if !current_user
         redirect_to "/sign_in"

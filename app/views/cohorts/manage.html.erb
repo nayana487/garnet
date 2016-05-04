@@ -6,10 +6,16 @@
   <%= submit_tag "Auto Populate Events"%>
 <% end %>
 
-<h3 >Data Export</h3>
+<h3>Set Cohort Timezone</h3>
+<%= simple_form_for @cohort do |f| %>
+  <%= f.input :time_zone, as: :select, collection: ActiveSupport::TimeZone.all.map(&:name)  %>
+  <%= f.button :submit %>
+<% end %>
+
+<h3>Data Export</h3>
 <%= link_to "Export", cohort_path(@cohort, format: 'csv'), class: :button, method: :get %>
 
-<h3 >Manage Memberships</h3>
+<h3>Manage Memberships</h3>
 
 <div class="row group">
   <section class="col column-6">
