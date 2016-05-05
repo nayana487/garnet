@@ -56,5 +56,7 @@
     <% if @cohort.invite_code %>
       <%= link_to "Invite Link", gh_authorize_url(invite_code: @cohort.invite_code) %>
     <% end %>
+
+    <%= link_to "Delete Cohort", cohort_path(@cohort), method: :delete, class: "button", data: {confrim: "You cannot undo this. Are you sure?"} %>
   </section>
 </div>
