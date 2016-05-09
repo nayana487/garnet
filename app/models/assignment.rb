@@ -47,6 +47,15 @@ class Assignment < ActiveRecord::Base
     return @issues
   end
 
+  def close_issues token
+    g = Github.new(ENV, token)
+    p g.api.access_token
+    repo = self.repo_url.gsub(/(https?:\/\/)?(www\.)?github\.com\//, "")
+    g.api.issues(repo, {state:'open'}).each do |issue|
+      g.api.close_issue(repo, issue[:number])
+    end
+  end
+
   def get_issues
     g = Github.new(ENV)
     repo = self.repo_url.gsub(/(https?:\/\/)?(www\.)?github\.com\//, "")

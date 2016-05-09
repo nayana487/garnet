@@ -54,6 +54,14 @@ class AssignmentsController < ApplicationController
     render json: @assignment.issues
   end
 
+  def close_issues
+    @assignment = Assignment.find(params[:assignment_id])
+    if @assignment.close_issues session[:access_token]
+      flash[:alert] = "Successfully closed issues."
+    end
+    redirect_to :back
+  end
+
   private
     def assignment_params
       params.require(:assignment).permit(:title, :category, :repo_url, :due_date, :base_score, :public)

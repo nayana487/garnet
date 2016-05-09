@@ -2,6 +2,7 @@
 <p><%= percent_of(@submissions, "complete") %>% complete</p>
 <% if @assignment.repo_url && !@assignment.repo_url.strip.blank? %>
   <button class="js-count-assignment-issues" data-issues-url="<%= assignment_issues_path(@assignment) %>">Count issues</button>
+  <%= link_to "Close all Github Issues", assignment_close_issues_path(@assignment), method: :delete, class: "button" %>
 <% end %>
 
 <% status_link_text = @show_na ? "Show All" : "Show only N/A" %>

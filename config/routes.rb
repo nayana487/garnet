@@ -49,6 +49,7 @@ Rails.application.routes.draw do
 
   resources :assignments, only: [:show, :update, :destroy] do
     get "issues", to: "assignments#issues", as: :issues
+    delete "close_issues", to: "assignments#close_issues"
     resources :submissions, only: [:create]
   end
 

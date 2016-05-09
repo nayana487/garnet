@@ -32,7 +32,8 @@ class Github
   def oauth_link
     params = {
       client_id: @env["gh_client_id"],
-      redirect_uri: @env["gh_redirect_url"]
+      redirect_uri: @env["gh_redirect_url"],
+      scope: "notifications"
     }
     return "https://github.com/login/oauth/authorize?#{params.to_query}"
   end
