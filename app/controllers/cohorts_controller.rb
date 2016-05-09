@@ -3,7 +3,7 @@ class CohortsController < ApplicationController
                                     :manage, :gh_refresh, :todos, :generate_events]
 
   def index
-    @cohorts = Cohort.all
+    @cohorts = Cohort.all.includes(:location, :course)
   end
 
   def show
@@ -11,14 +11,14 @@ class CohortsController < ApplicationController
 
     @is_admin = @cohort.has_admin?(current_user)
 
-    student_memberships = @cohort.student_memberships.includes(:user).includes(:attendances).includes(:submissions).includes(:cohort)
+    student_memberships = @cohort.student_memberships
     @active_memberships    = student_memberships.where(status: Membership.statuses[:active])
     @inactive_memberships  = student_memberships.where(status: Membership.statuses[:inactive])
 
     @admins = @cohort.admins
 
-    @assignments = @cohort.assignments.includes(:submissions)
-    @events = @cohort.events.includes(:attendances).order(occurs_at: :desc)
+    @assignments = @cohort.assignments
+    @events = @cohort.events.order(occurs_at: :desc)
 
     @event_for_today_already_exists = @events.on_date(Date.today).any?
 
@@ -38,6 +38,7 @@ class CohortsController < ApplicationController
 
   def manage
     authorize! :manage, @cohort
+    @memberships = @cohort.memberships.includes(:user).sort_by{|m| m.user.name}
     @existing_tags = @cohort.existing_tags
   end
 
@@ -91,7 +92,7 @@ class CohortsController < ApplicationController
   end
 
   def todos
-    users = @cohort.memberships.admin.select{|m| m.tags.length > 0 }.map{|m| m.user }
+    users = @cohort.memberships.includes(:tags, :user).admin.select{|m| m.tags.length > 0 }.map{|m| m.user }
     @todos = users.map do |u|
       {
         user: u.name,
