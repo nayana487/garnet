@@ -33,7 +33,7 @@ class Github
     params = {
       client_id: @env["gh_client_id"],
       redirect_uri: @env["gh_redirect_url"],
-      scope: "notifications"
+      scope: "repo"
     }
     return "https://github.com/login/oauth/authorize?#{params.to_query}"
   end
