@@ -26,11 +26,4 @@ RSpec.describe Attendance do
       expect(@att.calculate_status).to eq(Attendance.statuses[:absent])
     end
   end
-
-  describe "attendance creation" do
-    it "instantiates attendance with unmarked status" do
-      attendance = Attendance.new
-      expect(attendance.status).to eq("unmarked")
-    end
-  end
 end

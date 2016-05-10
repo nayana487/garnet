@@ -12,7 +12,6 @@ class Attendance < ActiveRecord::Base
 
   enum status: [:unmarked, :absent, :tardy, :present]
 
-  after_initialize :set_unmarked
   after_save do
     self.membership.update_percents_of("attendance")
   end
@@ -36,9 +35,5 @@ class Attendance < ActiveRecord::Base
   def self.mark_pastdue_attendances_as_missed
     na_attendances = self.unmarked.joins(:event).where("events.occurs_at < ?", Time.now.beginning_of_day)
     na_attendances.update_all(status: Attendance.statuses[:absent])
-  end
-
-  def set_unmarked
-    self.status = Attendance.statuses[:unmarked]
   end
 end
