@@ -137,5 +137,5 @@ class User < ActiveRecord::Base
   def touch_memberships
     memberships.each(&:touch)
   end
-  
+
 end
