@@ -35,9 +35,9 @@
 
 
 <% if @observations %>
-  <section>
-    <h3 class="fold-without-anchor js-fold-without-anchor" id="observations"><a href="#observations"><%= @user.first_name %>'s Observations</a></h3>
-    <div>
+  <section id="observations" class="fold-box">
+    <h3><a href="#observations" class="fold-trigger"><%= @user.first_name %>'s Observations</a></h3>
+    <div class="fold-target">
       <%= render @observations %>
       <section>
         <h4>New Observation</h4>
