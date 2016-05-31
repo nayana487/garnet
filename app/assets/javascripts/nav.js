@@ -47,17 +47,28 @@ $(function() {
   });
 
   // Smooth scroll
-  $('a').click(function(){
-    if (this.innerHTML == 'Top') {
-      $("html, body").animate({
-        scrollTop: 0
-      }, 500);
-    } else if ( $( $(this).attr('href') ) ) {
-      $('html, body').animate({
-        scrollTop: $( $(this).attr('href') ).offset().top - navHeight
-      }, 500);
+  $('a').click(function(event){
+    var jumpAnchor  = $(event.target).attr('href').match(/#\w+/)[0];
+    var $targetEl;
+    
+    if(jumpAnchor){
+      event.preventDefault();
+      if(jumpAnchor === '#top'){
+        scrollTo(0);
+      }else if(jumpAnchor === window.location.hash){
+        window.location.hash = '';
+      }else{
+        $targetEl = $(jumpAnchor);
+        window.location.hash = jumpAnchor;
+        if($targetEl) scrollTo($targetEl.offset().top - navHeight);
+      }
     }
-    return false;
   });
+  
+  function scrollTo(position){
+    $('html, body').animate({
+      scrollTop: position
+    }, 500);
+  }
 
 });

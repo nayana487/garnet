@@ -511,20 +511,19 @@ table{
 // FOLD
 // ==========
 
-.fold, .fold-without-anchor{
-  &:after{
+.fold-box{
+  .fold-trigger:after{
     display:inline-block;
-    transition:transform 0.2s;
-    transform:rotateZ(0deg);
     content:"\025B8";
+    transition: transform 0.3s;
   }
-  &~div{
-    display:none;
-  }
-  &:target:after{
+  &:target .fold-trigger:after{
     transform:rotateZ(90deg);
   }
-  &:target~div{
+  .fold-target{
+    display:none;
+  }
+  &:target .fold-target{
     display:block;
   }
 }
