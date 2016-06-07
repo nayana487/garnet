@@ -23,7 +23,7 @@
   <h3>Manually Create Attendances</h3>
   <p>When an event is created, an attendance is created automatically for each user of the cohort to which the event belongs.</p>
   <%= form_for [@event, Attendance.new] do |f| %>
-    <%= f.select :membership_id, @event.cohort.memberships.where(status: Membership.statuses[:active]).collect{|m| [m.user.name, m.id]} %>
+    <%= f.select :membership_id, @event.cohort.memberships.includes(:user).where(status: Membership.statuses[:active]).collect{|m| [m.user.name, m.id]} %>
     <%= f.submit "Create" %>
   <% end %>
 </section>
