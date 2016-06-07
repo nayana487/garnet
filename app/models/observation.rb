@@ -15,4 +15,7 @@ class Observation < ActiveRecord::Base
     self.membership.update_average_observations
   end
 
+  after_destroy do
+    self.membership.update_average_observations
+  end
 end

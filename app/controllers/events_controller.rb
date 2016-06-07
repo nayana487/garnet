@@ -20,7 +20,7 @@ class EventsController < ApplicationController
     @show_na = params[:show_na] == "true"
     @show_inactive = params[:show_inactive] == "true"
 
-    @attendances = @event.attendances.includes(:membership).references(:membership)
+    @attendances = @event.attendances.includes(:membership, :user, :cohort).references(:membership)
 
     unless @show_inactive
       @attendances = @attendances.where("memberships.status = ?", Membership.statuses[:active])

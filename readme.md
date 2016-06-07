@@ -137,3 +137,35 @@ Once the file has been sourced, the function is available from terminal.
 ```
 $ garnet logs
 ```
+---
+
+## Thanks, ever so much, to *all* our contributers
+
+Code contributors: 13
+```
+adambray (Adam Bray)
+amaseda (Adrian Maseda)
+andrewsunglaekim (Andrew Kim)
+beckybeauchamp1 (Becky Beauchamp)
+ebirving (Erica Irving)
+jmas13 (John Master)
+joe-gz (Joe Glatman Zaretsky)
+JonRojas (Jon Rojas)
+jshawl (Jesse Shawl)
+mattscilipoti (Matt Scilipoti)
+nolds9 (Nicholas Olds)
+RobertAKARobin (Robert Thomas)
+tylercrosse (Tyler Crosse)
+```
+Non-coding contributors: 8
+```
+bmartinowich (Brian Martinowich)
+dan-ator (Daniel Alexander)
+jenkins-ga
+jocelynhoule
+sarahbrookscoach
+ShanazFC
+tessb (Tess )
+timfoley (Tim Foley)
+```
+> This contributor list was brought to you by [octoHatRack](https://github.com/LABHR/octohatrack)
