@@ -79,7 +79,7 @@ class User < ActiveRecord::Base
   end
 
   def adminned_cohorts
-    @adminned_cohorts ||= self.cohorts.includes(:memberships).where(memberships: {is_admin: true})
+    @adminned_cohorts ||= self.cohorts.where(memberships: {is_admin: true})
   end
 
   def cohorts_adminned_by user

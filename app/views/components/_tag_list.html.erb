@@ -1,5 +1,5 @@
 <ul class="tags">
-<% membership.taggings.each do |tagging| %>
+<% membership.taggings.includes(:tag).each do |tagging| %>
   <li>
     <a class="tag" data-filter-trigger="<%= tagging.name %>"><%= tagging.name %></a>
     <a class="tag-remove" data-remove-tagging-path="<%= tagging_path(tagging) %>">(x)</a>

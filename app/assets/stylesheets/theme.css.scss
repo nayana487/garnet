@@ -21,6 +21,10 @@ $mobile: "(max-width:600px)";
   opacity:0.01;
 }
 
+// ==========
+// GLOBAL
+// ==========
+
 .logo{
   color: $ga-red;
 }
@@ -63,9 +67,6 @@ body{
   align-content:stretch;
   justify-content:space-between;
   min-height:100vh;
-}
-main{
-  flex-grow:2;
 }
 
 h1, h2{
@@ -113,6 +114,25 @@ kbd{
  border-radius:3px;
  padding:0 3px;
 }
+main{
+  flex-grow:2;
+  padding:0 10px;
+  margin-top:10px;
+  box-sizing:border-box;
+}
+footer{
+  background-color:#222;
+  text-align:center;
+  color:#ccc;
+  padding:10px 0;
+  margin-top:50px;
+}
+section{
+  margin:10px auto;
+}
+// ==========
+// NAV
+// ==========
 
 nav{
   display:flex;
@@ -160,6 +180,8 @@ nav.breadcrumbs{
   }
 }
 nav.site-wide{
+  z-index: 10;
+  width: 100%;
   background-color:#222;
   a{
     border:0;
@@ -171,22 +193,44 @@ nav.site-wide{
   }
 }
 
-main{
-  padding:0 10px;
-  margin-top:10px;
-  box-sizing:border-box;
+// =============
+// In Page Nav
+// =============
+
+.page-nav {
+  z-index: 1000;
+  width: 100vw;
+  background-color: #f6f6f6;
+  a {
+    line-height: 40px; // navHeight
+  }
+  li {
+    display: inline-block;
+  }
 }
-footer{
-  background-color:#222;
-  text-align:center;
-  color:#ccc;
-  padding:10px 0;
-  margin-top:50px;
+.navbar-relative {
+  position: relative;
+  margin-bottom: 20px;
 }
-section{
-  margin:10px auto;
+.navbar-fixed {
+  position: fixed;
+  left: 0;
+  top: 0;
+  border-bottom: 1.5px solid #ccc;
+  ul {
+    padding-left: 10px; // compensate for padding on main
+  }
 }
 
+.nav-spacer {
+  display: none;
+  width: 100vw;
+  height: 60px; // navHeight + .navbar-relative margin-bottom
+}
+
+// ==========
+// MARKDOWN
+// ==========
 
 .markdown{
   p,
@@ -218,6 +262,10 @@ section{
   }
 }
 
+// ==========
+// STATUS
+// ==========
+
 .status{
   @media #{$mobile}{
     font-size:0;
@@ -242,6 +290,10 @@ section{
 .today{
   background-color:#adf;
 }
+
+// ================
+// BUTTONS + INPUT
+// ================
 
 $button-colors: (
   null              : (#444, rgba(0,0,0,0.05), #a2a2a2),
@@ -384,6 +436,10 @@ input[type=number]{
   @extend input[type=text];
 }
 
+// ==========
+// TAG
+// ==========
+
 .tag{
   cursor:pointer;
   color:#999;
@@ -393,6 +449,10 @@ input[type=number]{
   color:#999;
   &:hover{ color:$ga-red; }
 }
+
+// ===================
+// TABLE + TABLE INPUT
+// ===================
 
 table{
   position:relative;
@@ -447,20 +507,23 @@ table{
   }
 }
 
-.fold, .fold-without-anchor{
-  &:after{
+// ==========
+// FOLD
+// ==========
+
+.fold-box{
+  .fold-trigger:after{
     display:inline-block;
-    transition:transform 0.2s;
-    transform:rotateZ(0deg);
     content:"\025B8";
+    transition: transform 0.3s;
   }
-  &~div{
-    display:none;
-  }
-  &:target:after{
+  &:target .fold-trigger:after{
     transform:rotateZ(90deg);
   }
-  &:target~div{
+  .fold-target{
+    display:none;
+  }
+  &:target .fold-target{
     display:block;
   }
 }

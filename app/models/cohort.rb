@@ -32,6 +32,27 @@ class Cohort < ActiveRecord::Base
     self.admins.include?(user)
   end
 
+<<<<<<< HEAD
+=======
+  def student_memberships
+    self.memberships.where(is_admin: false).includes(:user)
+  end
+
+  def admin_memberships
+    self.memberships.where(is_admin: true).includes(:user)
+  end
+
+  def students
+    self.student_memberships.map(&:user)
+  end
+  alias_method :nonadmins, :students
+
+  def admins
+    admin_memberships.map(&:user)
+  end
+  alias_method :instructors, :admins
+
+>>>>>>> 4af3aa11ca85560afeb3e6a04a77f5b24364901c
   def add_admin(user)
     self.memberships.create!(user: user, is_admin: true)
   end
@@ -41,7 +62,7 @@ class Cohort < ActiveRecord::Base
   end
 
   def tags
-    self.memberships.map { |m| m.tags }.flatten.uniq
+    self.memberships.includes(:tags).map { |m| m.tags }.flatten.uniq
   end
 
   def self.to_csv(memberships)
@@ -49,14 +70,14 @@ class Cohort < ActiveRecord::Base
       csv << ["User Name", "Percent Present", "Percent Tardy", "Percent Absent", "Percent HW Complete", "Percent HW Incomplete","Percent HW Missing"]
       memberships.each do |membership|
         csv << [
-	  membership.name,
-	  membership.percent_from_status(:attendances, Attendance.statuses[:present]),
-	  membership.percent_from_status(:attendances, Attendance.statuses[:tardy]),
-	  membership.percent_from_status(:attendances, Attendance.statuses[:absent]),
-	  membership.percent_from_status(:submissions, Submission.statuses[:complete]),
-	  membership.percent_from_status(:submissions, Submission.statuses[:incomplete]),
-	  membership.percent_from_status(:submissions, Submission.statuses[:missing])
-	]
+          membership.name,
+          membership.percent_from_status(:attendances, :present),
+          membership.percent_from_status(:attendances, :tardy),
+          membership.percent_from_status(:attendances, :absent),
+          membership.percent_from_status(:submissions, :complete),
+          membership.percent_from_status(:submissions, :incomplete),
+          membership.percent_from_status(:submissions, :missing)
+        ]
       end
     end
   end
