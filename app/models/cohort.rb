@@ -32,27 +32,6 @@ class Cohort < ActiveRecord::Base
     self.admins.include?(user)
   end
 
-<<<<<<< HEAD
-=======
-  def student_memberships
-    self.memberships.where(is_admin: false).includes(:user)
-  end
-
-  def admin_memberships
-    self.memberships.where(is_admin: true).includes(:user)
-  end
-
-  def students
-    self.student_memberships.map(&:user)
-  end
-  alias_method :nonadmins, :students
-
-  def admins
-    admin_memberships.map(&:user)
-  end
-  alias_method :instructors, :admins
-
->>>>>>> 4af3aa11ca85560afeb3e6a04a77f5b24364901c
   def add_admin(user)
     self.memberships.create!(user: user, is_admin: true)
   end
