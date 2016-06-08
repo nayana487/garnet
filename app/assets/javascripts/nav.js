@@ -49,7 +49,7 @@ $(function() {
   // Smooth scroll
   $('a').click(function(event){
     // regex matches any non-whtiespace character after a '#' (jump anchors)
-   var jumpAnchor  = $(event.target).attr('href').match(/#\S.+/)[0];
+    var jumpAnchor  = $(event.target).attr('href').match(/#\S.+/)[0];
     var $targetEl;
 
     if(jumpAnchor){
