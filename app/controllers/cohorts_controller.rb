@@ -1,9 +1,9 @@
 class CohortsController < ApplicationController
   before_action :set_cohort, only: [:show, :edit, :update, :destroy,
-                                    :manage, :gh_refresh, :observations, :todos]
+                                    :manage, :gh_refresh, :observations, :todos, :generate_events]
 
   def index
-    @cohorts = Cohort.all
+    @cohorts = Cohort.all.includes(:location, :course)
   end
 
   def show
@@ -11,14 +11,14 @@ class CohortsController < ApplicationController
 
     @is_admin = @cohort.has_admin?(current_user)
 
-    student_memberships = @cohort.student_memberships.includes(:user).includes(:attendances).includes(:submissions).includes(:cohort)
+    student_memberships = @cohort.student_memberships
     @active_memberships    = student_memberships.where(status: Membership.statuses[:active])
     @inactive_memberships  = student_memberships.where(status: Membership.statuses[:inactive])
 
     @admins = @cohort.admins
 
-    @assignments = @cohort.assignments.includes(:submissions)
-    @events = @cohort.events.includes(:attendances).order(occurs_at: :desc)
+    @assignments = @cohort.assignments
+    @events = @cohort.events.order(occurs_at: :desc)
 
     @event_for_today_already_exists = @events.on_date(Date.today).any?
 
@@ -38,6 +38,7 @@ class CohortsController < ApplicationController
 
   def manage
     authorize! :manage, @cohort
+    @memberships = @cohort.memberships.includes(:user).sort_by{|m| m.user.name}
     @existing_tags = @cohort.existing_tags
   end
 
@@ -96,7 +97,7 @@ class CohortsController < ApplicationController
   end
 
   def todos
-    users = @cohort.memberships.admin.select{|m| m.tags.length > 0 }.map{|m| m.user }
+    users = @cohort.memberships.includes(:tags, :user).admin.select{|m| m.tags.length > 0 }.map{|m| m.user }
     @todos = users.map do |u|
       {
         user: u.name,
@@ -105,13 +106,21 @@ class CohortsController < ApplicationController
     end
   end
 
+  def generate_events
+    authorize! :manage, @cohort
+    start_time = params[:"start_time(4i)"].to_i
+    zone = params[:time_zone]
+    @cohort.generate_events start_time, zone
+    redirect_to @cohort
+  end
+
   private
   def set_cohort
     @cohort = Cohort.find(params[:id])
   end
 
   def cohort_params
-    params.require(:cohort).permit(:name, :start_date, :end_date, :course_id, :location_id)
+    params.require(:cohort).permit(:name, :start_date, :end_date, :course_id, :location_id, :core_id, :duration_in_weeks, :day_of_week)
   end
 
 end

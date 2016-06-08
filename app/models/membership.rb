@@ -46,7 +46,11 @@ class Membership < ActiveRecord::Base
 
   def percent_from_status( association, status)
     percents = (self.send("percent_#{association}") || update_percents_of(association))
-    return percents[status.to_s]
+    begin
+      percents[status.to_s]
+    rescue
+      percents
+    end
   end
 
   def update_percents_of klass
@@ -57,11 +61,11 @@ class Membership < ActiveRecord::Base
     # = submissions
     related_records   = self.send(klass_plural_name).due
     # = self.submissions.due
-    unmarked_records  = related_records.where.not(status: klass.statuses[:unmarked])
+    marked_records  = related_records.where.not(status: klass.statuses[:unmarked])
     klass.statuses.each do |status_name, status|
       # Submission.statuses.each do...
-      if unmarked_records.length > 0
-        percent = (related_records.where(status: status).count / unmarked_records.count.to_f)
+      if marked_records.length > 0
+        percent = (related_records.where(status: status).count / marked_records.count.to_f)
       else
         percent = 0
       end
@@ -86,8 +90,9 @@ class Membership < ActiveRecord::Base
   end
 
   def update_average_observations
-    average = self.observations.where.not(status:3).average(:status).to_f.round(2)
-    self.update!(average_observations: self.observations.any? ? average : nil)
+    obz = self.observations.where.not(status: Observation.statuses[:neutral])
+    average = obz.any? ? obz.average(:status).to_f.round(2) : 0
+    self.update!(average_observations: average)
     return average
   end
 
@@ -96,8 +101,11 @@ class Membership < ActiveRecord::Base
     joins(:tags).where("tags.name IN (?)", tags).uniq
   end
 
-  def as_json(options={})
-    super.as_json(options).merge({
+  def as_json(options = {})
+    public_attributes = [ "id", "cohort_id", "user_id", "status",
+                          "created_at", "updated_at", "is_admin","is_active"]
+
+    super.as_json(only: public_attributes).merge({
       name: self.user.name
     })
   end

@@ -1,6 +1,6 @@
 class MembershipsController < ApplicationController
   before_action :set_membership, only: [:show, :destroy,
-                                        :toggle_active, :toggle_admin]
+                                        :toggle_active, :toggle_admin, :update]
 
   def create
     @cohort = Cohort.find(params[:cohort_id])
@@ -12,7 +12,7 @@ class MembershipsController < ApplicationController
       @cohort.memberships.create!(user_id: user_id, is_admin: @is_admin)
     end
 
-    redirect_to @cohort
+    redirect_to manage_cohort_path(@cohort)
   end
 
   def show
@@ -26,8 +26,8 @@ class MembershipsController < ApplicationController
 
     @is_editable = @is_current_user && !@user.github_id
 
-    @attendances = @membership.attendances.joins(:event).order("events.occurs_at")
-    @submissions = @membership.submissions.includes(:assignment).order("assignments.due_date")
+    @attendances = @membership.attendances.includes(:user, :cohort).joins(:event).order("events.occurs_at")
+    @submissions = @membership.submissions.includes(:assignment, :user, :cohort).order("assignments.due_date")
 
     if @is_current_user
       @current_attendances = @membership.attendances.self_takeable
@@ -35,7 +35,7 @@ class MembershipsController < ApplicationController
 
     # Looking at someone you admin
     if can? :see_observations, @membership
-      @observations = @membership.observations.order(:created_at)
+      @observations = @membership.observations.includes(:admin, :cohort).order(:created_at)
     end
   end
 
@@ -43,6 +43,12 @@ class MembershipsController < ApplicationController
     authorize! :manage, @membership
     @membership.destroy!
     redirect_to :back
+  end
+
+  def update
+    authorize! :manage, @membership
+    @membership.update(membership_params)
+    redirect_to @membership
   end
 
   def toggle_active
@@ -64,6 +70,6 @@ class MembershipsController < ApplicationController
     end
 
     def membership_params
-      params.require(:membership).permit(:user_id, :is_admin)
+      params.require(:membership).permit(:user_id, :is_admin, :outcomes_id)
     end
 end

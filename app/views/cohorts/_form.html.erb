@@ -5,6 +5,9 @@
     <%= f.input :name, label: false, placeholder: "Name"  %>
     <%= f.association :location, label: false, include_blank: "Location"  %>
     <%= f.association :course, label: false, include_blank: "Course" %>
+    <%= f.input :core_id, label: false, placeholder: "Core ID"  %>
+    <%= f.input :duration_in_weeks, label: false, placeholder: "Duration in Weeks"  %>
+    <%= f.input :day_of_week, as: :select, collection: [["Monday", 1], ["Tuesday", 2], ["Wednesday", 3], ["Thursday", 4], ["Friday", 5], ["Saturday", 6], ["Sunday", 7]]     %>
     <%= f.label :start_date %>
     <%= f.input :start_date, label: false  %>
     <%= f.label :end_date %>

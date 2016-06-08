@@ -1,16 +1,23 @@
+<% if current_user %>
+  <% is_editable = can? :edit, @user %>
+<% else %>
+  <% is_editable = true %>
+<% end %>
 <%= form_for @user, as: :form_user do |f| %>
-  <% if @is_editable %>
+<div data-is-editable="<%= is_editable %>" >
+  <% if is_editable %>
     <%= link_to "Link your Github account", gh_authorize_path, class: "button github" %>
   <% end %>
 
-  <%= f.text_field :username, placeholder: "Username", disabled: !@is_editable %>
-  <%= f.text_field :name, placeholder: "Full name", disabled: !@is_editable %>
-  <%= f.text_field :email, placeholder: "E-mail", disabled: !@is_editable %>
-  <%= f.text_field :image_url, placeholder: "Image URL", disabled: !@is_editable %>
+  <%= f.text_field :username,  placeholder: "Username",  disabled: !is_editable %>
+  <%= f.text_field :name,      placeholder: "Full name", disabled: !is_editable %>
+  <%= f.text_field :email,     placeholder: "E-mail",    disabled: !is_editable %>
+  <%= f.text_field :image_url, placeholder: "Image URL", disabled: !is_editable %>
 
-  <% if @is_editable %>
-    <%= f.password_field :password, placeholder: "Password" %>
+  <% if is_editable %>
+    <%= f.password_field :password,              placeholder: "Password" %>
     <%= f.password_field :password_confirmation, placeholder: "Confirm password" %>
     <%= f.submit "Submit" %>
   <% end %>
+</div>
 <% end %>

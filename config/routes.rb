@@ -26,20 +26,21 @@ Rails.application.routes.draw do
       get 'observations'
       get 'todos'
       post 'generate_invite_code'
+      post 'generate_events'
     end
     resources :events,      only: [:create]
     resources :assignments, only: [:create]
     resources :memberships, only: [:create]
   end
 
-  resources :memberships, only: [:show, :destroy] do
+  resources :memberships, only: [:show, :destroy, :update] do
     post :toggle_active, on: :member
     post :toggle_admin, on: :member
   end
 
   resources :taggings, only: [:create, :destroy]
 
-  resources :users, param: :user do
+  resources :users, except: [:index], param: :user do
     member do
       get "is_registered", action: :is_registered?
       get 'gh_refresh'
@@ -62,10 +63,12 @@ Rails.application.routes.draw do
   end
   resources :observations,  only: [:create, :destroy]
 
+
   namespace :api do
     resource :user, only: [:show]
     get 'send_api_token'
-    resources :cohorts do
+    post 'observations/from_outcomes'
+    resources :cohorts, only: [:index, :show] do
       resources :memberships, only: [:index]
     end
   end

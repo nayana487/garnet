@@ -81,6 +81,16 @@ unicorn, the application server.
 
 # Troubleshooting
 
+## Metrics
+
+- `rake -T metrics`
+- cron job updates nightly, see config/schedule.rb
+
+### Sandi Metz rules
+
+- sandi_meter outputs to "/metrics/sandi_meter"
+- https://github.com/makaroni4/sandi_meter
+
 ## NewRelic
 
 New Relic monitors the app and provides metrics.  They are available in development mode (/newrelic) and production (rpm.newrelic.com).  It is recommended that you [install newrelic-sysmond on the servers](https://rpm.newrelic.com/accounts/1130222/servers/get_started).
@@ -127,3 +137,35 @@ Once the file has been sourced, the function is available from terminal.
 ```
 $ garnet logs
 ```
+---
+
+## Thanks, ever so much, to *all* our contributers
+
+Code contributors: 13
+```
+adambray (Adam Bray)
+amaseda (Adrian Maseda)
+andrewsunglaekim (Andrew Kim)
+beckybeauchamp1 (Becky Beauchamp)
+ebirving (Erica Irving)
+jmas13 (John Master)
+joe-gz (Joe Glatman Zaretsky)
+JonRojas (Jon Rojas)
+jshawl (Jesse Shawl)
+mattscilipoti (Matt Scilipoti)
+nolds9 (Nicholas Olds)
+RobertAKARobin (Robert Thomas)
+tylercrosse (Tyler Crosse)
+```
+Non-coding contributors: 8
+```
+bmartinowich (Brian Martinowich)
+dan-ator (Daniel Alexander)
+jenkins-ga
+jocelynhoule
+sarahbrookscoach
+ShanazFC
+tessb (Tess )
+timfoley (Tim Foley)
+```
+> This contributor list was brought to you by [octoHatRack](https://github.com/LABHR/octohatrack)

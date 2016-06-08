@@ -9,6 +9,7 @@ class Mantra
       @@last_updated = Time.now
     rescue
       @@all = ["Is your blue elephant running?"];
+      @@last_updated = Time.now
     end
   end
 

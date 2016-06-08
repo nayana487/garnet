@@ -15,7 +15,7 @@ class AssignmentsController < ApplicationController
     @cohort = @assignment.cohort
     @show_na = params[:show_na] == "true"
     @show_inactive = params[:show_inactive] == "true"
-    @submissions = @assignment.submissions.includes(:membership).references(:membership)
+    @submissions = @assignment.submissions.includes(:membership, :user, :cohort).references(:membership)
 
     unless @show_inactive
       @submissions = @submissions.where("memberships.status = ?", Membership.statuses[:active])
@@ -56,6 +56,6 @@ class AssignmentsController < ApplicationController
 
   private
     def assignment_params
-      params.require(:assignment).permit(:title, :category, :repo_url, :due_date, :base_score)
+      params.require(:assignment).permit(:title, :category, :repo_url, :due_date, :base_score, :public)
     end
 end
