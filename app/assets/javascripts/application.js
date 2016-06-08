@@ -16,29 +16,13 @@
 //= require jquery.stickytableheaders.min
 //= require d3.min
 
-//= require_tree .
+//= require assignments
+//= require attendance
+//= require autosave
+//= require konami
+//= require mantras
+//= require nav
+//= require sortable
+//= require tags-and-tables
+//= todos
 
-$(".fold").on("click", function(e){
-  // toggles url anchor
-  // Actual "fold"ing is performed by CSS
-  var hash = window.location.hash;
-  if(hash == e.target.getAttribute('href')){
-    e.preventDefault();
-    window.location.hash = '#';
-  }
-});
-
-$(".js-fold-without-anchor").on("click", function(e){
-  e.preventDefault();
-  $(this).siblings("div").show()
-});
-
-var hash = window.location.hash
-if(hash){
-  hash = hash.split("-")
-  if(hash[0]){
-    hash = hash[0]
-    $(hash).siblings("div").show();
-    $('html, body').scrollTop($(""+ window.location.hash + "").offset().top);
-  }
-}

@@ -29,8 +29,9 @@ namespace :metrics do
       index_file = sandi_pages_path.join('index.html')
       text = File.read(index_file)
       # add leading slash
-      new_contents = text.gsub(/href="assets/, 'href="/assets')
-      new_contents = new_contents.gsub(/src="assets/, 'src="/assets')
+      asset_path = '/metrics/sandi_meter/assets'
+      new_contents = text.gsub(/href="assets/, %Q(href="#{asset_path}))
+      new_contents = new_contents.gsub(/src="assets/, %Q(src="#{asset_path}))
       # write changes to index.html
       File.open(index_file, "w") {|file| file.puts new_contents }
     end
