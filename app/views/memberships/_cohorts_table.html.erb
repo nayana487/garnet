@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody>
-    <% memberships.each do |membership| %>
+    <% memberships.includes(:cohort).each do |membership| %>
     <%= render partial: "memberships/cohort_row", locals: {membership: membership, row_header: row_header} %>
     <% end %>
   </tbody>
