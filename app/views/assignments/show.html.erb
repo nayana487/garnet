@@ -12,7 +12,7 @@
   <ul>
   <% @assignment.cohort.tags.each do |tag| %>
     <li>
-      <a href="<%= @assignment.issues_url(@cohort.memberships.includes(:user).map{|m| m.user }) %>"><%= tag.name %></a>
+      <a href="<%= @assignment.issues_url(tag.memberships.map{|m| m.user }) %>"><%= tag.name %></a>
     </li>
   <% end %>
   </ul>
