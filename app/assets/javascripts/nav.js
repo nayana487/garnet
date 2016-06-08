@@ -48,23 +48,22 @@ $(function() {
 
   // Smooth scroll
   $('a').click(function(event){
-    var jumpAnchor  = $(event.target).attr('href').match(/#\w+/)[0];
+    // regex matches any non-whtiespace character after a '#' (jump anchors)
+   var jumpAnchor  = $(event.target).attr('href').match(/#\S.+/)[0];
     var $targetEl;
-    
+
     if(jumpAnchor){
       event.preventDefault();
       if(jumpAnchor === '#top'){
         scrollTo(0);
-      }else if(jumpAnchor === window.location.hash){
-        window.location.hash = '';
       }else{
         $targetEl = $(jumpAnchor);
-        window.location.hash = jumpAnchor;
         if($targetEl) scrollTo($targetEl.offset().top - navHeight);
+        window.location.hash = jumpAnchor;
       }
     }
   });
-  
+
   function scrollTo(position){
     $('html, body').animate({
       scrollTop: position
