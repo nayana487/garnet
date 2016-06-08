@@ -9,7 +9,7 @@ RSpec.describe ApplicationHelper do
     let(:orange){ 48 }
     context "when passed a submission or attendance" do
       before(:all) do
-        u = User.create(name: "test")
+        u = FactoryGirl.create(:user)
         c = Cohort.create
         @sub = c.add_member(u).submissions.create
         @options = {type: "int"}

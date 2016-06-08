@@ -33,11 +33,15 @@ class Cohort < ActiveRecord::Base
   end
 
   def add_admin(user)
-    self.memberships.create!(user: user, is_admin: true)
+    new_membership = self.memberships.create!(user: user, is_admin: true)
+    user.reload # ensure user model reflects new membership
+    return new_membership
   end
 
   def add_member(user, is_admin = false)
-    self.memberships.create!(user: user, is_admin: is_admin)
+    new_membership = self.memberships.create!(user: user, is_admin: is_admin)
+    user.reload # ensure user model reflects new membership
+    return new_membership
   end
 
   def tags

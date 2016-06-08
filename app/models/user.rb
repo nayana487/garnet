@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :adminned_courses, -> { uniq }, class_name: "Course", foreign_key: :user_id
 
   before_save :downcase_username, :dont_update_blank_password
-  after_save :accept_invite
+  after_save :accept_invite, :touch_memberships
 
   attr_accessor :password
   attr_accessor :invite_code
@@ -132,6 +132,10 @@ class User < ActiveRecord::Base
       cohort = Cohort.find_by(invite_code: self.invite_code)
       cohort.memberships.create(user: self)
     end
+  end
+
+  def touch_memberships
+    memberships.each(&:touch)
   end
 
 end
