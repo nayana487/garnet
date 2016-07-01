@@ -3,8 +3,6 @@ class Membership < ActiveRecord::Base
   enum status: [ :active, :inactive ]
 
   belongs_to :cohort
-  has_many :taggings
-  has_many :tags, through: :taggings
 
   belongs_to :user
 
