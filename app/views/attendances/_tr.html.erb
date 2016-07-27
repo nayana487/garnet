@@ -14,6 +14,11 @@
   <td data-sort-field="date">
     <%= link_to event.occurs_at_s, event %>
   </td>
+  <% if admin %>
+  <td data-sort-field="ip" class='<%= 'error' if request.remote_ip != attendance.ip_address %>'>
+    <%= attendance.ip_address %>
+  </td>
+  <% end %>
   <td>
     <% if admin %>
       <%= render partial: "components/status_buttons", locals: {record: attendance} %>
