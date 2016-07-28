@@ -46,24 +46,6 @@ $(function() {
     timer = window.setTimeout(scrollNav(), 15); //delay of 15 ms
   });
 
-  // Smooth scroll
-  $('a').click(function(event){
-    // regex matches any non-whtiespace character after a '#' (jump anchors)
-    var jumpAnchor  = $(event.target).attr('href').match(/#\S.+/)[0];
-    var $targetEl;
-
-    if(jumpAnchor){
-      event.preventDefault();
-      if(jumpAnchor === '#top'){
-        scrollTo(0);
-      }else{
-        $targetEl = $(jumpAnchor);
-        if($targetEl) scrollTo($targetEl.offset().top - navHeight);
-        window.location.hash = jumpAnchor;
-      }
-    }
-  });
-
   function scrollTo(position){
     $('html, body').animate({
       scrollTop: position

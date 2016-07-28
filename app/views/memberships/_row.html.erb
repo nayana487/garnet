@@ -9,7 +9,7 @@
       <%= render partial: "components/tag_list", locals: {membership: membership} %>
     </td>
     <% if can? :see_observations, membership %>
-      <td data-sort-field="last_ob"><%= membership.last_observation %> <i class="fa fa-comments" aria-hidden="true"></i>
+      <td data-sort-field="last_ob"><%= membership.last_observation %> <a href="<%= membership_path(membership) %>#observations" class="fa fa-comments js-new-observation new-observation" aria-hidden="true"></a>
       </td>
       <% if membership.average_observations %>
         <td data-sort-field="avg_ob" <%= color_of(membership.average_observations, {green: 3, red: 1})%>>
