@@ -83,7 +83,6 @@ class Membership < ActiveRecord::Base
     time = self.observations.maximum(:created_at)
     if time
       diff = Time.now - time.to_time
-      return time.ago if diff < 86400
       "#{diff.to_i / 86400} #{"day".pluralize(diff.to_i / 86400)} ago"
     else
       return "N/A"
