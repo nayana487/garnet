@@ -8,16 +8,17 @@
     <td data-filterable>
       <%= render partial: "components/tag_list", locals: {membership: membership} %>
     </td>
-    <%= render partial: "memberships/row_performance_cells", locals: {membership: membership} %>
-    <% end %>
     <% if can? :see_observations, membership %>
+      <td data-sort-field="last_ob"><%= membership.last_observation %> <a href="<%= membership_path(membership) %>#observations" class="fa fa-comments js-new-observation new-observation" aria-hidden="true"></a>
+      </td>
       <% if membership.average_observations %>
         <td data-sort-field="avg_ob" <%= color_of(membership.average_observations, {green: 3, red: 1})%>>
           <%= membership.average_observations %></td>
       <% else %>
         <td>N/A</td>
       <% end %>
-      <td data-sort-field="last_ob"><%= membership.last_observation %></td>
+    <% end %>
+    <%= render partial: "memberships/row_performance_cells", locals: {membership: membership} %>
     <% end %>
   </tr>
 <% end %>
