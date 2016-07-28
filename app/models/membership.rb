@@ -1,6 +1,5 @@
 class Membership < ActiveRecord::Base
   include ModelHelpers
-  include ActionView::Helpers::DateHelper
 
   enum status: [ :active, :inactive ]
 
