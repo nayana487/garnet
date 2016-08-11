@@ -20,7 +20,8 @@ class MembershipsController < ApplicationController
 
     @user = @membership.user
     @cohort = @membership.cohort
-
+    @can_show_checkin = true
+    @can_show_checkin = false if !@cohort.whitelist_ip && @cohort.whitelist_ip == "" && request.remote_ip != @cohort.whitelist_ip
     @is_current_user = (@user == current_user)
     @is_adminned_by_current_user = (@user.cohorts_adminned_by(current_user).count > 0)
 
