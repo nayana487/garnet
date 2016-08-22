@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160322171539) do
+ActiveRecord::Schema.define(version: 20160811202623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20160322171539) do
     t.integer  "core_id"
     t.integer  "duration_in_weeks"
     t.integer  "day_of_week"
+    t.string   "whitelist_ip"
   end
 
   create_table "courses", force: :cascade do |t|

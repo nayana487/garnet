@@ -38,6 +38,7 @@ class CohortsController < ApplicationController
 
   def manage
     authorize! :manage, @cohort
+    @ip = request.remote_ip
     @memberships = @cohort.memberships.includes(:user).sort_by{|m| m.user.name}
     @existing_tags = @cohort.existing_tags
   end
@@ -115,7 +116,7 @@ class CohortsController < ApplicationController
   end
 
   def cohort_params
-    params.require(:cohort).permit(:name, :start_date, :end_date, :course_id, :location_id, :core_id, :duration_in_weeks, :day_of_week)
+    params.require(:cohort).permit(:name, :start_date, :end_date, :course_id, :location_id, :core_id, :duration_in_weeks, :day_of_week, :whitelist_ip)
   end
 
 end

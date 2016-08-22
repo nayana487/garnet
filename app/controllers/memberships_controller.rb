@@ -17,10 +17,9 @@ class MembershipsController < ApplicationController
 
   def show
     authorize! :read, @membership
-
     @user = @membership.user
     @cohort = @membership.cohort
-
+    @can_show_checkin = can_show_checkin
     @is_current_user = (@user == current_user)
     @is_adminned_by_current_user = (@user.cohorts_adminned_by(current_user).count > 0)
 
@@ -71,5 +70,12 @@ class MembershipsController < ApplicationController
 
     def membership_params
       params.require(:membership).permit(:user_id, :is_admin, :outcomes_id)
+    end
+
+    def can_show_checkin
+      unless @cohort.whitelist_ip.blank?
+	return false if request.remote_ip != @cohort.whitelist_ip
+      end
+      true
     end
 end
