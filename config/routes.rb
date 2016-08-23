@@ -67,6 +67,7 @@ Rails.application.routes.draw do
     resource :user, only: [:show]
     get 'send_api_token'
     post 'observations/from_outcomes'
+    post 'observations/:github_id' => 'observations#create_quiz_obs'
     resources :cohorts, only: [:index, :show] do
       resources :memberships, only: [:index]
     end
