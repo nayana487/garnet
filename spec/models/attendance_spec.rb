@@ -25,5 +25,11 @@ RSpec.describe Attendance do
       allow(Time).to receive(:now) { now }
       expect(@att.calculate_status).to eq(Attendance.statuses[:absent])
     end
+    it "is unmarked if created individually" do
+      membership_id = Cohort.last.memberships.last.id
+      attendance = @evt.attendances.create(membership_id: membership_id)
+      # the alternative to the below eq is the string "unmarked", not sure which is better
+      expect(attendance.status).to eq(Attendance.statuses.keys[Attendance.statuses[:unmarked]])
+    end
   end
 end

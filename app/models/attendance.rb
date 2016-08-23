@@ -16,6 +16,10 @@ class Attendance < ActiveRecord::Base
     self.membership.update_percents_of("attendance")
   end
 
+  before_create do
+    self.status = Attendance.statuses[:unmarked]
+  end
+
   def date
     self.event.occurs_at.strftime("%a, %m/%d/%y")
   end
