@@ -156,6 +156,7 @@ mattscilipoti (Matt Scilipoti)
 nolds9 (Nicholas Olds)
 RobertAKARobin (Robert Thomas)
 tylercrosse (Tyler Crosse)
+Masatoshi
 ```
 Non-coding contributors: 8
 ```
