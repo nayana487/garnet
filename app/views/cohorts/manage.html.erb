@@ -63,3 +63,14 @@
     <%= link_to "Delete Cohort", cohort_path(@cohort), method: :delete, class: "button", data: {confirm: "You cannot undo this. Are you sure?"} %>
   </section>
 </div>
+
+<div class="row group">
+  <section>
+    <h3>Whitelist IP for Checkin</h3>
+    <%= form_for @cohort do |f| %>
+      <%= f.label :whitelist_ip %>(Current IP is: <%= @ip %>)
+      <%= f.text_field :whitelist_ip %>
+      <%= f.submit %>
+    <% end  %>
+  </section>
+</div>

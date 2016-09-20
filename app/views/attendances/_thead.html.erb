@@ -3,6 +3,11 @@
     <th data-sort-trigger="name" colspan="2">Member</th>
     <th data-sort-trigger="title">Title</th>
     <th data-sort-trigger="date">Date</th>
+    <% if @attendances  %>
+      <% if can? :manage, @attendances.first %>
+      <th data-sort-trigger="ip">IP</th>
+      <% end %>
+    <% end %>
     <th>Status</th>
     <th></th>
   </tr>

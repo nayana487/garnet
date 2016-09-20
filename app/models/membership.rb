@@ -1,10 +1,9 @@
 class Membership < ActiveRecord::Base
   include ModelHelpers
+
   enum status: [ :active, :inactive ]
 
   belongs_to :cohort
-  has_many :taggings
-  has_many :tags, through: :taggings
 
   belongs_to :user
   # allows membership to access the associated user's name
@@ -79,7 +78,8 @@ class Membership < ActiveRecord::Base
   def last_observation
     time = self.observations.maximum(:created_at)
     if time
-      return time.strftime("%y/%m/%d")
+      diff = Time.now - time.to_time
+      "#{diff.to_i / 86400} #{"day".pluralize(diff.to_i / 86400)} ago"
     else
       return "N/A"
     end

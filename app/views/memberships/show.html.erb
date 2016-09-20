@@ -27,8 +27,12 @@
 
 <% if @is_current_user  %>
   <% @current_attendances.each do |attendance| %>
-    <%= form_tag self_take_attendance_path(attendance), method: :put do  %>
-      <%= button_tag "Check In for #{attendance.event.title}" %>
+    <% if @can_show_checkin %>
+      <%= form_tag self_take_attendance_path(attendance), method: :put do  %>
+        <%= button_tag "Check In for #{attendance.event.title}" %>
+      <% end %>
+    <% else %>
+      <p>Please Check In from GA</p>
     <% end %>
   <% end %>
 <% end %>
