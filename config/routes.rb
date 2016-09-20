@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     member do
       get 'gh_refresh'
       get 'manage'
+      get 'observations'
       get 'todos'
       post 'generate_invite_code'
       post 'generate_events'

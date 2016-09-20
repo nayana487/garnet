@@ -1,6 +1,6 @@
 class CohortsController < ApplicationController
   before_action :set_cohort, only: [:show, :edit, :update, :destroy,
-                                    :manage, :gh_refresh, :todos, :generate_events]
+                                    :manage, :gh_refresh, :observations, :todos, :generate_events]
 
   def index
     @cohorts = Cohort.all.includes(:location, :course)
@@ -90,6 +90,11 @@ class CohortsController < ApplicationController
     authorize! :manage, @cohort
     @cohort.update(invite_code: Digest::MD5.hexdigest(@cohort.name + Time.now.to_s))
     redirect_to :back
+  end
+
+  def observations
+    authorize! :manage, @cohort
+    @observations = Observation.joins(:membership).where("memberships.cohort_id = ?", @cohort.id).order(created_at: :desc).limit(10)
   end
 
   def todos

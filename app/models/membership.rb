@@ -6,6 +6,8 @@ class Membership < ActiveRecord::Base
   belongs_to :cohort
 
   belongs_to :user
+  # allows membership to access the associated user's name
+  delegate :name, to: :user
 
   has_many :taggings
   has_many :tags, through: :taggings
@@ -33,11 +35,6 @@ class Membership < ActiveRecord::Base
       errors[:base].push("A user may have only one membership in a given cohort.")
     end
   end
-
-  def name
-    self.user.name
-  end
-
   def toggle_active!
     self.active? ? self.inactive! : self.active!
   end

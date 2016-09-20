@@ -74,7 +74,7 @@ class MembershipsController < ApplicationController
 
     def can_show_checkin
       unless @cohort.whitelist_ip.blank?
-	return false if request.remote_ip != @cohort.whitelist_ip
+	       return false if request.remote_ip != @cohort.whitelist_ip
       end
       true
     end

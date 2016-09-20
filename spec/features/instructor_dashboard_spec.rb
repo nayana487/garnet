@@ -20,14 +20,18 @@ RSpec.feature 'Instructor Dashboard' do
 
     tag = Tag.create(name: "test")
 
-    test_instructor.memberships.find_by(cohort: cohort1).taggings.create(tag: tag)
-    john.memberships.find_by(cohort: cohort1).taggings.create(tag: tag)
-    jane.memberships.find_by(cohort: cohort1).taggings.create(tag: tag)
+    test_instructor_membership = test_instructor.memberships.find_by(cohort: cohort1)
+    john_membership = john.memberships.find_by(cohort: cohort1)
+    jane_membership = jane.memberships.find_by(cohort: cohort1)
+
+    test_instructor_membership.taggings.create(tag: tag)
+    john_membership.taggings.create(tag: tag)
+    jane_membership.taggings.create(tag: tag)
 
     cohort1.events.create!(title: "Test Event", occurs_at: 1.hour.ago)
     cohort1.assignments.create(title: "Test Assignment", due_date: 2.days.ago)
 
-    john.memberships.find_by(cohort: cohort1).inactive!
+    john_membership.inactive!
   }
 
   scenario 'when signed in' do

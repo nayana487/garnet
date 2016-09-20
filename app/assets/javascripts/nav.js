@@ -56,10 +56,12 @@ $(function() {
       event.preventDefault();
       if(jumpAnchor === '#top'){
         scrollTo(0);
+      }else if(jumpAnchor === window.location.hash){
+        window.location.hash = '';
       }else{
         $targetEl = $(jumpAnchor);
-        if($targetEl) scrollTo($targetEl.offset().top - navHeight);
         window.location.hash = jumpAnchor;
+        if($targetEl) scrollTo($targetEl.offset().top - navHeight);
       }
     }
   });
