@@ -68,8 +68,6 @@ class Cohort < ActiveRecord::Base
   def generate_events start_time, time_zone
     end_time = end_date.in_time_zone
     current_time = start_date.in_time_zone.change(hour: start_time)
-    diff = end_time - current_time
-    adjusted_end_time = current_time.since(diff)
     days_in_cohort = (end_date - start_date).to_i
 
     days_in_cohort.times do |i|
