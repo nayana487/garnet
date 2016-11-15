@@ -13,7 +13,11 @@ class Attendance < ActiveRecord::Base
   enum status: [:unmarked, :absent, :tardy, :present]
 
   after_save do
+  begin
     self.membership.update_percents_of("attendance")
+  rescue => e 
+    logger.error e
+  end
   end
 
   def date
