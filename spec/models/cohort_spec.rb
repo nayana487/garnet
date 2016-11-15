@@ -7,6 +7,13 @@ RSpec.describe Cohort do
     end_date: DateTime.parse("1969-07-27 08:59:59")
     )
   }
+  subject(:dst_test_cohort) { Cohort.create!(
+    name: "DST Test Cohort",
+    start_date: DateTime.parse("2016-10-31 08:34:59"),
+    end_date: DateTime.parse("2016-11-14 08:59:59")
+    )
+
+  }
   let(:start_time) { 9 }
   let(:time_zone) {"Eastern Time (US & Canada)"}
   describe "#generate_events" do
@@ -39,6 +46,11 @@ RSpec.describe Cohort do
       test_cohort.generate_events(start_time, time_zone)
       num_events_after_running_method_again = test_cohort.events.length
       expect(num_events_before_running_method_again).to eq(num_events_after_running_method_again)
+    end
+
+    it "accounts for DST" do
+      dst_test_cohort.generate_events(start_time, time_zone)
+      expect(dst_test_cohort.events.last.occurs_at.hour).to eq(dst_test_cohort.events.first.occurs_at.hour)
     end
   end
 
