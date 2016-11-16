@@ -31,7 +31,7 @@
         <%= link_to "Assignment: #{@assignment.title}", @assignment %>
       <% end %>
       <% if defined? @event %>
-        <%= link_to "Event: #{@event.title}, #{@event.occurs_at_s}", @event %>
+        <%= link_to "Event: #{@event.title}, #{@event.occurs_at_s}, #{@event.occurs_at.zone}", @event %>
       <% end %>
       <%end%>
     <a class="separate">
