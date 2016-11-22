@@ -48,6 +48,11 @@ RSpec.describe Cohort do
       expect(num_events_before_running_method_again).to eq(num_events_after_running_method_again)
     end
 
+    it "accounts for timezone" do
+      test_cohort.generate_events(start_time, "Pacific Time (US & Canada)")
+      expect(test_cohort.events.first.occurs_at.zone).to eq("PDT")
+    end
+
     it "accounts for DST" do
       dst_test_cohort.generate_events(start_time, time_zone)
       expect(dst_test_cohort.events.last.occurs_at.hour).to eq(dst_test_cohort.events.first.occurs_at.hour)

@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   # protect_from_forgery with: :exception
   before_action :authenticate
+  around_action :with_time_zone
   helper_method :current_user, :signed_in?
 
   rescue_from CanCan::AccessDenied do |exception|
@@ -46,6 +47,14 @@ class ApplicationController < ActionController::Base
         return true
       else
         return false
+      end
+    end
+    
+    def with_time_zone
+      if @event
+        Time.use_zone(@event.occurs_at.zone){yield}
+      else
+        yield
       end
     end
 end

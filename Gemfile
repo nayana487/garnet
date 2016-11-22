@@ -9,6 +9,7 @@ gem 'pg'
 # remaining gems are sorted alphabetically
 gem 'ancestry'
 gem 'bcrypt' # Use ActiveModel has_secure_password
+gem 'browser-timezone-rails'
 gem 'cancancan'
 gem 'coderay'
 gem 'coffee-rails', '~> 4.1.0' # Use CoffeeScript for .coffee assets and views

@@ -15,6 +15,9 @@
 //= require select2
 //= require jquery.stickytableheaders.min
 //= require d3.min
+//= require js.cookie
+//= require jstz
+//= require browser_timezone_rails/set_time_zone
 
 //= require assignments
 //= require attendance
